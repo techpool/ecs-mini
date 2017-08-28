@@ -6,4 +6,4 @@ WORKDIR /var/lib/jetty
 # COPY mark-6.war $JETTY_BASE/webapps/ROOT.war
 COPY target/mark-6 $JETTY_BASE/webapps/ROOT
 
-EXPOSE 80
+EXPOSE 8080
