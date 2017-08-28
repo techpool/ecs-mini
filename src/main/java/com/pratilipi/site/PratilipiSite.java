@@ -148,6 +148,11 @@ public class PratilipiSite extends HttpServlet {
 				return;
 			}
 
+			if( uri.equals( "/health" ) ) {
+				_dispatchResponse( "Healthy!", "text/plain", "UTF-8", response );
+				return;
+			}
+
 			// Hard-coded links
 			if( uri.equals( "/" ) ) {
 				if( UxModeFilter.getWebsite() == Website.ALL_LANGUAGE || UxModeFilter.getWebsite() == Website.GAMMA_ALL_LANGUAGE ) {
