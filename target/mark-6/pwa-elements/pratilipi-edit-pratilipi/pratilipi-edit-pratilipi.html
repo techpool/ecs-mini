@@ -1,0 +1,19 @@
+<div class="modal fade pratilipi-edit-pratilipi" id="pratilipi_edit_pratilipi" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<span data-bind="click: closeEditPratilipi" class="material-icons close clickable-element">close</span>
+				<h6 class="modal-title">${ _strings.pratilipi_edit_info }</h6>
+			</div>
+			<div class="modal-body">
+				<input data-bind="{ mdlFloatingInput: { label: '${ _strings.writer_input_title } *', value: title, id: 'pratilipi_edit_pratilipi_title_input' }, valueUpdate: ['input'], transliterate: true }" />
+				<input data-bind="{ mdlFloatingInput: { label: '${ _strings.writer_input_title_en }', value: titleEn, id: 'pratilipi_edit_pratilipi_title_en_input' }, valueUpdate: ['input'] }" />
+			</div>
+			<div class="modal-footer">
+				<button data-bind="{ click: submit, enable: canEditPratilipi() }" 
+						class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" 
+						type="button">${ _strings.save_changes }</button>
+			</div>
+		</div>
+	</div>
+</div>

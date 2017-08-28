@@ -1,0 +1,89 @@
+.load-more-container {
+	display: block;
+	padding: 14px 8px;
+	background: #fff;
+	margin-top: -1px;
+	span.mdl-spinner {
+		margin: 1px auto;
+	}
+}
+.generic-list-page {
+	@media only screen and (max-width: 1024px) {
+		min-height: 90vh;
+	}
+}
+.pratilipi-list-grid {
+	flex-grow: 1;
+	padding: 0;
+	background: #fff;
+	border: 1px solid lightgrey;
+	margin-top: -1px;
+	box-sizing: border-box;
+
+	@media only screen and (max-width: 480px) {
+		padding: 0;
+	} 
+	@media only screen and (min-width: 481px) and (max-width: 767px) {
+		width: 100% !important;
+	}
+	@media only screen and (min-width: 768px) and (max-width: 839px) {
+
+	}
+	@media only screen and (min-width: 840px) and (max-width: 959px) {
+		width: 100% !important;
+	}
+	@media only screen and (min-width: 960px) and (max-width: 1024px) {
+
+	}
+	@media only screen and (min-width: 1025px) and (max-width: 1199px) {
+		width: 100% !important;
+	}
+	@media only screen and (min-width: 1200px) {
+
+	}
+	.pratilipi-list-card {
+		margin: 0;
+		border-right: 1px solid lightgrey;
+		border-bottom: 1px solid lightgrey;
+		margin-left: 1px;
+		margin-right: -1px;
+		margin-bottom: -1px;
+		margin-top: 1px;
+
+		@media only screen and (max-width: 480px) {
+			width: 100% !important;
+		}
+		@media only screen and (min-width: 481px) and (max-width: 767px) {
+			max-width: 100% !important;
+			width: 100% !important;
+		}
+		@media only screen and (min-width: 768px) and (max-width: 839px) {
+			max-width: 50% !important;
+			width: 50% !important;
+		}
+		@media only screen and (min-width: 840px) and (max-width: 959px) {
+			max-width: 100% !important;
+			width: 100% !important;
+		}
+		@media only screen and (min-width: 960px) and (max-width: 1024px) {
+			max-width: 50% !important;
+			width: 50% !important;
+		}
+		@media only screen and (min-width: 1025px) and (max-width: 1199px) {
+			max-width: 100% !important;
+			width: 100% !important;
+		}
+		@media only screen and (min-width: 1200px) {
+			max-width: 50% !important;
+			width: 50% !important;
+		}
+		.pratilipi-pratilipi-card {
+			padding: 8px;
+			border: none;
+			.pratilipi-meta-holder .pratilipi-card-footer-icons-holder {
+				bottom: 8px;
+				right: 8px;
+			}
+		}
+	}
+}

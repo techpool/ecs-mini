@@ -1,0 +1,130 @@
+pratilipi-footer {
+	footer {
+		background-color: #111111 !important;
+		padding: 0 !important;
+	}
+	
+	@media only screen and (min-width: 992px) {
+	    .pratilipi-footer {
+	        text-align: left;
+	    }
+	}
+	
+	@media only screen and (max-width: 992px) {
+	    .pratilipi-footer {
+	        text-align: center;
+	    }
+	}
+	
+	body {
+	    background-color: #f5f5f5;
+	}
+	
+	.footer-sprite-icon {
+	    /*margin: 10px auto;*/
+	    width: 24px;
+	    height: 24px;
+	}
+	
+	.fb-black-icon {
+	    background-position: 0 -96px;
+	}
+	
+	.twitter-black-icon {
+	    background-position: -24px -96px;
+	}
+	
+	.gplus-black-icon {
+	    background-position: -72px -96px;
+	}
+	
+	.linked-in-black-icon {
+	    background-position: -48px -96px;
+	}
+	
+	:host {
+	    display: block;
+	}
+	
+	.paper-card {
+	    padding: 10px;
+	    font-weight: 700;
+	    width: 100%;
+	    display: block;
+	    padding-top: 8px;
+	    -ms-flex-align: center;
+	    -webkit-align-items: center;
+	    align-items: center;
+	    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+	    display: inline-block;
+	    position: relative;
+	    box-sizing: border-box;
+	    background-color: #ffffff;
+	    border-radius: 2px;
+	    font-family: inherit;
+	    -webkit-font-smoothing: antialiased;
+	}
+	
+	.pratilipi-footer {
+	    color: #333;
+	    font-weight: 700;
+	}
+	
+	.footer-icon-holder {
+	    vertical-align: middle;
+	    white-space: nowrap;
+	    display: inline-block;
+	}
+	
+	.footer-icon-holder img {
+	    margin-right: 4px;
+	}
+	
+	.static-links > span {
+	    margin-left: 16px;
+	}
+	
+	@media only screen and (max-width: 640px) {
+	    .static-links > span {
+	        margin: 0 auto;
+	        margin-bottom: 12px;
+	        display: block;
+	    }
+	}
+	/* Override */
+	
+	.row {
+	    width: 100%;
+	    margin-left: 0;
+	    margin-right: 0;
+	}
+
+	.padding-left-right {
+	    padding-left: 10px;
+	    padding-right: 10px;
+	}
+	
+	.margin-top-bottom {
+	    margin-top: 5px;
+	    margin-bottom: 5px;
+	}
+	
+	a {
+	    color: #333;
+	    font-weight: 700;
+	    text-decoration: none;
+	}
+	
+	.margin-zero {
+	    margin: 0;
+	}
+	
+	.padding-zero {
+	    padding: 0;
+	}
+	
+	.padding-15 {
+	    padding-left: 15px;
+	    padding-right: 15px;
+	}
+}	

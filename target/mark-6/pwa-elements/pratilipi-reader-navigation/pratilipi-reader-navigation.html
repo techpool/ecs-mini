@@ -1,0 +1,7 @@
+<div class="pratilipi-reader-navigation">
+	<!-- ko foreach: { data: index() } -->
+		<a class="index-entry"
+			onclick="ga_CA( 'Pratilipi', 'ChangeChapter' );"
+			data-bind="{ text: $data.title, css: { 'highlight': $data.chapterNo == $parent.chapterNo() }, click: $parent.changeChapter }"></a>
+	<!--/ko-->
+</div>

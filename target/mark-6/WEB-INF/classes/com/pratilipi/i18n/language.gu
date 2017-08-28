@@ -1,0 +1,582 @@
+# Do NOT edit
+pratilipi					= પ્રતિલિપિ
+home_page_title				= વાંચો ગુજરાતી વાર્તાઓ, કવિતાઓ, નવલકથાઓ, સામયિકો અને નવીન સાહિત્ય 
+facebook_page				= https://www.facebook.com/pratilipiGujarati/
+twitter_page				= https://twitter.com/TeamPratilipi
+googleplus_page				= https://plus.google.com/+PratilipiTeam
+linkedin_page				= https://www.linkedin.com/company/pratilipi
+
+# Language
+language_choose_language	                = ભાષા પસંદ કરો 
+language_all				        = ભાષાઓ 
+language_hi					= હિન્દી 
+language_gu					= ગુજરાતી 
+language_ta					= તમિલ 
+language_mr					= મરાઠી
+language_ml					= મલયાલમ 
+language_bn					= બંગાળી 
+language_en					= અંગ્રેજી 
+language_te					= તેલુગુ 
+language_kn					= કન્નડા 
+
+# Pratilipi Types
+_pratilipi_type_book		= પુસ્તક 
+_pratilipi_type_books		= પુસ્તકો 
+_pratilipi_type_poem		= કવિતા  
+_pratilipi_type_poems		= કવિતાઓ 
+_pratilipi_type_story		= વાર્તા 
+_pratilipi_type_stories	         = વાર્તાઓ 
+_pratilipi_type_article		= લેખ 
+_pratilipi_type_articles	        = લેખો 
+_pratilipi_type_magazine	= સામયિક
+_pratilipi_type_magazines	= સામયિકો  
+
+# Author
+author_author			= લેખક
+author_about			= સંક્ષિપ્ત પરિચય 
+author_language		= ભાષા 
+author_since			= પ્રતિલિપિ સાથે
+author_count_works		= પ્રકાશિત સાહિત્ય  
+author_count_reads		= વાચક સંખ્યા   	
+author_count_likes		= પસંદ સંખ્યા 
+author_edit_profile		= પ્રોફાઈલ સુધારો
+author_update_image		= ફોટો અપલોડ કરો
+author_drafts			= અપ્રકાશિત રચનાઓ 
+author_published_works	= પ્રકાશિત રચનાઓ 
+author_add_new_content	= નવી રચના લખો 
+author_no_contents_published	= માફ કરશો. આ રચનાકારના ખાતામાં સાહિત્ય પ્રકાશન થયેલ નથી.
+author_activity					= પ્રવૃત્તિ
+author_about					= લેખક વિશે 
+author_biography				= પરિચય
+author_location					= સ્થાન
+author_date_of_birth			= જન્મ તારીખ
+author_follow					= ફોલો
+author_unfollow					= અનફોલો
+author_followers_heading		= ફોલોઅર્સ
+author_followers_count			= ફોલોઅર્સ
+author_no_followers				= ફોલોઅર્સ સંખ્યા શૂન્ય
+author_following_heading		= ફોલોઇંગ
+author_following_count			= ફોલોઇંગ
+author_no_following				= ફોલોઇંગ સંખ્યા શૂન્ય 
+author_follow_members			= સદસ્ય
+author_cannot_follow_yourself	=  વ્યક્તિગત 
+author_settings_require_first_name	= પ્રથમ નામ લખો
+author_settings_require_language	= ભાષા પસંદ કરો
+
+# Pratilipi
+pratilipi_type			= સાહિત્ય પ્રકાર 
+pratilipi_listing_date		= પ્રકાશનની તારીખ
+pratilipi_last_updated_date	= છેલ્લો બદલાવ
+pratilipi_published		=પ્રકાશિત 	
+pratilipi_published_year	= પ્રકાશન વર્ષ  
+pratilipi_summary		= સારાંશ લખો 
+pratilipi_edit_info		= માહિતીમાં સુધારો કરો  	
+pratilipi_edit_content		= રચનામાં સુધારો કરો  
+pratilipi_update_cover		= ફોટો અપલોડ કરો 
+pratilipi_count_reads		= વાચક સંખ્યા 
+pratilipi_count_reviews		= કુલ ટિપ્પણી  
+pratilipi_count_likes		= કુલ લાઈક્સ 	 
+pratilipi_confirm_move_to_drafts_title	= ડ્રાફ્ટમાં મોકલો 
+pratilipi_confirm_move_to_drafts_body	= આ રચનાને ડ્રાફ્ટમાં મોકલવી નિશ્ચિત છે?
+pratilipi_confirm_move_to_drafts_true	= હા, ડ્રાફ્ટમાં મોકલો!
+pratilipi_confirm_move_to_drafts_false	= ના, અપ્રકાશિત ન કરો!
+pratilipi_move_to_drafts				= અપ્રકાશિત કરો 
+pratilipi_publish_it					= પ્રકાશિત કરો
+pratilipi_delete_content				= રદ કરો
+pratilipi_confirm_move_to_drafts		= ડ્રાફ્ટમાં મોકલવા માંગો છો ?
+pratilipi_confirm_move_to_drafts_okay	= સ્વીકૃત કરો
+pratilipi_confirm_delete_content		= રચના રદ કરવા માંગો છો?
+pratilipi_confirm_delete_content_okay	= સ્વીકૃત કરો
+pratilipi_deleted_successfully			= રચના રદ થઈ ચુકી છે
+
+# Rating
+rating_rating		  = રેટિંગ 
+rating_ratings		= રેટિંગ 
+rating_rate_this	= રેટિંગ આપો 
+rating_your_rating	= આપનું રેટિંગ 
+rating_mandatory_message	= રેટિંગ આપો!
+rating_1_star		= ૧ 
+rating_2_star		= ૨ 
+rating_3_star		= ૩
+rating_4_star		= ૪
+rating_5_star		= ૫ 
+
+# Review
+review_heading			    = ટિપ્પણીઓ 
+review_write_a_review		= ટિપ્પણી  લખો
+review_title			      = ટિપ્પણીનું શીર્ષક  
+review_title_help		    = દા.ત. - એક અદભૂત વાર્તા કે એક સામાન્ય વાર્તા
+review_content		      = તમારી ટિપ્પણી 
+review_content_help		= દા.ત. - વાર્તાનું બંધારણ સુંદર ઢબે થયેલ છે...
+review_submit_review	  = દર્જ કરો  
+review_edit_review		  = બદલાવ કરો 
+review_delete_review		= ટિપ્પણીને રદ કરો
+review_delete_review_confirm	= ટિપ્પણી રદ કરવાની ખાતરી કરો 
+review_delete_okay	   	= ઓકે 
+review_delete_cancel		= રદ કરો  
+review_helpful			= શું આ ટિપ્પણી મદદરૂપ રહી?
+review_see_all_reviews		= બધા રિવ્યુઝ જુઓ 
+
+# Comments
+comment_reply_to_comment				= ટિપ્પણી કરો 
+comment_number_of_comments_singular		= ટિપ્પણી
+comment_number_of_comments_plural		= ટિપ્પણીઓ 
+comment_reply_comment_help				= ટિપ્પણી
+comment_add_comment						=  ટિપ્પણી લખો
+comment_edit_comment					= ટિપ્પણી સુધારો
+comment_delete_comment					= ટિપ્પણી હટાવો 
+comment_confirm_delete_comment			= શું ખરેખર તમે ટિપ્પણી રદ કરવા માંગો છો?
+comment_confirm_delete_comment_yes		= હા 
+comment_confirm_delete_comment_no		= ના 
+comment_restore_comment					= ટિપ્પણી પુનઃસ્થાપિત કરો 
+comment_submit_comment					= દર્જ કરો 
+comment_cancel_comment					= રદ કરો 
+
+# Search
+search 			= શોધો 
+search_bar_help	= લેખકનું નામ અથવા વાર્તા, કવિતા, પુસ્તકનું શીર્ષક ટાઈપ કરો  
+search_results		= શોધના પરિણામો
+search_no_results_found		= માફ કરશો, આપે કરેલ શોધનું પરિણામ અપ્રાપ્ય છે.  
+search_load_failed			= શોધનું પરિણામ અપ્રાપ્ય, ફરી કોશિશ કરવા અહીં ક્લિક કરો
+search_loading             = પરિણામ શોધી રહ્યા છીએ: $query
+search_explore_categories   = શ્રેણી
+search_explore_categories_help =  શ્રેણી જુઓ
+search_results_for          = શોધનું પરિણામ : $query
+search_results_authors      = લેખક 
+search_results_contents     = રચનાઓ
+search_trending_heading     = ટ્રેન્ડીંગ  
+search_current_event_heading    = ઓનલાઈન સ્પર્ધા
+
+# Write
+write_heading		= લખો
+write_help		= વાર્તા,કવિતા,લેખ,પુસ્તક વગેરે સ્વયં પ્રકાશિત કરો  
+write_title		= અહી શીર્ષક લખો  
+write_title_en		= શીર્ષક અંગ્રેજીમાં   
+write_type		= સાહિત્ય પ્રકાર 
+write_language		= ભાષા 
+write_summary		= ટૂંકમાં સારાંશ લખો
+write_create_new_content	= આગળ વધો 
+write_on_desktop_only		= માફ કરશો. પ્રતિલિપિ પર રચનાઓ લખવા માટે આપ ડેસ્કટોપ/લેપટોપથી http://gujarati.pratilipi.com પર લોગ-ઇન કરો. 
+write_fill_title			= શીર્ષક 
+write_select_type			= પ્રકાર 
+
+# Common User Popups
+user_sign_in	= સાઈન ઇન 
+user_to_sign_in	    = સાઈન ઇન કરો
+user_sign_in_with_facebook	= ફેસબુક સાથે સાઈન ઇન કરો 
+user_sign_in_with_google	= ગૂગલ સાથે સાઇન ઇન કરો
+user_sign_in_to_pratilipi	= પ્રતિલિપિમાં સાઈન ઇન કરો
+user_sign_out			= સાઈન આઉટ 
+user_sign_up			= નવું અકાઉન્ટ બનાવો  
+user_sign_up_for_pratilipi	= પ્રતિલિપિ પર નવું અકાઉન્ટ બનાવો
+user_sign_up_with_facebook	= ફેસબુક સાથે સાઈન અપ 
+user_forgot_password		= પાસવર્ડ યાદ નથી?
+user_reset_password		= નવો પાસવર્ડ બનાવો 
+user_reset_password_help	= આ સાઈટ પર રજીસ્ટર કરવા માટે ઉપયોગમાં લીધેલ ઈ- મેઈલ આઈડી પ્રદાન કરો, જ્યાં પાસવર્ડ રીસેટ કરવાનો ઈ-મેઈલ આપને પ્રાપ્ત થશે.
+user_current_password		= વર્તમાન પાસવર્ડ 
+user_new_password		= નવો પાસવર્ડ
+user_full_name			= પૂરું નામ લખો
+user_email			= ઈ- મેઈલ આઈડી પ્રદાન કરો  
+user_email_not_available	= ઈ-મેઈલ દર્જ થયેલ નથી!
+user_phone					= ફોન 
+user_phone_not_available	= ફોન નંબર દર્જ થયેલ નથી!
+user_password			= પાસવર્ડ 
+user_confirm_password	= પાસવર્ડની ખાતરી કરો 
+user_my_profile		= મારી પ્રોફાઈલ  
+user_my_account		= સેટિંગ  
+user_is_new			= ઉપયોગકર્તા નવા છે -	
+user_is_registered		= ઉપયોગકર્તા અગાઉથી અકાઉન્ટ ધરાવે છે - 
+user_email_verification		= આપને મોકલેલ ઈ- મેઈલની  ચકાસણી કરો 		
+user_require_access			= આ પ્રકિયા માટે સાઈટ પર લોગ-ઇન કરો!
+user_no_followers			= અત્યારે આપની ફોલો સંખ્યા શૂન્ય છે! 
+user_login_to_view_followers = ફોલોઅર્સ વિશે જાણવા માટે લોગ ઇન કરો!
+user_no_following			= અત્યારે  આપ કોઈને ફોલો નથી કરી રહ્યા!
+user_login_to_view_following = આપ જેમને ફોલો કરી રહ્યા છો તેમના વિશે જાણવા લોગ ઇન કરો!
+user_login_to_view_library = આપની  લાઈબ્રેરીમાં અગણિત પુસ્તકો ઉમેરવા માટે લોગ ઇન કરો 
+user_login_to_view_notifications = આપ જેમને ફોલો કરી રહ્યા છો,તેની સૂચનાઓ જોવા માટે લોગ ઇન કરો   
+user_login_to_follow		= લેખક
+
+# My Account popup
+edit_account_heading		= પ્રોફાઈલમાં બદલાવ ઈચ્છો છો? 
+edit_account_verify_email	= ઈ-મેઈલ ની ચકાસણી કરો 	
+edit_account_email_verified	= ઈ-મેઈલ ની ચકાસણી થઇ ગઈ છે 
+edit_account_change_password=  પાસવર્ડ બદલો 
+
+# Footer
+footer_follow_us_on_social_media	= સોશિયલ મિડિયા પર અમને ફોલો કરો  
+footer_about_us			= અમારા વિશે
+footer_work_with_us			= અમારી સાથે કામ કરો 
+footer_blog				= બ્લોગ 
+footer_privacy_policy	       = ગોપનીયતા નીતિ
+footer_terms_of_service		= સેવાની શરતો
+footer_contact_email		= gujarati@pratilipi.com
+footer_contact_10_digit_number		= 9925624460
+
+# Common Words
+okay			= ઓકે  
+cancel			= રદ કરો  
+save_changes		= બદલાવ સુરક્ષિત કરો 
+show_more		= વધુ જુઓ 
+show_less		= ઓછું જુઓ   
+read			= વાંચો 
+write			= લખો  
+free			= વિનામૂલ્યે 
+saving		         = સુરક્ષિત કરવાની પ્રક્રિયા ચાલુ છે
+working			= કૃપા કરી સાથે રહો, પ્રક્રિયા ચાલુ છે
+update				= અપડેટ  
+share				= શેર કરો   
+menu				= સૂચિ
+back				= પાછા જાઓ 
+or							= અથવા 
+load_more_contents			= વધુ રચનાઓ  તરફ 
+view_more					= વધુ જુઓ 
+fill_in_the_details			= માહિતી પૂરી પાડો.
+accept_terms				=  પ્રકાશિત કરવા માટેની શરતો માન્ય કરો.
+start_reading               = વાંચવાનું શરૂ કરો
+start_following             = ફોલો કરો
+click_here                  = અહીં ક્લિક કરો
+goto_home                   = હોમ
+
+# Success Messages
+success_generic_message				= સફળ થયું!
+password_reset_request_success		= પાસવર્ડ રીસેટ સફળ થયું
+user_login_success				= લોગ-ઈન પ્રવેશ સફળ થયો
+user_register_success				= રજીસ્ટ્રેશન સફળ થયું
+password_change_success			= પાસવર્ડમાં સુધારો સફળ થયો
+verification_email_sent_success		= ચકાસણી હેતુ મેઈલ સફળતા પૂર્વક મોકલી દેવામાં આવેલ છે.
+user_verified_success				= ઉપયોગકર્તા ચકાસણી સફળ થઈ
+content_created_success			= રચના પ્રકાશન સફળ થયું 
+updated_author_info_success			= લેખક પરિચયમાં ફેરફાર સફળ થયો
+updated_pratilipi_info_success	= રચના સંબંધિત માહિતીમાં ફેરફાર સફળ થયો
+updated_review						= સફળ!  
+
+#Failure Messages
+server_error_message				= ટેકનીકલ ખામી હોવાથી ફરી પ્રયત્ન કરો
+could_not_connect_server			= સર્વરથી જોડાવામાં અસફળ!
+review_authorisation_error			= આપ આ રચના પર ટિપ્પણી  નહી આપી શકો!
+logout_failed						= લોગ આઉટ અસફળ! ફરીથી પ્રયત્ન કરો!
+
+# Author Edit Popup
+edit_author_heading				= લેખક પરિચય સુધારો
+edit_author_first_name			= પહેલું નામ બદલો
+edit_author_last_name			= અંતિમ નામ બદલો
+edit_author_first_name_en		= પહેલું નામ (અંગ્રેજીમાં)
+edit_author_last_name_en		= અંતિમ નામ (અંગ્રેજીમાં)
+edit_author_pen_name			= ઉપનામ
+edit_author_pen_name_en		= ઉપનામ (અંગ્રેજીમાં)
+edit_author_birthday_ddmmyyyy	= જન્મતારીખ  (dd-mm--yyyy)
+edit_author_language			= ભાષા  
+edit_author_summary			= ટૂંકમાં પરિચય
+edit_author_save_changes		= બદલાવ સુરક્ષિત કરો
+
+# Pratilipi Edit Popup
+edit_pratilipi_heading			= રચના વિશેની માહિતીમાં ફેરફાર કરો
+edit_pratilipi_title			= શીર્ષક 
+edit_pratilipi_title_en		= શીર્ષક (અંગ્રેજીમાં)
+edit_pratilipi_type			= સાહિત્ય પ્રકાર  
+edit_pratilipi_language		=ભાષા  
+edit_pratilipi_summary			= રચનાનો સારાંશ
+edit_pratilipi_save_changes		= બદલાવને સુરક્ષિત કરો
+
+# Register Form
+register_part_1					= અહીં રજીસ્ટર થઇ આપ સહમત થઇ રહ્યા છો    
+register_part_2					= અને 
+register_part_3					= .
+
+# Event Page
+event_events			= ઈવેન્ટ્સ 
+event_entries			= ઇવેન્ટ એન્ટ્રી 
+event_name				= ઇવેન્ટ શીર્ષક 
+event_name_en			= ઇવેન્ટનું શીર્ષક અંગ્રેજીમાં 
+event_description		= ઇવેન્ટ વિશે 
+event_entries_url_list	= એન્ટ્રીનું URL લીસ્ટ
+event_save_changes		= બદલાવ સફળ કરો 
+
+# Gender
+gender				= જાતિ
+gender_male			= પુરુષ 
+gender_female		= સ્ત્રી 
+gender_other		= અન્ય 
+
+# Months
+month_jan	= જાન્યુઆરી 
+month_feb	= ફેબ્રુઆરી 
+month_mar	= માર્ચ 
+month_apr	= એપ્રિલ 
+month_may	= મે
+month_jun	= જુન 
+month_jul	= જુલાઈ 
+month_aug	= ઓગસ્ટ 
+month_sep	= સપ્ટેમ્બર 
+month_oct	= ઓકટોબર 
+month_nov	= નવેમ્બર 
+month_dec	= ડીસેમ્બર 
+
+#days
+day_mon = Mon
+day_tue = Tue
+day_wed = Wed
+day_thu = Thu
+day_fri = Fri
+day_sat = Sat
+day_sun = Sun
+
+# Meridiem Time
+meridiem_am = AM
+meridiem_pm = PM 
+
+# Library
+library				= લાઈબ્રેરી 
+my_library			= મારી લાઈબ્રેરી 
+add_to_library		= લાઈબ્રેરીમાં ઉમેરો
+added_to_library	= સફળતાપૂર્વક રચના લાઈબ્રેરીમાં ઉમેરાઈ ગઈ!
+remove_from_library	= લાઈબ્રેરીમાંથી દૂર કરો
+removed_from_library = લાઈબ્રેરીમાંથી રચના દૂર થઇ ગઈ.
+empty_library		=  તમારી લાઈબ્રેરીમાં પુસ્તકો નથી, રચનાઓમાંથી ઉમેરો 
+library_content_in_library	= લાઈબ્રેરીમાં ઉમેરો 
+
+# Reader
+reader_goto_content_page	= સારાંશ જુઓ 
+reader_goto_author_profile = લેખકની પ્રોફાઈલ જુઓ 
+reader_goto_home_page	= હોમ પેજ પર જાઓ 
+share_on_facebook		= ફેસબુક પર શેર કરો 
+share_on_twitter		= ટ્વીટર પર શેર કરો 
+share_on_gplus			=  ગૂગલ-પ્લસ પર શેર કરો 
+share_on_whatsapp       = વોટ્સએપ પર શેર
+increase_font_size		= અક્ષર મોટા કરો 
+decrease_font_size		= અક્ષર નાના કરો 
+increase_image_size		= ફોટો મોટો કરો 
+decrease_image_size		= ફોટો નાનો કરો 
+reader_background		= પૃષ્ઠભૂમિ
+
+# Enjoyed Reading the content? Write a review or Share it on
+reader_enjoyed_reading_part1	= વાંચવાની મજા આવી?
+reader_enjoyed_review_book		= રીવ્યુ લખો 
+reader_enjoyed_reading_part2	= શેર કરો 
+
+# Notifications
+notification_notifications = સૂચનાઓ
+notifications_no_notifications = અત્યારે આપ માટે કોઈ સુચના ઉપલબ્ધ નથી!
+notifications_load_failed = સૂચનાઓ લોડ કરવામાં અસમર્થ, ફરી લોડ કરવા અહીં ક્લિક કરો
+
+# Writer Panel
+writer_add_content_title = શીર્ષક આપો 
+writer_add_chapter_title = પ્રકરણનું શીર્ષક આપો
+writer_select_language = આપ જે ભાષામાં લખી રહ્યા છો
+writer_input_title = અહી શીર્ષક લખો 
+writer_input_title_en = શીર્ષક અંગ્રેજીમાં લખો 
+writer_you_own_copyright = રચનાનાં કોપીરાઈટ આપની પાસે છે. 
+writer_read_copyright = કોપીરાઈટ પોલિસી અહી વાંચો. 
+writer_to_next_screen = આગળ 
+writer_publish = પ્રકાશિત કરો 
+writer_save = સુરક્ષિત કરો 
+writer_dont_save = સુરક્ષિત ન કરો 
+writer_preview = પ્રિવ્યુ 
+writer_changes_saved = બધાંજ બદલાવ સુરક્ષિત થયાં. 
+writer_add_new_chapter =  નવું પ્રકરણ
+writer_write_here_placeholder = અહીં લખો 
+writer_edit_title_placeholder = શીર્ષક બદલો 
+writer_table_of_contents = અનુક્રમણિકા 
+writer_chapter = પ્રકરણ
+writer_chapter_delete_confirmation = શું આપ નિશ્ચિતપણે દૂર કરવા માંગો છો?
+writer_add_chapter_success = નવું પ્રકરણ સફળતાપૂર્વક ઉમેરવામાં આવ્યું. 
+writer_chapter_delete = પ્રકરણ દૂર કરો
+writer_delete_chapter_success = પ્રકરણ સફળતાપૂર્વક દૂર થયું. 
+writer_editor_bold = બોલ્ડ 
+writer_editor_italics = ઇટાલિક 
+writer_editor_underline = રેખાંકિત 
+writer_editor_align_left = ડાબી તરફથી 
+writer_editor_align_center = મધ્યમાં 
+writer_editor_align_right = જમણી તરફથી 
+writer_editor_quote = વાક્ય 
+writer_editor_image = ફોટો ઉમેરો 
+writer_editor_link = લિંક જોડો 
+writer_okay = બરાબર છે 
+writer_cancel = રદ કરો 
+writer_select_category = શ્રેણી પસંદ કરો 
+writer_add_cover = કવર ફોટો ઉમેરો 
+writer_add_summary = સારાંશ લખો (આપ પછીથી ઉમેરી શકો છો)
+writer_finish = સમાપ્ત 
+writer_saving = પ્રક્રિયા ચાલુ છે 
+writer_accept_copyright = હું કોપીરાઈટ પોલિસી અને સેવાની શરતોનો સ્વીકાર કરું છું. 
+writer_error_title_required = શીર્ષક આપો 
+writer_error_category_required = શ્રેણી પસંદ કરો 
+writer_error_copyright_required = કોપીરાઈટ પોલિસી અને સેવાની શરતોનો સ્વીકાર કરો. 
+writer_save_changes_confirmation = આગળ વધતા પહેલા કરેલ બદલાવને સુનિશ્ચિત કરવા ચાહો છો?
+pratilipi_add_summary = સારાંશ લખવા માટે અહી ક્લિક કરો. 
+
+# Android App launch
+android_pratilipi_app = પ્રતિલિપિ એન્ડ્રોઈડ એપ્લિકેશન
+android_alert_message = ઈન્ટરનેટ વિના વાંચો અને અગણિત પુસ્તકો ડાઉનલોડ કરો. એન્ડ્રોઈડ એપ્લિકેશન મેળવનાર પ્રથમ વાચક બનો.
+android_popup_message = પ્રતિલિપિ એન્ડ્રોઈડ એપ્લિકેશન જલ્દી આવી રહી છે.સર્વ પ્રથમ વાચક બનવા માટે નીચે રજીસ્ટર કરો.
+android_know_more_button = વધુ જાણો 
+android_submit = દર્જ કરો
+android_invite_friends = મિત્રોને આમંત્રિત કરો
+android_success_feedback = એપ્લીકેશન લોંચ થતા જ અમે તમને સુચના આપીશું
+android_email_incorrect = દર્જ કરેલ ઈમેલ આઈડી ખોટી છે
+android_phone_incorrect = દર્જ કરેલ મોબાઈલ નંબર ખોટો છે
+android_email_or_phone_required = આપનો ઈ-મેઈલ અને ફોન નંબર ઉમેરો. 
+android_whatsapp_share_description = પ્રતિલિપિ એન્ડ્રોઈડ એપ્લિકેશન જલ્દી આવી રહી છે. હવે અગણિત પુસ્તકો ડાઉનલોડ કરો, અને વાંચો ઈન્ટરનેટ વિના.
+android_banner_1 = પ્રતિલિપિ એન્ડ્રોઈડ એપ્લિકેશન : હવે વાંચો ઈન્ટરનેટ વિના અને ડાઉનલોડ કરો અગણિત પુસ્તકો 
+android_banner_2 = Register below to get it first.
+android_banner_3 = સર્વપ્રથમ વાચકોમાં જોડાવા માટે નીચે રજિસ્ટર કરો
+android_banner_4 = વધુ જાણો
+android_banner_5 = પ્રતિલિપિ એન્ડ્રોઈડ એપ્લિકેશન જલ્દી આવી રહી છે.
+android_banner_home_1 = શોધો, વાંચો અને શેર કરો
+android_banner_home_2 = Discover trending contents
+android_banner_home_3 = આપની મનપસંદ શ્રેણીઓમાંથી વાંચો
+android_banner_library_1 = ક્યારેય પણ, ક્યાંય પણ, ઈન્ટરનેટ વિના
+android_banner_library_2 = આપની લાઈબ્રેરીમાં અગણિત પુસ્તકો જોડો
+android_banner_library_3 = Read anytime without internet
+android_banner_notification_1 = કોઈ અપડેટ ક્યારેય ચુકાય નહી
+android_banner_notification_2 = નવી વાંચન સામગ્રી અને સ્પર્ધાઓ વિશે તુરંત જાણો
+android_banner_notification_3 = Build your own fan following
+android_banner_reader_1 = વાંચનના આનંદનો અનુભવ લો
+android_banner_reader_2 = Customize the reader to suit your style
+android_banner_reader_3 = બુકમાર્ક,રાત્રી મોડ, શેર કરો
+android_banner_profile_1 = આપની પ્રોફાઈલ, આપની રીતે
+android_banner_profile_2 = Create profile which defines you
+android_banner_profile_3 = આપની વાંચન સામગ્રી અને નેટવર્કનો પ્રબંધ કરો
+
+# Android App launched promotion
+pratilipi_app_launched_website_strip = પ્રતિલિપિની મોબાઈલ એપ ઉપલબ્ધ છે: હવે અગણિત પુસ્તકો નિ:શુલ્ક ડાઉનલોડ કરો. 
+pratilipi_app_click_download = એપ ડાઉનલોડ કરો 
+
+pratilipi_android_application = પ્રતિલિપિ એંડ્રોઇડ એપ્લિકેશન
+read_stories_without_internet = ઈન્ટરનેટ વિના પણ મનપસંદ વાર્તાઓ વાંચો
+android_download = ડાઉનલોડ કરો
+
+# Notification Settings
+notification_settings = નોટિફિકેશન સેટિંગ
+email_frequency = ઈ-મેઈલ મેળવો
+email_frequency_immediate = તરત
+email_frequency_daily = દૈનિક
+email_frequency_weekly = સાપ્તાહિક
+email_frequency_monthly = માસિક
+email_frequency_never = ક્યારેય નહીં
+notification_group_content = રચનાની બાબતમાં  
+option_new_review =  નવી ટિપ્પણી 
+option_new_comment =  નવા જવાબ
+option_like_review =  ટિપ્પણી પસંદ થવાથી
+option_like_comment =  જવાબ પસંદ થવાથી 
+notification_group_network = મિત્રમંડળ સંબંધિત
+option_new_follower = નવા ફોલોઅર્સ જોડાવાથી
+option_pratilipi_published_follower =  ફોલોઅર દ્વારા નવી રચના પ્રકાશિત થવાથી
+option_pratilipi_updates =  પ્રતિલિપિ તરફથી સૂચના અને જાણકારી
+notification_settings_save_changes = બદલાવ સુરક્ષિત કરો
+
+#Whatsapp share messages
+whatsapp_read_unlimited_stories = અગણિત રચનાઓ વાંચો, લખો અને આપના મિત્રો સાથે શેર કરો. તદ્દન નિ:શુલ્ક
+whatsapp_read_story = , ને પ્રતિલિપિ પર વાંચો : 
+whatsapp_follow_author = , ને પ્રતિલિપિ પર ફોલો કરો: 
+
+
+# SEO Titles
+seo_root_domain					= Pratilipi - માતૃભાષામાં તમારી મનપસંદ વાર્તાઓ અને કવિતાઓ વાંચો, લખો, અને શેર કરો
+seo_pratilipi_page				= ${ authorName } ની ગુજરાતી વાર્તા ${ pratilipiTitle } નો સારાંશ 
+seo_author_page					= ${ authorName }
+seo_home_page					= વાંચો ગુજરાતી વાર્તાઓ, કવિતાઓ અને પુસ્તકો પ્રતિલિપિ પર
+seo_events_page					= ઓનલાઈન સ્પર્ધાઓ 
+seo_library_page				= આપની સાચવેલી વાર્તાઓ, કવિતાઓ અને પુસ્તકો 
+seo_event_page					= ${ eventName }
+seo_reader_panel				= વાંચો ${ authorName } ની ગુજરાતી વાર્તા ${ pratilipiTitle } પ્રતિલિપિ પર 
+seo_blogpost_page				= ${ blogTitle }
+seo_search_page					= પ્રતિલિપિ પર તમારી મનપસંદ રચનાઓ, લેખક અને બીજું ઘણું શોધો
+seo_writer_panel				= વાંચો ${ pratilipiTitle } લેખક ${ authorName } 
+seo_notifications_page			= પ્રતિલિપિ પર તમારા માટે જરૂરી સૂચનાઓ
+seo_blog_page					= પ્રતિલિપિ ગુજરાતી બ્લોગ અને સંપાદકીય
+seo_author_interview			= લોકપ્રિય રચનાકારો સાથે સવાલ જવાબ 
+seo_followers_page				= ${ authorName } ના પ્રતિલિપિ પર ફોલોઅર્સ 
+seo_following_page				= તમે પ્રતિલિપિ પર આમને ફોલો કરી રહ્યા છો
+seo_list_page					= ${ listTitle }
+seo_static_page					= ${ staticTitle }
+seo_account_page				= ${ authorName } 
+seo_navigation_page				= શ્રેણીઓ 
+seo_update_password_page		= પાસવર્ડ અપડેટ  
+seo_share_page					= તમારા મિત્રો સાથે શેર કરો
+seo_register_page				= પ્રતિલિપિ પર તમારું એકાઉન્ટ બનાવો
+seo_login_page					= પ્રતિલિપિ પર લોગ-ઇન કરો
+seo_reset_password_page			= તમારો પાસવર્ડ રીસેટ કરો
+
+# Social
+facebook 						= ફેસબુક
+twitter 						= ટ્વીટર
+google_plus 					= ગૂગલ+
+linkedin						= લિંક્ડ-ઈન
+whatsapp 						= વોટ્સઅપ
+
+# Footer
+footer_mobile_app    				= મોબાઈલ એપ
+footer_contact_us	  				= અમારો સંપર્ક કરો
+
+# PWA
+user_logged_in_already              = આપ લોગ-ઇન છો, પાછા જવા માટે અહીં ક્લિક કરો
+user_email_empty 					= અહીં આપનું ઈ-મેઈલ લખો
+user_password_empty                 = આપનો પાસવર્ડ લખો 
+user_name_empty 					= આપનું નામ લખો 
+user_email_invalid 					= સાચું ઈ-મેઈલ લખો 
+user_login_to_follow		= લેખકને ફોલો કરવા માટે લોગ-ઇન કરો 
+
+pratilipi_rate_and_review 			= રેટિંગ આપો અને ટિપ્પણી લખો
+pratilipi_review_hide_comments 	= ટિપ્પણી છુપાવો
+pratilipi_no_reviews			    = રચના પર કોઈ પ્રતિભાવ નથી
+rating_be_first_one		            = આપ પ્રથમ સમીક્ષક બની ને લેખકનો ઉત્સાહ વધારી શકો છો.
+
+author_readby_count                 = $read_count લોકોએ વાચ્યું 
+
+settings_profile_settings       = પ્રોફાઈલ સેટિંગ 
+settings_notification_settings  = નોટિફિકેશન સેટિંગ 
+settings_update_password        = પાસવર્ડ અપડેટ 
+
+search_load_failed			= સર્ચ રીઝલ્ટ લોડ કરવામાં અસમર્થ, ફરીથી પ્રયાસ કરો 
+notifications_load_failed   = નોટિફિકેશન લોડ કરવામાં અસમર્થ, નોટિફિકેશન ફરી લોડ કરવા માટે અહીં ક્લિક કરો
+image_type_not_supported = ઈમેજનું ફોર્મેટ સપોર્ટ નથી કરી રહ્યું, આપ .png, .jpg, .jpeg ઈમેજ ફોર્મેટનો ઉપયોગ કરો.
+
+author_published_contents = પ્રકાશિત રચનાઓ
+author_followers		= ફોલોઅર્સ 
+author_following		= ફોલોઇંગ
+
+author_follow_success   = તમે $authorName ને ફોલો કર્યા.
+author_unfollow_success = તમે $authorNameને અનફોલો કર્યા.
+
+library_add_success     = તમે $pratilipiTitle ને લાઈબ્રેરીમાં ઉમેર્યું. 
+library_remove_success     = તમે $pratilipiTitleને લાઈબ્રેરીમાંથી દૂર કર્યું. 
+
+pratilipi_publish_success   = તમે $pratilipiTitle ને પ્રકાશિત કર્યું.
+pratilipi_unpublish_success     = તમે $pratilipiTitle ને અપ્રકાશિત કર્યું.
+
+undo_action             = પૂર્વવત કરો
+
+
+# Reader
+reader_font_size        = ફોન્ટ સાઈઝ
+reader_image_size       = ઈમેજ સાઈઝ
+reader_background       = બેકગ્રાઉન્ડ
+reader_line_spacing     = બે લાઈન વચ્ચેનું અંતર
+reader_report_content   = રચનાને રિપોર્ટ કરો
+reader_report_content_placeholder = રચનામાં શું અયોગ્ય છે?
+reader_submit_report    = રિપોર્ટ મોકલો  
+reader_next_chapter     = આગલું પ્રકરણ 
+reader_content_unavailable = માફ કરશો. રચના ઉપલબ્ધ નથી!
+
+
+# Pratilipi Tags
+tags_categories				= શ્રેણી
+tags_select_pratilipi_type	= પ્રકાર પસંદ કરો 
+tags_select_category		= શ્રેણી પસંદ કરો 
+tags_click_to_select		= શ્રેણી પસંદ કરવા ક્લિક કરો 
+tags_add_your_own_category	= નવી શ્રેણી ઉમેરો 
+tags_add					= ઉમેરો 
+tags_type_here				= અહીં લખો
+tags_goto_category			= શ્રેણી પર જાઓ  
+tags_help_message			= પ્રસ્તુત શ્રેણી પસંદ કરો અથવા નવી શ્રેણી ઉમેરો
+tags_add_category_to_proceed= આગળ વધવા માટે શ્રેણી ઉમેરો  
+tags_please_retry			= ફરીથી પ્રયાસ કરો
+tags_processing				= પ્રક્રિયા ચાલુ છે
+tags_add_category			= શ્રેણી સુધારો  
+tags_edit_category			= શ્રેણી પર જાઓ   
+
+# Page Not Found
+page_not_found_heading      = પેજ નોટ ફાઉન્ડ!
+page_not_found_description  = માફ કરશો. આપ ખોટા પાનાં પર આવી ગયા છો. તમારી મનપસંદ વાર્તાઓ વાંચવા અહીં જાઓ.
+

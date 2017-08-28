@@ -1,0 +1,263 @@
+<dom-module id="pratilipi-event-page">
+	
+	<style>
+		.secondary-500 {
+			padding: 12px 8px;
+			margin-bottom: 6px;
+		}
+		paper-card.event-banner {
+			width: 100%;
+			padding: 0px;
+			margin-bottom: 10px;
+			--paper-card-header: { display: none };
+		}
+		paper-card.event-description {
+			width: 100%;
+			padding: 15px 20px;
+			margin-bottom: 10px;
+			--paper-card-header: { display: none };
+		}
+		paper-icon-button, iron-icon {
+			color: #107FE5;
+		}
+		paper-spinner {
+			margin: 16px auto;
+			display: block;
+			--paper-spinner-layer-1-color: #D0021B;
+			--paper-spinner-layer-2-color: #107FE5;
+			--paper-spinner-layer-3-color: #D0021B;
+			--paper-spinner-layer-4-color: #107FE5;
+		}
+		/* Bootstrap overrides */
+		.row {
+			margin-left: -8px;
+			margin-right: -8px;
+		}
+		.col-xs-4, .col-sm-3, .col-md-3, .col-lg-3 {
+			padding-left: 8px;
+			padding-right: 8px;
+		}
+	</style>
+
+	<template>
+		<pratilipi-user user='{{ user }}' user-data="[[ userData ]]"></pratilipi-user>
+		<pratilipi-write language-map="[[ languageMap ]]" pratilipi-types='[[ pratilipiTypes ]]'></pratilipi-write>
+		<pratilipi-alert></pratilipi-alert>
+
+		<div class="header-pos">
+			<pratilipi-android-launch-test></pratilipi-android-launch-test>		   		</div>
+   		<main>
+   			<pratilipi-header language-map="[[ languageMap ]]" user='[[ user ]]'></pratilipi-header>
+			<div class="parent-container margin-top-bottom">
+				<div class="container">
+					<pratilipi-navigation
+							class='pull-left hidden-xs hidden-sm'
+							navigation-list='[[ navigationList ]]'
+							></pratilipi-navigation>
+					<!-- Navigation & Search bar for extra-small & small screens. -->
+					<pratilipi-navigation-drawer with-backdrop navigation-list='[[ navigationList ]]'></pratilipi-navigation-drawer>
+					<div style="overflow:hidden; padding: 0 2px;">
+						<div id="androidLaunchBottom">
+							<div class="secondary-500 pratilipi-shadow pratilipi-card-grid-heading pratilipi-red">
+								{{ event.name }}
+								<template is="dom-if" if="{{ event.hasAccessToUpdate }}">
+									<paper-icon-button on-click="editEvent" icon="create" noink></paper-icon-button>
+								</template>
+							</div>
+	
+							<paper-card class="event-banner">
+								<template is="dom-if" if="{{ !event.hasAccessToUpdate }}">
+									<img style="width: 100%;" src="{{ eventBannerImageUrl }}" alt="{{ event.name }}" />
+								</template>
+								
+								<template is="dom-if" if="{{ event.hasAccessToUpdate }}">
+									<div style="position: absolute; top: -1000px;">
+										<form id="uploadImage" method="post" enctype="multipart/form-data" action="/api/event/banner?eventId={{ event.eventId }}" target="upload_target">
+											<input id="uploadImageInput" type="file" on-change="uploadImage" name="{{ event.eventId }}" accept="image/*">
+										</form>
+										<iframe id="upload_target" name="upload_target" style="display: none;" on-load="_onchangeiframe"></iframe>
+									</div>
+									<div class="pratilipi-file-upload">
+										<img style="width: 100%;" src="{{ eventBannerImageUrl }}" alt="{{ event.name }}"/>
+										<iron-icon icon="icons:cloud-upload"></iron-icon>
+										<div class="pratilipi-file-upload-caption" on-click="_chooseFile">
+											<iron-icon icon="icons:cloud-upload"></iron-icon>
+											<strong>Upload Photo</strong>
+										</div>
+									</div>
+								</template>
+							</paper-card>
+	
+							<paper-card class="event-description">
+								<div id="pratilipi-event-description"></div>
+							</paper-card>
+	
+							<template is="dom-if" if="{{ showPratilipiList }}">
+								<div class="secondary-500 pratilipi-shadow pratilipi-card-grid-heading pratilipi-red">
+									போட்டிக்கான படைப்புகள்
+								</div>
+								<div id="event-entries" class="secondary-500 pratilipi-shadow">
+									<div class="row text-center">
+										<template is="dom-repeat" items="{{ pratilipiList }}" as="pratilipi">
+											<div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+												<pratilipi-card-mini state="PUBLISHED" pratilipi="{{ pratilipi }}"></pratilipi-card-mini>
+											</div>
+										</template>
+									</div>
+									<template is="dom-if" if="{{ isLoading }}">
+										<paper-spinner active></paper-spinner>
+									</template>
+								</div>
+							</template>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<footer>
+			<pratilipi-footer></pratilipi-footer>
+		</footer>
+		<div class="scroll-top-button">
+			<a id="scrollToTop" on-click="scrollToTop"><paper-fab mini noink style="background: #c0c0c0;" icon="icons:arrow-upward"></paper-fab></a>
+		</div>
+		<iron-ajax
+				id="PratilipiListApi"
+				url="/api/pratilipi/list"
+				method="GET"
+				params='{"_apiVer": "2"}'
+				content-type="application/json"
+				handle-as="json"
+				on-response="_pratilipiListApiResponse"
+				on-error="_pratilipiListApiError"
+				></iron-ajax>
+	</template>
+		
+
+	<script>
+		Polymer({
+
+			is: 'pratilipi-event-page',
+
+			properties: {
+				userData: { type: Object },
+				event: { type: Object, observer: "_eventObserver" },
+				pratilipiListObject: { type: Object },
+				pratilipiList: { type: Array, value: function() { return []; } },
+				cursor: { type: String, value: null },
+				resultCount: { type: Number, value: 12 },
+				isLoading: { type: Boolean, value: false },
+				isFinished: { type: Boolean, value: false },
+				showPratilipiList: { type: Boolean, value: true },
+				navigationList: { type: Array },
+				pratilipiTypes: { types: Object },
+				languageMap: { type: Object },
+				lastScrollTop: { type: Number, value: 0 },
+			},
+
+			_eventObserver: function() {
+				var jSummary = jQuery( "#pratilipi-event-description" );
+				jSummary.html( this.event.description );
+				this.set( 'eventBannerImageUrl', this.event.bannerImageUrl + 
+						( this.event.bannerImageUrl.indexOf( '?' ) == -1 ? "?" : "&" ) + "width=1000" )
+			},
+			
+			_processEventObject: function( pratilipiListObject ) {
+				var pratilipiList = pratilipiListObject.pratilipiList != null ? pratilipiListObject.pratilipiList : [];
+				for( var i = 0; i < pratilipiList.length; i++ )
+					this.push( 'pratilipiList', pratilipiList[i] );
+				this.set( 'cursor', pratilipiListObject.cursor );
+				this.set( 'isFinished', pratilipiList.length < this.resultCount );
+				this.set( 'showPratilipiList', this.pratilipiList.length > 0 );
+				this.set( 'numberFound', pratilipiListObject.numberFound != null ? pratilipiListObject.numberFound : 0 );
+			},
+			
+			loadMore: function( forceLoad ) {
+
+				if( ! forceLoad ) {
+					if( this.isLoading || this.isFinished )
+						return;
+					// Check for window height.
+					var reqHeight = jQuery( window ).scrollTop()
+							- jQuery( '#event-entries' ).position().top
+							+ 3 * jQuery( window ).height();
+					if( jQuery( '#event-entries' ).outerHeight( true ) >= reqHeight )
+						return;
+				}
+
+				this.set( 'isLoading', true );
+				this.$.PratilipiListApi.params.eventId = this.event.eventId;
+				this.$.PratilipiListApi.params.state = "PUBLISHED";
+				this.$.PratilipiListApi.params.resultCount = this.resultCount;
+
+				if( this.cursor != null )
+					this.$.PratilipiListApi.params.cursor = this.cursor;
+				else
+					delete this.$.PratilipiListApi.params.cursor;
+				this.$.PratilipiListApi.generateRequest();
+				ga_CA( 'Pratilipi', 'LoadMore' );
+			},
+
+			_pratilipiListApiResponse: function( response ) {
+				this.set( 'isLoading', false );
+				this._processEventObject( response.detail.response );
+			},
+
+			_pratilipiListApiError: function( response ) {
+				this.set( 'isLoading', false );
+				var message = response.detail.request.xhr.response.message != null ? 
+						response.detail.request.xhr.response.message : "சிறிய தொழிநுட்பக்கோளாறு.சிறிதுநேரம் கழித்து முயற்சிக்கவும்.";
+				document.querySelector( 'pratilipi-alert' ).alert( message, false );
+			},
+
+			updateEvent: function( event ) {
+				if( event.pageUrl != null && event.pageUrl != window.location.pathname )
+					window.location.href = event.pageUrl;
+				this.set( 'event', event );
+			},
+			
+			editEvent: function() {
+				window.location.href = "/edit-event?id=" + this.event.eventId;
+			},
+			
+			scrollToTop: function() {
+				$( 'html, body' ).animate( { scrollTop : 0 },800 );
+			},
+			
+			ready: function() {
+				jQuery( '#scrollToTop' ).css( "display", "none" );
+				this.loadMore( true );
+			},
+			
+			scrollHandler: function( st ) {
+				if( st > this.lastScrollTop || st < 100 ) {
+					jQuery( '#scrollToTop' ).fadeOut();
+					this.loadMore();
+				} else {
+					jQuery( '#scrollToTop' ).fadeIn();
+				}
+				this.lastScrollTop = st;
+				
+			},
+			
+			_chooseFile: function() {
+				document.getElementById( "uploadImageInput" ).click();
+			},
+			
+			_onchangeiframe: function() {
+				if( this.imageUploaded ) {
+					this.imageUploaded = false;
+					this.async( function() {
+						this.eventBannerImageUrl = this.eventBannerImageUrl + "&" + "version=" + new Date().getTime();
+					}, 30 );
+				}
+			},
+			
+			uploadImage: function() {
+				document.getElementById( "uploadImage" ).submit();
+				this.imageUploaded = true;
+			}
+			
+		});
+	</script>
+
+</dom-module>

@@ -1,0 +1,182 @@
+<div data-bind="visible: dataLoadedState() == 'LOADING'" class="loading-state-reader">
+	<!-- ko component: "pratilipi-loading-state" --><!-- /ko -->
+</div>
+
+<div data-bind="visible: dataLoadedState() == 'FAILED'" class="failed-state-reader">
+	<div class="content">
+		<div style="width: 180px; height: 200px; margin: auto;" class="page-not-found-icon"></div>
+		<div>${ _strings.reader_content_unavailable }</div>
+		<br/>
+		<a style="margin-left: -48px;" class="material-subtitle-1" href="/">
+			<i class="material-icons">home</i>
+			<span style="position: absolute;">${ _strings.goto_home }</span>
+		</a>
+	</div>
+</div>
+
+<div class="mdl-layout mdl-js-layout pratilipi-reader"
+	 data-bind="{ visible: dataLoadedState() == 'LOADED',
+					css: { 'th-nor': appViewModel.readerTheme() == 'NORMAL', 'th-ngt': appViewModel.readerTheme() == 'NIGHT', 'th-sep': appViewModel.readerTheme() == 'SEPIA' } }">
+	<!-- ko component: {
+		name: "pratilipi-reader-header",
+		params: { pratilipi: pratilipi,
+					userPratilipi: userPratilipi,
+					openSettings: $data.openSettings,
+					switchLibraryState: $data.switchLibraryState,
+					sharePratilipi: $data.sharePratilipi,
+					reportContent: $data.reportContent,
+					openNavigationModal: $data.openNavigationModal,
+					index: index,
+					chapterNo: chapterNo,
+					setChapterNo: $data.setChapterNo }
+	} --><!-- /ko -->
+	<div id="reader-progress-bar" class="mdl-progress mdl-js-progress"></div>
+	<main class="mdl-layout__content">
+		<div class="body-layout-row">
+			<div class="body-layout-nav" data-bind="style: { visibility: chapterCount() == 1 ? 'hidden' : 'visible' }">
+				<!-- ko component: {
+					name: "pratilipi-reader-navigation",
+					params: { pratilipi: pratilipi,
+								index: index,
+								chapterNo: chapterNo,
+								setChapterNo: $data.setChapterNo }
+				} --><!-- /ko -->
+			</div>
+			<div class="body-layout-content js-body-layout-content" data-bind="event: { scroll: notifyOfScrollEvent }">
+				<div class="mdl-grid mobile-grid js-body-layout-content-grid"
+					 style="flex-grow: 1;">
+					<div class="mdl-cell mdl-cell--12-col-tablet mdl-cell--9-col mobile-card" style="margin: 0;">
+						<!-- ko component: {
+							name: "pratilipi-reader-content",
+							params: { pratilipi: pratilipi,
+										updatePratilipi: $data.updatePratilipi,
+										userPratilipi: userPratilipi,
+										updateUserPratilipi: $data.updateUserPratilipi,
+										chapterNo: chapterNo,
+										chapterCount: chapterCount,
+										fontSize: appViewModel.readerFontSize,
+										imageSize: appViewModel.readerImageSize,
+										lineHeight: appViewModel.readerLineHeight,
+										setImageSize: $data.setImageSize,
+										setChapterNo: $data.setChapterNo }
+						} --><!-- /ko -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<!-- ko component: {
+		name: "pratilipi-reader-footer",
+		params: { pratilipi: pratilipi,
+					userPratilipi: userPratilipi,
+					openSettings: $data.openSettings,
+					switchLibraryState: $data.switchLibraryState,
+					sharePratilipi: $data.sharePratilipi,
+					canOpenNavigationModal: index().length > 0,
+					openNavigationModal: $data.openNavigationModal }
+	} --><!-- /ko -->
+</div>
+
+<!-- Settings Modal -->
+<div class="modal common-modal fade settings-modal" id="pratilipi-reader-settings" tabindex="-1" role="dialog" aria-labelledby="pratilipi-reader-settings">
+	<div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button class="mdl-button mdl-js-button mdl-button--icon close" class="close" data-dismiss="modal" aria-label="Close">
+					<i class="material-icons">close</i>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="option" data-bind="visible: pratilipi.contentType() == 'PRATILIPI'">
+					<div class="option-heading material-subtitle-1">${ _strings.reader_font_size }</div>
+					<button class="mdl-button mdl-js-button mdl-button--icon"
+					        onclick="ga_CAL( 'Pratilipi', 'IncreaseFontSize', 'ReaderSettings' );"
+					        data-bind="disable: appViewModel.readerFontSize() == maxFontSize, click: increaseFontSize">
+						<i class="material-icons">add</i>
+					</button>
+					<button class="mdl-button mdl-js-button mdl-button--icon"
+					        onclick="ga_CAL( 'Pratilipi', 'DecreaseFontSize', 'ReaderSettings' );"
+					        data-bind="disable: appViewModel.readerFontSize() == minFontSize, click: decreaseFontSize">
+						<i class="material-icons">remove</i>
+					</button>
+				</div>
+				<div class="option" data-bind="visible: pratilipi.contentType() == 'IMAGE'">
+					<div class="option-heading material-subtitle-1">${ _strings.reader_image_size }</div>
+					<button class="mdl-button mdl-js-button mdl-button--icon"
+					        onclick="ga_CAL( 'Pratilipi', 'IncreaseImageSize', 'ReaderSettings' );"
+					        data-bind="disable: appViewModel.readerImageSize() >= maxImageSize, click: increaseImageSize">
+						<i class="material-icons">add</i>
+					</button>
+					<button class="mdl-button mdl-js-button mdl-button--icon"
+					        onclick="ga_CAL( 'Pratilipi', 'DecreaseImageSize', 'ReaderSettings' );"
+					        data-bind="disable: appViewModel.readerImageSize() <= minImageSize, click: decreaseImageSize">
+						<i class="material-icons">remove</i>
+					</button>
+				</div>
+				<div class="option">
+					<div class="option-heading material-subtitle-1">${ _strings.reader_background }</div>
+					<button class="mdl-button mdl-js-button mdl-button--icon"
+					        onclick="ga_CAL( 'Pratilipi', 'WhiteBkg', 'ReaderSettings' );"
+					        data-bind="click: setNormalTheme, enable: appViewModel.readerTheme() != 'NORMAL'">
+						<i class="material-icons th-nor-config">check_box_outline_blank</i>
+					</button>
+					<button class="mdl-button mdl-js-button mdl-button--icon"
+					        onclick="ga_CAL( 'Pratilipi', 'BlackBkg', 'ReaderSettings' );"
+					        data-bind="click: setNightTheme, enable: appViewModel.readerTheme() != 'NIGHT'">
+						<i class="material-icons th-ngt-config">check_box_outline_blank</i>
+					</button>
+					<button class="mdl-button mdl-js-button mdl-button--icon"
+					        onclick="ga_CAL( 'Pratilipi', 'SepiaBkg', 'ReaderSettings' );"
+					        data-bind="click: setSepiaTheme, enable: appViewModel.readerTheme() != 'SEPIA'">
+						<i class="material-icons th-sep-config">check_box_outline_blank</i>
+					</button>
+				</div>
+				<div class="option" data-bind="visible: pratilipi.contentType() == 'PRATILIPI'">
+					<div class="option-heading material-subtitle-1">${ _strings.reader_line_spacing }</div>
+					<button class="mdl-button mdl-js-button mdl-button--icon" data-bind="click: setSmallLineHeight, enable: appViewModel.readerLineHeight() != 'SMALL'">
+						<span class="lh-icon lh-sm-icon"
+						      onclick="ga_CAL( 'Pratilipi', 'MinLineSpacing', 'ReaderSettings' );"
+						      data-bind="css: { 'lh-icon-inactive': appViewModel.readerLineHeight() == 'SMALL' }"></span>
+					</button>
+					<button class="mdl-button mdl-js-button mdl-button--icon" data-bind="click: setMediumLineHeight, enable: appViewModel.readerLineHeight() != 'MEDIUM'">
+						<span class="lh-icon lh-md-icon"
+						      onclick="ga_CAL( 'Pratilipi', 'BasicLineSpacing', 'ReaderSettings' );"
+						      data-bind="css: { 'lh-icon-inactive': appViewModel.readerLineHeight() == 'MEDIUM' }"></span>
+					</button>
+					<button class="mdl-button mdl-js-button mdl-button--icon" data-bind="click: setLargeLineHeight, enable: appViewModel.readerLineHeight() != 'LARGE'">
+						<span class="lh-icon lh-lg-icon"
+						      onclick="ga_CAL( 'Pratilipi', 'MaxLineSpacing', 'ReaderSettings' );"
+						      data-bind="css: { 'lh-icon-inactive': appViewModel.readerLineHeight() == 'LARGE' }"></span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Report Content Modal -->
+<div class="modal common-modal fade" id="pratilipi-reader-report-content" tabindex="-1" role="dialog" aria-labelledby="pratilipi-reader-report-content">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content" style="width: 90%;">
+			<div class="modal-header">
+				<span class="material-title">${ _strings.reader_report_content }</span>
+				<button class="mdl-button mdl-js-button mdl-button--icon close" data-bind="click: closeReportContentModal">
+					<i class="material-icons">close</i>
+				</button>
+			</div>
+			<div class="modal-body">
+				<textarea data-bind="{ mdlFloatingInput: { label: '${ _strings.reader_report_content_placeholder }', value: reportContentText, id: 'pratilipi_reader_report_content' }, valueUpdate: ['input'], transliterate: true }"></textarea>
+			</div>
+			<div class="modal-footer">
+				<button data-bind="click: closeReportContentModal"
+				        class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button-margin">
+					${ _strings.cancel }
+				</button>
+				<button data-bind="click: submitReportContent, enable: canReportContent"
+				        class="mdl-button mdl-js-button mdl-button--colored mdl-js-ripple-effect mdl-button--raised">
+					${ _strings.reader_submit_report }
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

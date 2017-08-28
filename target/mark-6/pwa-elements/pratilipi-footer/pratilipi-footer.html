@@ -1,0 +1,45 @@
+<footer class="mdl-mega-footer font-s">
+	<div class="mdl-mega-footer__middle-section">
+		<div onclick="ga_CA( 'Footer', 'GPS App' )"
+			class="mdl-mega-footer__drop-down-section">
+			<input class="mdl-mega-footer__heading-checkbox" type="checkbox" unchecked>
+			<h1 class="mdl-mega-footer__heading">${ _strings.footer_mobile_app }</h1>
+			<ul class="mdl-mega-footer__link-list">
+				<li><a href="https://play.google.com/store/apps/details?id=com.pratilipi.mobile.android&utm_source=web_footer&utm_campaign=app_download"><div class="sprites-icon google-play-icon"></div></a></li>
+			</ul>
+		</div>
+		<div class="mdl-mega-footer__drop-down-section">
+			<input class="mdl-mega-footer__heading-checkbox" type="checkbox" unchecked>
+			<h1 class="mdl-mega-footer__heading">${ _strings.footer_contact_us }</h1>
+			<ul class="mdl-mega-footer__link-list" style="vertical-align: middle;">
+				<li><a href="tel:+91${ _strings.footer_contact_10_digit_number }"><i class="material-icons material-icons-16 vertical-middle">phone</i> +91 ${ _strings.footer_contact_10_digit_number }</a></li>
+				<li><a href="mailto:${ _strings.footer_contact_email }"><i class="material-icons material-icons-16 vertical-middle">mail</i> ${ _strings.footer_contact_email }</a></li>
+			</ul>
+		</div>
+		<div onclick="ga_CA( 'Footer', 'About Us' )"
+			class="mdl-mega-footer__drop-down-section">
+			<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
+			<h1 class="mdl-mega-footer__heading">${ _strings.footer_about_us }</h1>
+			<ul class="mdl-mega-footer__link-list">
+				<li><a href="/about/pratilipi">${ _strings.footer_about_us }</a></li>
+				<li><a href="/work-with-us">${ _strings.footer_work_with_us }</a></li>
+				<li><a href="/privacy-policy">${ _strings.footer_privacy_policy }</a></li>
+				<li><a href="/terms-of-service">${ _strings.footer_terms_of_service }</a></li>
+			</ul>
+		</div>
+		<div onclick="ga_CA( 'Footer', 'Company Social Media' )"
+			class="mdl-mega-footer__drop-down-section">
+			<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked>
+			<h1 class="mdl-mega-footer__heading">${ _strings.footer_follow_us_on_social_media }</h1>
+			<ul class="mdl-mega-footer__link-list">
+				<li><div class="sprites-icon footer-social-icons facebook-icon"></div><a href="${ _strings.facebook_page }">${ _strings.facebook }</a></li>
+				<li><div class="sprites-icon footer-social-icons twitter-icon"></div><a href="${ _strings.twitter_page }">${ _strings.twitter }</a></li>
+				<li><div class="sprites-icon footer-social-icons google-plus-icon"></div><a href="${ _strings.googleplus_page }">${ _strings.google_plus }</a></li>
+				<li><div class="sprites-icon footer-social-icons linkedin-icon"></div><a href="${ _strings.linkedin_page }">${ _strings.linkedin }</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="mdl-mega-footer__bottom-section">
+		<div class="mdl-logo" data-bind="html: '&copy; ' + new Date().getFullYear() + ' Nasadiya Tech. Pvt. Ltd.'"></div>
+	</div>
+</footer>

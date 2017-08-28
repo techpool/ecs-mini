@@ -1,0 +1,184 @@
+<dom-module id="pratilipi-author-biography">
+	<style>
+		:host {
+			display: block;
+			margin-top: 6px;
+		}
+		.author-biography {
+			padding: 8px;
+		}
+		.author-biography .author-biography-header h6 {
+			font-weight: 700;
+			margin-top: 12px;
+			margin-bottom: 12px;
+			text-align: center;
+		}
+				.author-details table {
+			margin-left: 6px;
+		}
+		.author-details table th {
+			padding: 6px 32px 6px 12px;
+			font-size: 14px;
+		}
+		.author-details td {
+			font-size: 14px;
+		}
+		.author-summary-container {
+			font-family: inherit!important;
+			font-size: 14px!important;
+			line-height: 23px!important;
+			color: #333;
+			padding: 12px 16px;
+		}
+		.author-summary-container h6 {
+			font-size: 15px;
+			margin-top: 12px;
+			font-weight: bold;
+		}
+		
+		@media only screen and (max-width: 600px) {
+			.author-summary-container {
+				text-align: left;
+			}
+		}
+		@media only screen and (min-width: 601px) {
+			.author-summary-container {
+				text-align: justify;
+			}
+		}
+		.more-button {
+			background: #F1F8FB;
+			padding: 16px;
+			text-align: center;
+			color: #0C68BD;
+			cursor: pointer;
+			font-size: 14px;
+			font-weight: 700;
+			line-height: 14px;
+			text-shadow: 0px 1px 2px #FFFFFF;
+		}
+		
+		hr {
+			margin-top: 0.5em;
+			margin-bottom: 0.8em;
+			border: 0;
+			border-top: 2px solid #eee;
+		}
+		
+		.complete-summary {
+			max-height: auto;
+			overflow: visible;
+		}
+		.reduced-summary {
+			max-height: 46px; 
+			overflow: hidden;
+		}
+	</style>
+	<template>
+		<div class="secondary-500 author-biography pratilipi-shadow">
+			<div class="author-biography-header">
+				<h6 class="pratilipi-red">വിവരണം</h6>
+			</div>
+			<hr/>
+			<div class="author-details">
+				<table>
+					<tr>
+						<th>പ്രതിലിപിയില്‍</th>
+						<td>{{ registrationDate }}</td>
+					</tr>
+					<template is="dom-if" if="{{ hasLocation }}">
+						<tr>
+							<th>സ്ഥലം</th>
+							<td>{{ location }}</td>
+						</tr>
+					</template>
+					<template is="dom-if" if="{{ hasDateOfBirth }}">
+						<tr>
+							<th>ജനനത്തിയ്യതി</th>
+							<td>{{ dateOfBirth }}</td>
+						</tr>
+					</template>
+				</table>
+				
+				<div class="author-summary-container" id="author-summary-container">
+					<h6>രചയിതാവിനെക്കുറിച്ച്</h6>
+					<div id="author-summary"></div>
+				</div>
+				<div class="more-button" id="more-button" on-click="toggleSnippet" onclick="ga_CA( 'Author', 'LoadMore' )">കൂടുതല്‍ കാണിക്കൂ...</div>
+			</div>
+		</div>
+	</template>
+
+	<script>
+	
+		Polymer({
+
+			is: 'pratilipi-author-biography',
+			
+			properties: {
+			 	author: { type: Object, observer: "_authorObserver" },
+			 	summary: { type: String, observer: "_summaryObserver" }
+			},
+			
+			_authorObserver: function() {
+				this.set( 'summary', this.author == null ? null : this.author.summary );
+				this.set( 'registrationDate', this.author == null ? null : convertDate( this.author.registrationDateMillis ) );
+				this.set( 'hasLocation', this.author.location != null );
+				this.set( 'location', this.author.location );
+				this.set( 'hasDateOfBirth', this.author.dateOfBirth != null );
+				this.set( 'dateOfBirth', this.author.dateOfBirth == null ? null : convertDate( this.author.dateOfBirth ) );
+			},
+
+			attached: function() {
+				this._summaryObserver();
+			},
+
+			_summaryObserver: function() {
+
+				if( this.summary == null || this.summary.trim() == "" ) {
+					jQuery( this.querySelector( '.author-summary-container' ) ).css( 'display', 'none' );
+					jQuery( this.querySelector( '.more-button' ) ).css( 'display', 'none' );
+					return;
+				}
+
+				jQuery( this.querySelector( '.author-summary-container' ) ).css( 'display', 'block' );
+
+				/* Called before DOM is attached */
+				if( document.getElementById( "author-summary" ) == null )
+					return;
+
+				var author_summary = document.getElementById( "author-summary" );
+				jQuery( author_summary ).html( this.summary.replace(/\n/g, "<br />") );
+				
+				// Calculating summary height
+				var height = 0;
+				var clone = author_summary.cloneNode( true );
+				clone.style.position = "absolute";
+				clone.style.top = "-1000px";
+				clone.style.width = ( jQuery( 'pratilipi-author-tabs' ).width() - 32 ) + "px"; /* 32px for padding */
+				document.body.appendChild( clone );
+				height = clone.clientHeight;
+				document.body.removeChild( clone );
+				
+				if( height < 92 ) {
+					jQuery( this.querySelector( '#author-summary' ) ).removeClass( 'complete-summary' );
+					jQuery( this.querySelector( '#author-summary' ) ).removeClass( 'reduced-summary' );
+					jQuery( this.querySelector( '#more-button' ) ).css( 'display', 'none' );
+				} else {
+					jQuery( this.querySelector( '#author-summary' ) ).addClass( 'reduced-summary' );
+					jQuery( this.querySelector( '#author-summary' ) ).removeClass( 'complete-summary' );
+					jQuery( this.querySelector( '#more-button' ) ).css( 'display', 'block' );
+				}
+			},
+			
+			toggleSnippet: function() {
+				jQuery( this.querySelector( '#author-summary' ) ).toggleClass( 'reduced-summary' );
+				jQuery( this.querySelector( '#author-summary' ) ).toggleClass( 'complete-summary' );
+				jQuery( this.querySelector( '#more-button' ) ).css( 'display', 'none' );
+			}
+ 
+		});
+
+	</script>
+
+</dom-module>

@@ -1,0 +1,117 @@
+.pratilipi-pratilipi-card {
+	min-height: auto;
+	-webkit-flex-direction: row;
+	-ms-flex-direction: row;
+	flex-direction: row;
+	width: 100%;
+	padding: 8px;
+	.pratilipi-cover-image-holder {
+		margin-right: 16px;
+		float: left;
+	}
+	.pratilipi-meta-holder {
+		flex-grow: 1;
+		position: relative;
+		.mdl-card__title {
+			padding: 0;
+		}
+		.pratilipi-title.mdl-card__title {
+			margin: 0; 
+		}
+		.single-line {
+		    @media (max-width: 480px) {
+		        width : 90%;
+		    }
+            overflow:hidden;
+            display:inline-block;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+		}
+		.author-name {
+			margin-bottom: 8px;
+		}
+		.pratilipi-card-meta-reads-rating-holder {
+			color: rgba(0,0,0,0.54);
+			span.meta-holder {
+				float: left;
+				span {
+					font-family: Helvetica, Arial !important;
+					float: left;
+					margin-right: 2px;
+				}
+				i {
+					width: 16px;
+					height: 16px;
+					font-size: 16px !important;
+					position: absolute;
+				}
+			}
+			span.reads-holder {
+				margin-right: 36px;
+			}
+		}
+		.pratilipi-card-footer-icons-holder {
+			position: absolute;
+			bottom: 8px; // padding: 8px;
+			left: 0px; // padding: 8px;
+			color: #333;
+			width: 100%;
+			.mdl-button {
+				min-width: 32px;
+				height: 32px;
+				width: 32px;
+				float: right;
+				.material-icons {
+					width: 24px;
+					height: 24px;
+					font-size: 16px;
+				}
+			}
+			.share-button {
+				margin-right: 8px;
+			}
+			.add-category-button {
+			    border: 1px solid #d0021b;
+			    color: #d0021b;
+			    background: #fff;
+			    font-size: 14px;
+			    border-radius: 2px;
+			    @media (max-width: 480px) {
+                    line-height: 24px;
+                    margin-top: 4px;
+                }
+                @media (min-width: 480px) {
+                    line-height: 32px;
+                }
+			}
+			.edit-category-button {
+				border: 1px solid #646464;
+			    color: #646464;
+			    background: #fff;
+			    font-size: 14px;
+                border-radius: 2px;
+                @media (max-width: 480px) {
+			        line-height: 24px;
+			        margin-top: 4px;
+                }
+                @media (min-width: 480px) {
+                    line-height: 32px;
+                }
+			}
+		}
+	}
+}
+
+.pratilipi-add-category {
+    @media (min-width: 480px) {
+        padding-top:50px;
+    }
+    @media (max-width: 480px) {
+        margin:20px !important;
+    }
+}
+.pratilipi-category-modal-body {
+    @media (max-width: 480px) {
+        padding:5px !important;
+    }
+}

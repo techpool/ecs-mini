@@ -1,0 +1,51 @@
+.pratilipi-author-contents {
+    $pratilipi_author_contents_drafted_width: 32px;
+    $pratilipi_author_contents_drafted_height: 48px;
+
+    .author-drafted-contents, .author-published-contents {
+        margin-top: 16px;
+    }
+
+    .margin-top--1 {
+        margin-top: -1px !important;
+    }
+
+    .author-drafted-contents {
+        .create-pratilipi {
+            color: #000;
+            .create-pratilipi-icon-holder {
+                width: $pratilipi_author_contents_drafted_width;
+                height: $pratilipi_author_contents_drafted_height;
+                @include css-prefix( 'display', 'flex' );
+                @include css-prefix( 'flex-direction', 'row' );
+                text-align: center;
+                i.material-icons {
+                    width: $pratilipi_author_contents_drafted_width;
+                    align-self: center;
+                }
+                margin-right: 8px;
+            }
+            .create-pratilipi-text-holder {
+                @include css-prefix( 'display', 'flex' );
+                @include css-prefix( 'flex-direction', 'row' );
+                span {
+                    align-self: center;
+                }
+            }
+        }
+        .drafted-card {
+            .pratilipi-cover-image-holder {
+                margin-right: 8px;
+                float: left;
+                img {
+                    width: $pratilipi_author_contents_drafted_width;
+                    height: $pratilipi_author_contents_drafted_height;
+                }
+            }
+            .pratilipi-meta-holder {
+                @include css-prefix( 'display', 'flex' );
+                @include css-prefix( 'flex-direction', 'row' );
+            }
+        }
+    }
+}

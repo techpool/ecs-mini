@@ -1,0 +1,63 @@
+.sprites-icon {
+	display: inline-block;
+	vertical-align: middle;
+	background-size: 160px 110px;
+	background-image: url( ../../pwa-images/NewSprite_2.png );
+	width: 24px;
+	height: 24px;
+}
+
+.google-plus-icon {
+	background-position: 0px 0px;
+}
+
+.facebook-icon {
+	background-position: -24px 0px;
+}
+
+.twitter-icon {
+	background-position: -48px 0px;
+}
+
+.linkedin-icon {
+	background-position: -72px 0px;
+}
+
+.whatsapp-icon {
+	background-position: 0px -24px;
+}
+
+.facebook-login-icon {
+	background-position: -24px -24px;
+}
+
+.google-login-icon {
+	background-position: -48px -24px;
+}
+
+.pratilipi-logo-icon {
+	background-position: -117px -4px;
+	height: 40px;
+	width: 40px;
+}
+
+.google-play-icon {
+	width: 150px;
+    height: 56px;
+    background-position: -10px -52px;
+}
+
+.page-not-found-icon {
+	background-image: url( ../../pwa-images/404.svg );
+	background-repeat: no-repeat;
+}
+
+.empty-library-icon {
+	background-image: url( ../../pwa-images/library-empty.svg );
+	background-repeat: no-repeat;
+}
+
+.empty-notifications-icon {
+	background-image: url( ../../pwa-images/notifications-empty.svg );
+	background-repeat: no-repeat;
+}

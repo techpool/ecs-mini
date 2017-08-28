@@ -1,0 +1,122 @@
+<#include "pratilipi-notification-settings.html">
+<#include "pratilipi-notification-grid.html">
+
+<dom-module id="pratilipi-notification-page">
+
+	<style>
+		:host {
+			display: block;
+		}
+		@media only screen and (max-width: 767px) {
+			main {
+				padding-top: 85px;
+			}
+		}
+		@media only screen and (min-width: 768px) {
+			main {
+				padding-top: 52px;
+			}
+		}
+		
+	</style>
+
+	<template>
+		<pratilipi-user user='{{ user }}' user-data="[[ userData ]]"></pratilipi-user>
+		<pratilipi-edit-account user='[[ user ]]'></pratilipi-edit-account>
+		<pratilipi-write language-map="[[ languageMap ]]" pratilipi-types='[[ pratilipiTypes ]]'></pratilipi-write>
+		<pratilipi-alert></pratilipi-alert>
+		<pratilipi-notification-settings></pratilipi-notification-settings>
+
+		<div class="header-pos">
+			<#include "app-launch/pratilipi-android-launch-logic.ftl">
+			<#-- <pratilipi-android-launch></pratilipi-android-launch> -->
+   		</div>
+   		<main>
+   			<pratilipi-header language-map="[[ languageMap ]]" user='[[ user ]]'></pratilipi-header>
+   			<div class="parent-container margin-top-bottom">
+				<div class="container">
+					<pratilipi-navigation
+							class='pull-left hidden-xs hidden-sm'
+							navigation-list='[[ navigationList ]]'
+							></pratilipi-navigation>
+					<#-- Navigation & Search bar for extra-small & small screens. -->
+					<pratilipi-navigation-drawer with-backdrop navigation-list='[[ navigationList ]]'></pratilipi-navigation-drawer>
+					<div style="overflow:hidden; padding: 0 2px;">
+						<div id="androidLaunchBottom">
+							<pratilipi-notification-grid 
+								notification-object="{{ notificationObject }}"></pratilipi-notification-grid>
+						</div>
+					</div>
+				</div>
+			</div>
+   		</main>
+		<footer>
+   			<pratilipi-footer></pratilipi-footer>
+		</footer>
+		<div class="scroll-top-button">
+			<a id="scrollToTop" on-click="scrollToTop"><paper-fab mini noink style="background: #c0c0c0;" icon="icons:arrow-upward"></paper-fab></a>
+		</div>
+	</template>
+
+	<script>
+		Polymer({
+
+			is: 'pratilipi-notification-page',
+
+			properties: {
+				userData: { type: Object },
+				user: { type: Object, observer: "_userObserver" },
+				userLoaded: { type: Boolean },
+				guestUser: { type: Boolean },
+				notificationObject: { type: Object },
+				navigationList: { type: Array },
+				pratilipiTypes: { types: Object },
+				languageMap: { type: Object },
+				lastScrollTop: { type: Number, value: 0 }
+			},
+
+			_userObserver: function() {
+				this.set( 'guestUser', this.user.isGuest );
+				if( this.userLoaded == null ) {
+					this.userLoaded = true;
+					return;
+				}
+				window.location.reload();
+			},
+
+			_login: function() {
+				document.querySelector( 'pratilipi-user' ).logIn( true, "${ _strings.user_login_to_view_notifications }" );
+			},
+
+			openNotificationSettings: function() {
+				if( this.guestUser ) {
+					this._login();
+					return;
+				}
+				this.querySelector( "pratilipi-notification-settings" ).open();
+			},
+
+			attached: function() {
+				if( this.guestUser ) {
+					this._login();
+					return;
+				}
+				var action = getUrlParameter( "action" );
+				if( action == "settings" ) {
+					this.openNotificationSettings();
+					return;
+				}
+			},
+
+			scrollHandler: function( st ) {
+				if( st > this.lastScrollTop || st < 100 )
+					jQuery( '#scrollToTop' ).fadeOut();
+				else
+					jQuery( '#scrollToTop' ).fadeIn();
+				this.lastScrollTop = st;
+			}
+
+		});
+	</script>
+
+</dom-module>

@@ -1,0 +1,88 @@
+<#assign cookie_show_banner = "USER_NOTIFIED_APP_LAUNCHED">
+<dom-module id="pratilipi-android-launch-test-gujarati">
+	<style>
+		@media only screen and (min-width: 991px) {
+			.android-alert {
+				display: none !important;
+			}
+		}	
+	</style>
+	<template>
+	    <div style="display: none;background-color: white;padding: 10px;box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);" id="androidAlert" class="alert alert-dismissible fade in android-banner" role="alert">
+				<button style="outline: none; top:0;right: 0px; opacity: 1;" type="button" class="close pull-right" data-dismiss="alert" aria-label="Close" onclick="androidBannerCrossed();" on-click="hide">
+					<iron-icon icon="icons:close"></iron-icon> 
+				</button>
+	      <div style="display: flex">
+	        <img style="width: 44px; height: 44px; align-self: center;" onclick="androidBannerClicked(); window.open( 'https://play.google.com/store/apps/details?id=com.pratilipi.mobile.android&referrer=utm_source%3Dpratilipi_main_web%26utm_medium%3Dweb_bottom_strip%26utm_campaign%3Dapp_download' );" src="http://public.pratilipi.com/pratilipi-logo/png/Logo-2C-RGB-80px.png"/>
+	        <div class="">
+	          <h4 style="margin-top: 5px;margin-bottom: 0;font-size: 20px;" onclick="androidBannerClicked(); window.open( 'https://play.google.com/store/apps/details?id=com.pratilipi.mobile.android&referrer=utm_source%3Dpratilipi_main_web%26utm_medium%3Dweb_bottom_strip%26utm_campaign%3Dapp_download' );">પ્રતિલિપિ એંડ્રોઇડ એપ્લિકેશન</h4>
+	          <img style="width: 90px;height: 18px;"  src="http://public.pratilipi.com/images/Stars-for-App-Install-Strip.png" alt="">
+	        </div>
+	      </div>
+	      <h5 style="color: rgba(0, 0, 0, 0.541);font-size: 16px;">ઈન્ટરનેટ વિના પણ મનપસંદ વાર્તાઓ વાંચો</h5>
+          <button type="button" name="button" class="pratilipi-light-blue-button" style="width: 100%;font-size: 16px;border: 0;background: #00a651;color: white;text-shadow: none;" onclick="androidBannerClicked(); window.open( 'https://play.google.com/store/apps/details?id=com.pratilipi.mobile.android&referrer=utm_source%3Dpratilipi_main_web%26utm_medium%3Dweb_bottom_strip%26utm_campaign%3Dapp_download' );">ડાઉનલોડ કરો</button>
+	    </div>  		
+	</template>
+	<script>
+	Polymer({
+
+		is: 'pratilipi-android-launch-test-gujarati',
+		
+		behaviors: [		
+			Polymer.IronResizableBehavior		
+		],
+		
+		listeners: {
+			'iron-resize': '_onIronResize'
+		},
+
+		created: function() {
+			this._onIronResize();
+		},
+
+		ready: function() {
+		  	var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+		  	var windowsize = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+			var showBanner = getCookie( "${ cookie_show_banner }" ) == null || getCookie( "${ cookie_show_banner }" ) == "true";
+			if( showBanner && isAndroid() ) {
+				$( this.querySelector( '#androidAlert' ) ).css( "display", "block" );
+				ga( 'send', 'event', 'app_download_strip', 'app_strip_show', 'android_app_download' );
+			}
+		},
+
+		_onIronResize: function() {
+			var windowsize = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+			<#--
+			var elem = document.getElementById( "androidLaunchBottom" );
+			if( windowsize > 991 ) {
+				$( elem ).css( "padding-top", 0 );
+			} else {
+				if( $( this.querySelector( '#androidAlert' ) ).css( "display" ) == "none" )
+					$( elem ).css( "padding-top", 0 );
+				else
+					$( elem ).css( "padding-top", $( this.querySelector( '#androidAlert' ) ).height() + 8 );
+			}
+			-->
+			
+
+
+			var mainDiv = document.getElementsByTagName( "main" );
+			var androidSubscribeAlert = $( this.querySelector( '#androidAlert' ) );
+			var button = $( this.querySelector( '#androidAlert button' ) );
+			
+
+			if( $( androidSubscribeAlert ).css( "display" ) == "none" )
+				$( mainDiv ).css( "padding-top", 0 );
+			else
+				$( mainDiv ).css( "padding-top", $( androidSubscribeAlert ).outerHeight() + 4 );
+			
+		},
+
+		hide: function() {
+			$( this.querySelector( '#androidAlert' ) ).css( "display", "none" );
+			this._onIronResize();
+		}
+
+	});
+	</script>
+</dom-module>

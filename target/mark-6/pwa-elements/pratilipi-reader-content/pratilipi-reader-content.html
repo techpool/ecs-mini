@@ -1,0 +1,67 @@
+<div class="pratilipi-reader-content">
+	<span data-bind="visible: isLoading()" class="initial-data-loading-spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></span>
+	<div data-bind="visible: !isLoading()">
+		<div class="content js-content"
+		     data-bind="{ html: content(),
+		                   css: readerContentClassObserver() }"></div>
+		<div data-bind="visible: chapterNo() != chapterCount()" class="next-chapter-container">
+			<div class="next-chapter clickable-element" data-bind="click: goToNextChapter">${ _strings.reader_next_chapter }</div>
+		</div>
+		<div data-bind="visible: chapterNo() == chapterCount()" class="last-page-review-container">
+			<div class="social-icons-holder">
+				<div class="sprites-icon facebook-icon clickable-element" data-bind="click: shareOnFacebook"></div>
+				<div class="sprites-icon twitter-icon clickable-element" data-bind="click: shareOnTwitter"></div>
+				<div class="sprites-icon google-plus-icon clickable-element" data-bind="click: shareOnGplus"></div>
+				<div class="sprites-icon whatsapp-icon clickable-element" data-bind="visible: isMobile(), click: shareOnWhatsapp"></div>
+			</div>
+			<div class="user-image-container">
+				<hr/>
+				<img data-bind="visible: ! appViewModel.user.isGuest(), attr: { src: getImageUrl( appViewModel.user.profileImageUrl(), 48 ) }" />
+				<i onclick="goToLoginPage()" class="material-icons clickable-element" data-bind="visible: appViewModel.user.isGuest()">account_circle</i>
+			</div>
+			<div class="rating-input-container">
+				<div class="material-title">${ _strings.rating_your_rating }</div>
+				<pratilipi-rating-input params="{ rating: ratingInput }" data-bind="click: openReviewModal"></pratilipi-rating-input>
+			</div>
+			<!-- ko if: pratilipi.state() == 'PUBLISHED' -->
+				<!-- ko component: {
+					name: "pratilipi-recommendation-carousel",
+					params: { pratilipiId: pratilipi.pratilipiId, context: 'readPage' }
+				} -->
+				<!-- /ko -->
+			<!-- /ko -->
+		</div>
+	</div>
+</div>
+
+
+
+<#-- Add Review Modal -->
+<div class="modal common-modal fade" id="pratilipi-reader-review-input-dialog" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button data-bind="click: closeReviewModal" class="mdl-button mdl-js-button mdl-button--icon close">
+					<i class="material-icons">close</i>
+				</button>
+				<h6 class="modal-title">${ _strings.pratilipi_rate_and_review }</h6>
+			</div>
+			<div class="modal-body">
+				<pratilipi-rating-input style="color: rgba(0,0,0,0.54);" params="{ rating: ratingInput }"></pratilipi-rating-input>
+				<textarea data-bind="{ mdlFloatingInput: { label: '${ _strings.review_write_a_review }', value: reviewInput, id: 'pratilipi_reader_review_list_review_input' }, valueUpdate: ['input'], transliterate: true }" rows= "3"></textarea>
+			</div>
+			<div class="modal-footer">
+				<button onclick="ga_CA( 'Review', 'Cancel Rating' )"
+				        data-bind="click: closeReviewModal"
+				        class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button-margin">
+					${ _strings.cancel }
+				</button>
+				<button onclick="ga_CA( 'Review', 'Add Rating' )"
+				        data-bind="click: submitReview, enable: canSubmitReview"
+				        class="mdl-button mdl-js-button mdl-button--colored mdl-js-ripple-effect mdl-button--raised">
+					${ _strings.review_submit_review }
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,11 @@
+<div data-bind="visible: ! initialDataLoaded()" class="mdl-cell mdl-cell--8-col-tablet mdl-cell--9-col mdl-card-border mobile-card">
+	<!-- ko component: "pratilipi-loading-state" --><!-- /ko -->
+</div>
+
+<div class="pratilipi-blog-post-page" data-bind="visible: initialDataLoaded()" style="flex-grow: 1; width: 100%;">
+	<div class="mdl-card mdl-card-border mdl-cell mdl-cell--8-col-tablet mdl-cell--9-col mobile-card">
+		<div class="material-heading blog-post-title" data-bind="text: blogPost.title()"></div>
+		<div class="material-body-2 pratilipi-red blog-post-date" data-bind="text: convertDate( blogPost.creationDateMillis() )"></div>
+		<div class="material-subtitle-1 blog-post-content" data-bind="html: blogPost.content()"></div>
+	</div>
+</div>

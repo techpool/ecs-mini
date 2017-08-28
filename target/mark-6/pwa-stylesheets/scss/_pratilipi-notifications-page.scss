@@ -1,0 +1,13 @@
+.pratilipi-notifications-page {
+	width: 100%;
+	min-height: initial;
+	.notifications-header {
+		border-bottom: 1px solid lightgrey;
+		padding: 16px;
+		.notification-heading {
+			margin: 0;
+			color: #000;
+			line-height: 32px;
+		}
+	}
+}

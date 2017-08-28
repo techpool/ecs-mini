@@ -1,0 +1,218 @@
+<dom-module id="pratilipi-author-published-contents">
+	<style>
+		:host {
+			display: block;
+			margin-top: 6px;
+		}
+		.secondary-500 {
+			padding: 12px 8px;
+		}
+		.works-number {
+			font-size: 14px;
+		}
+		h6 {
+			font-weight: 700;
+		}
+		hr {
+			margin-top: 0.8em;
+			margin-bottom: 1.2em;
+			border: 0;
+			border-top: 2px solid #eee;
+		}
+		.more-button {
+			margin-top: 16px;
+			background: #F1F8FB;
+			padding: 18px;
+			text-align: center;
+			color: #0C68BD;
+			cursor: pointer;
+			font-size: 14px;
+			font-weight: 700;
+			line-height: 14px;
+			text-shadow: 0px 1px 2px #FFFFFF;
+		}
+		paper-spinner {
+			margin: 16px auto;
+			display: block;
+			--paper-spinner-layer-1-color: #D0021B;
+			--paper-spinner-layer-2-color: #107FE5;
+			--paper-spinner-layer-3-color: #D0021B;
+			--paper-spinner-layer-4-color: #107FE5;
+		}
+		.author-no-works {
+			text-align: center;
+			padding: 16px;
+			display: none;
+		}
+		.author-no-works iron-icon {
+			margin: 16px auto;
+			width: 46px;
+			height: 46px;
+		}
+		.author-no-works h6 {
+			font-weight: 500;
+			line-height: 24px;
+			font-size: 15px;
+		}
+
+		/* Bootstrap overrides */
+		.row {
+			margin-left: -8px;
+			margin-right: -8px;
+		}
+		.col-xs-4, .col-sm-3, .col-md-3, .col-lg-3 {
+			padding-left: 8px;
+			padding-right: 8px;
+		}
+	</style>
+	<template>
+		<div class="secondary-500 pratilipi-shadow">
+			<h6 class="text-center pratilipi-red">
+				प्रकाशित साहित्य
+			</h6>
+			<div class="works-number text-center">{{ numberFound }} प्रकाशित साहित्य</div>
+			<hr/>
+			<div class="row text-center">
+				<template is="dom-repeat" items="{{ pratilipiList }}" as="pratilipi">
+					<div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+						<pratilipi-card-mini show-edit-option state="PUBLISHED" pratilipi="{{ pratilipi }}"></pratilipi-card-mini>
+					</div>
+				</template>
+			</div>
+			<template is="dom-if" if="{{ isLoading }}">
+				<paper-spinner active></paper-spinner>
+			</template>
+			<template is="dom-if" if="{{ showMore }}">
+				<div class="more-button" on-click="loadMore" onclick="ga_CA( 'Pratilipi', 'LoadMore' )">अधिक पहा...</div>
+			</template>
+				
+			<div class="author-no-works">
+				<iron-icon icon="icons:info-outline"></iron-icon>
+				<h6>साहित्यकारांच्या अकाउंटमध्ये अजूनपर्यंत प्रकाशन कार्य चालू झाले नाही त्याबद्दल आम्ही क्षमस्व आहोत.</h6>
+			</div>
+		</div>
+		<iron-ajax
+				id="PratilipiListApi"
+				url="/api/pratilipi/list"
+				params='{"_apiVer": "2"}'
+				method="GET"
+				content-type="application/json"
+				handle-as="json"
+				on-response="_pratilipiListApiResponse"
+				on-error="_pratilipiListApiError"
+				></iron-ajax>
+	</template>
+
+	<script>
+		Polymer({
+
+			is: 'pratilipi-author-published-contents',
+
+			properties: {
+				author: { type: Object, observer: "_authorObserver" },
+
+				pratilipiList: { type: Array, value: function() { return []; } },
+				cursor: { type: String, value: null },
+				resultCount: { type: Number, value: 12 },
+				numberFound: { type: Number, observer: "_numberFoundObserver" },
+				showMore: { type: Boolean, value: false }
+			},
+
+			_authorObserver: function() {
+				/* Called before first rendering */
+				if( this.pratilipiListObject == null ) return;
+				/* Executed whenever author changes */
+				this.set( 'pratilipiList', [] );
+				this.set( 'cursor', null );
+				this.loadMore();
+			},
+			
+			_numberFoundObserver: function() {
+				jQuery( this ).css( 'display', this.author.hasAccessToUpdate && this.numberFound == 0 ? 'none' : 'block' );
+				jQuery( this.querySelector( '.works-number' ) ).css( 'display', this.numberFound > 0 ? 'block' : 'none' );
+				jQuery( this.querySelector( '.author-no-works' ) ).css( 'display', this.numberFound > 0 ? 'none' : 'block' );
+			},
+
+			getPratilipiById: function( pratilipiId ) {
+				if( pratilipiId == null ) return null;
+				var pratilipi = null;
+				for( var i = 0; i < this.pratilipiList.length; i++ ) {
+					if( pratilipiId == this.pratilipiList[i].pratilipiId ) {
+						pratilipi = this.pratilipiList[i];
+						break;
+					}
+				}
+				return pratilipi;
+			},
+
+			removeFromPratilipiList: function( pratilipiId ) {
+				var index = -1;
+				for( var i = 0; i < this.pratilipiList.length; i++ ) {
+					if( pratilipiId == this.pratilipiList[i].pratilipiId ) {
+						index = i;
+						break;
+					}
+				}
+				
+				if( index != -1 ) {
+					this.splice( 'pratilipiList', index, 1 );
+					this.set( 'numberFound', this.numberFound - 1 );
+				}
+
+			},
+			
+			addToPratilipiList: function( pratilipi ) {
+				this.unshift( 'pratilipiList', pratilipi );
+				this.set( 'numberFound', this.numberFound + 1 );
+			},
+			
+			processPratilipiListObject: function( pratilipiListObject ) {
+				var pratilipiList = pratilipiListObject.pratilipiList;
+				for( var i = 0; i < pratilipiList.length; i++ )
+					this.push( 'pratilipiList', pratilipiList[i] );
+				this.set( 'cursor', pratilipiListObject.cursor != null ? pratilipiListObject.cursor : null );
+				this.set( 'numberFound', pratilipiListObject.numberFound != null ? pratilipiListObject.numberFound : 0 );
+				this.set( 'showMore', pratilipiList.length == this.resultCount && this.pratilipiList.length < this.numberFound );
+			},
+			
+			ready: function() {
+				this.loadMore();
+			},
+
+			loadMore: function() {
+				this.set( 'isLoading', true );
+				this.set( 'showMore', false );
+				this.$.PratilipiListApi.params.authorId = this.author.authorId;
+				this.$.PratilipiListApi.params.state = "PUBLISHED";
+				this.$.PratilipiListApi.params.resultCount = this.resultCount;
+				if( this.cursor != null )
+					this.$.PratilipiListApi.params.cursor = this.cursor;
+				else
+					delete this.$.PratilipiListApi.params.cursor;
+				this.$.PratilipiListApi.generateRequest();
+			},
+
+			_pratilipiListApiResponse: function( response ) {
+				this.set( 'isLoading', false );
+				this.processPratilipiListObject( response.detail.response );
+			},
+
+			_pratilipiListApiError: function( response ) {
+				this.set( 'isLoading', false );
+				this.set( 'showMore', true );
+				var message = response.detail.request.xhr.response.message != null ? 
+						response.detail.request.xhr.response.message : "तांत्रिक अडचण आढळली आहे, कृपया पुन्हा प्रयत्न करा!";
+				document.querySelector( 'pratilipi-alert' ).alert( message, false );
+			},
+
+			moveContentToDrafts: function( pratilipiId ) {
+				this.domHost.moveContentToDrafts( pratilipiId );
+			},
+
+			deleteContent: function( pratilipiId ) {
+				this.domHost.deleteContent( pratilipiId );
+			},
+			
+		});
+	</script>
+</dom-module>

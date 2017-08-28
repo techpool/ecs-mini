@@ -1,0 +1,1099 @@
+<dom-module id="pratilipi-author-list">
+
+	<style>
+		
+		:host {
+			display: block;
+		}
+		
+		paper-spinner.pratilipi-spinner {
+			--paper-spinner-layer-1-color: #D0021B;
+			--paper-spinner-layer-2-color: #107FE5;
+			--paper-spinner-layer-3-color: #D0021B;
+			--paper-spinner-layer-4-color: #107FE5;
+		}
+		
+		a, a:hover, a:focus {
+			color: inherit;
+		}
+		
+		.col-lg-2 {
+			margin-top: 30px;
+		}
+		
+	</style>
+
+	<template>
+		<div class="parent-container">
+			<paper-card class="container custom-style" style="margin-bottom: 5px;">
+				<div class="row">
+					<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+						<paper-input type="search" label="Search Authors" value="{{ searchQuery::input }}" on-keyup="searchForAuthor">
+							<iron-icon icon="icons:search" prefix></iron-icon>
+							<iron-icon style="cursor: pointer;" icon="icons:close" suffix on-click="clearSearchQuery"></iron-icon>
+						</paper-input>
+					</div>
+					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center">
+						<a class="link" on-click="_orderByContentPublished">
+							Content Published
+							<iron-icon icon="{{ orderByContentPublishedIcon }}"></iron-icon>
+						</a>
+					</div>
+					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center">
+						<a class="link" on-click="_orderByRegistrationDate">
+							Date Added
+							<iron-icon icon="{{ orderByRegistrationDateIcon }}"></iron-icon>
+						</a>
+					</div>
+					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center">
+						<a class="link" on-click="_orderByReadCount">
+							Read Count
+							<iron-icon icon="{{ orderByReadCountIcon }}"></iron-icon>
+						</a>
+					</div>
+					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 text-center">
+						<a class="link" on-click="_orderByLastUpdated">
+							Last Updated
+							<iron-icon icon="{{ orderByLastUpdatedIcon }}"></iron-icon>
+						</a>
+					</div>
+				</div>
+			</paper-card>
+			<template is="dom-repeat" id="repeatAuthorList" items="{{ modifiedAuthorList }}">
+				<pratilipi-author-snippet author="{{ item }}"></pratilipi-author-snippet>
+			</template>
+			<br class="pratilipi-break"/>
+			<template is="dom-if" if="{{ isLoading }}">
+				<div class="container"><paper-spinner class="pratilipi-spinner pratilipi-spinner-center" active></paper-spinner></div>
+			</template>
+			<template is="dom-if" if="{{ includeShowMoreButton }}">
+				<button class="container pratilipi-new-blue-button" on-click="loadMore">Load more Authors</button>
+			</template>
+			<pratilipi-create-user></pratilipi-create-user>
+			<pratilipi-edit-author></pratilipi-edit-author>
+		</div>
+		
+		<paper-icon-button	class="pratilipi-blue" 
+							style="position: fixed; top: 90px; right: 30px; width: 64px; height: 64px;" 
+							on-click="createAuthor" 
+							icon="icons:add-circle"></paper-icon-button>
+			
+		<dom-module id="pratilipi-author-snippet">
+			<style>
+				paper-card.custom-style {
+					display: block;
+					background: #FFF;
+					border-bottom: 1px solid #DDD;
+					padding: 16px 22px;
+					-webkit-font-smoothing: antialiased;
+					box-sizing: border-box;
+					will-change: transform;
+					transform: translate3d(0px, 0px, 0px);
+				}
+				.center {
+					text-align: center;
+					margin: 0 auto;
+				}
+				th {
+					width: 200px;
+				}
+			</style>
+			<template>
+				<paper-card class="container custom-style">
+					<div class="row">
+						<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 center">
+							<a href="[[ author.pageUrl ]]">{{ author.sno }}. {{ author.displayName }}</a>
+							<div style="width: 125px; height: 125px; margin: 10px auto;" class="center">
+								<a href="[[ author.pageUrl ]]">
+									<iron-image class="img-circle pratilipi-shadow" 
+										style="background-color: #f5f5f5"
+										height="125" width="125" 
+										fade preload
+										sizing="cover" 
+										src="{{ author.imageUrl }}" 
+										alt="{{ author.fullName }}" 
+										title="{{ author.fullNameEn }}"></iron-image>
+								</a>
+							</div>
+							<span class="text-center text-muted">AuthorId: {{ author.authorId }}</span>
+							<br/>
+							<template is="dom-if" if="{{ author.user }}">
+								<span class="text-center text-muted">UserId: {{ author.user.userId }}</span>
+							</template>
+						</div>
+						<div class="col-xs-12 col-sm-6 col-md-8 col-lg-9">
+							<table style="margin-top: 15px;" class="table table-striped table-bordered table-hover">
+								<tr><th>Full Name</th><td>{{ author.fullName }}</td></tr>
+								<tr><th>Full Name English</th><td>{{ author.fullNameEn }}</td></tr>
+								<tr><th>Email</th><td>{{ author.user.email }}</td></tr>
+								<tr><th>Content Published</th><td>{{ author.contentPublished }}</td></tr>
+								<tr><th>Registered On</th><td>{{ author.registrationDateMillis }}</td></tr>
+							</table>
+							<a class="link" on-click="editAuthor">Edit Author Info</a>
+							&nbsp;|&nbsp;
+							<template is="dom-if" if="{{ author.user }}">
+								<a class="link" on-click="editUser">Edit Email and phone</a>
+							</template>
+							<template is="dom-if" if="{{ !author.user }}">
+								<span>This author doesn't have a user profile!</span>
+							</template>
+						</div>
+					</div>
+				</paper-card>
+				<iron-ajax
+					id="AjaxGet"
+					url="/api/author"
+					method="GET"
+					content-type="application/json"
+					handle-as="json"
+					on-response="_handleAjaxGetResponse"
+					></iron-ajax>
+			</template>
+			<script>
+			Polymer({
+				is: 'pratilipi-author-snippet',
+				properties: {
+					author: { type: Object, notify: true }
+				},
+				editAuthor: function() {
+					var ajaxGet = this.$.AjaxGet;
+					ajaxGet.params.authorId = this.author.authorId;
+					ajaxGet.generateRequest();
+				},
+				editUser: function() {
+					document.querySelector( 'pratilipi-create-user' ).createOrEditUser( this.author );
+				},
+				_handleAjaxGetResponse: function( event ) {
+					document.querySelector( 'pratilipi-edit-author' ).createOrEditAuthor( event.detail.response );
+				}
+			});
+			</script>
+		</dom-module>
+
+		<iron-ajax
+				id="AjaxGet"
+				url="/api/author/list"
+				method="GET"
+				params="[[ filter ]]"
+				content-type="application/json"
+				handle-as="json"
+				on-response="_handleAjaxGetResponse"
+				on-error="_handleAjaxGetError"
+				></iron-ajax>
+	</template>
+		
+
+	<script>
+		Polymer({
+
+			is: 'pratilipi-author-list',
+
+			properties: {
+				authorList: { type: Array },
+				modifiedAuthorList: { type: Array, value: [] },
+				filter: { type: Object },
+				searchQuery: { type: Object },
+				cursor: { type: String },
+				isLoading: { type: Boolean, value: false },
+				isFinished: { type: Boolean, value: false },
+				sno: { type: Number, value: 1 },
+				includeShowMoreButton: { type: Boolean, value: false },
+
+
+				// Boolean values
+				orderByContentPublished: { type: Boolean, value: null, observer: "_orderByContentPublishedObserver" },
+				orderByRegistrationDate: { type: Boolean, value: null, observer: "_orderByRegistrationDateObserver" },
+				orderByReadCount: { type: Boolean, value: null, observer: "_orderByReadCountObserver" },
+				orderByLastUpdated: { type: Boolean, value: null, observer: "_orderByLastUpdatedObserver" }
+			},
+
+			_orderByContentPublishedObserver: function() {
+				if( this.orderByContentPublished == null ) {
+					this.set( 'orderByContentPublishedIcon', "hidden" );
+					delete this.$.AjaxGet.params[ "orderByContentPublished" ];
+
+				} else if( this.orderByContentPublished ) {
+					this.set( 'orderByContentPublishedIcon', "hardware:keyboard-arrow-down" );
+					this.$.AjaxGet.params.orderByContentPublished = true;
+
+				} else {
+					this.set( 'orderByContentPublishedIcon', "hardware:keyboard-arrow-up" );
+					this.$.AjaxGet.params.orderByContentPublished = false;
+
+				} 
+			},
+
+			_orderByRegistrationDateObserver: function() {
+				if( this.orderByRegistrationDate == null ) {
+					this.set( 'orderByRegistrationDateIcon', "hidden" );
+					delete this.$.AjaxGet.params[ "orderByRegistrationDate" ];
+
+				} else if( this.orderByRegistrationDate ) {
+					this.set( 'orderByRegistrationDateIcon', "hardware:keyboard-arrow-down" );
+					this.$.AjaxGet.params.orderByRegistrationDate = true;
+
+				} else {
+					this.set( 'orderByRegistrationDateIcon', "hardware:keyboard-arrow-up" );
+					this.$.AjaxGet.params.orderByRegistrationDate = false;
+
+				}
+			},
+
+			_orderByReadCountObserver: function() {
+				if( this.orderByReadCount == null ) {
+					this.set( 'orderByReadCountIcon', "hidden" );
+					delete this.$.AjaxGet.params[ "orderByReadCount" ];
+
+				} else if( this.orderByReadCount ) {
+					this.set( 'orderByReadCountIcon', "hardware:keyboard-arrow-down" );
+					this.$.AjaxGet.params.orderByReadCount = true;
+
+				} else {
+					this.set( 'orderByReadCountIcon', "hardware:keyboard-arrow-up" );
+					this.$.AjaxGet.params.orderByReadCount = false;
+
+				}
+			},
+
+			_orderByLastUpdatedObserver: function() {
+				if( this.orderByLastUpdated == null ) {
+					this.set( 'orderByLastUpdatedIcon', "hidden" );
+					delete this.$.AjaxGet.params[ "orderByLastUpdated" ];
+
+				} else if( this.orderByLastUpdated ) {
+					this.set( 'orderByLastUpdatedIcon', "hardware:keyboard-arrow-down" );
+					this.$.AjaxGet.params.orderByLastUpdated = true;
+
+				} else {
+					this.set( 'orderByLastUpdatedIcon', "hardware:keyboard-arrow-up" );
+					this.$.AjaxGet.params.orderByLastUpdated = false;
+
+				}
+			},
+			
+			_clearAllFlags: function( exception ) {
+				if( exception != null && exception != "orderByContentPublished" )
+					this.set( 'orderByContentPublished', null );
+				if( exception != null && exception != "orderByRegistrationDate" )
+					this.set( 'orderByRegistrationDate', null );
+				if( exception != null && exception != "orderByReadCount" )
+					this.set( 'orderByReadCount', null );
+				if( exception != null && exception != "orderByLastUpdated" )
+					this.set( 'orderByLastUpdated', null );
+			},
+			
+			_orderByContentPublished: function() {
+				this._clearAllFlags( "orderByContentPublished" );
+				if( this.orderByContentPublished != null && this.orderByContentPublished ) {
+					this.set( 'orderByContentPublished', false );
+				} else if( this.orderByContentPublished != null && !this.orderByContentPublished ) {
+					this.set( 'orderByContentPublished', null );
+				} else {
+					this.set( 'orderByContentPublished', true );
+				}
+				this.loadMore( true );
+			},
+			
+			_orderByRegistrationDate: function() {
+				this._clearAllFlags( "orderByRegistrationDate" );
+				if( this.orderByRegistrationDate != null && this.orderByRegistrationDate ) {
+					this.set( 'orderByRegistrationDate', false );
+				} else if( this.orderByRegistrationDate != null && !this.orderByRegistrationDate ) {
+					this.set( 'orderByRegistrationDate', null );
+				} else {
+					this.set( 'orderByRegistrationDate', true );
+				}
+				this.loadMore( true );
+			},
+			
+			_orderByReadCount: function() {
+				this._clearAllFlags( "orderByReadCount" );
+				if( this.orderByReadCount != null && this.orderByReadCount ) {
+					this.set( 'orderByReadCount', false );
+				} else if( this.orderByReadCount != null && !this.orderByReadCount ) {
+					this.set( 'orderByReadCount', null );
+				} else {
+					this.set( 'orderByReadCount', true );
+				}
+				this.loadMore( true );
+			},
+			
+			_orderByLastUpdated: function() {
+				this._clearAllFlags( "orderByLastUpdated" );
+				if( this.orderByLastUpdated != null && this.orderByLastUpdated ) {
+					this.set( 'orderByLastUpdated', false );
+				} else if( this.orderByLastUpdated != null && !this.orderByLastUpdated ) {
+					this.set( 'orderByLastUpdated', null );
+				} else {
+					this.set( 'orderByLastUpdated', true );
+				}
+				this.loadMore( true );
+			},
+			
+			clearAuthorList: function() {
+				this.set( 'modifiedAuthorList', [] );
+				this.sno = 1;
+				this.cursor="";
+				this.isLoading = false;
+				this.isFinished = false;
+				this.includeShowMoreButton = false;
+			},
+			
+			clearSearchQuery: function() {
+				if( this.searchQuery.trim() == "" )
+					return;
+				this.set( 'searchQuery', "" );
+				this._searchForAuthor();
+			},
+			
+			searchForAuthor: function( event ) {
+				if( event.keyCode != null && event.keyCode != 0 && event.keyCode != 13 )
+					return;
+				this._searchForAuthor();
+			},
+			
+			_searchForAuthor: function() {
+				// Spinner Active and disable show more button and set flags.
+				this.clearAuthorList();
+				
+				var ajaxGet = this.$.AjaxGet;
+				if( ajaxGet.lastRequest )
+					ajaxGet.lastRequest.abort();
+				
+				// Set params and make ajax GET call. Filters already set when element initialised.
+				this._clearAllFlags();
+				this.isLoading = true;
+				if( this.searchQuery != null && this.searchQuery != "" )
+					ajaxGet.params.searchQuery = this.searchQuery;
+				else
+					delete ajaxGet.params.searchQuery;
+				if( this.cursor != null && this.cursor.trim() != "" )
+					ajaxGet.params.cursor = this.cursor;
+				else
+					delete ajaxGet.params.cursor;
+				ajaxGet.generateRequest();
+			},
+			
+			createAuthor: function() {
+				this.querySelector( 'pratilipi-create-user' ).createOrEditUser();
+			},
+			
+			process: function( authorList ) {
+				for( var i = 0; i < authorList.length; i++ ) {
+					authorList[i][ "sno" ] = this.sno++;
+					
+					
+					if( authorList[i][ "imageUrl" ].indexOf( '?' ) == -1 )
+						authorList[i][ "imageUrl" ] = authorList[i][ "imageUrl" ] + "?" + "width=125";
+					else
+						authorList[i][ "imageUrl" ] = authorList[i][ "imageUrl" ] + "&" + "width=125";
+					
+					if( authorList[i][ "fullName" ] != null )
+						authorList[i][ "displayName" ] = authorList[i][ "fullName" ];
+					else if( authorList[i][ "fullNameEn" ] != null )
+						authorList[i][ "displayName" ] = authorList[i][ "fullNameEn" ];
+					else
+						authorList[i][ "displayName" ] = "Name Not Available!";
+
+					if( authorList[i][ "contentPublished" ] == null )
+						authorList[i][ "contentPublished" ] = 0;
+					
+					authorList[i][ "registrationDateMillis" ] = convertDate( authorList[i][ "registrationDateMillis" ] );
+						
+					this.push( 'modifiedAuthorList', authorList[i] );
+				}
+			},
+			
+			attached: function() {
+				this.process( this.authorList );
+				if( this.authorList.length < 20 || this.cursor.trim() == "" )
+					this.isFinished = true;
+			},
+			
+			loadMore: function( clearList ) {
+
+				if( clearList )
+					this.clearAuthorList();
+				
+				if( !this.isLoading && !this.isFinished )
+					this.includeShowMoreButton = true;
+				
+				// Return if there is an active call or cursor = null.
+				if( this.isLoading || this.isFinished || this.cursor == null )
+					return;
+				
+				// Check for window height.
+				var reqHeight = jQuery( window ).scrollTop()
+						- jQuery( this ).position().top
+						+ jQuery( window ).height()
+						+ 3 * jQuery( window ).height();
+
+				if( jQuery( this ).outerHeight( true ) >= reqHeight && this.cursor != "" )
+					return;
+				
+				
+				// Spinner Active and disable show more button.
+				this.isLoading = true;
+				this.includeShowMoreButton = false;
+				
+				// Set params and make ajax GET call. Filters already set when element initialised.
+				var ajaxGet = this.$.AjaxGet;
+				if( this.cursor != null && this.cursor.trim() != "" )
+					ajaxGet.params.cursor = this.cursor;
+				else
+					delete ajaxGet.params.cursor;
+				ajaxGet.generateRequest();
+			},
+			
+			_handleAjaxGetResponse: function( event ) {
+				// Disable spinner
+				this.isLoading = false;
+				
+				// Call didn't succeed.
+				if( ! event.detail.response )
+					return;
+				
+				var authorList = event.detail.response.authorList;
+				this.process( authorList );
+
+				if( event.detail.response.cursor == null || authorList.length < 20 ) {
+					this.includeShowMoreButton = false;
+					this.isFinished = true;
+				}
+				else
+					this.cursor = event.detail.response.cursor;
+			},
+			
+			_handleAjaxGetError: function( event ) {
+				this.isLoading = false;
+				this.includeShowMoreButton = true;
+			}
+			
+		});
+	</script>
+
+</dom-module><dom-module id="pratilipi-edit-author">
+	
+	<style>
+	
+		:host {
+			display: block;
+		}
+		
+		textarea {
+			display: block;
+			width: 100%;
+		}
+		
+		paper-dropdown-menu {
+			width: 100%;
+			--paper-dropdown-menu-focus-color: #107FE5;
+			--paper-dropdown-menu-input-color: #333;
+			--paper-input-container-input: {
+				font-family: inherit;
+			};
+			--paper-input-container-underline: {
+				background: #107FE5;
+			};
+			--paper-input-container-label: {
+				font-size: 15px;
+				font-family: inherit;
+				text-align: left;
+				color: #107FE5;
+			};
+		}
+		
+		paper-menu {
+			--paper-menu-color: #333;
+			width: 100%;
+			--paper-menu-focused-item: {
+				color: #107FE5;
+			};
+		}
+		
+		paper-menu paper-item {
+			font-size: 15px;
+			font-family: inherit;
+			color: #333;
+			white-space: nowrap;
+		}
+		
+		.row {padding-left: 10px;padding-right: 10px;}
+		.modal-fullscreen .modal-dialog .modal-content {max-width: 768px;padding-top:5px;}
+	</style>
+	
+	<template>
+		<div class="modal modal-fullscreen fade" id="pratilipiEditAuthor" role="dialog" tabindex="-1">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+				
+					<div class="modal-fullscreen-close-button">
+						<paper-icon-button noink icon="close" data-dismiss="modal"></paper-icon-button>
+					</div>
+					<img title="ಪ್ರತಿಲಿಪಿ" alt="ಪ್ರತಿಲಿಪಿ" src="http://public.pratilipi.com/pratilipi-logo/png/Logo-2C-RGB-80px.png" />
+					<h6 class="modal-fullscreen-heading">{{ modalTitle }}</h6>
+					
+					<div class="row">
+						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+							<pratilipi-input label="ಮೊದಲ ಹೆಸರು (ಕನ್ನಡದಲ್ಲಿ)" value="{{ firstName::input }}"></pratilipi-input>
+						</div>
+						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+							<pratilipi-input label="ಕೊನೆಯ ಹೆಸರು (ಕನ್ನಡದಲ್ಲಿ)" value="{{ lastName::input }}"></pratilipi-input>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+							<pratilipi-input label="ಮೊದಲ ಹೆಸರು (ಆಂಗ್ಲ ಭಾಷೆಯಲ್ಲಿ)" value="{{ firstNameEn::input }}"></pratilipi-input>
+						</div>
+						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+							<pratilipi-input label="ಕೊನೆಯ ಹೆಸರು (ಆಂಗ್ಲ ಭಾಷೆಯಲ್ಲಿ)" value="{{ lastNameEn::input }}"></pratilipi-input>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+							<pratilipi-input label="ಕಾವ್ಯನಾಮ (ಕನ್ನಡದಲ್ಲಿ)" value="{{ penName::input }}"></pratilipi-input>
+						</div>
+						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+							<pratilipi-input label="ಕಾವ್ಯನಾಮ (ಆಂಗ್ಲ ಭಾಷೆಯಲ್ಲಿ)" value="{{ penNameEn::input }}"></pratilipi-input>
+						</div>
+					</div>
+						
+					<div class="row">
+						<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+							<paper-input class="pratilipi-blue" type="date" label="ಜನ್ಮ ದಿನಾಂಕ (ದಿದಿ-ತಿತಿ-ವವವವ)" always-float-label value="{{ dateOfBirth::input }}"></paper-input>
+						</div>
+						<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+							<paper-dropdown-menu id="authorGender" noink label="Gender" value="{{ gender::input }}">
+								<paper-menu noink selected="[[ selectedGender ]]" class="dropdown-content" style="white-space: nowrap; width: auto;">
+									<paper-item value="MALE">ಪುರುಷ</paper-item>
+									<paper-item value="FEMALE">ಮಹಿಳೆ</paper-item>
+									<paper-item value="OTHER">ಇತರೆ</paper-item>
+								</paper-menu>
+							</paper-dropdown-menu>
+						</div>
+						<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+							<paper-dropdown-menu id="authorLanguage" noink label="ಭಾಷೆ ಆಯ್ಕೆ ಮಾಡಿಕೊಳ್ಳಿ">
+								<paper-menu noink selected="[[ selected ]]" class="dropdown-content" style="white-space: nowrap; width: auto;">
+									<paper-item value="BENGALI">ಬೆಂಗಾಲಿ</paper-item>
+									<paper-item value="GUJARATI">ಗುಜರಾತಿ</paper-item>
+									<paper-item value="HINDI">ಹಿಂದಿ</paper-item>
+									<paper-item value="MALAYALAM">ಮಲಯಾಳಂ</paper-item>
+									<paper-item value="MARATHI">ಮರಾಟಿ</paper-item>
+									<paper-item value="TAMIL">ತಮಿಳು</paper-item>
+									<paper-item value="TELUGU">ತೆಲುಗು</paper-item>
+									<paper-item value="KANNADA">ಕನ್ನಡ</paper-item>
+								</paper-menu>
+							</paper-dropdown-menu>
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+							<div style="margin-top: 25px; margin-bottom: 5px; text-align: left;"><span class="pratilipi-blue" style="font-size: 14px;">ಸಾರಾಂಶ (ಐಚ್ಛಿಕ)</span></div>
+							<textarea name="authorSummary" id="authorSummary" rows="10" value="{{ summary::input }}"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="display-message-div"><p>{{ message }}</p></div>
+				<button id="authorEditButton" style="position: fixed; bottom: 15px; right: 15px;" class="pratilipi-dark-blue-button" type="button" on-click="onSubmit">{{ modalButtonText }}</button>
+			</div>
+		</div>
+		<iron-ajax
+				id="AjaxPost"
+				url="/api/author"
+				method="POST"
+				content-type="application/x-www-form-urlencoded"
+				handle-as="json"
+				on-response="_handleAjaxPostResponse"
+				on-error="_handleAjaxPostError"
+				></iron-ajax>
+	</template>
+	
+	<script>
+		Polymer({
+	
+			is: 'pratilipi-edit-author',
+			
+			properties: {
+				// Specific to input fields
+				authorId: { type: String },
+				firstName: { type: String },
+				lastName: { type: String },
+				penName: { type: String },
+				firstNameEn: { type: String },
+				lastNameEn: { type: String },
+				penNameEn: { type: String },
+				gender: { type: String },
+				dateOfBirth: { type: String },
+				language: { type: String },
+				summary: { type: String },
+
+				// Specific to the modal
+				selected: { type: Number },
+				selectedGender: { type: Number },
+ 				message: { type: String }
+			},
+			
+			processDateOfBirth: function( input ) {
+				var datePart = input.match(/\d+/g);
+				
+				if( parseInt( datePart[0] ) < 1800 )
+					return input;
+					
+				var year = datePart[0],
+				month = datePart[1],
+				day = datePart[2];
+
+				return day+'-'+month+'-'+year;
+				
+			},
+			
+			setDateProcess: function( input ) {
+				var date = input.split( "-" );
+				if( date[2] > 1800 )
+					return date[2] + "-" + date[1] + "-" + date[0];
+				return input;
+			},
+			
+			createOrEditAuthor: function( author ) {
+				this.process( author == null ? {} : author );
+				this.open();
+			},
+			
+			process: function( author ) {
+				this.message = null;
+				this.authorId = author.authorId == null ? null : author.authorId;
+				this.firstName = author.firstName == null ? null : author.firstName;
+				this.lastName = author.lastName == null ? null : author.lastName;
+				this.penName = author.penName == null ? null : author.penName;
+				this.firstNameEn = author.firstNameEn == null ? null : author.firstNameEn;
+				this.lastNameEn = author.lastNameEn == null ? null : author.lastNameEn;
+				this.penNameEn = author.penNameEn == null ? null : author.penNameEn;
+				this.gender = author.gender == null ? null : author.gender;
+				this.dateOfBirth = author.dateOfBirth == null ? null : this.setDateProcess( author.dateOfBirth );
+				this.summary = author.summary == null ? "" : author.summary;				
+
+				// paper-dropdown-menu for language
+				this.language = author.language == null ? "KANNADA" : author.language;
+				if( this.language === "BENGALI" )
+					this.selected = 0;
+				else if( this.language === "GUJARATI" )
+					this.selected = 1;
+				else if( this.language === "HINDI" )
+					this.selected = 2;
+				else if( this.language === "MALAYALAM" )
+					this.selected = 3;
+				else if( this.language === "MARATHI" )
+					this.selected = 4;
+				else if( this.language === "TAMIL" )
+					this.selected = 5;
+				else if( this.language === "TELUGU" )
+					this.selected = 6;
+				else if( this.language === "KANNADA" )
+					this.selected = 7;
+				else
+					this.selected = null;
+				
+				// paper-dropdown-menu for language
+				this.gender = author.gender == null ? null : author.gender.toUpperCase();
+				this.selectedGender = null;
+				if( this.gender == "MALE" )
+					this.selectedGender = 0;
+				else if( this.gender == "FEMALE" )
+					this.selectedGender = 1; 
+				else if( this.gender == "OTHER" )
+					this.selectedGender = 2;
+				else
+					this.selectedGender = null;
+				
+				// particular to this model
+				this.modalTitle = this.authorId == null ? "Create new Author" : "ಲೇಖಕರ ಮಾಹಿತಿಯನ್ನು ಎಡಿಟ್ ಮಾಡಿ";
+				this.modalButtonText = this.authorId == null ? "Create" : "ಬದಲಾವಣೆಗಳನ್ನು ಸಂರಕ್ಷಿಸಿ";
+			},
+			
+			open: function() {
+				this.async( function() {
+					jQuery( "#pratilipiEditAuthor" ).modal();
+				});
+			},
+			
+			close: function() {
+				jQuery( "#pratilipiEditAuthor" ).modal( 'hide' );
+			},
+			
+			onSubmit: function( event ) {
+				
+				// For users
+				if( ( this.firstName == null || this.firstName.trim() == "" ) 
+					&& ( this.firstNameEn == null || this.firstNameEn.trim() == "" ) ) {
+					this.message = "Please enter the first name!";
+					return;
+				}
+				
+				this.message = "ಕಾರ್ಯ ನಿರ್ವಹಿಸುತ್ತಿದೆ...";
+				jQuery( '#authorEditButton' ).prop( 'disabled', true );
+				
+				this.language = this.$.authorLanguage.selectedItem.getAttribute( "value" );
+				
+				if( this.$.authorGender.selectedItem )
+					this.gender = this.$.authorGender.selectedItem.getAttribute( "value" );
+				
+				var body = {};
+				
+				if( this.authorId != null )
+					body.authorId = this.authorId;
+				if( this.firstName != null )
+					body.firstName = this.firstName;
+				if( this.lastName != null )
+					body.lastName = this.lastName;
+				if( this.penName != null )
+					body.penName = this.penName;
+				if( this.firstNameEn != null )
+					body.firstNameEn = this.firstNameEn;
+				if( this.lastNameEn != null )
+					body.lastNameEn = this.lastNameEn;
+				if( this.penNameEn != null )
+					body.penNameEn = this.penNameEn;
+				if( this.gender != null )
+					body.gender = this.gender;
+				if( this.dateOfBirth != null )
+					body.dateOfBirth = this.processDateOfBirth( this.dateOfBirth );
+				if( this.language != null )
+					body.language = this.language;
+				if( this.summary != null )
+					body.summary = this.summary;
+				
+				this.$.AjaxPost.body = jQuery.param( body );
+
+				this.$.AjaxPost.generateRequest();
+				ga_CA( 'User', 'SubmitProfile' );
+				
+			},
+			
+			_handleAjaxPostResponse: function( event ) {
+				
+				this.message = "ಯಶಸ್ವಿ!";
+				
+				var author = event.detail.response;
+				
+				if( this.authorId != null ) {
+					// Case : Update from /authors page.
+					if( document.querySelector( 'pratilipi-author' ) != null )
+						document.querySelector( 'pratilipi-author' ).updateAuthor( author );
+					this.async( function() {
+						jQuery( '#authorEditButton' ).prop( 'disabled', false );
+						this.message = null;
+						this.close();
+					}, 1000 );
+				} else {
+					jQuery( '#authorEditButton' ).prop( 'disabled', false );
+					this.message = null;
+					this.close();
+					window.location.href = author.pageUrl;
+				}
+			},
+			
+			_handleAjaxPostError: function( event ) {
+				jQuery( '#authorEditButton' ).prop( 'disabled', false );
+				if( event.detail.request.xhr.status === 400 || event.detail.request.xhr.status === 401 || event.detail.request.xhr.status === 500 )
+					this.message = event.detail.request.xhr.response.message;
+				else
+					this.message = "Some Error occurred! Please try Again."
+			}
+			
+		});
+	</script>
+	
+</dom-module><dom-module id="pratilipi-create-user">
+	
+	<style>
+	
+		:host {
+			display: block;
+		}
+		.modal-fullscreen .modal-dialog .modal-content {max-width: 600px;padding-top:5px;}
+	</style>
+	
+	<template>
+		<div class="modal modal-fullscreen fade" id="pratilipiCreateUser" role="dialog" tabindex="-1">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content" on-keyup="onSubmit">
+				
+					<div class="modal-fullscreen-close-button">
+						<paper-icon-button noink icon="close" data-dismiss="modal"></paper-icon-button>
+					</div>
+					<img title="ಪ್ರತಿಲಿಪಿ" alt="ಪ್ರತಿಲಿಪಿ" src="http://public.pratilipi.com/pratilipi-logo/png/Logo-2C-RGB-80px.png" />
+					<h6 class="modal-fullscreen-heading">{{ modalTitle }}</h6>
+					<div style="height: 2px; background-color: #FFF; text-align: center; margin-top: 30px; margin-bottom: 10px;"></div>
+					
+					<pratilipi-input hidden$="{{ !createUser }}" label="ಪೂರ್ತಿ ಹೆಸರು *" value="{{ name::input }}" icon="icons:account-box"></pratilipi-input>
+					<pratilipi-input label="ಇ-ಮೇಲ್" value="{{ email::input }}" icon="icons:mail" type="email"></pratilipi-input>
+					<pratilipi-input hidden$="{{ !createUser }}" label="Facebook Url ( optional )" value="{{ facebookUrl::input }}" icon="icons:link" type="url"></pratilipi-input>
+					<pratilipi-input disabled="{{ disablePhone }}" label="10 digit Phone Number" value="{{ phone::input }}" icon="icons:settings-phone" type="tel"></pratilipi-input>
+					
+					<div class="display-message-div"><p>{{ message }}</p></div>
+					<button id="createUserButton" class="pratilipi-blue-button" type="button" on-click="onSubmit">{{ modalButtonText }}</button>
+				</div>
+			</div>
+		</div>
+		<iron-ajax
+				id="AuthorApi"
+				url="/api/author"
+				method="POST"
+				content-type="application/x-www-form-urlencoded"
+				handle-as="json"
+				on-response="_apiResponse"
+				on-error="_apiError"
+				></iron-ajax>
+		<iron-ajax
+				id="UserApi"
+				url="/api/user"
+				method="POST"
+				content-type="application/x-www-form-urlencoded"
+				handle-as="json"
+				on-response="_apiResponse"
+				on-error="_apiError"
+				></iron-ajax>
+	</template>
+	
+	<script>
+		Polymer({
+	
+			is: 'pratilipi-create-user',
+			
+			properties: {
+				// Specific to input fields
+				userId: { type: String },
+				name: { type: String },
+				email: { type: String, observer: "_disablePhone" },
+				facebookUrl: { type: String, observer: "_disablePhone" },
+				phone: { type: String },
+				disablePhone: { type: String, value: true },
+				
+ 				message: { type: String },
+
+ 				// Specific to this modal
+ 				modalTitle: { type: String },
+ 				modalButtonText: { type: String },
+ 				createUser: { type: Boolean }
+			},
+			
+			createOrEditUser: function( author ) {
+				this.set( 'createUser', author == null );
+				if( author != null ) {
+					this.set( 'userId', author.user.userId );
+					this.set( 'name', author.name );
+					this.set( 'email', author.user.email != null ? author.user.email : null ); // Registered with Facebook without Email
+					this.set( 'facebookUrl', null );
+					this.set( 'phone', author.user.phone != null ? author.user.phone : null );
+				} else {
+					this.set( 'userId', null );
+					this.set( 'name', null );
+					this.set( 'email', null );
+					this.set( 'facebookUrl', null );
+					this.set( 'phone', null );
+				}
+
+				this.modalTitle = this.userId == null ? "Create New Author" : "Edit Email and Phone";
+				this.modalButtonText = this.userId == null ? "Create" : "Save Changes";
+				this.open();
+			},
+
+			open: function() {
+				this.async( function() {
+					jQuery( "#pratilipiCreateUser" ).modal();
+				});
+			},
+			
+			close: function() {
+				jQuery( "#pratilipiCreateUser" ).modal( 'hide' );
+			},
+			
+			extractFacebookEmail: function( facebookUrl ) {
+				
+				if( facebookUrl.lastIndexOf( '/' ) != -1 )
+					facebookUrl = facebookUrl.substring( facebookUrl.lastIndexOf( '/' ) + 1 );
+					
+				// Special case
+				if( facebookUrl.indexOf( "profile.php" ) != -1 ) {
+					var params = facebookUrl.substring( facebookUrl.indexOf( "profile.php" ) + 12 ).split( "&" );
+					for( var i = 0 ; i < params.length; i ++ ) {
+						if( params[i].indexOf( "id=" ) != -1 ) {
+							facebookUrl = params[i].substring( params[i].indexOf( "id=" ) + 3 );
+							break;
+						}
+					}
+				} 
+				// Normal case
+				else if( facebookUrl.indexOf( '?' ) != -1 ) {
+					facebookUrl = facebookUrl.substring( 0, facebookUrl.indexOf( '?' ) );
+				}
+
+			return facebookUrl != null && facebookUrl.trim() != '' ? facebookUrl + "@facebook.com" : null;
+
+			},
+			
+			_disablePhone: function() {
+				if( ( this.email == null || this.email.trim() == "" )
+						&& ( this.facebookUrl == null || this.facebookUrl.trim() == "" ) ) {
+					this.set( 'phone', "" );
+					if( !this.disablePhone )
+						this.set( 'disablePhone', true );
+				} else {
+					if( this.disablePhone )
+						this.set( 'disablePhone', false );
+				}
+			},
+			
+			onSubmit: function( event ) {
+				
+				if( event.keyCode != null && event.keyCode != 0 && event.keyCode != 13 || jQuery( '#createUserButton' ).prop( 'disabled' ) )
+					return;
+
+				this.message = null;
+				
+				if( this.name == null || this.name.trim() == "" ) {
+					this.message = "Please Enter the name!";
+					return;
+				}
+				
+				if( this.phone != null && this.phone.trim() != "" && !validatePhone( this.phone ) ) {
+					this.message = "Invalid Number";
+					return;
+				}
+				
+				var facebookEmail = null;
+				if( this.facebookUrl != null && this.facebookUrl.trim() != "" ) {
+					if( this.facebookUrl.indexOf( "www.facebook.com" ) == -1 ) {
+						this.message = "Invalid facebook Url!";
+						return;
+					}
+					facebookEmail = this.extractFacebookEmail( this.facebookUrl );
+				}
+				
+				var email = null;
+				
+				if( this.email != null && this.email.trim() != "" )
+					email = this.email.trim();
+				else if( facebookEmail != null )
+					email = facebookEmail;
+				
+				var ajaxPost = ( this.userId != null || email != null ) ? this.$.UserApi : this.$.AuthorApi;
+
+				var firstName = this.name.trim();
+				var lastName = null;
+				if( firstName.lastIndexOf( ' ' ) != -1 ) {
+					lastName = firstName.substring( firstName.lastIndexOf( ' ' ) + 1 );
+					firstName = firstName.substring( 0, firstName.lastIndexOf( ' ' ) );
+				}
+				var body = { name: this.name.trim(), firstName: firstName, language: "KANNADA" };
+				if( email != null )
+					body.email = email.trim();
+				if( lastName != null )
+					body.lastName = lastName;
+				if( this.phone != null && this.phone.trim() != "" )
+					body.phone = this.phone.trim();
+				body.userId = this.userId != null ? this.userId : "0";
+				
+				this.message = "ಕಾರ್ಯ ನಿರ್ವಹಿಸುತ್ತಿದೆ...";
+				jQuery( '#createUserButton' ).prop( 'disabled', true );
+				ajaxPost.body = jQuery.param( body );
+				ajaxPost.generateRequest();
+			},
+			
+			_apiResponse: function( event ) {
+				
+				this.message = "ಯಶಸ್ವಿ!";
+				var response = event.detail.response;
+				
+				this.async( function() {
+					jQuery( '#createUserButton' ).prop( 'disabled', false );
+					this.message = null;
+					this.close();
+					if( this.userId == null )
+						window.location.href = response.pageUrl != null ? response.pageUrl : response.profilePageUrl;
+				}, 1000 );
+			},
+			
+			_apiError: function( event ) {
+				jQuery( '#createUserButton' ).prop( 'disabled', false );
+				if( event.detail.request.xhr.status === 400 || event.detail.request.xhr.status === 401 || event.detail.request.xhr.status === 500 )
+					this.message = event.detail.request.xhr.response.email != null ? event.detail.request.xhr.response.email : event.detail.request.xhr.response.message;
+				else
+					this.message = "Some Error occured! Please try Again."
+			}
+			
+		});
+	</script>
+	
+</dom-module>
+<dom-module id="pratilipi-author-list-page">
+
+	<style>
+		main {
+			padding-top: 54px;
+		}
+	</style>
+
+	<template>
+		<pratilipi-user user='{{ user }}' user-data="[[ userData ]]"></pratilipi-user>
+		<pratilipi-write language-map="[[ languageMap ]]" pratilipi-types='[[ pratilipiTypes ]]'></pratilipi-write>
+		<pratilipi-alert></pratilipi-alert>
+
+		<div class="header-pos">
+   			<pratilipi-header language-map="[[ languageMap ]]" user='[[ user ]]'></pratilipi-header>
+   		</div>
+   		<main>
+			<div style="overflow: hidden;" class="margin-top-bottom">
+				<pratilipi-author-list
+					author-list='[[ authorList ]]'
+					filter='[[ filter ]]'
+					cursor='[[ cursor ]]'></pratilipi-author-list>
+				<br class="pratilipi-break">
+			</div>
+		</main>
+		<footer>
+    		<pratilipi-footer></pratilipi-footer>
+		</footer>
+		<div class="scroll-top-button">
+			<a id="scrollToTop" on-click="scrollToTop"><paper-fab mini noink style="background: #c0c0c0;" icon="icons:arrow-upward"></paper-fab></a>
+		</div>
+	</template>
+		
+
+	<script>
+		Polymer({
+
+			is: 'pratilipi-author-list-page',
+
+			properties: {
+				userData: { type: Object },
+				authorList: { type: Array },
+				pratilipiTypes: { types: Object },
+				filter: { type: Object },
+				cursor: { type: String },
+				languageMap: { type: Object },
+				lastScrollTop: { type: Number, value: 0 },
+			},
+			
+			scrollToTop: function() {
+				$( 'html, body' ).animate( { scrollTop : 0 },800 );
+			},
+			
+			ready: function() {
+				jQuery( '#scrollToTop' ).css( "display", "none" );
+			},
+			
+			scrollHandler: function( st ) {
+				if( st > this.lastScrollTop || st < 100 ) {
+					jQuery( '#scrollToTop' ).fadeOut();
+					this.querySelector( 'pratilipi-author-list' ).loadMore();
+				}
+				else
+					jQuery( '#scrollToTop' ).fadeIn();
+				this.lastScrollTop = st;
+			}
+			
+		});
+	</script>
+
+</dom-module>
