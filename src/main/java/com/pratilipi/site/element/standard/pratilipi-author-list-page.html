@@ -1,0 +1,75 @@
+<#include "pratilipi-author-list.html">
+<#include "pratilipi-edit-author.html">
+<#include "pratilipi-create-user.html">
+
+<dom-module id="pratilipi-author-list-page">
+
+	<style>
+		main {
+			padding-top: 54px;
+		}
+	</style>
+
+	<template>
+		<pratilipi-user user='{{ user }}' user-data="[[ userData ]]"></pratilipi-user>
+		<pratilipi-write language-map="[[ languageMap ]]" pratilipi-types='[[ pratilipiTypes ]]'></pratilipi-write>
+		<pratilipi-alert></pratilipi-alert>
+
+		<div class="header-pos">
+   			<pratilipi-header language-map="[[ languageMap ]]" user='[[ user ]]'></pratilipi-header>
+   		</div>
+   		<main>
+			<div style="overflow: hidden;" class="margin-top-bottom">
+				<pratilipi-author-list
+					author-list='[[ authorList ]]'
+					filter='[[ filter ]]'
+					cursor='[[ cursor ]]'></pratilipi-author-list>
+				<br class="pratilipi-break">
+			</div>
+		</main>
+		<footer>
+    		<pratilipi-footer></pratilipi-footer>
+		</footer>
+		<div class="scroll-top-button">
+			<a id="scrollToTop" on-click="scrollToTop"><paper-fab mini noink style="background: #c0c0c0;" icon="icons:arrow-upward"></paper-fab></a>
+		</div>
+	</template>
+		
+
+	<script>
+		Polymer({
+
+			is: 'pratilipi-author-list-page',
+
+			properties: {
+				userData: { type: Object },
+				authorList: { type: Array },
+				pratilipiTypes: { types: Object },
+				filter: { type: Object },
+				cursor: { type: String },
+				languageMap: { type: Object },
+				lastScrollTop: { type: Number, value: 0 },
+			},
+			
+			scrollToTop: function() {
+				$( 'html, body' ).animate( { scrollTop : 0 },800 );
+			},
+			
+			ready: function() {
+				jQuery( '#scrollToTop' ).css( "display", "none" );
+			},
+			
+			scrollHandler: function( st ) {
+				if( st > this.lastScrollTop || st < 100 ) {
+					jQuery( '#scrollToTop' ).fadeOut();
+					this.querySelector( 'pratilipi-author-list' ).loadMore();
+				}
+				else
+					jQuery( '#scrollToTop' ).fadeIn();
+				this.lastScrollTop = st;
+			}
+			
+		});
+	</script>
+
+</dom-module>

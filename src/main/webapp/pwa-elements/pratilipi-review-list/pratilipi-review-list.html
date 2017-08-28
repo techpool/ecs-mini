@@ -1,0 +1,102 @@
+<div class="mdl-card mdl-card-border mdl-cell mdl-cell--8-col-tablet mdl-cell--9-col mobile-card pratilipi-review-list">
+	<div class="mdl-grid" style="margin: 0;">
+		<h3 class="mdl-cell mdl-cell--12-col material-title">${ _strings.review_heading }</h3>
+		<div data-bind="visible: hasAccessToReview()" class="mdl-cell mdl-cell--12-col mdl-card__supporting-text padding-zero">
+			<div class="mdl-grid padding-zero mdl-grid--no-spacing">
+				<div class="mdl-cell--6-col mdl-cell--4-col-tablet padding-zero">
+					<pratilipi-rating-input onclick="ga_CA( 'Review', 'Rating Init' )" params="{ rating: ratingInput }" data-bind="click: openReviewModal"></pratilipi-rating-input>
+				</div>
+				<div class="mdl-cell--6-col mdl-cell--4-col-tablet padding-zero">
+					<button data-bind="{ click: openReviewModal, 
+							text: userPratilipi.review() != null ? '${ _strings.review_edit_review }' : '${ _strings.review_write_a_review }' }" 
+						class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect pull-right write-review-button">
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="mdl-cell mdl-cell--12-col mdl-card__supporting-text padding-zero ">
+			<ul class="demo-list-three mdl-list" style="margin: 0;" data-bind="visible: reviewList().length > 0">
+				<!-- ko foreach: reviewList -->
+					<li data-bind="component: {
+							name: 'pratilipi-review',
+							params: { review: $data, pratilipiId: $parent.pratilipi.pratilipiId() } }"
+							class="mdl-list__item padding-zero display-block"></li>
+				<!-- /ko -->
+				<li data-bind="visible: hasMoreReviews()">
+					<div class="show-more">
+						<button onclick="ga_CA( 'Review', 'Load Reviews' )"
+								data-bind="click: loadMoreReviews" 
+								class="mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect">
+								${ _strings.show_more }
+						</button>
+					</div>
+				</li>
+			</ul>
+			<div data-bind="visible: loadingState() == 'LOADING'" class="text-center">
+				<span class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></span>
+			</div>
+			<div class="mdl-cell mdl-cell--12-col mdl-card__supporting-text padding-zero material-subtitle-2"
+					data-bind="visible: loadingState() == 'LOADED_EMPTY' && reviewList().length == 0, 
+							text: hasAccessToReview() ? '${ _strings.rating_be_first_one }' : '${ _strings.pratilipi_no_reviews }'">
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<#-- Add Review Modal -->
+<div class="modal common-modal fade" id="pratilipi-review-input-dialog" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button data-bind="click: closeReviewModal" class="mdl-button mdl-js-button mdl-button--icon close">
+					<i class="material-icons">close</i>
+				</button>
+				<h6 class="modal-title">${ _strings.pratilipi_rate_and_review }</h6>
+			</div>
+			<div class="modal-body">
+				<pratilipi-rating-input style="color: rgba(0,0,0,0.54);" params="{ rating: ratingInput }"></pratilipi-rating-input>
+				<textarea data-bind="{ mdlFloatingInput: { label: '${ _strings.review_write_a_review }', value: reviewInput, id: 'pratilipi_review_list_review_input' }, valueUpdate: ['input'], transliterate: true }" rows= "3"></textarea>
+			</div>
+			<div class="modal-footer">
+				<button data-bind="click: openDeleteReviewModal, visible: userPratilipi.review() != null && userPratilipi.reviewState() != 'DELETED'" 
+						class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button-margin pull-left">
+					<i style="font-size: 20px; margin-right: 4px;" class="material-icons">delete</i>
+					<span class="material-button">${ _strings.review_delete_review }</span>
+				</button>
+				<button onclick="ga_CA( 'Review', 'Cancel Rating' )" 
+						data-bind="click: closeReviewModal" 
+						class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button-margin">
+							${ _strings.cancel }
+				</button>
+				<button onclick="ga_CA( 'Review', 'Add Rating' )" 
+						data-bind="click: submitReview, enable: canSubmitReview" 
+						class="mdl-button mdl-js-button mdl-button--colored mdl-js-ripple-effect mdl-button--raised">
+							${ _strings.review_submit_review }
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<#-- Delete Review Modal -->
+<div class="modal common-modal fade" id="pratilipi-review-delete-confirmation-dialog" tabindex="-1" role="dialog" aria-labelledby="pratilipi-review-delete-confirmation-dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button data-bind="click: closeDeleteReviewModal" class="mdl-button mdl-js-button mdl-button--icon close">
+					<i class="material-icons">close</i>
+				</button>
+				<h6 class="modal-title">${ _strings.review_delete_review }</h6>
+			</div>
+			<div class="modal-body">
+				<div class="material-subtitle-2">${ _strings.review_delete_review_confirm }</div>
+			</div>
+			<div class="modal-footer">
+				<button data-bind="click: deleteReview" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button-margin pull-left">${ _strings.review_delete_okay }</button>
+				<button data-bind="click: closeDeleteReviewModal" class="mdl-button mdl-js-button mdl-button--colored mdl-js-ripple-effect mdl-button--raised">${ _strings.review_delete_cancel }</button>
+			</div>
+		</div>
+	</div>
+</div>

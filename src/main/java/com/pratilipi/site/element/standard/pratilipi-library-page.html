@@ -1,0 +1,88 @@
+<#include "pratilipi-author-library-contents.html">
+
+<dom-module id="pratilipi-library-page">
+	<template>
+		<pratilipi-user user='{{ user }}' user-data="[[ userData ]]"></pratilipi-user>
+		<pratilipi-write language-map="[[ languageMap ]]" pratilipi-types='[[ pratilipiTypes ]]'></pratilipi-write>
+		<pratilipi-alert></pratilipi-alert>
+
+		<div class="header-pos">
+			<#include "app-launch/pratilipi-android-launch-logic.ftl">
+			<#-- <pratilipi-android-launch></pratilipi-android-launch> -->
+   		</div>
+   		<main>
+   			<pratilipi-header language-map="[[ languageMap ]]" user='[[ user ]]'></pratilipi-header>
+			<div class="parent-container margin-top-bottom">
+				<div class="container">
+					<pratilipi-navigation
+						class='pull-left hidden-xs hidden-sm'
+						navigation-list='[[ navigationList ]]'
+						></pratilipi-navigation>
+					<!-- Navigation & Search bar for extra-small & small screens. -->
+					<pratilipi-navigation-drawer with-backdrop navigation-list='[[ navigationList ]]'></pratilipi-navigation-drawer>
+					<div style="overflow: hidden; padding: 0 2px;">
+						<div id="androidLaunchBottom">
+							<pratilipi-author-library-contents pratilipi-list="[[ pratilipiList ]]" cursor="[[ cursor ]]">
+							</pratilipi-author-library-contents>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<footer>
+    		<pratilipi-footer></pratilipi-footer>
+		</footer>
+		<div class="scroll-top-button">
+			<a id="scrollToTop" on-click="scrollToTop"><paper-fab mini noink style="background: #c0c0c0;" icon="icons:arrow-upward"></paper-fab></a>
+		</div>
+	</template>
+				
+		
+	<script>
+		Polymer({
+
+			is: 'pratilipi-library-page',
+			
+			properties: {
+				userData: { type: Object },
+				user: { type: Object, observer: "_userChanged" },
+				pratilipiList: { type: Array },
+				navigationList: { type: Array },
+				pratilipiTypes: { types: Object },
+				languageMap: { type: Object },
+				lastScrollTop: { type: Number, value: 0 },
+				
+				cursor: { type: String },
+				isLoading: { type: Boolean, value: false },
+				isFinished: { type: Boolean, value: false },
+				includeShowMoreButton: { type: Boolean, value: false },
+			},
+			
+			_userChanged: function() {
+				if( this.user.isGuest )
+					window.location.href = "/";
+			},
+			
+			scrollToTop: function() {
+				$( 'html, body' ).animate( { scrollTop : 0 },800 );
+			},
+			
+			ready: function() {
+				jQuery( '#scrollToTop' ).css( "display", "none" );
+			},
+			
+			scrollHandler: function( st ) {
+				if( st > this.lastScrollTop || st < 100 ) {
+					jQuery( '#scrollToTop' ).fadeOut();
+					this.querySelector( 'pratilipi-author-library-contents' ).loadMore( st );
+				}
+				else {
+					jQuery( '#scrollToTop' ).fadeIn();
+				}
+				this.lastScrollTop = st;
+			}
+			
+		});
+	</script>
+		
+</dom-module>

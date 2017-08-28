@@ -1,0 +1,83 @@
+.pratilipi-tags {
+	min-height: auto;
+	.font-16 {
+		font-size: 16px;
+	}
+	.pratilipi-tag-container {
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.pratilipi-tag-element {
+	  padding-top: 3px;
+	  padding-bottom: 3px;
+	  padding-left:10px;
+	  padding-right:10px;
+	  margin: 5px;
+	  text-align: center;
+	  border: solid 1px black;
+	  border-radius: 20px;
+	  cursor: pointer;
+	  white-space: nowrap;
+	}
+	.checked {
+		background: #D0021B;
+		border: solid 1px #D0021B;
+		color: #FFF;
+	}
+	
+	.disabled {
+		border: 1px solid #D3D3D3;
+		cursor:default;
+	}
+	
+	.save-tags-button {
+		@media (max-width: 480px) {
+			float: left !important;
+			margin-top: 5px;
+	  	}	
+	}
+	
+	.subtitle-span {
+		font-size: 80%;
+		color: #4A4A4A;
+	}
+	
+	.mdl-textfield {
+		width: 100%;
+		display: block;
+	}
+	
+	.dropdown-icon {
+		position: absolute;
+		right: 0px;
+		bottom: 18px;
+		width: 32px;
+		height: 32px;
+		font-size: 32px;
+	}
+	
+	.dropdown-ul {
+		width: 100%;
+		-webkit-box-shadow: 0 3px 9px rgba(0,0,0,0.5);
+		box-shadow: 0 3px 9px rgba(0,0,0,0.5);
+		border: 1px solid #999;
+		border: 1px solid rgba(0,0,0,0.2);
+		border-radius: 4px;
+		.mdl-menu__item, .mdl-menu__item:hover {
+			color: #000;
+		}
+	}
+	.tooltip {
+		font-size:14px;
+	    width: 200px;
+	    background-color: #D3D3D3;
+	    text-align: left;
+	    padding: 5px;
+	    border-radius: 6px;
+	    position: absolute;
+	    z-index: 1;
+	    top: -5px;
+    	right: 105%; 
+    	white-space: normal;
+	}
+}

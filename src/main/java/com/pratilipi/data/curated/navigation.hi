@@ -1,0 +1,30 @@
+श्रेणी
+/lovestories             प्रेम कहानियाँ                   Analytics#categoryName::romance        App#imageName::romance.jpg              App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"lovestories" }
+/suspense-aur-thriller   सस्पेंस और थ्रिलर कहानियाँ         Analytics#categoryName::mystery        App#imageName::suspence.jpg              App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"suspense-aur-thriller" }
+/horror                  हॉरर कहानियाँ                 Analytics#categoryName::horror        App#imageName::horror.jpg                App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"horror" }
+/stories        अन्य कहानियाँ               Analytics#categoryName::other-stories        App#imageName::event_shortstories.jpg         App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"stories" }
+/upanyas                 उपन्यास                     Analytics#categoryName::books        App#imageName::novels.jpg              App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"upanyas" }
+/samajik-kahaniya        सामाजिक कहानियाँ            Analytics#categoryName::social        App#imageName::social.jpg              App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"samajik-kahaniya" }
+/mythology               प्राचीन साहित्य                 Analytics#categoryName::mythology      App#imageName::mythology.jpg          App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"mythology" }
+/chhoti-kahaniya         छोटी कहानियाँ              Analytics#categoryName::short-stories       App#imageName::shortstories.jpg          App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"chhoti-kahaniya" }
+/poems          पद्य                        Analytics#categoryName::poetry        App#imageName::poems.jpg               App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"poems" }
+/gazals                  ग़ज़ल                       Analytics#categoryName::gazals        App#imageName::gazals.jpg              App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"gazals" }
+/other-articles          लेख                       Analytics#categoryName::articles        App#imageName::articles.jpg             App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"other-articles" }
+/hasya-vyangya           हास्य – व्यंग्य                Analytics#categoryName::satire        App#imageName::comedy.jpg               App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"hasya-vyangya" }
+/childhood-stories       बाल-साहित्य                 Analytics#categoryName::children        App#imageName::children.jpg             App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"childhood-stories" }
+/vichar-vimarsh          विचार विमर्श                Analytics#categoryName::vichar-vimarsh   App#imageName::experiences.jpg          App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"vichar-vimarsh" }
+/jivani-evam-atmakatha   जीवनी एवं चरित्र            Analytics#categoryName::biographies     App#imageName::biography.jpg           App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"jivani-evam-atmakatha" }
+/yatra-vrutant           यात्रा – वृत्तांत               Analytics#categoryName::travel       App#imageName::youth.jpg              App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"yatra-vrutant" }
+/self-help               स्व - विकास                Analytics#categoryName::self-help   App#imageName::selfhelp.jpg            App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"self-help" }
+/swad-ka-tadka           रसोई कला              Analytics#categoryName::cooking      App#imageName::cooking.jpg             App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"swad-ka-tadka" }
+
+कुछ नया
+/sarvadhik-pathako-ki-pasand  सर्वाधिक पाठकों की पसंद   Analytics#categoryName::most-read        App#imageName::mostpopular.jpg       App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"sarvadhik-pathako-ki-pasand" }
+/premchand-sahitya            प्रेमचंद साहित्य           Analytics#categoryName::premchand-sahitya        App#imageName::event_generic2.jpg     App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"premchand-sahitya" }
+/nayi-prakashit-rachnaye      नई प्रकाशित रचनाएं       Analytics#categoryName::newly-published        App#imageName::newpublished.jpg        App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"nayi-prakashit-rachnaye" }
+/classic                      क्लासिक               Analytics#categoryName::classics        App#imageName::classic.jpg            App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"classic" }
+/magazines                    पत्रिकाएं                Analytics#categoryName::magazines        App#imageName::magazines.jpg           App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "listName":"magazines" }
+/blog                         संपादकीय              Analytics#categoryName::blogs        App#imageName::blog.jpg                App#BlogPostList::{ "language":"HINDI", "blogId":5683739602452480 }
+/event/pratilipi-katha-sanman-2017         प्रतिलिपि कथा सम्मान-2017          Analytics#categoryName::event-pratilipi-katha-sanman-2017        App#imageName::event_generic7.jpg        App#PratilipiList::{ "language":"HINDI", "state":"PUBLISHED", "eventId":5719245760495616 }     
+/events                       ऑनलाइन  स्पर्धाएं        Analytics#categoryName::online-events        App#imageName::events.jpg                App#EventList::{ "language":"HINDI" }
+/author-interviews            लेखकों के साक्षात्कार      Analytics#categoryName::author-interviews        App#imageName::authorinterviews.jpg      App#BlogPostList::{ "language":"HINDI", "blogId":5197509039226880 }

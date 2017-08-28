@@ -1,0 +1,41 @@
+<body>
+    <div class="container">
+        <div class="panel panel-default col-sm-8 col-sm-offset-2" style="margin-top: 20px;border-radius: 15px;">
+            <div class="panel-body text-center" >
+                <a style="cursor: pointer;" class="pull-left">
+                    <img style="width: 20px;height: 20px;" src="https://0.ptlp.co/resource-all/icon/svg/arrow-left2.svg">
+                </a>
+                <h1 class="pratilipi-panel-heading"> ${ _strings.writer_add_content_title } </h1>
+                <center>
+                <form class="col-sm-8 col-sm-offset-2">
+                  <div class="form-group">
+                    <select id="select-language" class="form-control horizontal-form-input">
+                    </select>
+                    <span id="helpBlock" class="help-block text-left">${ _strings.writer_select_language }</span>
+                  </div>
+                  <div class="form-group has-feedback">
+                    <input class="form-control horizontal-form-input" id="title-vernacular" placeholder="${ _strings.writer_input_title }*">
+                  </div>
+                  <div class="form-group has-feedback">
+                    <input class="form-control horizontal-form-input" id="title-english" placeholder="${ _strings.writer_input_title_en }*">
+						                  
+                  </div>
+                  <div class="checkbox text-left ">
+                    <label>
+                      <input type="checkbox" id="copyright_checkbox"> ${ _strings.writer_you_own_copyright }
+                    </label>
+                  </div>
+                  <a class="text-left" style="display:block;">${ _strings.writer_read_copyright }</a>
+                  <button type="submit" class="pratilipi-red-background-button go-button">${ _strings.writer_to_next_screen }</button>
+                </form>
+                </center>
+            </div>
+        </div>        
+    </div>
+</body>
+<style><#include "css/style.ftl" /></style>
+<#include "js/transliteration.ftl" />
+<script>
+	<#include "js/app.ftl" />
+	<#include "js/firstScreenWriterPanel.ftl" />
+</script>

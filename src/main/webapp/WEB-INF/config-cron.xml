@@ -1,0 +1,86 @@
+<cronentries>
+
+	<!-- USER Table -->
+	
+	<cron>
+		<url>/user/process?cron</url>
+		<target>worker</target>
+		<schedule>every 5 minutes</schedule>
+		<timezone>Asia/Calcutta</timezone>
+	</cron>
+	
+	
+
+	<!-- ACCESS_TOKEN Table -->
+	
+	<cron>
+		<url>/accesstoken/cleanup?cron</url>
+		<target>worker</target>
+		<schedule>every 1 hours from 21:00 to 7:00</schedule>
+		<timezone>Asia/Calcutta</timezone>
+	</cron>
+
+
+
+	<!-- AUDIT_LOG Table -->
+	
+	<cron>
+		<url>/auditlog/process?cron</url>
+		<target>worker</target>
+		<schedule>every 1 minutes</schedule>
+		<timezone>Asia/Calcutta</timezone>
+	</cron>
+	
+
+	
+	<!-- PRATILIPI Table -->
+	
+	<cron>
+		<url>/pratilipi/process?cron</url>
+		<target>worker</target>
+		<schedule>every 5 minutes</schedule>
+		<timezone>Asia/Calcutta</timezone>
+	</cron>
+
+
+
+	<!-- AUTHOR Table -->
+
+	<cron>
+		<url>/author/process?cron</url>
+		<target>worker</target>
+		<schedule>every 5 minutes</schedule>
+		<timezone>Asia/Calcutta</timezone>
+	</cron>
+	
+
+
+	<!-- NOTIFICATION Table -->
+	<cron>
+		<url>/notification/process?cron</url>
+		<target>worker</target>
+		<schedule>every 2 minutes</schedule>
+		<timezone>Asia/Calcutta</timezone>
+	</cron>
+
+
+	<!-- BATCH_PROCESS Table -->
+	<cron>
+		<url>/batch-process?cron</url>
+		<target>worker</target>
+		<schedule>every 5 minutes</schedule>
+		<timezone>Asia/Calcutta</timezone>
+	</cron>
+
+
+
+	<!-- EMAIL Table -->
+	<cron>
+		<url>/email/process?cron</url>
+		<target>worker</target>
+		<schedule>every 5 minutes</schedule>
+		<timezone>Asia/Calcutta</timezone>
+	</cron>
+
+
+</cronentries>

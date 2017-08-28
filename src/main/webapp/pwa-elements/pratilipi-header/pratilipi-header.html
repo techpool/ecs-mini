@@ -1,0 +1,143 @@
+<header class="pratilipi-header js-pratilipi-header mdl-layout__header mdl-layout__header--scroll">
+	<div class="mdl-layout__header-row parent-container row-one">
+		<a href="/">
+			<span class="sprites-icon pratilipi-logo-icon"></span>
+		</a>
+		<button onclick="ga_CA( 'Header', 'Get Languages' )"
+				id="pratilipi-header-pratilipi-dropdown" class="pratilipi-text hidden-xs">
+			<span class="font-m">${ _strings.pratilipi }</span>
+			<i class="material-icons">arrow_drop_down</i>
+		</button>
+		<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect language-ul" for="pratilipi-header-pratilipi-dropdown">
+			<#list languageList as aLang>
+				<#if aLang.value == language>
+					<li class="mdl-menu__item" style="background: #eee;">${ aLang.name }</li>
+				<#else>
+					<li class="mdl-menu__item" onclick="ga_CA( 'Header', 'Change Language' ); window.location = '${ aLang.hostName }'; return false;">${ aLang.name }</li>
+				</#if>
+			</#list>
+		</ul>
+
+		<div class="header-icons-holder menu-icon-holder">
+			<button data-bind="event: { click: openMenuNavigationDrawer }" class="mdl-button mdl-js-button mdl-button--icon">
+				<i class="material-icons">menu</i>
+			</button>
+		</div>
+		<div class="search-bar-holder hidden-xs">
+			<form action="javascript:void(0);" data-bind="submit: search">
+				<div class="mdl-textfield mdl-js-textfield">
+					<input placeholder="${ _strings.search_bar_help }" class="mdl-textfield__input font-s" type="text" id="pratilipi-header-search" data-bind="value: appViewModel.searchQuery, event: { click: redirectToSearch }" />
+					<i data-bind="event: { click: search }" class="material-icons search">search</i>
+				</div>
+			</form>
+		</div>
+		<div class="header-icons-holder">
+			<button onclick="ga_CA( 'Header', 'Write' )" 
+					data-bind="click: write" 
+					class="mdl-button mdl-js-button mdl-button--icon">
+				<i class="material-icons">create</i>
+			</button>
+		</div>
+		<div class="header-icons-holder">
+			<a onclick="ga_CA( 'Header', 'Library' )"
+				data-bind="attr: { 'href': appViewModel.user.isGuest() ? '/login?retUrl=%2Flibrary&message=LIBRARY' : '/library' }" 
+				class="mdl-button mdl-js-button mdl-button--icon">
+				<i class="material-icons">library_books</i>
+			</a>
+		</div>
+		<div class="header-icons-holder">
+			<a onclick="ga_CA( 'Header', 'Notification' )"
+				data-bind="visible: appViewModel.user.isGuest()"
+                href="/login?retUrl=%2Fnotifications&message=NOTIFICATIONS"
+				class="mdl-button mdl-js-button mdl-button--icon">
+				<i class="material-icons">notifications</i>
+			</a>
+			<span onclick="ga_CA( 'Header', 'Notification' )"
+					id="notificationLink"
+					style="position: absolute; margin-left: -12px; margin-top: -12px;"
+					class="material-icons mdl-badge--overlap mdl-badge--no-background"
+					data-bind="{ attr: { 'data-badge': ( appViewModel.notificationCount() > 99 ? '99+' : appViewModel.notificationCount() ) }, 
+								css: { 'mdl-badge': ( appViewModel.notificationCount() > 0 ) },
+								visible: ! appViewModel.user.isGuest() }">
+				<i class="material-icons">notifications</i>
+			</span>
+			<div id="notificationContainer">
+				<div id="notificationTitle">${ _strings.notification_notifications }</div>
+				<div id="notificationsBody" class="notifications">
+					<!-- ko component: {
+						name: "pratilipi-notification-list",
+						params: { resultCount: 10, 
+									notificationsPageBehaviour: false,
+									listenToFirebase: true }
+					} -->
+					<!-- /ko -->
+				</div>
+				<div id="notificationFooter"><a style="display: block; margin: 10px;" href="/notifications">${ _strings.view_more }...</a></div>
+			</div>
+		</div>
+		<div class="desktop-signin-button-holder hidden-xs">
+			<div data-bind="visible: appViewModel.user.userId() == null" style="margin: auto; padding-left: 8px;">
+				<!-- <span class="user-loading-spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></span> -->
+				<div class="user-loading-spinner"></div>
+			</div>
+			<a onclick="ga_CA( 'Header', 'Login' )"
+				data-bind="{ attr: { 'href': '/login?retUrl=' + encodeURIComponent( window.location.pathname ) }, 
+							visible: appViewModel.user.userId() != null && appViewModel.user.isGuest() }" 
+				class="sign-in-button mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect hidden-xs">
+				<i class="material-icons">account_circle</i>
+				<span class="font-s">${ _strings.user_sign_in }</span>
+			</a>
+			<a onclick="ga_CA( 'Header', 'User' )"
+				data-bind="{ visible: appViewModel.user.userId() != null && !appViewModel.user.isGuest(),   
+							attr: { 'href': appViewModel.user.profilePageUrl() } }"
+				class="user-profile hidden-xs">
+				<img class="img-circle user-dp" 
+					data-bind="attr: { 'src': getImageUrl( appViewModel.user.profileImageUrl(), 48 ) }" />
+				<span class="font-s" data-bind="text: appViewModel.user.displayName()"></span>
+			</a>
+		</div>
+		<div class="header-icons-holder visible-xs">
+			<div data-bind="visible: appViewModel.user.userId() == null" style="margin: auto; padding-left: 8px;">
+				<span class="user-loading-spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></span>
+			</div>
+			<a onclick="ga_CA( 'Header', 'Login' )"
+				data-bind="{ visible: appViewModel.user.userId() != null && appViewModel.user.isGuest(), 
+						attr: { 'href': '/login?retUrl=' + encodeURIComponent( window.location.pathname ) } }" 
+				class="mdl-button mdl-js-button mdl-button--icon">
+				<i class="material-icons">account_circle</i>
+			</a>
+			<a onclick="ga_CA( 'Header', 'User' )"
+				data-bind="{ visible: appViewModel.user.userId() != null && !appViewModel.user.isGuest(), 
+						attr: { 'href': appViewModel.user.profilePageUrl() } }" 
+				class="mdl-button mdl-js-button mdl-button--icon">
+				<img class="img-circle user-dp" data-bind="attr: { 'src': getImageUrl( appViewModel.user.profileImageUrl(), 48 ) }" />
+			</a>
+		</div>
+	</div>
+
+	<div class="mdl-layout__header-row parent-container row-two hidden-sm hidden-md hidden-lg">
+		<button onclick="ga_CA( 'Header', 'Get Languages' )"
+				id="pratilipi-header-pratilipi-dropdown-mobile" 
+				class="pratilipi-text">
+			<span class="font-m">${ _strings.pratilipi }</span>
+			<i class="material-icons">arrow_drop_down</i>
+		</button>
+		<ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect language-ul" for="pratilipi-header-pratilipi-dropdown-mobile">
+			<#list languageList as aLang>
+				<#if aLang.value == language>
+					<li class="mdl-menu__item" style="background: #eee;">${ aLang.name }</li>
+				<#else>
+					<li class="mdl-menu__item" onclick="ga_CA( 'Header', 'Change Language' ); window.location = '${ aLang.hostName }'; return false;">${ aLang.name }</li>
+				</#if>
+			</#list>
+		</ul>
+		<form action="javascript:void(0);" data-bind="submit: search">
+			<div class="mdl-textfield mdl-js-textfield">
+				<input placeholder="${ _strings.search }" class="mdl-textfield__input font-s" type="text" id="pratilipi-header-search-mobile" data-bind="value: appViewModel.searchQuery, event: { click: redirectToSearch }" />
+				<i data-bind="event: { click: search }" class="material-icons search">search</i>
+			</div>
+		</form>
+	</div>
+
+</header>
+

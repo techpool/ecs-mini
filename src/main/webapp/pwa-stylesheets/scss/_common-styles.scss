@@ -1,0 +1,283 @@
+$line_height_p: 24px;
+$pratilipi_red: #d0021b;
+
+.parent-container {
+    padding: 0px;
+    min-width: 300px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+.mdl-components {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.mdl-button {
+	min-width: initial;
+}
+
+.small-button .material-icons {
+	line-height: 36px;
+}
+
+.mdl-card-border {
+	border: 1px solid lightgrey;
+}
+
+.mobile-grid {
+  @media (max-width: 480px) {
+    padding: 0;
+  }		
+}
+
+.mobile-card {
+  @media (max-width: 480px) {
+    margin: 0;
+    width: 100%;
+  }		
+}
+
+.white-background {
+	background-color: white;
+}
+
+html,body,h1 small,h2 small,h3 small,h4 small,h5 small,h6 small,h1,h2,h3,h4,h5,h6 {
+	font-family: inherit;
+	@include css-prefix( "font-smoothing", "antialiased" );
+}
+
+body {
+	background-color: #f3f3f3;
+}
+
+.margin-zero {
+    margin: 0;
+}
+
+.margin-zero-auto {
+    margin: 0 auto;
+}
+
+.padding-zero {
+    padding: 0 !important;
+}
+
+.pratilipi-red {
+	color: $pratilipi_red;
+}
+
+.grey-text {
+	color: rgba( 0, 0, 0, 0.54 );
+}
+
+.black-color {
+	color: #000 !important;
+}
+
+.alignCenter {
+	text-align: center !important;
+}
+
+.see-more-text {
+    /* hide text if it more than N lines  */
+    overflow: hidden;
+    /* for set '...' in absolute position */
+    position: relative;
+    /* use this value to count block height */
+    line-height: $line_height_p;
+    /* max-height = line-height (1.2) * lines max number (3) */
+    max-height: $line_height_p*3;
+    /* fix problem when last visible word doesn't adjoin right side  */
+    /* place for '...' */
+   	/* margin-right: -1em; 
+    padding-right: 2em; */
+}
+
+/* create the ... */
+
+.see-more-text:before {
+    /* points in the end */
+    /* content: '...'; */
+    /* absolute position */
+    position: absolute;
+    /* set position to right bottom corner of block */
+    right: 15px;
+    bottom: 0;
+}
+/* hide ... if we have text, which is less than or equal to max lines */
+
+.see-more-text:after {
+    /* points in the end */
+    content: '';
+    /* absolute position */
+    position: absolute;
+    /* set position to right bottom corner of text */
+    right: 0;
+    /* set width and height */
+    width: 1em;
+    height: 1em;
+    margin-top: 0.2em;
+    /* bg color = bg color under block */
+    background: white;
+}
+
+.height-auto {
+	height: auto !important;
+}
+
+.padding-8 {
+	padding: 8px !important;
+}
+
+.material-icons-16 {
+	font-size: 16px !important;
+}
+
+.material-icons-36 {
+	font-size: 36px !important;
+}
+
+.display-block {
+	display: block !important;
+}
+
+.display-block-unimportant {
+	display: block;
+}
+
+.vertical-middle {
+	vertical-align: middle;
+}
+
+.mdl-layout__drawer {
+	z-index: 11 !important;
+}
+
+.clickable-element {
+	cursor: pointer;
+}
+
+img {
+	background: lightgrey;
+	image-orientation: from-image;
+}
+
+img.img-circle {
+	border-radius: 50%;
+}
+
+/* Rules for sizing the icon. */
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; }
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
+/* Rules for using icons as black on a light background. */
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+
+/* Rules for using icons as white on a dark background. */
+.material-icons.md-light { color: rgba(255, 255, 255, 1); }
+.material-icons.md-light.md-inactive { color: rgba(255, 255, 255, 0.3); }
+
+a:link, a:visited {text-decoration: none;}
+
+/*
+.page-loading-spinner {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	z-index: 65535;
+	background-image: url(http://public.pratilipi.com/pratilipi-logo/png/Logo-2C-RGB-80px.png);
+	background-size: contain;
+	.mdl-spinner {
+		width: 56px;
+		height: 56px;
+	}
+	.mdl-spinner__circle {
+		border-width: 6px;
+	}
+	.mdl-spinner--single-color {
+		.mdl-spinner__layer-1, .mdl-spinner__layer-2, .mdl-spinner__layer-3, .mdl-spinner__layer-4 {
+			border-color: #d0021b;
+		}
+	}
+}
+*/
+
+.mdl-checkbox {
+	height: auto !important;
+}
+
+.mdl-list__item {
+	font-family: inherit;
+}
+
+.dropdown li {
+    padding: 3px 20px;
+}
+
+.common-modal {
+	div.modal-content {
+		border-radius: 1px;
+		box-sizing: border-box;
+		margin-left: 2px;
+		margin-right: 2px;
+	}
+	div.modal-header {
+		.close {
+			float: right !important;
+			cursor: pointer;
+		}
+	}
+	div.modal-body {
+		padding: 15px 30px;
+		.mdl-textfield {
+			width: 100%;
+			display: block;
+		}
+	}
+	div.modal-footer {
+		border: none;
+	}			
+}
+
+.mdl-button-margin {
+	margin-right: 4px;
+}
+
+
+.modal.fade .modal-dialog {
+	-webkit-transform: scale(0.1);
+	-moz-transform: scale(0.1);
+	-ms-transform: scale(0.1);
+	transform: scale(0.1);
+	top: 300px;
+	opacity: 0;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.modal.fade.in .modal-dialog {
+	-webkit-transform: scale(1);
+	-moz-transform: scale(1);
+	-ms-transform: scale(1);
+	transform: scale(1);
+	-webkit-transform: translate3d(0, -300px, 0);
+	transform: translate3d(0, -300px, 0);
+	opacity: 1;
+}
+
+.getmdl-select__fullwidth, .getmdl-select__fullwidth .mdl-menu {
+	width: 100% !important;
+}

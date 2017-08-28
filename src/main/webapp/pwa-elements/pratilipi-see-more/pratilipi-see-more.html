@@ -1,0 +1,11 @@
+<div data-bind="seeMore: true">
+	<p data-bind="style: { 'max-height': isViewMoreShown() ? maxHeightPx() : 'initial' }" 
+		style="white-space:pre-wrap; min-width: 100%; overflow: hidden; position: relative;" 
+		class="material-subtitle-1"></p>
+	<div class="text-center" data-bind="visible: isViewMoreVisible">
+		<button data-bind="{ click: toggleViewMore, 
+				text: isViewMoreShown() ? '${ _strings.show_more }' : '${ _strings.show_less }' }" 
+				class="mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect">
+		</button>
+	</div>
+</div>

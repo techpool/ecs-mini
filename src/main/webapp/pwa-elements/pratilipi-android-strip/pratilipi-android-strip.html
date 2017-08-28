@@ -1,0 +1,19 @@
+<div class="pratilipi-android-strip js-pratilipi-android-strip" data-bind="visible: stripVisible()">
+	<i data-bind="click: androidBannerCrossed" class="material-icons pull-right clickable-element">close</i>
+	<div class="flex-container">
+		<a data-bind="click: androidBannerClicked">
+			<span class="sprites-icon pratilipi-logo-icon"></span>
+		</a>
+		<span class="app-info">
+			<a data-bind="click: androidBannerClicked" class="app-heading">
+				<span class="material-title">${ _strings.pratilipi_android_application }</span>
+			</a>
+			<img class="rating-image"
+				 src="http://public.pratilipi.com/images/Stars-for-App-Install-Strip.png">
+		</span>
+	</div>
+	<div class="material-body-2 supporting-text">${ _strings.read_stories_without_internet }</div>
+	<a data-bind="click: androidBannerClicked" class="download-button font-m">
+		${ _strings.android_download }
+	</a>
+</div>

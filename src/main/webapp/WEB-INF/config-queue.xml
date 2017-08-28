@@ -1,0 +1,168 @@
+<queue-entries>
+
+	<!-- USER Table -->
+	
+	<queue>
+		<name>user</name>
+		<target>queues</target>
+		<rate>500/s</rate>
+		<bucket-size>10</bucket-size>
+		<max-concurrent-requests>100</max-concurrent-requests>
+		<retry-parameters>
+			<task-age-limit>90d</task-age-limit>
+			<min-backoff-seconds>5</min-backoff-seconds>
+			<max-backoff-seconds>300</max-backoff-seconds>
+			<max-doublings>2</max-doublings>
+		</retry-parameters>
+	</queue>
+	
+	<queue>
+		<name>user-offline</name>
+		<target>queues</target>
+		<rate>500/s</rate>
+		<bucket-size>10</bucket-size>
+		<max-concurrent-requests>100</max-concurrent-requests>
+		<retry-parameters>
+			<task-age-limit>90d</task-age-limit>
+			<min-backoff-seconds>60</min-backoff-seconds>
+			<max-backoff-seconds>10800</max-backoff-seconds>
+			<max-doublings>2</max-doublings>
+		</retry-parameters>
+	</queue>
+	
+
+
+	<!-- PRATILIPI Table -->
+
+	<queue>
+		<name>pratilipi</name>
+		<target>queues</target>
+		<rate>500/s</rate>
+		<bucket-size>10</bucket-size>
+		<max-concurrent-requests>100</max-concurrent-requests>
+		<retry-parameters>
+			<task-age-limit>90d</task-age-limit>
+			<min-backoff-seconds>5</min-backoff-seconds>
+			<max-backoff-seconds>300</max-backoff-seconds>
+			<max-doublings>2</max-doublings>
+		</retry-parameters>
+	</queue>
+
+	<queue>
+		<name>pratilipi-offline</name>
+		<target>queues</target>
+		<rate>500/s</rate>
+		<bucket-size>10</bucket-size>
+		<max-concurrent-requests>100</max-concurrent-requests>
+		<retry-parameters>
+			<task-age-limit>90d</task-age-limit>
+			<min-backoff-seconds>60</min-backoff-seconds>
+			<max-backoff-seconds>10800</max-backoff-seconds>
+			<max-doublings>2</max-doublings>
+		</retry-parameters>
+	</queue>
+
+
+
+	<!-- AUTHOR Table -->
+	
+	<queue>
+		<name>author</name>
+		<target>queues</target>
+		<rate>500/s</rate>
+		<bucket-size>10</bucket-size>
+		<max-concurrent-requests>100</max-concurrent-requests>
+		<retry-parameters>
+			<task-age-limit>90d</task-age-limit>
+			<min-backoff-seconds>5</min-backoff-seconds>
+			<max-backoff-seconds>300</max-backoff-seconds>
+			<max-doublings>2</max-doublings>
+		</retry-parameters>
+	</queue>
+
+	<queue>
+		<name>author-offline</name>
+		<target>queues</target>
+		<rate>500/s</rate>
+		<bucket-size>10</bucket-size>
+		<max-concurrent-requests>100</max-concurrent-requests>
+		<retry-parameters>
+			<task-age-limit>90d</task-age-limit>
+			<min-backoff-seconds>60</min-backoff-seconds>
+			<max-backoff-seconds>10800</max-backoff-seconds>
+			<max-doublings>2</max-doublings>
+		</retry-parameters>
+	</queue>
+  
+
+  
+  	<!-- USER_AUTHOR Table -->
+	
+	<queue>
+		<name>user-author</name>
+		<target>queues</target>
+		<rate>500/s</rate>
+		<bucket-size>10</bucket-size>
+		<max-concurrent-requests>100</max-concurrent-requests>
+		<retry-parameters>
+			<task-age-limit>90d</task-age-limit>
+			<min-backoff-seconds>5</min-backoff-seconds>
+			<max-backoff-seconds>300</max-backoff-seconds>
+			<max-doublings>2</max-doublings>
+		</retry-parameters>
+	</queue>
+
+
+
+  	<!-- NOTIFICATION Table -->
+	
+	<queue>
+		<name>fe-notification</name>
+		<target>queues</target>
+		<rate>500/s</rate>
+		<bucket-size>10</bucket-size>
+		<max-concurrent-requests>100</max-concurrent-requests>
+		<retry-parameters>
+			<task-age-limit>90d</task-age-limit>
+			<min-backoff-seconds>5</min-backoff-seconds>
+			<max-backoff-seconds>300</max-backoff-seconds>
+			<max-doublings>2</max-doublings>
+		</retry-parameters>
+	</queue>
+
+
+
+	<!-- EMAIL Table -->
+
+	<queue>
+		<name>hp-email</name>
+		<target>queues</target>
+		<rate>500/s</rate>
+		<bucket-size>10</bucket-size>
+		<max-concurrent-requests>100</max-concurrent-requests>
+		<retry-parameters>
+			<task-age-limit>90d</task-age-limit>
+			<min-backoff-seconds>5</min-backoff-seconds>
+			<max-backoff-seconds>300</max-backoff-seconds>
+			<max-doublings>2</max-doublings>
+		</retry-parameters>
+	</queue>
+	
+	
+	<!-- CONVERSATION EMAIL -->
+
+	<queue>
+		<name>conversation-email</name>
+		<target>queues</target>
+		<rate>500/s</rate>
+		<bucket-size>10</bucket-size>
+		<max-concurrent-requests>100</max-concurrent-requests>
+		<retry-parameters>
+			<task-age-limit>90d</task-age-limit>
+			<min-backoff-seconds>5</min-backoff-seconds>
+			<max-backoff-seconds>300</max-backoff-seconds>
+			<max-doublings>2</max-doublings>
+		</retry-parameters>
+	</queue>
+  
+</queue-entries>

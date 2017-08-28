@@ -1,0 +1,20 @@
+ಪ್ರಭೇದಗಳು
+/horror  ಹಾರರ್      Analytics#categoryName::horror    App#imageName::horror.jpg            App#PratilipiList::{ "language":"KANNADA", "state":"PUBLISHED", "listName":"horror" }
+/relationship ಬಂಧುತ್ವ           Analytics#categoryName::family    App#imageName::event_friendship.jpg              App#PratilipiList::{ "language":"KANNADA", "state":"PUBLISHED", "listName":"relationship" }
+/love       ಪ್ರೀತಿ            Analytics#categoryName::romance        App#imageName::romance.jpg              App#PratilipiList::{ "language":"KANNADA", "state":"PUBLISHED", "listName":"love" }
+/women      ಮಹಿಳೆ          Analytics#categoryName::women        App#imageName::event_women.jpg              App#PratilipiList::{ "language":"KANNADA", "state":"PUBLISHED", "listName":"women" }
+/cinema     ಸಿನಿಮಾ         Analytics#categoryName::cinema        App#imageName::movies.jpg              App#PratilipiList::{ "language":"KANNADA", "state":"PUBLISHED", "listName":"cinema" }
+/poems        ಕವಿತೆಗಳು       Analytics#categoryName::poetry        App#imageName::poems.jpg                  App#PratilipiList::{ "language":"KANNADA", "state":"PUBLISHED", "listName":"poems" } 
+/society    ಸಮಾಜ          Analytics#categoryName::social        App#imageName::social.jpg              App#PratilipiList::{ "language":"KANNADA", "state":"PUBLISHED", "listName":"society" } 
+/science   ವಿಜ್ಞಾನ          Analytics#categoryName::educational        App#imageName::scifi.jpg              App#PratilipiList::{ "language":"KANNADA", "state":"PUBLISHED", "listName":"science" } 
+/life     ಜೀವನ          Analytics#categoryName::life        App#imageName::monsoon.jpg              App#PratilipiList::{ "language":"KANNADA", "state":"PUBLISHED", "listName":"life" } 
+/inspirational ಸ್ಫೂರ್ತಿದಾಯಕ  Analytics#categoryName::inspirational        App#imageName::inspirational.jpg              App#PratilipiList::{ "language":"KANNADA", "state":"PUBLISHED", "listName":"inspirational" } 
+/otherstories   ಕಥೆಗಳು    Analytics#categoryName::other-stories        App#imageName::fiction.jpg              App#PratilipiList::{ "language":"KANNADA", "state":"PUBLISHED", "listName":"otherstories" } 
+/nonfiction ಲೇಖನಗಳು          Analytics#categoryName::articles        App#imageName::articles.jpg              App#PratilipiList::{ "language":"KANNADA", "state":"PUBLISHED", "listName":"nonfiction" } 
+
+ಪ್ರಖ್ಯಾತ ಬರಹಗಳು
+/event/kaiyya-hididu-hejje-besedu  ಕೈಯ್ಯ ಹಿಡಿದು, ಹೆಜ್ಜೆ ಬೆಸೆದು         Analytics#categoryName::event-kaiyya-hididu-hejje-besedu        App#imageName::event_generic6.jpg       App#PratilipiList::{ "language":"KANNADA", "state":"PUBLISHED", "eventId":4640217838387200 }
+/event/baduka-baalevu   ಬದುಕ ಬಾಳೇವು         Analytics#categoryName::event-baduka-baalevu        App#imageName::event_generic7.jpg       App#PratilipiList::{ "language":"KANNADA", "state":"PUBLISHED", "eventId":5057335448829952 }
+/most-read   ಓದುಗರ ಆಯ್ಕೆ            Analytics#categoryName::most-read        App#imageName::mostpopular.jpg      App#PratilipiList::{ "language":"KANNADA", "state":"PUBLISHED", "listName":"most-read" }
+/new         ಹೊಸ  ಬರಹಗಳು         Analytics#categoryName::newly-published        App#imageName::newpublished.jpg     App#PratilipiList::{ "language":"KANNADA", "state":"PUBLISHED", "listName":"new" }
+/events       ಸ್ಪರ್ಧೆಗಳು              Analytics#categoryName::online-events        App#imageName::events.jpg     App#EventList::{ "language":"KANNADA", "state":"PUBLISHED", "listName":"events" }
