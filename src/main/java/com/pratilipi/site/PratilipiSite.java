@@ -88,6 +88,11 @@ public class PratilipiSite extends HttpServlet {
 		String templateName = null;
 
 		String uri = request.getRequestURI();
+		if( uri.equals( "/health" ) ) {
+			_dispatchResponse( "Healthy!", "text/plain", "UTF-8", response );
+			return;
+		}
+
 		String canonicalUrl = "https://" + UxModeFilter.getWebsite().getHostName() + uri;
 		String alternateUrl = "https://" + UxModeFilter.getWebsite().getMobileHostName() + uri;
 
@@ -145,11 +150,6 @@ public class PratilipiSite extends HttpServlet {
 				templateName = templateFilePrefix + "RobotsTxt.ftl";
 				String robotsTxt = FreeMarkerUtil.processTemplate( dataModel, templateName );
 				_dispatchResponse( robotsTxt, "text/plain", "UTF-8", response );
-				return;
-			}
-
-			if( uri.equals( "/health" ) ) {
-				_dispatchResponse( "Healthy!", "text/plain", "UTF-8", response );
 				return;
 			}
 
