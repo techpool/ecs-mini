@@ -1,4 +1,4 @@
-<#if author.getUser()?? >
+<#if author.getUser()?? && author.getUser().getId()?? >
 	<div class="pratilipi-shadow secondary-500 box">	
 		<#assign followingUrl = "/following?uId=" + author.getUser().getId()?c + "&ret=" + requestUrl >
 		<div class="pull-left">
@@ -21,7 +21,16 @@
 				<#else>
 					<#assign can_follow_boolean = "true">
 				</#if>
-				<@follow_author_card isGuest=user.isGuest()?c can_follow=can_follow_boolean retUrl=author.getPageUrl() authorId=local_author.getId() followCount=local_author.getFollowCount() following=local_author.isFollowing() name=local_author.getName()!local_author.getNameEn() pageUrl=local_author.getPageUrl() imageUrl=local_author.getProfileImageUrl(100) />
+				<@follow_author_card
+					isGuest=user.isGuest()?c
+					can_follow=can_follow_boolean
+					retUrl=author.getPageUrl()
+					authorId=local_author.getId()
+					followCount=local_author.getFollowCount()
+					following=local_author.isFollowing()
+					name=local_author.getName()!local_author.getNameEn()
+					pageUrl=local_author.getPageUrl()
+					imageUrl=local_author.getProfileImageUrl(100) />
 			</#list>
 		</#if>
 						
