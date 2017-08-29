@@ -112,7 +112,7 @@ public class PratilipiSite extends HttpServlet {
 					.getApi( UserV2Api.class )
 					.get( userGetRequest );
 		} catch ( InsufficientAccessException | UnexpectedServerException e ) {
-			throw new IOException();
+			_dispatchResponse( "Oops, some error occured! Please reload the page!", "text/html", "UTF-8", response );
 		}
 
 		// Navigation List
@@ -126,7 +126,7 @@ public class PratilipiSite extends HttpServlet {
 						.get( navigationListGetRequest )
 						.getNavigationList();
 			} catch ( UnexpectedServerException e ) {
-				throw new IOException();
+				_dispatchResponse( "Oops, some error occured! Please reload the page!", "text/html", "UTF-8", response );
 			}
 		}
 
