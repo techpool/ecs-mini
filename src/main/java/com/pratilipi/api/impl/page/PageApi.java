@@ -107,8 +107,6 @@ public class PageApi extends GenericApi {
 		paramsMap.put( "uri", request.uri );
 		try {
 			String pageResponse = HttpUtil.doGet( UxModeFilter.getEcsEndpoint() + "/api/page", paramsMap );
-			System.out.println( "Reached here" );
-			System.out.println( "My theory sucks!!" );
 			return new Gson().fromJson( pageResponse, PageApi.Response.class );
 		} catch( UnexpectedServerException e ) {
 			return null;
