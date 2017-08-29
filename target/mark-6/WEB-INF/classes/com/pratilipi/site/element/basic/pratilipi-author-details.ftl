@@ -67,7 +67,7 @@
 	<div class="clearfix"></div>
 	<div class="follow-author">
 		<#if userAuthor.isFollowing()??>
-			<#if ( ( author.getUser()?? ) && ( user.getId() == author.getUser().getId() ) ) >
+			<#if author.getUser()?? && author.getUser().getId()?? && author.getUser().getId() == user.getId() >
 				<p class="followers-text" style="white-space: nowrap;">${ author.getFollowCount() } ${_strings.author_followers_count }</p>
 			<#else>
 				<#if userAuthor.isFollowing() == true>
