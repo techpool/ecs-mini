@@ -117,15 +117,17 @@ public class PratilipiSite extends HttpServlet {
 
 		// Navigation List
 		List<NavigationData> navigationList = null;
-		try {
-			NavigationListApi.GetRequest navigationListGetRequest = new NavigationListApi.GetRequest();
-			navigationListGetRequest.setLanguage( filterLanguage );
-			navigationList = ApiRegistry
-					.getApi( NavigationListApi.class )
-					.get( navigationListGetRequest )
-					.getNavigationList();
-		} catch ( UnexpectedServerException e ) {
-			throw new IOException();
+		if( ! basicMode ) {
+			try {
+				NavigationListApi.GetRequest navigationListGetRequest = new NavigationListApi.GetRequest();
+				navigationListGetRequest.setLanguage( filterLanguage );
+				navigationList = ApiRegistry
+						.getApi( NavigationListApi.class )
+						.get( navigationListGetRequest )
+						.getNavigationList();
+			} catch ( UnexpectedServerException e ) {
+				throw new IOException();
+			}
 		}
 
 		// Common resource list
@@ -320,6 +322,12 @@ public class PratilipiSite extends HttpServlet {
 				canonicalUrl = "https://" + UxModeFilter.getWebsite().getMobileHostName() + uri;
 				dataModel = new HashMap<String, Object>();
 				dataModel.put( "title", "Menu" );
+				NavigationListApi.GetRequest navigationListGetRequest = new NavigationListApi.GetRequest();
+				navigationListGetRequest.setLanguage( filterLanguage );
+				navigationList = ApiRegistry
+						.getApi( NavigationListApi.class )
+						.get( navigationListGetRequest )
+						.getNavigationList();
 				dataModel.put( "navigationList", navigationList );
 				templateName = "NavigationBasic.ftl";
 

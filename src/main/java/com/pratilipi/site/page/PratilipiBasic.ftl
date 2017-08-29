@@ -39,7 +39,7 @@
 						'parentType': "REVIEW"
 					},
 					success: function( response ) {
-						var parsed_data = jQuery.parseJSON( response.trim().replace( /(?:\r\n|\r|\n)/g, '\\n' ) );
+						var parsed_data = typeof( response ) === "string" ? jQuery.parseJSON( response.trim().replace( /(?:\r\n|\r|\n)/g, '\\n' ) ) : response;
 						var commentList = parsed_data[ "commentList" ];
 						var cursor = parsed_data[ "cursor" ];
 						var html = "";
