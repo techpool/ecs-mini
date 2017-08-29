@@ -30,7 +30,7 @@
 	    		<#if author.hasAccessToUpdate() >
 	    			<button type="button" class="pratilipi-red-button pratilipi-card-mini-button pratilipi-font-size-14" onclick="confirmAndChangePratilipiState( '${ pratilipi.getId()?c }', 'DRAFTED' )">${ _strings.pratilipi_move_to_drafts }</button>
 	    		</#if>
-	    		<#if ( author.getUser()?? && ( user.getId() != author.getUser().getId() ) )>
+	    		<#if ( author.getUser()?? && author.getUser().getId()?? && ( user.getId() != author.getUser().getId() ) )>
 		    		<#if pratilipi.isAddedToLib() == true>
 		    			<button type="button" class="pratilipi-grey-button pratilipi-card-mini-button pratilipi-font-size-14" onclick="AddToLibrary( ${ pratilipi.getId()?c }, false )">- ${ _strings.library } </button>
 		    		<#else>
