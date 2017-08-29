@@ -16,7 +16,7 @@
 		<#if followingList.getAuthorList()?has_content>
 			<#include "pratilipi-follow-author-card.ftl">
 			<#list followingList.getAuthorList() as local_author>
-				<#if local_author.getUser()?? && local_author.getUser().getId()?? && local_author.getUser().getId() == user.getId() )
+				<#if local_author.getUser()?? && local_author.getUser().getId()?? && local_author.getUser().getId() == user.getId() >
 					<#assign can_follow_boolean = "false">
 				<#else>
 					<#assign can_follow_boolean = "true">
