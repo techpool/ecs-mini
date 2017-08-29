@@ -288,7 +288,9 @@ public class PratilipiSite extends HttpServlet {
 				TagsApi.Response tags = ApiRegistry.getApi( TagsApi.class ).getTags( tagsRequest );
 
 				dataModel = new HashMap<String, Object>();
-				dataModel.put( "title", SEOTitleUtil.getWritePageTitle( pratilipiId, filterLanguage ) );
+				Gson gson = new Gson();
+				PratilipiData pratilipiData = gson.fromJson( gson.toJson( pratilipiResponse ), PratilipiData.class );
+				dataModel.put( "title", SEOTitleUtil.getWritePageTitle( pratilipiData, filterLanguage ) );
 				dataModel.put( "authorId", authorId );
 				dataModel.put( "pratilipiId", pratilipiId );
 				dataModel.put( "pratilipi", pratilipiResponse );
