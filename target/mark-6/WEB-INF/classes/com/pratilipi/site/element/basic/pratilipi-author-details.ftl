@@ -55,7 +55,7 @@
 	</div>
 	<div class="author-info text-center">
 		<div class="profile-image-parent">
-			<img style="margin: 0px;" class="img-responsive img-thumbnail img-circle profile-picture" src="${ author.getImageUrl(140) }">
+			<img style="margin: 0px;" class="img-responsive img-thumbnail img-circle profile-picture" src="${ author.getProfileImageUrl(140) }">
 			<#if author.hasAccessToUpdate()==true >
 				<div class="pratilipi-file-upload" >
 					<div class="sprites-icon camera-icon"></div>
