@@ -112,20 +112,22 @@ public class PratilipiSite extends HttpServlet {
 					.getApi( UserV2Api.class )
 					.get( userGetRequest );
 		} catch ( InsufficientAccessException | UnexpectedServerException e ) {
-			throw new IOException();
+			_dispatchResponse( "Oops, some error occured! Please reload the page!", "text/html", "UTF-8", response );
 		}
 
 		// Navigation List
 		List<NavigationData> navigationList = null;
-		try {
-			NavigationListApi.GetRequest navigationListGetRequest = new NavigationListApi.GetRequest();
-			navigationListGetRequest.setLanguage( filterLanguage );
-			navigationList = ApiRegistry
-					.getApi( NavigationListApi.class )
-					.get( navigationListGetRequest )
-					.getNavigationList();
-		} catch ( UnexpectedServerException e ) {
-			throw new IOException();
+		if( ! basicMode ) {
+			try {
+				NavigationListApi.GetRequest navigationListGetRequest = new NavigationListApi.GetRequest();
+				navigationListGetRequest.setLanguage( filterLanguage );
+				navigationList = ApiRegistry
+						.getApi( NavigationListApi.class )
+						.get( navigationListGetRequest )
+						.getNavigationList();
+			} catch ( UnexpectedServerException e ) {
+				_dispatchResponse( "Oops, some error occured! Please reload the page!", "text/html", "UTF-8", response );
+			}
 		}
 
 		// Common resource list
@@ -285,10 +287,12 @@ public class PratilipiSite extends HttpServlet {
 				TagsApi.Request tagsRequest = new TagsApi.Request();
 				tagsRequest.setLanguage( pratilipiResponse.getLanguage() );
 				tagsRequest.setType( pratilipiResponse.getType() );
-				TagsApi.Response tags = ApiRegistry.getApi( TagsApi.class ).getTags( tagsRequest );
+				List<TagData> tags = ApiRegistry.getApi( TagsApi.class ).getTags( tagsRequest ).getResponseObject().get(0).getTagDataList();
 
 				dataModel = new HashMap<String, Object>();
-				dataModel.put( "title", SEOTitleUtil.getWritePageTitle( pratilipiId, filterLanguage ) );
+				Gson gson = new Gson();
+				PratilipiData pratilipiData = gson.fromJson( gson.toJson( pratilipiResponse ), PratilipiData.class );
+				dataModel.put( "title", SEOTitleUtil.getWritePageTitle( pratilipiData, filterLanguage ) );
 				dataModel.put( "authorId", authorId );
 				dataModel.put( "pratilipiId", pratilipiId );
 				dataModel.put( "pratilipi", pratilipiResponse );
@@ -318,6 +322,12 @@ public class PratilipiSite extends HttpServlet {
 				canonicalUrl = "https://" + UxModeFilter.getWebsite().getMobileHostName() + uri;
 				dataModel = new HashMap<String, Object>();
 				dataModel.put( "title", "Menu" );
+				NavigationListApi.GetRequest navigationListGetRequest = new NavigationListApi.GetRequest();
+				navigationListGetRequest.setLanguage( filterLanguage );
+				navigationList = ApiRegistry
+						.getApi( NavigationListApi.class )
+						.get( navigationListGetRequest )
+						.getNavigationList();
 				dataModel.put( "navigationList", navigationList );
 				templateName = "NavigationBasic.ftl";
 

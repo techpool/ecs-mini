@@ -16,12 +16,12 @@
 		<#if followingList.getAuthorList()?has_content>
 			<#include "pratilipi-follow-author-card.ftl">
 			<#list followingList.getAuthorList() as local_author>
-				<#if local_author.getUser()?? && local_author.getUser().getId()?? && local_author.getUser().getId() == user.getId() )
+				<#if local_author.getUser()?? && local_author.getUser().getId()?? && local_author.getUser().getId() == user.getId() >
 					<#assign can_follow_boolean = "false">
 				<#else>
 					<#assign can_follow_boolean = "true">
 				</#if>
-				<@follow_author_card isGuest=user.isGuest()?c can_follow=can_follow_boolean retUrl=author.getPageUrl() authorId=local_author.getId() followCount=local_author.getFollowCount() following=local_author.isFollowing() name=local_author.getName()!local_author.getNameEn() pageUrl=local_author.getPageUrl() imageUrl=local_author.getImageUrl(100)/>
+				<@follow_author_card isGuest=user.isGuest()?c can_follow=can_follow_boolean retUrl=author.getPageUrl() authorId=local_author.getId() followCount=local_author.getFollowCount() following=local_author.isFollowing() name=local_author.getName()!local_author.getNameEn() pageUrl=local_author.getPageUrl() imageUrl=local_author.getProfileImageUrl(100) />
 			</#list>
 		</#if>
 						

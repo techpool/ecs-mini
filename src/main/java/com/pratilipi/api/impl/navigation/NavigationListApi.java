@@ -61,7 +61,7 @@ public class NavigationListApi extends GenericApi {
 	public Response get( GetRequest request ) throws UnexpectedServerException {
 
 		Map<String, String> paramsMap = new HashMap<>();
-		paramsMap.put( "language", request.language.name() );
+		paramsMap.put( "language", request.language != null ? request.language.name() : Language.ENGLISH.name() );
 		String userResponse = HttpUtil.doGet( UxModeFilter.getEcsEndpoint() + "/api/navigation/list", paramsMap );
 		return new Gson().fromJson( userResponse, NavigationListApi.Response.class );
 
