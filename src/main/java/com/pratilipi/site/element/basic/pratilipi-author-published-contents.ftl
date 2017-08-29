@@ -1,4 +1,4 @@
-<#if ( ( user.isGuest() == false ) && ( author.getUser()?? ) && ( user.getId() == author.getUser().getId() ) && ( !publishedPratilipiList?has_content ) ) >
+<#if ( ( user.isGuest() == false ) && ( author.getUser()?? ) && ( author.getUser().getId()?? ) && ( user.getId() == author.getUser().getId() ) && ( !publishedPratilipiList?has_content ) ) >
 <#else>
 	<#assign publishedUrl = "?action=list_contents&state=PUBLISHED">
 	<div class="pratilipi-shadow secondary-500 box">	
