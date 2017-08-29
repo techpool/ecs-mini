@@ -1,0 +1,24 @@
+শ্রেণী
+/premkahini                      প্রেমকাহিনী                Analytics#categoryName::romance         App#imageName::romance.jpg            App#PratilipiList::{ "language":"BENGALI", "state":"PUBLISHED", "listName":"premkahini" }
+/rahashyogalpo                   রহস্যগল্প                  Analytics#categoryName::mystery         App#imageName::suspence.jpg          App#PratilipiList::{ "language":"BENGALI", "state":"PUBLISHED", "listName":"rahashyogalpo" }
+/bhoutik-galpo                   ভৌতিক গল্প               Analytics#categoryName::horror         App#imageName::horror.jpg             App#PratilipiList::{ "language":"BENGALI", "state":"PUBLISHED", "listName":"bhoutik-galpo" } 
+/other-stories                   ছোটগল্প                  Analytics#categoryName::other-stories         App#imageName::shortstories.jpg        App#PratilipiList::{ "language":"BENGALI", "state":"PUBLISHED", "listName":"other-stories" }
+/aleek-kahini                    অলীক কাহিনী            Analytics#categoryName::stories          App#imageName::fiction.jpg             App#PratilipiList::{ "language":"BENGALI", "state":"PUBLISHED", "listName":"aleek-kahini" }
+/anugalpo                        অনুগল্প                 Analytics#categoryName::short-stories           App#imageName::5minread.jpg           App#PratilipiList::{ "language":"BENGALI", "state":"PUBLISHED", "listName":"anugalpo" }
+/social-stories                  সামাজিক গল্প         Analytics#categoryName::social          App#imageName::social.jpg           App#PratilipiList::{ "language":"BENGALI", "state":"PUBLISHED", "listName":"social-stories" }
+/poetry                          কাব্য                  Analytics#categoryName::poetry           App#imageName::poems.jpg              App#PratilipiList::{ "language":"BENGALI", "state":"PUBLISHED", "listName":"poems" }
+/other-articles                  প্রবন্ধ                  Analytics#categoryName::articles           App#imageName::articles.jpg           App#PratilipiList::{ "language":"BENGALI", "state":"PUBLISHED", "listName":"other-articles" }
+/hashyokoutuk                    হাস্যকৌতুক             Analytics#categoryName::comedy            App#imageName::comedy.jpg            App#PratilipiList::{ "language":"BENGALI", "state":"PUBLISHED", "listName":"hashyokoutuk" }
+/shishusahityo                   শিশু সাহিত্য             Analytics#categoryName::children           App#imageName::children.jpg          App#PratilipiList::{ "language":"BENGALI", "state":"PUBLISHED", "listName":"shishusahityo" }
+/jeevancharit-ebong-smritikatha  জীবনচরিত এবং স্মৃতিকথা   Analytics#categoryName::biographies           App#imageName::biography.jpg        App#PratilipiList::{ "language":"BENGALI", "state":"PUBLISHED", "listName":"jeevancharit-ebong-smritikatha" }
+/bhromonkahini                   ভ্রমণকাহিনী              Analytics#categoryName::travel           App#imageName::travel.jpg          App#PratilipiList::{ "language":"BENGALI", "state":"PUBLISHED", "listName":"bhromonkahini" }
+/swabikash                       স্ব-বিকাশ               Analytics#categoryName::self-help           App#imageName::selfhelp.jpg        App#PratilipiList::{ "language":"BENGALI", "state":"PUBLISHED", "listName":"swabikash" }
+
+অভিনব
+/pathoker-pratham-pchondo   পাঠকের প্রথম পছন্দ             Analytics#categoryName::most-read          App#imageName::mostpopular.jpg        App#PratilipiList::{ "language":"BENGALI", "state":"PUBLISHED", "listName":"pathoker-pratham-pchondo" }
+/natun-prakashito-rachona   নতুন প্রকাশিত রচনা                Analytics#categoryName::newly-published       App#imageName::newpublished.jpg       App#PratilipiList::{ "language":"BENGALI", "state":"PUBLISHED", "listName":"natun-prakashito-rachona" }
+/classic-sahitya            ক্লাসিক সাহিত্য                     Analytics#categoryName::classics        App#imageName::mostliked.jpg           App#PratilipiList::{ "language":"BENGALI", "state":"PUBLISHED", "listName":"classic-sahitya" }
+/event/anugalper-deshe     অণুগল্পের দেশে         Analytics#categoryName::event-anugalper-deshe        App#imageName::event_generic6.jpg       App#PratilipiList::{ "language":"BENGALI", "state":"PUBLISHED", "eventId":6226005998960640 }
+/events                     অনলাইন প্রতিযোগিতায়            Analytics#categoryName::online-events         App#imageName::events.jpg               App#EventList::{ "language":"BENGALI" }
+/author-interviews          লেখকের সাক্ষাৎকার              Analytics#categoryName::author-interviews          App#imageName::authorinterviews.jpg     App#BlogPostList::{ "language":"BENGALI", "blogId":5197509039226880 }
+/blog                       সম্পাদকীয়                      Analytics#categoryName::blogs        App#imageName::blog.jpg                  App#BlogPostList::{ "language":"BENGALI", "blogId":5683739602452480 }

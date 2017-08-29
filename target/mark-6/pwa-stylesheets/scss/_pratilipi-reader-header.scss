@@ -1,0 +1,67 @@
+.pratilipi-reader-header {
+	flex-grow: 1;
+	padding: 0 6px;
+	@include css-prefix( "display", "flex" );
+	@include css-prefix( "flex-direction", "row" );
+	@include css-prefix( "align-items", "center" );
+
+	.exit-reader, .menu-option-holder {
+		a, button {
+            margin: 0 8px;
+        }
+	}
+	.menu-option-holder {
+		margin-left: auto;
+	}
+	@media only screen and (max-width: 767px) {
+		.menu-option-holder .hide-mobile {
+			display: none;
+			visibility: none;
+        }
+	}
+	.show-tablet {
+		display: none;
+		@media only screen and (min-width: 768px) and (max-width: 1024px) {
+			display: inline-block;
+		}
+	}
+	.pratilipi-title-holder {
+		@media only screen and (min-width: 768px) {
+            margin-left: 96px;
+        }
+        @media only screen and (min-width: 1025px) {
+            margin-left: 144px;
+        }
+        padding-left: 12px;
+		padding-right: 12px;
+		text-align: center;
+		flex: 1;
+		overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+		.pratilipi-title {
+            font-weight: 700;
+            display: inline;
+            line-height: 2em;
+        }
+	}
+}
+
+nav.mdl-navigation {
+	z-index: 3;
+	.index-entry {
+        text-decoration: none;
+        padding: 16px 16px;
+        margin: 0;
+        display: block;
+        color: inherit;
+        cursor: pointer;
+        color: #333;
+        @include css-prefix( "flex-shrink", "0" );
+		display: block;
+		margin: 0;
+    }
+    .highlight {
+        font-weight: 700 !important;
+    }
+}

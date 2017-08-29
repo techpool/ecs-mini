@@ -1,0 +1,281 @@
+<div class="container" style="height: 100%;">
+	<#-- Header -->
+	<div class="header-wrapper">
+		<div id="header1" style="background: white; padding-bottom: 10px;">
+			<a style="cursor: pointer; margin-top: 10px; margin-right: 10px;" class="pull-left" href="${ pratilipi.getPageUrl() }" data-behaviour="back_button" >
+				<span class="sprites-icon left-arrow-icon"></span>
+			</a>
+			<div class="dropdown" id="toc_container" style="display: inline;">
+				<div class="dropdown-toggle" id="table_of_contents_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="display: inline;">
+					<button class="btn btn-default white-space-normal" id="toc_button">
+						<div class="pull-left sprites-icon list-icon"></div>
+						<h4 class="small-screen-hidden" id="book_name_toc" >${ pratilipi.getTitle() }</h4>
+						<div class="small-screen-hidden pull-right sprites-icon angle-down-icon"></div>
+					</button>
+				</div>
+				<ul class="dropdown-menu" aria-labelledby="table_of_contents_dropdown" style="min-width: 230px; margin-top: 13px; border-radius: 0 0 4px 4px; height: auto; overflow-x: hidden; max-height: calc(100vh - 106px); max-height: -o-calc(100vh - 106px); max-height: -webkit-calc(100vh - 106px); max-height: -moz-calc(100vh - 106px);">
+					<li style="cursor: pointer;" data-behaviour="edit-title" class="text-center"><strong class="pratilipi-red">${ _strings.writer_edit_title_placeholder }</strong><div class="sprites-icon edit-icon pull-right"></div></li>
+					<li role="separator" class="divider"></li>
+					<li class="text-center"><strong>${ _strings.writer_table_of_contents }</strong></li>
+					<li role="separator" class="divider"></li>
+					<li role="separator" class="divider" data-behaviour="chapters_separator_second"></li>
+					<li class="text-center" data-behaviour="new_chapter"><a class="show-cursor"><strong class="pratilipi-red"> + ${ _strings.writer_add_new_chapter }</strong></a></li>
+				</ul>
+			</div>
+			<div class="pull-right">
+				<button class="pratilipi-red-background-button" style="padding: 6px 12px; margin-right: 0px; border-radius: 4px;" data-toggle="modal" data-target="#categoryModal" data-behaviour="publish_button">${ _strings.writer_finish }</button>
+				<button class="btn btn-default small-screen-hidden" style="margin: 0 5px 0 10px; font-size: 13px;" data-behaviour="save_button_desktop">${ _strings.writer_save }</button>
+				<a href="${ pratilipi.getReadPageUrl() }" target="_blank" class="btn btn-default small-screen-hidden" style="margin: 0 0px 0 5px; font-size: 13px;" data-behaviour="preview_button_desktop">${ _strings.writer_preview }</a>
+				<img	style="width: 48px; height: 25px; margin-right: -12px;" 
+						src="https://0.ptlp.co/resource-all/icon/svg/dots-three-vertical.svg"
+						class="big-screen-hidden mobile_options_container"
+						data-container="body" 
+						data-toggle="popover"
+						data-content="
+							<a href='${ pratilipi.getReadPageUrl() }' style='font-size: x-large;' target='_blank' class='pratilipi-red' data-behaviour='preview_button_mobile'>${ _strings.writer_preview }</a>
+							<hr style='margin: 1px 0;'>
+							<a data-behaviour='save_button_mobile' style='font-size: x-large;' class='pratilipi-red'>${ _strings.writer_save }</a>" 
+						data-html="true"
+						data-placement="bottom" />
+			</div>
+		</div>
+	</div>
+
+	<#-- panel -->
+	<div class="panel panel-default js-panel" style="margin-bottom: 5px; margin-top: 12px;">
+		<div class="panel-body" style="width: 95%; margin-left: auto; margin-right: auto; padding: 0 0 0 5px;">
+			<input class="form-control horizontal-form-input" autocomplete="off" id="subtitle" style="height: 46px; font-size: 25px; border-bottom: 1px solid #ddd;" placeholder="${ _strings.writer_add_chapter_title }" />
+			<div id="chapter-content"></div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+</div>
+
+<#-- writer footer -->
+<div id="pagination" style="padding-top: 0.25%; position: fixed; bottom: 0; right: 0; left: 0; background: whitesmoke;">
+	<div class="col-lg-4 col-lg-offset-4 col-xs-6 col-xs-offset-3 text-center">
+		<form class="inline">
+			<a class="show-cursor" data-behaviour="previous-page"><span class="sprites-icon-size-36 chevron-left-icon-36"></span></a>
+			<p data-behaviour="page-info" style="display: inline; font-size: 20px; padding: 10px;"><input class="horizontal-form-input" data-behaviour="curr_page" type="text" value="" style="width: 25px;">/1</p>
+			<a class="show-cursor" data-behaviour="next-page"><span class="sprites-icon-size-36 chevron-right-icon-36"></span></a>
+			<div class="clearfix"></div>
+		</form>
+	</div>
+	<#-- progress bar -->
+	<div class="progress" style="height: 2px; position: absolute; left: 0; right: 0; top: 0%;">
+		<div class="progress-bar progress-bar-danger" data-behaviour="progress-line" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+			<span class="sr-only">&nbsp;</span>
+		</div>
+	</div>
+	<div class="sprites-icon-size-16 red-circle-icon-16" data-behaviour="progress-ball" style="left: 0; top: -15%; position: absolute;"></div>
+</div>
+
+<#-- Modal for title change -->
+<div class="modal fade" id="titleChangelModal" role="dialog" aria-labelledby="titleChange">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><div class="sprites-icon cross-icon"></div></button>
+				<h4 class="modal-title" id="titleChange">${ _strings.writer_edit_title_placeholder }</h4>
+			</div>
+			<form class="form-horizontal">
+				<div class="modal-body">
+					<div class="form-group has-feedback title-change-input">
+						<label>${ _strings.writer_input_title } *</label>
+						<input class="form-control horizontal-form-input" id="title-vernacular" placeholder="${ _strings.writer_input_title } *" />
+					</div>
+					<div class="form-group has-feedback title-change-input">
+						<label>${ _strings.writer_input_title_en }</label>
+						<input class="form-control horizontal-form-input" id="title-english" placeholder="${ _strings.writer_input_title_en }" />
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">${ _strings.writer_cancel }</button>
+					<button id="title_ok_button" type="submit" class="pratilipi-red-background-modal-button">${ _strings.writer_okay }</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<#-- Modal for leaving without saving changes -->
+<div class="modal fade" id="saveChangesModal" tabindex="-1" role="dialog" aria-labelledby="saveChanges">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><div class="sprites-icon cross-icon"></div></button>
+				<h4 class="modal-title" id="saveChanges">${ _strings.writer_save }</h4>
+			</div>
+			<div class="modal-body">
+				<p>${ _strings.writer_save_changes_confirmation }</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" data-behaviour="cancel" class="btn btn-default" data-dismiss="modal">${ _strings.writer_dont_save }</button>
+				<button type="button" class="pratilipi-red-background-modal-button" data-behaviour="save" class="btn btn-primary">${ _strings.writer_save }</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<#-- Modal for Adding categories -->
+<div class="modal fade" id="categoryModal" role="dialog" aria-labelledby="publishContent">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<div class="sprites-icon cross-icon"></div>
+				</button>
+				<h4 class="modal-title" id="categoryContent">
+					${ _strings.tags_categories }
+				</h4>
+			</div>
+			<div style="padding:15px">
+				<#-- Categories code goes here -->
+				<h5 class="material-subtitle-1">
+					${ _strings.tags_select_category }
+					<span class="subtitle-span">( ${ _strings.tags_click_to_select } )</span>
+				</h5>
+				<div class="pratilipi-tag-container" style="padding-bottom: 10px">
+					<#list tags as tag>
+						<span id="${tag.getId()?c}" 
+							class="pratilipi-tags pratilipi-tag-element" 
+							data-behaviour="pratilipi_suggested_tag"
+							data-select="0" 
+							data-deselect="0">
+							${tag.getName()}
+						</span>
+					</#list>
+				</div>
+				<div style="padding-top: 10px">
+					<h5 class="material-subtitle-1">${ _strings.tags_add_your_own_category }</h5>
+					<div id="user-tags-container" class="pratilipi-tag-container" style="padding-bottom: 10px">
+						<#if pratilipi.getSuggestedTags()?? >
+							<#list pratilipi.getSuggestedTags() as tag>
+								<span 
+									class="user-tags pratilipi-tag-element pratilipi-tag-checked" 
+									data-behaviour="user_suggested_tag"
+									data-select="1" 
+									data-deselect="0">
+									${tag}
+								</span>
+							</#list>
+						</#if>
+					</div>
+					<div>
+						<input id="user_suggested_tags_input" placeholder="${ _strings.tags_type_here }" 
+							style="border: 1px solid #D3D3D3; padding:5px;font-size:14px"/>
+						<button class="btn btn-default" style="margin-left:10px;" data-behaviour='add_user_tag_button'>
+							${ _strings.tags_add }
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer text-center" style="text-align: center;">
+				<span id="category_msg" class="category-message-span">${_strings.tags_processing}</span>
+				<button class="pratilipi-red-background-modal-button" 
+					type="button"
+					data-behaviour='goto_summary_button'
+					style="float: right">
+					${ _strings.writer_to_next_screen }
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<#-- Modal for publishing content -->
+<div class="modal fade" id="publishModal" role="dialog" aria-labelledby="publishContent">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><div class="sprites-icon cross-icon"></div></button>
+				<h4 class="modal-title" id="publishContent" data-behaviour="publish_book_name">${ pratilipi.getTitle() }</h4>
+			</div>
+			<form class="form-horizontal" id="publish_form">
+				<div class="modal-body modal-form">
+					<div class="form-group left-align-content">
+						<label class="grey-label pull-left" >${ _strings.writer_add_cover }</label>
+						<a class="show-cursor">
+							<span class="pull-left image-container" >
+								<img class="cover-image" src="https://0.ptlp.co/resource-all/icon/png/default-cover-image.png" alt="${ pratilipi.getTitle() }">
+								<span class="camera-icon sprites-icon camera-sprite-icon"></span>
+							</span>
+						</a>
+						<div class="clearfix"></div>
+					</div>
+					<div class="form-group left-align-content">
+						<label class="grey-label">${ _strings.writer_add_summary }</label>
+						<textarea id="summary" rows="4" class="form-control grey-background" placeholder="${ _strings.writer_write_here_placeholder }..."></textarea>
+					</div>
+				</div>
+				<div class="modal-footer text-center">
+					<button class="btn btn-default" 
+						type="button" 
+						data-toggle="modal" 
+						data-dismiss="modal"
+						data-target="#categoryModal" 
+						data-behaviour='goto_category_button'
+						style="float:left">
+						${ _strings.tags_goto_category }
+					</button>
+					<button type="submit" data-behaviour='final_publish_button' class="pratilipi-red-background-modal-button">${ _strings.writer_publish }</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<form id="uploadPratilipiImage" method="post" enctype="multipart/form-data" action="/api/pratilipi/cover?pratilipiId=${ pratilipiId?c }">
+		<input id="uploadPratilipiImageInput" type="file" name="${ pratilipiId?c }" accept="image/*" />
+	</form>
+</div>
+
+<#-- Modal for delete confirmation -->
+<div class="modal fade" id="chapterDeleteModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><div class="sprites-icon cross-icon"></div></button>
+				<h4 class="modal-title">${ _strings.writer_chapter_delete }</h4>
+			</div>
+			<div class="modal-body">
+				<p>${ _strings.writer_chapter_delete_confirmation }</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">${ _strings.writer_cancel }</button>
+				<button type="button" id="ok_button" class="pratilipi-red-background-modal-button">${ _strings.writer_okay }</button>
+			</div>
+		</div>
+	</div>
+</div>
+	
+<input name="image" id="image_input" type="file" style="display: none;">
+<input type="hidden" id="field_name" value="" />
+<div class="word-suggester">
+	<div class="word-input"></div>
+	<div class="suggestions">
+		<div class="suggestion"></div>
+	</div>
+</div>
+
+<#-- Styles -->
+<style>
+	<#include "css/toastr.ftl" />
+	<#include "css/style.ftl" />
+</style>
+
+<#-- Scripts -->
+<script>
+	<#include "js/throttle-debounce.ftl" />
+	<#include "js/toastr.ftl" />
+	<#include "js/FBEvents.ftl" />
+	<#include "js/commonFunctions.ftl"/>
+	<#include "js/app.ftl" />
+	<#include "js/mainWriterPanel.ftl" />
+	<#include "js/tableOfContents.ftl" />
+	<#include "js/chapter.ftl" />
+	<#include "js/content.ftl" />
+	<#include "js/chapterName.ftl" />
+	<#include "js/editor.ftl" />
+	<#include "js/pagination.ftl" />
+	<#include "js/categoryModal.ftl" />
+	<#include "js/publishModal.ftl" />
+</script>

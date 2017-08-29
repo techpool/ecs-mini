@@ -1,0 +1,1 @@
+<#include "/ForgotPassword-${lang}.html">

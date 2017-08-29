@@ -1,0 +1,122 @@
+.pratilipi-reader-content {
+
+	.content {
+		overflow-x: auto;
+		overflow-y: hidden;
+		min-height: 80vh;
+		max-width: 700px;
+		margin: auto;
+
+		* {
+			@include css-prefix( "font-smoothing", "antialiased !important" );
+		}
+		.chapter-title {
+			text-align: center;
+		}
+		@media only screen and (max-width: 767px) {
+			text-align: left;
+		}
+		@media only screen and (min-width: 768px) {
+			text-align: justify;
+		}
+	}
+
+	.content img:not(.image-content), .content > img:not(.image-content) {
+		max-width: 100% !important;
+		width: initial !important;
+		height: initial !important;
+		display: block !important;
+		text-align: center !important;
+		margin: 8px auto !important;
+	}
+
+	.next-chapter-container {
+		padding: 8px 0;
+		text-align: center;
+		.next-chapter {
+			background: #333;
+			color: #fff;
+			padding: 12px;
+			display: inline-block;
+		}
+	}
+
+	.last-page-review-container {
+		@include css-prefix( "display", "flex" );
+		@include css-prefix( "flex-direction", "column" );
+		width: 100%;
+		margin: 32px auto;
+		.social-icons-holder {
+			display: block;
+			text-align: center;
+			.sprites-icon {
+				margin: auto 4px;
+			}
+		}
+		.user-image-container {
+			display: block;
+			padding: 8px;
+			margin-top: 25px;
+			img, i {
+				font-size: 48px;
+				color: #333;
+				width: 48px;
+				min-width: 48px;
+				height: 48px;
+				min-height: 48px;
+				display: block;
+				margin: auto;
+				margin-top: 25px;
+				@include css-prefix( "border-radius", "50%" );
+			}
+			hr {
+				margin: auto;
+				margin-bottom: -50px;
+				height: 2px;
+			}
+		}
+		.rating-input-container {
+			display: block;
+			margin: auto;
+			text-align: center;
+		}
+	}
+
+	.lh-sm, .lh-sm *, .lh-sm > * {
+		line-height: 1.4em !important;
+	}
+	.lh-md, .lh-md *, .lh-md > * {
+		line-height: 1.7em !important;
+	}
+	.lh-lg, .lh-lg *, .lh-lg > * {
+		line-height: 2.0em !important;
+	}
+
+	@for $i from 12 through 32 {
+		.content-font-#{$i}, .content-font-#{$i} *, .content-font-#{$i} > * {
+			font-size: 0px + $i !important;
+			h1 {
+				font-size: 8px + $i !important;
+			}
+			h2 {
+				font-size: 6px + $i !important;
+			}
+		}
+	}
+
+}
+
+.pratilipi-reader.th-ngt .pratilipi-reader-content {
+	.next-chapter-container .next-chapter {
+		background: #fff;
+		color: #333;
+	}
+	.user-image-container {
+		i {
+			color: #fff;
+		}
+	}
+	.rating-input-container, .rating-input-container > * {
+		color: #fff;
+	}
+}

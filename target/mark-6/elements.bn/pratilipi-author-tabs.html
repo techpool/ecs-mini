@@ -1,0 +1,1022 @@
+<dom-module id="pratilipi-author-drafted-contents">
+	<style>
+		:host {
+			display: block;
+			margin-top: 6px;
+		}
+		.secondary-500 {
+			padding: 12px 8px;
+		}
+		h6 {
+			font-weight: 700;
+		}
+		hr {
+			margin-top: 0.5em;
+			margin-bottom: 1.2em;
+			border: 0;
+			border-top: 2px solid #eee;
+		}
+		.add-new-card {
+			text-align: center;
+			display: block;
+			cursor: pointer;
+			margin: 0 auto;
+			margin-bottom: 16px;
+			background: linear-gradient(to bottom, #f5f5f5 0%, #d3d3d3 100%);
+			padding: 0 12px;
+		}
+		.add-new-card iron-icon {
+			display: block;
+			margin: 0 auto;
+			margin-bottom: 12px;
+		}
+		.add-new-card span {
+			display: inline-block;
+			vertical-align: middle;
+			line-height: 1.5em;  
+			margin-top: 10px;
+		}
+		@media only screen and (max-width: 599px) {
+			.add-new-card {
+				width: 110px;
+				height: 165px;
+				line-height: 165px;
+			}
+			.add-new-card iron-icon {
+				width: 28px;
+				height: 28px;
+			}
+			.add-new-card span {
+				font-size: 12px;
+			}
+		}
+		@media only screen and (min-width: 600px) {
+			.add-new-card {
+				width: 160px;
+				height: 240px;
+				line-height: 240px;
+			}
+			.add-new-card iron-icon {
+				width: 48px;
+				height: 40px;
+			}
+			.add-new-card span {
+				font-size: 14px;
+			}
+		}
+		.more-button {
+			margin-top: 16px;
+			background: #F1F8FB;
+			padding: 16px;
+			text-align: center;
+			color: #0C68BD;
+			cursor: pointer;
+			font-size: 14px;
+			font-weight: 700;
+			line-height: 14px;
+			text-shadow: 0px 1px 2px #FFFFFF;
+		}
+		paper-spinner {
+			margin: 16px auto;
+			display: block;
+			--paper-spinner-layer-1-color: #D0021B;
+			--paper-spinner-layer-2-color: #107FE5;
+			--paper-spinner-layer-3-color: #D0021B;
+			--paper-spinner-layer-4-color: #107FE5;
+		}
+
+		/* Bootstrap overrides */
+		.row {
+			margin-left: -8px;
+			margin-right: -8px;
+		}
+		.col-xs-4, .col-sm-3, .col-md-3, .col-lg-3 {
+			padding-left: 8px;
+			padding-right: 8px;
+		}
+	</style>
+	<template>
+		<div class="secondary-500 pratilipi-shadow">
+			<h6 class="text-center pratilipi-red">
+				অপ্রকাশিত রচনাসমূহ
+			</h6>
+			<hr/>
+			<div class="row text-center">
+				<div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+					<div class="add-new-card pratilipi-shadow" on-click="_write">
+						<span>
+							<iron-icon icon="add-circle"></iron-icon>
+							নতুন রচনা লিখুন
+						</span>
+					</div>
+				</div>
+				<template is="dom-repeat" items="{{ pratilipiList }}" as="pratilipi">
+					<div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+						<pratilipi-card-mini show-edit-option state="DRAFTED" pratilipi="{{ pratilipi }}"></pratilipi-card-mini>
+					</div>
+				</template>
+			</div>
+			<template is="dom-if" if="{{ isLoading }}">
+				<paper-spinner active></paper-spinner>
+			</template>
+			<template is="dom-if" if="{{ showMore }}">
+				<div class="more-button" on-click="loadMore" onclick="ga_CA( 'Pratilipi', 'LoadMoreDrafts' )">আরও দেখুন...</div>
+			</template>
+		</div>
+		<iron-ajax
+				id="PratilipiListApi"
+				url="/api/pratilipi/list"
+				method="GET"
+				params='{"_apiVer": "2"}'
+				content-type="application/json"
+				handle-as="json"
+				on-response="_pratilipiListApiResponse"
+				on-error="_pratilipiListApiError"
+				></iron-ajax>
+	</template>
+
+	<script>
+		Polymer({
+
+			is: 'pratilipi-author-drafted-contents',
+
+			properties: {
+				author: { type: Object },
+
+				pratilipiList: { type: Array, value: function() { return []; } },
+				cursor: { type: String, value: null },
+				showMore: { type: Boolean, value: false }
+			},
+
+			_write: function() {
+				if( isMobile() )
+					document.querySelector( 'pratilipi-alert' ).alert( "প্রতিলিপিতে লেখা প্রকাশ করতে গেলে অনুগ্রহ করে ডেস্কটপ/ল্যাপটপ থেকে http://bengali.pratilipi.com এ লগ ইন করুন।", false, 10 * 6000 );
+				else
+					document.querySelector( 'pratilipi-write' ).createNewPratilipi( this.author.authorId );
+			},
+
+			removeFromPratilipiList: function( pratilipiId ) {
+				var index = -1;
+				for( var i = 0; i < this.pratilipiList.length; i++ ) {
+					if( pratilipiId == this.pratilipiList[i].pratilipiId ) {
+						index = i;
+						break;
+					}
+				}
+				
+				if( index != -1 ) {
+					this.splice( 'pratilipiList', index, 1 );
+				}
+			},
+
+			getPratilipiById: function( pratilipiId ) {
+				if( pratilipiId == null ) return null;
+				var pratilipi = null;
+				for( var i = 0; i < this.pratilipiList.length; i++ ) {
+					if( pratilipiId == this.pratilipiList[i].pratilipiId ) {
+						pratilipi = this.pratilipiList[i];
+						break;
+					}
+				}
+				return pratilipi;
+			},
+
+			addToPratilipiList: function( pratilipi ) {
+				this.unshift( 'pratilipiList', pratilipi );
+			},
+
+			processPratilipiListObject: function( pratilipiListObject ) {
+				var pratilipiList = pratilipiListObject.pratilipiList;
+				for( var i = 0; i < pratilipiList.length; i++ )
+					this.push( 'pratilipiList', pratilipiList[i] );
+				this.set( 'cursor', pratilipiListObject.cursor );
+				this.set( 'showMore', pratilipiList.length == 20 );
+			},
+
+			ready: function() {
+				this.loadMore();
+			},
+			
+			loadMore: function() {
+				this.set( 'isLoading', true );
+				this.set( 'showMore', false );
+				this.$.PratilipiListApi.params.authorId = this.author.authorId;
+				this.$.PratilipiListApi.params.state = "DRAFTED";
+				if( this.cursor != null )
+					this.$.PratilipiListApi.params.cursor = this.cursor;
+				else
+					delete this.$.PratilipiListApi.params.cursor;
+				this.$.PratilipiListApi.generateRequest();
+			},
+
+			_pratilipiListApiResponse: function( response ) {
+				this.set( 'isLoading', false );
+				this.processPratilipiListObject( response.detail.response );
+			},
+
+			_pratilipiListApiError: function( response ) {
+				this.set( 'isLoading', false );
+				this.set( 'showMore', true );
+				var message = response.detail.request.xhr.response.message != null ? 
+						response.detail.request.xhr.response.message : "কিছু ত্রুটি ঘটেছে! অনুগ্রহপূর্বক আবার চেষ্টা করুন!";
+				document.querySelector( 'pratilipi-alert' ).alert( message, false );
+			},
+
+			publishContent: function( pratilipiId ) {
+				this.domHost.publishContent( pratilipiId );
+			},
+
+			deleteContent: function( pratilipiId ) {
+				this.domHost.deleteContent( pratilipiId );
+			},
+
+		});
+	</script>
+</dom-module><dom-module id="pratilipi-author-published-contents">
+	<style>
+		:host {
+			display: block;
+			margin-top: 6px;
+		}
+		.secondary-500 {
+			padding: 12px 8px;
+		}
+		.works-number {
+			font-size: 14px;
+		}
+		h6 {
+			font-weight: 700;
+		}
+		hr {
+			margin-top: 0.8em;
+			margin-bottom: 1.2em;
+			border: 0;
+			border-top: 2px solid #eee;
+		}
+		.more-button {
+			margin-top: 16px;
+			background: #F1F8FB;
+			padding: 18px;
+			text-align: center;
+			color: #0C68BD;
+			cursor: pointer;
+			font-size: 14px;
+			font-weight: 700;
+			line-height: 14px;
+			text-shadow: 0px 1px 2px #FFFFFF;
+		}
+		paper-spinner {
+			margin: 16px auto;
+			display: block;
+			--paper-spinner-layer-1-color: #D0021B;
+			--paper-spinner-layer-2-color: #107FE5;
+			--paper-spinner-layer-3-color: #D0021B;
+			--paper-spinner-layer-4-color: #107FE5;
+		}
+		.author-no-works {
+			text-align: center;
+			padding: 16px;
+			display: none;
+		}
+		.author-no-works iron-icon {
+			margin: 16px auto;
+			width: 46px;
+			height: 46px;
+		}
+		.author-no-works h6 {
+			font-weight: 500;
+			line-height: 24px;
+			font-size: 15px;
+		}
+
+		/* Bootstrap overrides */
+		.row {
+			margin-left: -8px;
+			margin-right: -8px;
+		}
+		.col-xs-4, .col-sm-3, .col-md-3, .col-lg-3 {
+			padding-left: 8px;
+			padding-right: 8px;
+		}
+	</style>
+	<template>
+		<div class="secondary-500 pratilipi-shadow">
+			<h6 class="text-center pratilipi-red">
+				প্রকাশিত রচনাসমূহ
+			</h6>
+			<div class="works-number text-center">{{ numberFound }} প্রকাশিত সাহিত্য</div>
+			<hr/>
+			<div class="row text-center">
+				<template is="dom-repeat" items="{{ pratilipiList }}" as="pratilipi">
+					<div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+						<pratilipi-card-mini show-edit-option state="PUBLISHED" pratilipi="{{ pratilipi }}"></pratilipi-card-mini>
+					</div>
+				</template>
+			</div>
+			<template is="dom-if" if="{{ isLoading }}">
+				<paper-spinner active></paper-spinner>
+			</template>
+			<template is="dom-if" if="{{ showMore }}">
+				<div class="more-button" on-click="loadMore" onclick="ga_CA( 'Pratilipi', 'LoadMore' )">আরও দেখুন...</div>
+			</template>
+				
+			<div class="author-no-works">
+				<iron-icon icon="icons:info-outline"></iron-icon>
+				<h6>আমরা ক্ষমাপ্রার্থী , এই লেখকের একাউন্টে এখনো পর্যন্ত প্রকাশন কার্য শুরু হয় নি।</h6>
+			</div>
+		</div>
+		<iron-ajax
+				id="PratilipiListApi"
+				url="/api/pratilipi/list"
+				params='{"_apiVer": "2"}'
+				method="GET"
+				content-type="application/json"
+				handle-as="json"
+				on-response="_pratilipiListApiResponse"
+				on-error="_pratilipiListApiError"
+				></iron-ajax>
+	</template>
+
+	<script>
+		Polymer({
+
+			is: 'pratilipi-author-published-contents',
+
+			properties: {
+				author: { type: Object, observer: "_authorObserver" },
+
+				pratilipiList: { type: Array, value: function() { return []; } },
+				cursor: { type: String, value: null },
+				resultCount: { type: Number, value: 12 },
+				numberFound: { type: Number, observer: "_numberFoundObserver" },
+				showMore: { type: Boolean, value: false }
+			},
+
+			_authorObserver: function() {
+				/* Called before first rendering */
+				if( this.pratilipiListObject == null ) return;
+				/* Executed whenever author changes */
+				this.set( 'pratilipiList', [] );
+				this.set( 'cursor', null );
+				this.loadMore();
+			},
+			
+			_numberFoundObserver: function() {
+				jQuery( this ).css( 'display', this.author.hasAccessToUpdate && this.numberFound == 0 ? 'none' : 'block' );
+				jQuery( this.querySelector( '.works-number' ) ).css( 'display', this.numberFound > 0 ? 'block' : 'none' );
+				jQuery( this.querySelector( '.author-no-works' ) ).css( 'display', this.numberFound > 0 ? 'none' : 'block' );
+			},
+
+			getPratilipiById: function( pratilipiId ) {
+				if( pratilipiId == null ) return null;
+				var pratilipi = null;
+				for( var i = 0; i < this.pratilipiList.length; i++ ) {
+					if( pratilipiId == this.pratilipiList[i].pratilipiId ) {
+						pratilipi = this.pratilipiList[i];
+						break;
+					}
+				}
+				return pratilipi;
+			},
+
+			removeFromPratilipiList: function( pratilipiId ) {
+				var index = -1;
+				for( var i = 0; i < this.pratilipiList.length; i++ ) {
+					if( pratilipiId == this.pratilipiList[i].pratilipiId ) {
+						index = i;
+						break;
+					}
+				}
+				
+				if( index != -1 ) {
+					this.splice( 'pratilipiList', index, 1 );
+					this.set( 'numberFound', this.numberFound - 1 );
+				}
+
+			},
+			
+			addToPratilipiList: function( pratilipi ) {
+				this.unshift( 'pratilipiList', pratilipi );
+				this.set( 'numberFound', this.numberFound + 1 );
+			},
+			
+			processPratilipiListObject: function( pratilipiListObject ) {
+				var pratilipiList = pratilipiListObject.pratilipiList;
+				for( var i = 0; i < pratilipiList.length; i++ )
+					this.push( 'pratilipiList', pratilipiList[i] );
+				this.set( 'cursor', pratilipiListObject.cursor != null ? pratilipiListObject.cursor : null );
+				this.set( 'numberFound', pratilipiListObject.numberFound != null ? pratilipiListObject.numberFound : 0 );
+				this.set( 'showMore', pratilipiList.length == this.resultCount && this.pratilipiList.length < this.numberFound );
+			},
+			
+			ready: function() {
+				this.loadMore();
+			},
+
+			loadMore: function() {
+				this.set( 'isLoading', true );
+				this.set( 'showMore', false );
+				this.$.PratilipiListApi.params.authorId = this.author.authorId;
+				this.$.PratilipiListApi.params.state = "PUBLISHED";
+				this.$.PratilipiListApi.params.resultCount = this.resultCount;
+				if( this.cursor != null )
+					this.$.PratilipiListApi.params.cursor = this.cursor;
+				else
+					delete this.$.PratilipiListApi.params.cursor;
+				this.$.PratilipiListApi.generateRequest();
+			},
+
+			_pratilipiListApiResponse: function( response ) {
+				this.set( 'isLoading', false );
+				this.processPratilipiListObject( response.detail.response );
+			},
+
+			_pratilipiListApiError: function( response ) {
+				this.set( 'isLoading', false );
+				this.set( 'showMore', true );
+				var message = response.detail.request.xhr.response.message != null ? 
+						response.detail.request.xhr.response.message : "কিছু ত্রুটি ঘটেছে! অনুগ্রহপূর্বক আবার চেষ্টা করুন!";
+				document.querySelector( 'pratilipi-alert' ).alert( message, false );
+			},
+
+			moveContentToDrafts: function( pratilipiId ) {
+				this.domHost.moveContentToDrafts( pratilipiId );
+			},
+
+			deleteContent: function( pratilipiId ) {
+				this.domHost.deleteContent( pratilipiId );
+			},
+			
+		});
+	</script>
+</dom-module><dom-module id="pratilipi-author-biography">
+	<style>
+		:host {
+			display: block;
+			margin-top: 6px;
+		}
+		.author-biography {
+			padding: 8px;
+		}
+		.author-biography .author-biography-header h6 {
+			font-weight: 700;
+			margin-top: 12px;
+			margin-bottom: 12px;
+			text-align: center;
+		}
+				.author-details table {
+			margin-left: 6px;
+		}
+		.author-details table th {
+			padding: 6px 32px 6px 12px;
+			font-size: 14px;
+		}
+		.author-details td {
+			font-size: 14px;
+		}
+		.author-summary-container {
+			font-family: inherit!important;
+			font-size: 14px!important;
+			line-height: 23px!important;
+			color: #333;
+			padding: 12px 16px;
+		}
+		.author-summary-container h6 {
+			font-size: 15px;
+			margin-top: 12px;
+			font-weight: bold;
+		}
+		
+		@media only screen and (max-width: 600px) {
+			.author-summary-container {
+				text-align: left;
+			}
+		}
+		@media only screen and (min-width: 601px) {
+			.author-summary-container {
+				text-align: justify;
+			}
+		}
+		.more-button {
+			background: #F1F8FB;
+			padding: 16px;
+			text-align: center;
+			color: #0C68BD;
+			cursor: pointer;
+			font-size: 14px;
+			font-weight: 700;
+			line-height: 14px;
+			text-shadow: 0px 1px 2px #FFFFFF;
+		}
+		
+		hr {
+			margin-top: 0.5em;
+			margin-bottom: 0.8em;
+			border: 0;
+			border-top: 2px solid #eee;
+		}
+		
+		.complete-summary {
+			max-height: auto;
+			overflow: visible;
+		}
+		.reduced-summary {
+			max-height: 46px; 
+			overflow: hidden;
+		}
+	</style>
+	<template>
+		<div class="secondary-500 author-biography pratilipi-shadow">
+			<div class="author-biography-header">
+				<h6 class="pratilipi-red">পরিচয়</h6>
+			</div>
+			<hr/>
+			<div class="author-details">
+				<table>
+					<tr>
+						<th>প্রতিলিপির সঙ্গে</th>
+						<td>{{ registrationDate }}</td>
+					</tr>
+					<template is="dom-if" if="{{ hasLocation }}">
+						<tr>
+							<th>অবস্থান</th>
+							<td>{{ location }}</td>
+						</tr>
+					</template>
+					<template is="dom-if" if="{{ hasDateOfBirth }}">
+						<tr>
+							<th>জন্মতারিখ</th>
+							<td>{{ dateOfBirth }}</td>
+						</tr>
+					</template>
+				</table>
+				
+				<div class="author-summary-container" id="author-summary-container">
+					<h6>লেখক পরিচিতি</h6>
+					<div id="author-summary"></div>
+				</div>
+				<div class="more-button" id="more-button" on-click="toggleSnippet" onclick="ga_CA( 'Author', 'LoadMore' )">আরও দেখুন...</div>
+			</div>
+		</div>
+	</template>
+
+	<script>
+	
+		Polymer({
+
+			is: 'pratilipi-author-biography',
+			
+			properties: {
+			 	author: { type: Object, observer: "_authorObserver" },
+			 	summary: { type: String, observer: "_summaryObserver" }
+			},
+			
+			_authorObserver: function() {
+				this.set( 'summary', this.author == null ? null : this.author.summary );
+				this.set( 'registrationDate', this.author == null ? null : convertDate( this.author.registrationDateMillis ) );
+				this.set( 'hasLocation', this.author.location != null );
+				this.set( 'location', this.author.location );
+				this.set( 'hasDateOfBirth', this.author.dateOfBirth != null );
+				this.set( 'dateOfBirth', this.author.dateOfBirth == null ? null : convertDate( this.author.dateOfBirth ) );
+			},
+
+			attached: function() {
+				this._summaryObserver();
+			},
+
+			_summaryObserver: function() {
+
+				if( this.summary == null || this.summary.trim() == "" ) {
+					jQuery( this.querySelector( '.author-summary-container' ) ).css( 'display', 'none' );
+					jQuery( this.querySelector( '.more-button' ) ).css( 'display', 'none' );
+					return;
+				}
+
+				jQuery( this.querySelector( '.author-summary-container' ) ).css( 'display', 'block' );
+
+				/* Called before DOM is attached */
+				if( document.getElementById( "author-summary" ) == null )
+					return;
+
+				var author_summary = document.getElementById( "author-summary" );
+				jQuery( author_summary ).html( this.summary.replace(/\n/g, "<br />") );
+				
+				// Calculating summary height
+				var height = 0;
+				var clone = author_summary.cloneNode( true );
+				clone.style.position = "absolute";
+				clone.style.top = "-1000px";
+				clone.style.width = ( jQuery( 'pratilipi-author-tabs' ).width() - 32 ) + "px"; /* 32px for padding */
+				document.body.appendChild( clone );
+				height = clone.clientHeight;
+				document.body.removeChild( clone );
+				
+				if( height < 92 ) {
+					jQuery( this.querySelector( '#author-summary' ) ).removeClass( 'complete-summary' );
+					jQuery( this.querySelector( '#author-summary' ) ).removeClass( 'reduced-summary' );
+					jQuery( this.querySelector( '#more-button' ) ).css( 'display', 'none' );
+				} else {
+					jQuery( this.querySelector( '#author-summary' ) ).addClass( 'reduced-summary' );
+					jQuery( this.querySelector( '#author-summary' ) ).removeClass( 'complete-summary' );
+					jQuery( this.querySelector( '#more-button' ) ).css( 'display', 'block' );
+				}
+			},
+			
+			toggleSnippet: function() {
+				jQuery( this.querySelector( '#author-summary' ) ).toggleClass( 'reduced-summary' );
+				jQuery( this.querySelector( '#author-summary' ) ).toggleClass( 'complete-summary' );
+				jQuery( this.querySelector( '#more-button' ) ).css( 'display', 'none' );
+			}
+ 
+		});
+
+	</script>
+
+</dom-module><dom-module id="pratilipi-author-following">
+
+	<template>
+				<template is="dom-if" if="{{ !noDisplay }}">
+			<pratilipi-follow-author-grid 
+				follow-list="{{ followList }}"
+				number-found="{{ numberFound }}"
+				title="অনুসরণ"
+				empty-list="{{ emptyList }}"
+				empty-list-message="অনুসরণ সংখ্যা শূন্য"
+				show-modal-button="{{ showModalButton }}"
+				is-loading="[[ isLoading ]]"
+				is-finished="{{ isFinished }}"></pratilipi-follow-author-grid>
+		</template>
+
+		<iron-ajax
+				id="UserAuthorFollowListApi"
+				url="/api/userauthor/follow/list"
+				method="GET"
+				content-type="application/json"
+				handle-as="json"
+				on-response="_userAuthorFollowListApiResponse"
+				on-error="_userAuthorFollowListApiError"
+				></iron-ajax>
+	</template>
+
+	<script>
+
+		Polymer({
+
+			is: 'pratilipi-author-following',
+			
+			properties: {
+				author: { type: Object, observer: "_authorObserver" },
+				userId: { type: String },
+				authorList: { type: Object },
+				followList: { type: Array, value: function() { return []; } },
+				cursor: { type: String },
+				numberFound: { type: Number },
+				resultCount: { type: Number, value: 20 },
+				isLoading: { type: Boolean, value: false },
+				isFinished: { type: Boolean, value: false },
+				emptyList: { type: Boolean, value: true },
+				noDisplay: { type: Boolean, value: false }
+			},
+
+			_authorObserver: function() {
+				/* numberFound will be null only before dom-ready is called */
+				if( this.numberFound == null ) return;
+				this.resetList();
+			},
+			
+			processAuthorListObject: function( authorListObject ) {
+				var followList = [];
+				var authorList = authorListObject.authorList != null ? authorListObject.authorList : [];
+				for( var i = 0; i < authorList.length; i++ ) {
+					var author = authorList[i];
+					var follow = {
+							authorId: author.authorId,
+							name: author.name,
+							pageUrl: author.pageUrl,
+							followCount: author.followCount,
+							imageUrl: author.imageUrl,
+							following: author.following,
+							canFollow: author.user.userId != document.querySelector( 'pratilipi-user' ).getCurrentUser().userId 
+					};
+					followList.push( follow );
+				}
+
+				return { followList: followList,
+						cursor: authorListObject.cursor,
+						numberFound: authorListObject.numberFound != null ? authorListObject.numberFound : 0 };
+			},
+
+			_pushToFollowList: function( followListObject ) {
+				var followList = followListObject.followList;
+				for( var i = 0; i < followList.length; i++ )
+					this.push( 'followList', followList[i] );
+				this.set( 'cursor', followListObject.cursor );
+				this.set( 'numberFound', followListObject.numberFound );
+				this.set( 'isFinished', followListObject.cursor == null || followList.length < this.resultCount );
+				this.set( "emptyList", followListObject.numberFound == 0 );
+				this.set( "showModalButton", followListObject.numberFound > 4 );
+			},
+			
+			attached: function() {
+				this.loadMore();
+			},
+
+			resetList: function() {
+				this.set( 'followList', [] );
+				this.set( 'cursor', null );
+				this.set( 'numberFound', 0 );
+				this.set( 'isFinished', false );
+				this.loadMore();
+			},
+
+			loadMore: function() {
+				this.set( 'isLoading', true );
+				this.$.UserAuthorFollowListApi.params.userId = this.userId;
+				if( this.cursor != null )
+					this.$.UserAuthorFollowListApi.params.cursor = this.cursor;
+				else
+					delete this.$.UserAuthorFollowListApi.params.cursor;
+				this.$.UserAuthorFollowListApi.params.resultCount = this.resultCount;
+				this.$.UserAuthorFollowListApi.generateRequest();
+			},
+
+			_userAuthorFollowListApiResponse: function( response ) {
+				this.set( 'isLoading', false );
+				this._pushToFollowList( this.processAuthorListObject( response.detail.response ) );
+			},
+
+			_userAuthorFollowListApiError: function( response ) {
+				this.set( 'isLoading', false );
+			}
+
+		});
+
+	</script>
+
+</dom-module><dom-module id="pratilipi-author-followers">
+
+	<template>
+				<template is="dom-if" if="{{ !noDisplay }}">
+			<pratilipi-follow-author-grid 
+				follow-list="{{ followList }}"
+				number-found="{{ numberFound }}"
+				title="অনুগামী"
+				empty-list="{{ emptyList }}"
+				empty-list-message="অনুগামী সংখ্যা শূন্য"
+				show-modal-button="{{ showModalButton }}"
+				is-loading="[[ isLoading ]]"
+				is-finished="{{ isFinished }}"></pratilipi-follow-author-grid>
+		</template>
+
+		<iron-ajax
+				id="UserAuthorFollowListApi"
+				url="/api/userauthor/follow/list"
+				method="GET"
+				content-type="application/json"
+				handle-as="json"
+				on-response="_userAuthorFollowListApiResponse"
+				on-error="_userAuthorFollowListApiError"
+				></iron-ajax>
+
+	</template>
+
+	<script>
+
+		Polymer({
+
+			is: 'pratilipi-author-followers',
+			
+			properties: {
+				author: { type: Object, observer: "_authorObserver" },
+				authorId: { type: String },
+				userList: { type: Object },
+				followList: { type: Array, value: function() { return []; } },
+				cursor: { type: String },
+				numberFound: { type: Number },
+				resultCount: { type: Number, value: 20 },
+				isLoading: { type: Boolean, value: false },
+				isFinished: { type: Boolean, value: false },
+				emptyList: { type: Boolean, value: true },
+				noDisplay: { type: Boolean, value: false }
+			},
+
+			_authorObserver: function() {
+				/* numberFound will be null only before dom-ready is called */
+				if( this.numberFound == null ) return;
+				this.resetList();
+			},
+
+			processUserListObject: function( userListObject ) {
+				var followList = [];
+				var userList = userListObject.userList != null ? userListObject.userList : [];
+				for( var i = 0; i < userList.length; i++ ) {
+					var user = userList[i];
+					var follow = {
+						authorId: user.author.authorId,
+						name: user.author.name,
+						pageUrl: user.profilePageUrl,
+						followCount: user.author.followCount,
+						imageUrl: user.profileImageUrl,
+						following: user.author.following,
+						canFollow: user.userId != document.querySelector( 'pratilipi-user' ).getCurrentUser().userId 
+					};
+					followList.push( follow );
+				}
+
+				return { followList: followList,
+						cursor: userListObject.cursor,
+						numberFound: userListObject.numberFound != null ? userListObject.numberFound : 0 };
+			},
+
+			_pushToFollowList: function( followListObject ) {
+				var followList = followListObject.followList;
+				for( var i = 0; i < followList.length; i++ )
+					this.push( 'followList', followList[i] );
+				this.set( 'cursor', followListObject.cursor );
+				this.set( 'numberFound', followListObject.numberFound );
+				this.set( 'isFinished', followListObject.cursor == null || followList.length < this.resultCount );
+				this.set( "emptyList", followListObject.numberFound == 0 );
+				this.set( "showModalButton", followListObject.numberFound > 4 );
+			},
+			
+			attached: function() {
+				this.loadMore();
+			},
+			
+			resetList: function() {
+				this.set( 'followList', [] );
+				this.set( 'cursor', null );
+				this.set( 'numberFound', 0 );
+				this.set( 'isFinished', false );
+				this.loadMore();
+			},
+			
+			loadMore: function() {
+				this.set( 'isLoading', true );
+				this.$.UserAuthorFollowListApi.params.authorId = this.authorId;
+				if( this.cursor != null )
+					this.$.UserAuthorFollowListApi.params.cursor = this.cursor;
+				else
+					delete this.$.UserAuthorFollowListApi.params.cursor;
+				this.$.UserAuthorFollowListApi.params.resultCount = this.resultCount;
+				this.$.UserAuthorFollowListApi.generateRequest();
+			},
+
+			_userAuthorFollowListApiResponse: function( response ) {
+				this.set( 'isLoading', false );
+				this._pushToFollowList( this.processUserListObject( response.detail.response ) );
+			},
+
+			_userAuthorFollowListApiError: function( response ) {
+				this.set( 'isLoading', false );
+			}
+
+		});
+
+	</script>
+
+</dom-module>
+<dom-module id="pratilipi-author-tabs">
+	<style>
+		:host {
+			display: block;
+			margin-bottom: 12px;
+		}
+		.nav-tabs>li>a {
+			font-size: 14px;
+			line-height: 32px;
+			border: none;
+			color: #333;
+			letter-spacing: 0;
+		}
+		.nav-tabs, .nav-tabs>li>a:hover {
+			border-bottom: none;
+			border-top: none;
+			border-left: none;
+			border-right: none;
+			background: none;
+		}
+		.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+			border-bottom: 3px solid #D0021B;
+			border-top: none;
+			border-left: none;
+			border-right: none;
+			background: none;
+			font-weight: 700;
+		}
+		.fade {
+			opacity: 0;
+			-webkit-transition: opacity 0.05s linear;
+			-moz-transition: opacity 0.05s linear;
+			-o-transition: opacity 0.05s linear;
+			transition: opacity 0.05s linear;
+		}
+		.fade.in {
+			opacity: 1;
+			-webkit-transition: opacity 0.05s linear;
+			-moz-transition: opacity 0.05s linear;
+			-o-transition: opacity 0.05s linear;
+			transition: opacity 0.05s linear;
+	}
+	</style>
+	<template>
+		<div class="secondary-500 pratilipi-shadow">
+			<ul class="nav nav-tabs" role="tablist">
+				<li id="author-activity-tab" style="width: 50%;" role="presentation" class="active">	<a href="#author-activity" 	class="text-center" aria-controls="author-activity" role="tab" data-toggle="tab">কার্যকলাপ</a>	</li>
+				<li id="author-about-tab" style="width: 50%;" role="presentation">				<a href="#author-about" 	class="text-center" aria-controls="author-about" 	role="tab" data-toggle="tab">লেখক পরিচিতি</a>		</li>
+			</ul>
+		</div>
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane fade in active" id="author-activity">
+
+				<template is="dom-if" if="{{ hasAccessToUpdate }}">
+					<pratilipi-author-drafted-contents 
+						author="[[ author ]]"></pratilipi-author-drafted-contents>
+				</template>
+
+				<pratilipi-author-published-contents 
+						author="[[ author ]]"></pratilipi-author-published-contents>
+
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="author-about">
+				<pratilipi-author-biography author="[[ author ]]"></pratilipi-author-biography>
+				<template is="dom-if" if="{{ hasUserId }}">
+					<pratilipi-author-following author="[[ author ]]" user-id="{{ userId }}"></pratilipi-author-following>
+				</template>
+				<pratilipi-author-followers author="[[ author ]]" author-id="{{ authorId }}"></pratilipi-author-followers>
+			</div>
+		</div>
+		<iron-ajax
+				id="PratilipiApi"
+				url="/api/pratilipi?_apiVer=2"
+				method="POST"
+				content-type="application/x-www-form-urlencoded"
+				handle-as="json"
+				on-response="_pratilipiApiResponse"
+				on-error="_pratilipiApiError"
+				></iron-ajax>
+	</template>
+	<script>
+	Polymer({
+
+		is: 'pratilipi-author-tabs',
+		
+		properties: {
+			author: { type: Object, observer: "_authorObserver" },
+		},
+		
+		_authorObserver: function() {
+			this.set( 'hasAccessToUpdate', this.author.hasAccessToUpdate );
+			this.set( 'hasUserId', this.author.user != null && this.author.user.userId != null );
+			this.set( 'userId', this.author.user ? this.author.user.userId : null );
+			this.set( 'authorId', this.author.authorId );
+		},
+
+		moveContentToDrafts: function( pratilipiId ) {
+			var pratilipi = this.querySelector( 'pratilipi-author-published-contents' ).getPratilipiById( pratilipiId );
+			this.querySelector( 'pratilipi-author-published-contents' ).removeFromPratilipiList( pratilipiId );
+			this.querySelector( 'pratilipi-author-drafted-contents' ).addToPratilipiList( pratilipi );
+			this._pratilipiApiPostCall( pratilipiId, "DRAFTED" );
+		},
+
+		publishContent: function( pratilipiId ) {
+			var pratilipi = this.querySelector( 'pratilipi-author-drafted-contents' ).getPratilipiById( pratilipiId );
+			this.querySelector( 'pratilipi-author-drafted-contents' ).removeFromPratilipiList( pratilipiId );
+			this.querySelector( 'pratilipi-author-published-contents' ).addToPratilipiList( pratilipi );
+			this._pratilipiApiPostCall( pratilipiId, "PUBLISHED" );
+		},
+
+		deleteContent: function( pratilipiId ) {
+			this._pratilipiApiPostCall( pratilipiId, "DELETED" );
+		},
+
+		_pratilipiApiPostCall: function( pratilipiId, state ) {
+			this.$.PratilipiApi.body = jQuery.param( { "pratilipiId": pratilipiId, "state": state } );
+			this.$.PratilipiApi.generateRequest();
+		},
+
+		_pratilipiApiResponse: function( response ) {
+			var pratilipi = response.detail.response;
+			if( pratilipi.state == "DELETED" ) {
+				document.querySelector( 'pratilipi-alert' ).alert( "বিষয়বস্তু সফলভাবে মুছে ফেলা হয়েছে!" );
+				window.location.reload();
+			}
+		},
+
+		_pratilipiApiError: function( response ) {
+			document.querySelector( 'pratilipi-alert' ).alert( response != null && response.detail.request.xhr.response.message != null ? 
+						response.detail.request.xhr.response.message : "কিছু ত্রুটি ঘটেছে! অনুগ্রহপূর্বক আবার চেষ্টা করুন!", false );
+			this.async( function() { window.location.reload(); }, 2000 );
+		},
+
+		switchTabs: function() {
+			if( jQuery( ".nav-tabs li.active" ).attr( 'id' ) == "author-activity-tab" ) {
+				jQuery( '.nav-tabs a[href="#author-about"]' ).tab( 'show' );
+			} else if( jQuery( ".nav-tabs li.active" ).attr( 'id' ) == "author-about-tab" ) {
+				jQuery( '.nav-tabs a[href="#author-activity"]' ).tab( 'show' );
+			}
+		}
+		
+	});
+	</script>
+</dom-module>

@@ -1,0 +1,627 @@
+<dom-module id="pratilipi-rating">
+
+	<style>
+
+		.standard iron-icon {
+			color: #D0021B;
+			width: 20px;
+			height: 20px;
+		}
+		
+		.mini {
+			display: inline-block;
+		}
+		
+		.mini iron-icon {
+			width: 20px;
+			height: 16px;
+			margin: -4px;
+		}
+		
+	</style>
+
+
+	<template>
+		<div class="rating-stars">
+			<iron-icon icon="{{ icon1 }}"></iron-icon>
+			<iron-icon icon="{{ icon2 }}"></iron-icon>
+			<iron-icon icon="{{ icon3 }}"></iron-icon>
+			<iron-icon icon="{{ icon4 }}"></iron-icon>
+			<iron-icon icon="{{ icon5 }}"></iron-icon>
+			<content></content>
+		</div>
+		<br class="pratilipi-break"/>
+	</template>
+
+
+	<script>
+
+		Polymer({
+
+			is: 'pratilipi-rating',
+
+			properties: {
+				value: { type: Number, observer:"_setValue" },
+				mini: { type: Boolean, value: false }
+			},
+			
+			_setZero: function() {
+				for( var i = 1; i <= 5; i++ )
+					this.set( "icon" + i, "star-border" );
+			},
+			
+			_setValue: function( value ) {
+				this._setZero();
+				jQuery( this.querySelector( '.rating-stars' ) ).addClass( this.mini == true ? "mini" : "standard" );
+				if( this.value >= 0.01 )
+					this.set( "icon1" , "star-half" );
+				if( this.value >= 0.51 )
+					this.set( "icon1" , "star" );
+				if( this.value >= 1.01 )
+					this.set( "icon2" , "star-half" );
+				if( this.value >= 1.51 )
+					this.set( "icon2" , "star" );
+				if( this.value >= 2.01 )
+					this.set( "icon3" , "star-half" );
+				if( this.value >= 2.51 )
+					this.set( "icon3" , "star" );
+				if( this.value >= 3.01 )
+					this.set( "icon4" , "star-half" );
+				if( this.value >= 3.51 )
+					this.set( "icon4" , "star" );
+				if( this.value >= 4.01 )
+					this.set( "icon5" , "star-half" );
+				if( this.value >= 4.51 )
+					this.set( "icon5" , "star" );
+					
+			},
+			
+			ready: function() {
+				this._setValue();
+			}
+
+		});
+
+	</script>
+
+</dom-module>
+<dom-module id="pratilipi-card">
+
+	<style>
+	
+		:host {
+			display: inline-block;
+			width: 100%;
+		}
+		
+		paper-card {
+			height: 200px;
+			width: 100%;
+			--paper-card-header: { display: none };
+		}
+		
+		paper-menu {
+			--paper-menu-color: #333;
+			--paper-menu-focused-item: {
+				color: #107FE5;
+			};
+		}
+		
+		paper-menu-button {
+			position: absolute; 
+			top: 0px; 
+			right: 0px;
+		}
+		
+		paper-icon-button {
+			color: #333;
+		}
+		
+		paper-item {
+			cursor: pointer;
+		}
+		
+	</style>
+
+
+	<template>
+		<paper-card>
+				<div class="media pratilipi-card-media">
+					
+					<div class="media-left">
+						<a href="{{ pratilipi.pageUrl }}">
+							<iron-image class="pratilipi-shadow" 
+										width="100" height="150" 
+										style="background-color: #f5f5f5" 
+										fade preload
+										sizing="cover" 
+										src="{{ pratilipiCoverImage }}" 
+										alt="{{ pratilipi.title }}" 
+										title="{{ pratilipi.title }}"></iron-image>
+						</a>
+					</div>
+					
+				  	<div class="media-body">
+				  		<div class="contain-title ellipsed pratilipi-red">
+				  		 	<a class="pratilipi-card-heading pratilipi-red" data-toggle="tooltip" data-placement="top" title="{{ pratilipi.title }}" href="{{ pratilipi.pageUrl }}">{{ pratilipi.title }}</a>
+						</div>
+						
+						<template is="dom-if" if="{{ pratilipi.author }}">
+							<template is="dom-if" if="{{ !draftsActive }}">
+								<h6><a class="pratilipi-card-author" href="{{ pratilipi.author.pageUrl }}">{{ pratilipi.author.name }}</a></h6>
+							</template>
+						</template>
+						
+						<template is="dom-if" if="{{ showRating }}">
+							<pratilipi-rating value="{{ pratilipi.averageRating }}">
+								<span class="rating-text">&nbsp;
+									{{ pratilipi.ratingCount }}
+									<iron-icon style="width: 16px; height: 16px;" icon="social:people"></iron-icon>
+								</span>
+							</pratilipi-rating>
+						</template>
+						
+						<template is="dom-if" if="{{ draftsActive }}">
+							<paper-menu-button horizontal-align="right" class="pull-right">
+								<paper-icon-button class="dropdown-trigger" icon="more-vert" noink="true"></paper-icon-button>
+									<paper-menu class="dropdown-content">
+										<paper-item on-click="redirectToReader">વાંચો</paper-item>
+									</paper-menu>
+							</paper-menu-button>
+						</template>
+
+						<template is="dom-if" if="{{ publishedActive }}">
+							<paper-menu-button horizontal-align="right" class="pull-right">
+								<paper-icon-button class="dropdown-trigger" icon="more-vert" noink="true"></paper-icon-button>
+									<paper-menu class="dropdown-content">
+										<paper-item on-click="redirectToWriter">રચનામાં સુધારો કરો</paper-item>
+				                    	<paper-item on-click="moveToDrafts">અપ્રકાશિત કરો</paper-item>
+									</paper-menu>
+							</paper-menu-button>
+						</template>
+						
+						<div style="position: absolute; bottom: 25px; display: inline-block;">
+							<template is="dom-if" if="{{ draftsActive }}">
+								<a on-click="publishNow" class="pratilipi-light-blue-button">પ્રકાશિત કરો</a>
+								<br class="pratilipi-break" />
+								<a on-click="redirectToWriter" class="pratilipi-light-blue-button">રચનામાં સુધારો કરો</a>
+							</template>
+							<template is="dom-if" if="{{ ! draftsActive }}">
+								<a on-click="redirectToReader" class="pratilipi-light-blue-button">વાંચો</a>
+							</template>
+						</div>
+						
+					</div>
+				</div>
+		</paper-card>
+		<iron-ajax
+				id="AjaxPost"
+				url="/api/pratilipi?_apiVer=2"
+				method="POST"
+				content-type="application/x-www-form-urlencoded"
+				handle-as="json"
+				on-response="_handleAjaxPostResponse"
+				on-error="_handleAjaxPostError"
+				></iron-ajax>
+		<iron-ajax
+				id="userpratilipiPost"
+				url="/api/userpratilipi/library"
+				method="POST"
+				content-type="application/x-www-form-urlencoded"
+				handle-as="json"
+				on-response="_handleUserPratilipiPostResponse"
+				on-error="_handleUserPratilipiPostError"
+				></iron-ajax>
+	</template>
+
+
+	<script>
+
+		Polymer({
+
+			is: 'pratilipi-card',
+			
+			properties: {
+				pratilipi: { type: Object },
+				
+				draftsActive: { type: Boolean, value: false, observer: "init" },
+				publishedActive: { type: Boolean, value: false },
+				hideAddToLibraryButton: { type: Boolean, value: false },
+				showRemoveFromLibraryButton: { type: Boolean, value: false }
+			},
+			
+			redirectToReader: function() {
+				window.location.href = this.pratilipi.readPageUrl + "&ret=" + window.location.pathname + encodeURIComponent( window.location.search );
+			},
+			
+			redirectToWriter: function() {
+				window.location.href = this.pratilipi.writePageUrl + "&ret=" + window.location.pathname;
+			},
+			
+			addToLibrary: function() {
+				if( document.querySelector( 'pratilipi-user' ).getCurrentUser().isGuest ) {
+					document.querySelector( 'pratilipi-user' ).logIn();
+				} else {
+					this.$.userpratilipiPost.body = ( "pratilipiId=" + this.pratilipi.pratilipiId + "&" + "addedToLib=true" );
+					this.$.userpratilipiPost.generateRequest();
+				}
+				
+			},
+			
+			removeFromLibrary: function() {
+				this.$.userpratilipiPost.body = ( "pratilipiId=" + this.pratilipi.pratilipiId + "&" + "addedToLib=false" );
+				this.$.userpratilipiPost.generateRequest();
+			},
+			
+			_handleUserPratilipiPostResponse: function( event ) {				
+				// If remove option
+				if( this.showRemoveFromLibraryButton )
+					document.querySelector( 'pratilipi-library-page' ).removePratilipiById( this.pratilipi.pratilipiId );
+				alert( "Success!" );
+			},
+			
+			_handleUserPratilipiPostError: function( event ) {
+				alert( "Error at server, please try again!" );
+			},
+			
+			attached: function() {
+				
+				if( this.pratilipi.coverImageUrl.indexOf( '?' ) == -1 )
+					this.pratilipiCoverImage = this.pratilipi.coverImageUrl + "?" + "width=100";
+				else
+					this.pratilipiCoverImage = this.pratilipi.coverImageUrl + "&" + "width=100";
+				
+				jQuery( this.querySelector( '.ellipsed' ) ).width( jQuery( this ).width() - 130 );
+				$('[data-toggle="tooltip"]').tooltip();
+				$("[data-placement=top]").hover(function(){
+    				$( '.tooltip' ).css( 'left','130px' )
+    				$( '.tooltip' ).css( 'white-space','normal' )
+				});
+				
+				if( this.pratilipi.ratingCount != null && this.pratilipi.ratingCount > 0 )
+					this.showRating = true;
+				else
+					this.showRating = false;
+			},
+			
+			init: function() {
+				if( this.pratilipi == null )
+					return;
+
+				this.async( function() {
+					jQuery( this.querySelector( '.ellipsed' ) ).width( jQuery( this ).width() - 130 );
+				}, 30 );
+			},
+			
+			publishNow: function() {
+				this.$.AjaxPost.body = jQuery.param( { "pratilipiId": this.pratilipi.pratilipiId, "state": "PUBLISHED" } );
+				this.$.AjaxPost.generateRequest();
+			},
+			
+			moveToDrafts: function() {
+				this.$.AjaxPost.body = jQuery.param( { "pratilipiId": this.pratilipi.pratilipiId, "state": "DRAFTED" } );
+				this.$.AjaxPost.generateRequest();
+			},
+			
+			_handleAjaxPostResponse: function( event ) {
+				
+				var pratilipi = event.detail.response;
+				
+				// Move to Published Section if drafts is already active
+				if( this.draftsActive ) {
+					document.querySelector( 'pratilipi-author-books' ).addToPublishedList( pratilipi );
+					document.querySelector( 'pratilipi-author-books' ).removeFromDraftedList( pratilipi );
+					document.querySelector( 'pratilipi-author-books' ).publishedClicked();
+				}
+				// Move to Drafted Section if published is already active
+				else if( this.publishedActive ) {
+					document.querySelector( 'pratilipi-author-books' ).addToDraftedList( pratilipi );
+					document.querySelector( 'pratilipi-author-books' ).removeFromPublishedList( pratilipi );
+					document.querySelector( 'pratilipi-author-books' ).draftsClicked();
+				}
+				
+			},
+			
+			_handleAjaxPostError: function( event ) {
+				if( event.detail.request.xhr.status === 400 || event.detail.request.xhr.status === 401 || event.detail.request.xhr.status === 500 )
+					alert( event.detail.request.xhr.response.message );
+				else
+					alert( "ટેકનીકલ ખામી હોવાથી ફરી પ્રયત્ન કરો" );
+			}
+		});
+
+	</script>
+
+</dom-module>
+<dom-module id="pratilipi-card-grid">
+
+	<style>
+		
+		:host {
+			display: block;
+		}
+		
+		paper-card.add-card {
+			width: 100%;
+			height: 200px;
+			background: #E0E0E0;
+			--paper-card-header: { display: none };
+		}
+		
+		paper-card.zero-results {
+			width: 100%; 
+			text-align: center; 
+			padding: 50px 15px; 
+			margin-bottom: 10px;
+		}
+		
+		iron-icon {
+			--iron-icon-height: 64px;
+			--iron-icon-width: 64px;
+		}
+		
+		iron-icon.zero-results-icon {
+			color: #545454; 
+			width: 64px; 
+			height: 64px;
+		}
+		
+		h5.zero-results-h5 {
+			color: #545454; 
+			font-size: 18px;
+			line-height: 32px;
+			margin-top: 24px;
+		}
+		
+		paper-spinner.pratilipi-spinner {
+			--paper-spinner-layer-1-color: #D0021B;
+			--paper-spinner-layer-2-color: #107FE5;
+			--paper-spinner-layer-3-color: #D0021B;
+			--paper-spinner-layer-4-color: #107FE5;
+		}
+		
+		/* Specific to card-grid */
+		.row {
+			margin-right: -3px;
+			margin-left: -3px;
+		}
+		
+		.col-xs-12, .col-sm-6, .col-md-6, .col-lg-6 {
+			padding-left: 4px;
+			padding-right: 4px;
+		}
+		
+	</style>
+
+	
+	<template>
+		
+		<!-- Card Grid Heading  -->
+		<template is="dom-if" if="{{ heading }}">
+			<div class="secondary-500 pratilipi-shadow pratilipi-card-grid-heading pratilipi-red">
+				<template is="dom-if" if="[[ !headingUrl ]]">
+					{{ heading }}
+				</template>
+				<template is="dom-if" if="{{ headingUrl }}">
+					<a class="pratilipi-red" style="font-size: 22px;" href="{{ headingUrl }}">{{ heading }}</a>
+					<a href="{{ headingUrl }}" class="link pull-right pratilipi-blue">વધુ જુઓ...</a>
+				</template>
+			</div>
+			<br class="pratilipi-break"/>
+		</template>
+		
+		<!-- No Books found in case of no results -->
+		<template is="dom-if" if="[[ zeroSearchResults ]]">
+			<paper-card class="zero-results">
+				<iron-icon icon="icons:search" class="zero-results-icon"></iron-icon>
+				<h5 class="zero-results-h5">માફ કરશો, આપે કરેલ શોધનું પરિણામ અપ્રાપ્ય છે.</h5>
+			</paper-card>
+		</template>
+		
+		<template is="dom-if" if="[[ zeroAuthorBooks ]]">
+			<paper-card class="zero-results">
+				<iron-icon icon="icons:info-outline" class="zero-results-icon"></iron-icon>
+				<h5 class="zero-results-h5">માફ કરશો. આ રચનાકારના ખાતામાં સાહિત્ય પ્રકાશન થયેલ નથી.</h5>
+			</paper-card>
+		</template>
+		
+		<!-- List of Books -->
+		<div class="row">
+			<template is="dom-repeat" id="repeatPratilipiList" items="[[ pratilipiList ]]">
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+					<pratilipi-card 
+						hide-add-to-library-button="{{ hideAddToLibraryButton }}"
+						show-remove-from-library-button="{{ showRemoveFromLibraryButton }}"
+						pratilipi="[[ item ]]"
+						drafts-active="[[ draftsActive ]]"
+						published-active="[[ publishedActive ]]"></pratilipi-card>
+				</div>
+			</template>
+		</div>
+		
+		<!-- Spinner when Loading more books -->
+		<template is="dom-if" if="{{ isLoading }}">
+			<paper-spinner class="pratilipi-spinner pratilipi-spinner-center" active></paper-spinner>
+		</template>
+		
+		
+		<!-- Show More Button in case of network call failure -->
+		<template is="dom-if" if="{{ includeShowMoreButton }}">
+			<button style="width: 100%;" class="pratilipi-new-blue-button" on-click="loadMore">વધુ રચનાઓ  તરફ</button>
+		</template>
+		
+		<iron-ajax
+				id="AjaxGet"
+				url="/api/pratilipi/list"
+				method="GET"
+				params="[[ filter ]]"
+				content-type="application/json"
+				handle-as="json"
+				on-response="_handleAjaxGetResponse"
+				on-error="_handleAjaxGetError"
+				></iron-ajax>
+
+	</template>
+
+
+	<script>
+
+		Polymer({
+			
+			is: 'pratilipi-card-grid',
+
+			properties: {
+				authorId: { type: String, value: null },
+				heading: { type: String },
+				headingUrl: { type: String, value: null },
+				pratilipiList: { type: Array, notify: true },
+				searchQuery: { type: String },
+				filter: { type: Object },
+				cursor: { type: String },
+
+				isLoading: { type: Boolean, value: false },
+				isFinished: { type: Boolean, value: false },
+				
+				includeShowMoreButton: { type: Boolean, value: false },
+				
+				draftsActive: { type: Boolean, value: false },
+				publishedActive: { type: Boolean, value: false },
+				
+				zeroSearchResults: { type: Boolean, value: false },
+				zeroAuthorBooks: { type: Boolean, value: false },
+				
+				hideAddToLibraryButton: { type: Boolean, value: false },
+				showRemoveFromLibraryButton: { type: Boolean, value: false }
+			},
+			
+			setSearchQuery: function( query ) {
+				this.set( 'searchQuery', query );
+				this.reset();
+			},
+			
+			pushToPratilipiList: function( pratilipiList ) {
+				for( var i = 0; i < pratilipiList.length; i++ )
+					this.push( 'pratilipiList', pratilipiList[i] );
+			},
+
+			checkForZeroResults: function() {
+				
+				if( this.pratilipiList.length != 0 ) {
+					this.zeroSearchResults = false;
+					this.zeroAuthorBooks = false;
+					return;
+				}
+				
+				if( this.searchQuery != null )
+					this.zeroSearchResults = true;
+				
+				if( ! this.includeAddCard && this.$.AjaxGet.params.authorId != null )
+					this.zeroAuthorBooks = true;
+				
+			},
+			
+			reset: function() {
+				
+				var ajaxGet = this.$.AjaxGet;
+
+				if( ajaxGet.lastRequest )
+					ajaxGet.lastRequest.abort();
+				
+				this.set( "pratilipiList", [] );
+				
+				// Setting the flags and clearing the cursor.
+				this.cursor = null;
+				this.isLoading = true;
+				this.isFinished = false;
+				this.zeroSearchResults = false;
+				this.zeroAuthorBooks = false;
+
+				// Set params and make ajax GET call. Filters already set when element initialised.
+				if( this.searchQuery != null )
+					ajaxGet.params.searchQuery = this.searchQuery;
+				
+				if( ajaxGet.params.state == null )
+					ajaxGet.params.state = "PUBLISHED";
+				
+				delete ajaxGet.params.cursor;
+				ajaxGet.params._apiVer = "2";
+				this.async( function() { ajaxGet.generateRequest(); });
+			},
+			
+			loadMore: function() {
+				
+				if( !this.isLoading && !this.isFinished )
+					this.includeShowMoreButton = true;
+				
+				// Return if there is an active call or cursor = null.
+				if( this.isLoading || this.isFinished || this.cursor == null || this.cursor == "" )
+					return;
+
+				// Check for window height.
+				var reqHeight = jQuery( window ).scrollTop()
+						- jQuery( this ).position().top
+						+ jQuery( window ).height()
+						+ 3 * jQuery( window ).height();
+
+				if( jQuery( this ).outerHeight( true ) >= reqHeight )
+					return;
+				
+				
+				// Spinner Active and disable show more button.
+				this.isLoading = true;
+				this.includeShowMoreButton = false;
+				
+				// Set params and make ajax GET call. Filters already set when element initialised.
+				var ajaxGet = this.$.AjaxGet;
+				if( this.searchQuery != null )
+					ajaxGet.params.searchQuery = this.searchQuery;
+				
+				// Set state = PUBLISHED iff state is null. ( Might be set in filters )
+				if( ajaxGet.params.state == null )
+					ajaxGet.params.state = "PUBLISHED";
+				
+				ajaxGet.params.cursor = this.cursor;
+				ajaxGet._apiVer = "2";
+				this.async( function() { ajaxGet.generateRequest(); });
+				ga_CA( 'Pratilipi', 'LoadMore' );
+			},
+			
+			_handleAjaxGetResponse: function( request ) {
+				
+				// Disable spinner
+				this.isLoading = false;
+				
+				// Call didn't succeed.
+				if( ! request.detail.response )
+					return;
+				
+				var pratilipiList = request.detail.response.pratilipiList;
+				this.pushToPratilipiList( pratilipiList );
+
+				if( request.detail.response.cursor == null || pratilipiList.length < 20 ) {
+					this.includeShowMoreButton = false;
+					this.isFinished = true;
+				}
+				else
+					this.cursor = request.detail.response.cursor;
+				
+				this.checkForZeroResults();
+
+			},
+
+			_handleAjaxGetError: function() {
+				this.isLoading = false;
+				this.includeShowMoreButton = true;
+			},
+			
+			attached: function() {
+				if( this.pratilipiList.length < 20 || this.cursor == "" )
+					this.isFinished = true;
+				this.checkForZeroResults();
+			}
+
+		});
+
+	</script>
+
+</dom-module>

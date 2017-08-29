@@ -1,0 +1,138 @@
+<div class="mdl-layout mdl-js-layout pratilipi-search-page">
+	<div class="pratilipi-search-header mdl-card-border">
+		<div class="header">
+			<button data-bind="click: exitSearch"
+					onclick="ga_CA( 'Search', 'Back' )"
+					class="mdl-button mdl-js-button mdl-button--icon exit-search-button">
+				<i class="material-icons">arrow_back</i>
+			</button>
+			<input type="text" data-bind="{ value: appViewModel.searchQuery, hasFocus: inputFocused, attr: { placeholder: placeholderText } }" />
+			<button class="search-button"
+			        onclick="ga_CA( 'Search', 'SearchIconClick' )"
+			        data-bind="visible: ! isLoading()">
+				<i class="material-icons">search</i>
+			</button>
+			<span data-bind="visible: isLoading()"
+				  class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active search-loading-spinner"></span>
+		</div>
+	</div>
+	<div class="mdl-layout__content" data-bind="event: { scroll: appViewModel.notifyOfScrollEvent }">
+		<div class="body mdl-card-border">
+
+			<div class="mdl-grid default-result" data-bind="visible: loadedState() == 'INITIAL'">
+				<div class="mdl-cell mdl-cell--6-col">
+					<!-- ko component: "pratilipi-search-trends" --><!-- /ko -->
+				</div>
+				<div class="mdl-cell mdl-cell--6-col mdl-layout--large-screen-only">
+					<!-- ko component: "pratilipi-current-event" --><!-- /ko -->
+				</div>
+			</div>
+
+			<!--
+			<div class="mdl-grid search-results-incomplete">
+				<div class="mdl-cell mdl-cell--6-col">
+					<div class="material-subtitle-1 result-title">Author Matches</div>
+					<div class="result-entries">
+						<a class="result-link material-body-1" href="#">Jaganath Sharma</a>
+						<a class="result-link material-body-1" href="#">Jaganath Mishra</a>
+						<a class="result-link material-body-1" href="#">Jagal</a>
+					</div>
+				</div>
+				<div class="mdl-cell mdl-cell--6-col">
+					<div class="material-subtitle-1 result-title">Content Matches</div>
+					<div class="result-entries">
+						<a class="result-link material-body-1" href="#">Jaganath Sharma</a>
+						<a class="result-link material-body-1" href="#">Jaganath Mishra</a>
+						<a class="result-link material-body-1" href="#">Jagal</a>
+					</div>
+				</div>
+			</div>
+			-->
+
+			<div class="search-results-complete" data-bind="visible: loadedState() == 'LOADED'">
+				<div class="mdl-grid" style="padding-top: 0; padding-bottom: 0;">
+					<div class="mdl-cell mdl-cell--12-col search-results-heading"
+					     data-bind="text: '${ _strings.search_results_for }'.replace( '$query', updatedSearchQuery() )">
+					</div>
+				</div>
+				<!-- ko if: authorList().length > 0 -->
+				<div class="mdl-grid author-results">
+					<div class="mdl-cell mdl-cell--12-col">
+						<div class="material-subtitle-1">${ _strings.search_results_authors }</div>
+					</div>
+					<div class="pratilipi-carousel" data-bind="carousel: true">
+						<div class="carousel-wrapper">
+							<div class="carousel">
+								<ul data-bind="foreach: { data: authorList, as: 'author' }, visible: authorList().length > 0">
+									<li data-bind="component: {
+										name: 'pratilipi-author-card',
+										params: { author: author }
+									}"></li>
+								</ul>
+							</div>
+						</div>
+						<button action="prev" onclick="ga_CA( 'Author', 'ShowLess' )">
+							<i class="material-icons">keyboard_arrow_left</i>
+						</button>
+						<button action="next" onclick="ga_CA( 'Author', 'ShowMore' )">
+							<i class="material-icons">keyboard_arrow_right</i>
+						</button>
+					</div>
+				</div>
+				<!-- /ko -->
+				<!-- ko if: pratilipiList().length > 0 -->
+				<div class="pratilipi-results">
+					<div class="mdl-grid" style="padding-top: 0; padding-bottom: 0;">
+						<div class="mdl-cell mdl-cell--12-col">
+							<div class="material-subtitle-1">${ _strings.search_results_contents }</div>
+						</div>
+					</div>
+					<div data-bind="foreach: { data: pratilipiList, as: 'pratilipi' }, visible: pratilipiList().length > 0"
+						 class="mdl-grid pratilipi-list-grid js-pratilipi-list-grid mobile-card">
+						<div class="mdl-cell mdl-cell--12-col-phone mdl-cell--12-col-tablet mdl-cell--12-col-desktop mobile-card pratilipi-list-card">
+							<!-- ko component: {
+								name: "pratilipi-pratilipi-card",
+								params: { pratilipi: pratilipi, hideLibraryButton: true }
+							} -->
+							<!-- /ko -->
+						</div>
+					</div>
+					<div class="load-more-container" data-bind="visible: hasMorePratilipiContents() && pratilipiList().length > 0">
+						<button data-bind="{ click: fetchSubsequentPratilipiList, visible: ! isLoadingPratilipi() }"
+								class="mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect">
+							${ _strings.load_more_contents }
+						</button>
+						<span data-bind="visible: isLoadingPratilipi()" class="initial-data-loading-spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></span>
+					</div>
+				</div>
+				<!-- /ko -->
+			</div>
+
+			<div class="mdl-grid search-loaded-empty" data-bind="visible: loadedState() == 'LOADED_EMPTY'">
+				<div class="mdl-cell mdl-cell--12-col material-subtitle-1">
+					${ _strings.search_no_results_found }
+				</div>
+			</div>
+
+			<div class="mdl-grid search-load-failed" data-bind="visible: loadedState() == 'FAILED'">
+				<div class="mdl-cell mdl-cell--12-col material-subtitle-1">
+					${ _strings.search_load_failed }
+				</div>
+			</div>
+
+			<div class="mdl-grid explore-categories" data-bind="visible: loadedState() == 'INITIAL' || loadedState() == 'LOADED_EMPTY' || loadedState() == 'FAILED'">
+				<div class="mdl-cell mdl-cell--12-col pratilipi-red material-subtitle-1" data-bind="text: loadedState() == 'INITIAL' ? '${ _strings.search_explore_categories }' : '${ _strings.search_explore_categories_help }'"></div>
+				<#list navigationList as navigation>
+					<#list navigation.linkList as link>
+						<a href="${ link.url }" class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--12-col-phone image-bk"
+						   style="background-image: url('https://0.ptlp.co/resource-all/android-category-banners/${ link.imageName }');" onclick="ga_CA( 'Search-Category', 'Open-${ link.analytics }' );">
+							<span class="link-name material-subtitle-1">${ link.name }</span>
+						</a>
+					</#list>
+					<#break> <#-- Only categories -->
+				</#list>
+			</div>
+
+		</div>
+	</div>
+</div>

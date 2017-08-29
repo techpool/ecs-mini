@@ -1,0 +1,256 @@
+<dom-module id="pratilipi-author-library-contents">
+	<style>
+		:host {
+			display: block;
+			margin-bottom: 4px;
+		}
+		:host paper-card {
+			display: block;
+			width: 100%;
+			padding: 12px 8px;
+			--paper-card-header: { display: none };
+		}
+		h6 {
+			font-weight: 700;
+		}
+		hr {
+			margin-top: 1em;
+			margin-bottom: 1.2em;
+			border: 0;
+			border-top: 2px solid #eee;
+		}
+		.more-button {
+			margin-top: 16px;
+			background: #F1F8FB;
+			padding: 16px;
+			text-align: center;
+			color: #0C68BD;
+			cursor: pointer;
+			font-size: 14px;
+			font-weight: 700;
+			line-height: 14px;
+			text-shadow: 0px 1px 2px #FFFFFF;
+		}
+		paper-spinner {
+			margin: 16px auto;
+			display: block;
+			--paper-spinner-layer-1-color: #D0021B;
+			--paper-spinner-layer-2-color: #107FE5;
+			--paper-spinner-layer-3-color: #D0021B;
+			--paper-spinner-layer-4-color: #107FE5;
+		}
+		.empty-library {
+			padding: 32px 16px;
+			text-align: center;
+		}
+		.empty-library iron-icon {
+			height: 46px;
+			width: 46px;
+			margin-bottom: 16px;
+		}
+		.empty-library h6 {
+			font-size: 15px;
+			line-height: 24px;
+			font-weight: 500;
+		}
+
+		/* Bootstrap overrides */
+		.row {
+			margin-left: -8px;
+			margin-right: -8px;
+		}
+		.col-xs-4, .col-sm-3, .col-md-3, .col-lg-3 {
+			padding-left: 8px;
+			padding-right: 8px;
+		}
+	</style>
+	<template>
+		<paper-card>
+			<h6 class="text-center pratilipi-red">
+				मेरी लाइब्रेरी
+			</h6>
+			<hr/>
+			<div class="row text-center">
+				<template is="dom-repeat" items="{{ pratilipiList }}" as="pratilipi">
+					<div class="col-xs-4 col-sm-3 col-md-3 col-lg-3">
+						<pratilipi-card-mini pratilipi="{{ pratilipi }}"></pratilipi-card-mini>
+					</div>
+				</template>
+			</div>
+			<template is="dom-if" if="{{ isLoading }}">
+				<paper-spinner active></paper-spinner>
+			</template>
+			<template is="dom-if" if="{{ !isFinished }}">
+				<div class="more-button" on-click="loadMore">और देखें...</div>
+			</template>
+			<template is="dom-if" if="{{ !hasContent }}">
+				<div class="empty-library">
+					<iron-icon icon="icons:info-outline"></iron-icon>
+					<h6>माफ़ कीजिए, आपकी लाइब्रेरी में फ़िलहाल कुछ भी उपलब्ध नहीं है । आप रोमांचक कहानियां यहाँ जोड़ सकते है ।</h6>
+				</div>
+			</template>
+		</paper-card>
+		<iron-ajax
+				id="UserPratilipiLibraryListApi"
+				url="/api/userpratilipi/library/list"
+				method="GET"
+				content-type="application/json"
+				handle-as="json"
+				on-response="_userPratilipiLibraryListApiResponse"
+				on-error="_userPratilipiLibraryListApiError"
+				></iron-ajax>
+	</template>
+
+	<script>
+		Polymer({
+
+			is: 'pratilipi-author-library-contents',
+
+			properties: {
+				pratilipiList: { type: Array },
+				cursor: { type: String, value: null },
+				resultCount: { type: Number, value: 20 },
+				isLoading: { type: Boolean, value: false },
+				isFinished: { type: Boolean, value: false },
+				hasContent: { type: Boolean }
+			},
+			
+			processPratilipiListObject: function( pratilipiListObject ) {
+				var pratilipiList = pratilipiListObject.pratilipiList;
+				for( var i = 0; i < pratilipiList.length; i++ )
+					this.push( 'pratilipiList', pratilipiList[i] );
+				this.set( 'cursor', pratilipiListObject.cursor );
+				this.set( 'isFinished', pratilipiList.length < this.resultCount );
+				this.set( 'hasContent', this.pratilipiList.length > 0 );
+			},
+
+			ready: function() {
+				this.set( 'isFinished', this.pratilipiList.length < this.resultCount );
+			},
+
+			loadMore: function() {
+
+				// Return if there is an active call or cursor = null.
+				if( this.isLoading || this.isFinished || this.cursor == null || this.cursor == "" )
+					return;
+
+				// Check for window height.
+				var reqHeight = jQuery( window ).scrollTop()
+						- jQuery( this ).position().top
+						+ jQuery( window ).height()
+						+ 2 * jQuery( window ).height();
+
+				if( jQuery( this ).outerHeight( true ) >= reqHeight )
+					return;
+
+				this.set( 'isLoading', true );
+				this.set( 'isFinished', false );
+				if( this.cursor != null )
+					this.$.UserPratilipiLibraryListApi.params.cursor = this.cursor;
+				else
+					delete this.$.UserPratilipiLibraryListApi.params.cursor;
+				this.$.UserPratilipiLibraryListApi.params.resultCount = this.resultCount;
+				this.$.UserPratilipiLibraryListApi.generateRequest();
+				ga_CA( 'Pratilipi', 'LoadMore' );
+			},
+
+			_userPratilipiLibraryListApiResponse: function( response ) {
+				this.set( 'isLoading', false );
+				this.processPratilipiListObject( response.detail.response );
+			},
+
+			_userPratilipiLibraryListApiError: function( response ) {
+				this.set( 'isLoading', false );
+				this.set( 'isFinished', false );
+				var message = response.detail.request.xhr.response.message != null ? 
+						response.detail.request.xhr.response.message : "तकनिकी ख़ामी पाई गई है, पुनः प्रयास करें।";
+				document.querySelector( 'pratilipi-alert' ).alert( message, false );
+			}
+
+		});
+	</script>
+</dom-module>
+<dom-module id="pratilipi-library-page">
+	<template>
+		<pratilipi-user user='{{ user }}' user-data="[[ userData ]]"></pratilipi-user>
+		<pratilipi-write language-map="[[ languageMap ]]" pratilipi-types='[[ pratilipiTypes ]]'></pratilipi-write>
+		<pratilipi-alert></pratilipi-alert>
+
+		<div class="header-pos">
+<pratilipi-android-launch-test></pratilipi-android-launch-test>		   		</div>
+   		<main>
+   			<pratilipi-header language-map="[[ languageMap ]]" user='[[ user ]]'></pratilipi-header>
+			<div class="parent-container margin-top-bottom">
+				<div class="container">
+					<pratilipi-navigation
+						class='pull-left hidden-xs hidden-sm'
+						navigation-list='[[ navigationList ]]'
+						></pratilipi-navigation>
+					<!-- Navigation & Search bar for extra-small & small screens. -->
+					<pratilipi-navigation-drawer with-backdrop navigation-list='[[ navigationList ]]'></pratilipi-navigation-drawer>
+					<div style="overflow: hidden; padding: 0 2px;">
+						<div id="androidLaunchBottom">
+							<pratilipi-author-library-contents pratilipi-list="[[ pratilipiList ]]" cursor="[[ cursor ]]">
+							</pratilipi-author-library-contents>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<footer>
+    		<pratilipi-footer></pratilipi-footer>
+		</footer>
+		<div class="scroll-top-button">
+			<a id="scrollToTop" on-click="scrollToTop"><paper-fab mini noink style="background: #c0c0c0;" icon="icons:arrow-upward"></paper-fab></a>
+		</div>
+	</template>
+				
+		
+	<script>
+		Polymer({
+
+			is: 'pratilipi-library-page',
+			
+			properties: {
+				userData: { type: Object },
+				user: { type: Object, observer: "_userChanged" },
+				pratilipiList: { type: Array },
+				navigationList: { type: Array },
+				pratilipiTypes: { types: Object },
+				languageMap: { type: Object },
+				lastScrollTop: { type: Number, value: 0 },
+				
+				cursor: { type: String },
+				isLoading: { type: Boolean, value: false },
+				isFinished: { type: Boolean, value: false },
+				includeShowMoreButton: { type: Boolean, value: false },
+			},
+			
+			_userChanged: function() {
+				if( this.user.isGuest )
+					window.location.href = "/";
+			},
+			
+			scrollToTop: function() {
+				$( 'html, body' ).animate( { scrollTop : 0 },800 );
+			},
+			
+			ready: function() {
+				jQuery( '#scrollToTop' ).css( "display", "none" );
+			},
+			
+			scrollHandler: function( st ) {
+				if( st > this.lastScrollTop || st < 100 ) {
+					jQuery( '#scrollToTop' ).fadeOut();
+					this.querySelector( 'pratilipi-author-library-contents' ).loadMore( st );
+				}
+				else {
+					jQuery( '#scrollToTop' ).fadeIn();
+				}
+				this.lastScrollTop = st;
+			}
+			
+		});
+	</script>
+		
+</dom-module>

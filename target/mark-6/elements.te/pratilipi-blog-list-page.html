@@ -1,0 +1,287 @@
+<dom-module id="pratilipi-blog-list-page">
+	
+	<template>
+		<pratilipi-user user='{{ user }}' user-data="[[ userData ]]"></pratilipi-user>
+		<pratilipi-write language-map="[[ languageMap ]]" pratilipi-types='[[ pratilipiTypes ]]'></pratilipi-write>
+		<pratilipi-alert></pratilipi-alert>
+
+		<div class="header-pos">
+			<pratilipi-android-launch-test></pratilipi-android-launch-test>		   		</div>
+   		<main>
+   			<pratilipi-header language-map="[[ languageMap ]]" user='[[ user ]]'></pratilipi-header>
+			<div class="parent-container margin-top-bottom">
+				<div class="container">
+					<pratilipi-navigation
+						class='pull-left hidden-xs hidden-sm'
+						navigation-list='[[ navigationList ]]'
+						></pratilipi-navigation>
+					<!-- Navigation & Search bar for extra-small & small screens. -->
+					<pratilipi-navigation-drawer with-backdrop navigation-list='[[ navigationList ]]'></pratilipi-navigation-drawer>
+					<div style="overflow:hidden; padding: 0 2px;">
+						<div id="androidLaunchBottom">
+							<template is="dom-if" if="{{ hasAccessToAdd }}">
+								<div class="secondary-500 pratilipi-shadow pratilipi-card-grid-heading pratilipi-red">
+									Drafted Entries
+								</div>
+								<br class="pratilipi-break">
+								<paper-card style="display: block; padding: 45px 20px; margin: 0 auto; text-align: center;">
+									<div style="text-align: center;">
+										<a on-click="createNewBlog">
+											<iron-icon style="width: 64px; height: 64px;" icon="add-circle"></iron-icon>
+										</a>
+										<a on-click="createNewBlog">
+											<h6 style="margin-top: 10px;">Add a new blog</h6>
+										</a>
+									</div>
+								</paper-card>
+								<br class="pratilipi-break">
+								<template is="dom-repeat" items="[[ draftedBlogpostList ]]">
+									<pratilipi-bloglist-snippet blogpost="{{ item }}"></pratilipi-bloglist-snippet>
+								</template>
+								<br>
+								<div class="secondary-500 pratilipi-shadow pratilipi-card-grid-heading pratilipi-red">
+									Published Entries
+								</div>
+								<br class="pratilipi-break">
+							</template>
+							<template is="dom-repeat" items="[[ blogpostList ]]">
+								<pratilipi-bloglist-snippet blogpost="{{ item }}"></pratilipi-bloglist-snippet>
+							</template>
+	
+							<!-- Spinner when Loading more books -->
+							<template is="dom-if" if="{{ isLoading }}">
+								<paper-spinner class="pratilipi-spinner pratilipi-spinner-center" active></paper-spinner>
+							</template>
+							
+							<!-- Show More Button in case of network call failure -->
+							<template is="dom-if" if="{{ includeShowMoreButton }}">
+								<button style="width: 100%;" class="pratilipi-new-blue-button" on-click="loadMore">మరింత సమాచారం కోసం..</button>
+							</template>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<footer>
+    		<pratilipi-footer></pratilipi-footer>
+		</footer>
+		<div class="scroll-top-button">
+			<a id="scrollToTop" on-click="scrollToTop"><paper-fab mini noink style="background: #c0c0c0;" icon="icons:arrow-upward"></paper-fab></a>
+		</div>
+		<iron-ajax
+				id="AjaxGet"
+				url="/api/blogpost/list"
+				method="GET"
+				params="[[ filter ]]"
+				content-type="application/json"
+				handle-as="json"
+				on-response="_handleAjaxGetResponse"
+				on-error="_handleAjaxGetError"
+				></iron-ajax>
+		<iron-ajax
+				id="DraftedList"
+				url="/api/blogpost/list"
+				method="GET"
+				params="[[ filter ]]"
+				content-type="application/json"
+				handle-as="json"
+				on-response="_handleDraftedListResponse"
+				></iron-ajax>
+	</template>
+		
+
+	<script>
+		Polymer({
+			is: 'pratilipi-blog-list-page',
+			properties: {
+				userData: { type: Object },
+				userLoaded: { type: Boolean, value: false },
+				user: { type: Object, observer: "_userObserver" },
+				blogId: { type: String },
+				hasAccessToAdd: { types: Boolean, value: false },
+				blogpostList: { type: Array },
+				draftedBlogpostList: { type: Array, value: function() { return []; } },
+				filter: { type: Object },
+				cursor: { type: String },
+				
+				isLoading: { type: Boolean, value: false },
+				isFinished: { type: Boolean, value: false },
+				includeShowMoreButton: { type: Boolean, value: false },
+				
+				navigationList: { type: Array },
+				pratilipiTypes: { types: Object },
+				languageMap: { type: Object },
+				lastScrollTop: { type: Number, value: 0 },
+			},
+			
+			_userObserver: function() {
+				if( ! this.userLoaded ) {
+					this.userLoaded = true;
+					return;
+				}
+				this.async( function() {
+					window.location.reload();
+				}, 2000 );
+			},
+			
+			createNewBlog: function() {
+				window.location.href = "/edit-blog?blogId=" + this.blogId;
+			},
+			
+			loadDraftedList: function() {
+				var draftedList = this.$.DraftedList;
+				draftedList.params.state = "DRAFTED";
+				draftedList.generateRequest();
+			},
+			
+			_handleDraftedListResponse: function( response ) {
+				var draftedBlogpostList = response.detail.response.blogPostList;
+				for( var i = 0; i < draftedBlogpostList.length; i++ )
+					this.push( 'draftedBlogpostList', draftedBlogpostList[i] );
+			},
+			
+			loadMore: function() {
+				if( !this.isLoading && !this.isFinished )
+					this.includeShowMoreButton = true;
+				
+				// Return if there is an active call or cursor = null.
+				if( this.isLoading || this.isFinished || this.cursor == null )
+					return;
+				// Check for window height.
+				var reqHeight = jQuery( window ).scrollTop()
+						- jQuery( this ).position().top
+						+ jQuery( window ).height()
+						+ 2 * jQuery( window ).height();
+				if( jQuery( this ).outerHeight( true ) >= reqHeight )
+					return;
+				
+				
+				// Spinner Active and disable show more button.
+				this.isLoading = true;
+				this.includeShowMoreButton = false;
+				
+				// Set params and make ajax GET call. Filters already set when element initialised.
+				var ajaxGet = this.$.AjaxGet;
+				ajaxGet.params.cursor = this.cursor;
+				ajaxGet.generateRequest();
+			},
+			
+			_handleAjaxGetResponse: function( request ) {
+				
+				// Disable spinner
+				this.isLoading = false;
+				
+				// Call didn't succeed.
+				if( ! request.detail.response )
+					return;
+				
+				var blogpostList = request.detail.response.blogPostList;
+				for( var i = 0; i < blogpostList.length; i++ )
+					this.push( 'blogpostList', blogpostList[i] );
+				if( request.detail.response.cursor == null || blogpostList.length < 10 ) {
+					this.includeShowMoreButton = false;
+					this.isFinished = true;
+				}
+				else
+					this.cursor = request.detail.response.cursor;
+				
+			},
+			_handleAjaxGetError: function() {
+				this.isLoading = false;
+				this.includeShowMoreButton = true;
+			},
+			
+			scrollToTop: function() {
+				$( 'html, body' ).animate( { scrollTop : 0 },800 );
+			},
+			
+			ready: function() {
+				jQuery( '#scrollToTop' ).css( "display", "none" );
+				this.hasAccessToAdd = jQuery.parseJSON( this.hasAccessToAdd );
+				if( this.hasAccessToAdd )
+					this.loadDraftedList();
+			},
+			
+			attached: function() {
+				if( this.blogpostList.length < 10 || this.cursor == null || this.cursor.trim() == "" )
+					this.isFinished = true;
+			},
+			
+			scrollHandler: function( st ) {
+				if( st > this.lastScrollTop || st < 100 ) {
+					jQuery( '#scrollToTop' ).fadeOut();
+					this.loadMore();
+				}
+				else
+					jQuery( '#scrollToTop' ).fadeIn();
+				this.lastScrollTop = st;
+			}
+			
+		});
+	</script>
+
+</dom-module>
+<dom-module id="pratilipi-bloglist-snippet">
+	<style>
+		paper-card {
+			display: block;
+    		padding: 16px 5px;
+    		margin-bottom: 8px;
+			--paper-card-header: { display: none };
+		}
+		.title-holder {
+			margin: 4px 0px 8px 0px;
+		}
+		.title-holder .blog-title {
+			font-size: 18px;
+			margin-right: 12px;
+		}
+		.title-holder iron-icon {
+			width: 18px;
+			height: 18px;
+			margin-top: -4px;
+			margin-left: 4px;
+			opacity: 0.8;
+		}
+		.content-summary {
+			padding-left: 16px;
+			padding-right: 16px;
+			text-align: justify;
+			font-size: 14px;
+			line-height: 20px;
+		}
+		.content-summary .view-more {
+			white-space: nowrap;
+			margin-left: 8px;
+			font-size: 14px;
+			line-height: 20px;
+			color: #111;
+		}
+	</style>
+	<template>
+		<paper-card style="padding: 16px 12px;">
+			<div class="title-holder">
+				<a class="pratilipi-red blog-title" target="_blank" href="[[ blogpost.pageUrl ]]" onclick="ga_CA( window.location.pathname == '/blog' ? 'Blog' : 'AuthorInterview', 'Open' );">
+					[[ blogpost.title ]]
+					<iron-icon icon="icons:open-in-new"></iron-icon>
+				</a>
+			</div>
+			<div class="text-muted content-summary">{{ content }}<a class="view-more" href="{{ blogpost.pageUrl }}" onclick="ga_CA( window.location.pathname == '/blog' ? 'Blog' : 'AuthorInterview', 'Open' );">( మరింత సమాచారం కోసం.. )</a></div>
+		</paper-card>
+	</template>
+	<script>
+		Polymer({
+			is: 'pratilipi-bloglist-snippet',
+			properties: {
+				blogpost: { type: Object },
+				content: { type: String }
+			},
+			ready: function() {
+				if( this.blogpost.content != null ) {
+					var content = this.blogpost.content.replace(/&nbsp;/g, " " ).trim();
+					this.set( 'content', content.substring( 0, Math.min( 600, content.length ) ) + "..." );
+				}
+			}
+		});
+	</script>
+</dom-module>

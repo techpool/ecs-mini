@@ -1,0 +1,162 @@
+<dom-module id="pratilipi-notification-grid">
+
+	<style>
+		:host {
+			display: block;
+			width: 100%;
+			margin-bottom: 4px;
+		}
+		paper-card.notifications-heading {
+			width: 100%;
+			margin-bottom: 6px;
+			background: #fff;
+			padding: 12px 16px;
+			font-size: 15px;
+			font-weight: 700;
+		}
+		paper-card.notifications-heading h5 {
+			font-weight: 700;
+		}
+		.load-more-button {
+			margin-top: 4px;
+			background: #F1F8FB;
+			padding: 18px;
+			text-align: center;
+			color: #0C68BD;
+			cursor: pointer;
+			font-size: 14px;
+			font-weight: 700;
+			line-height: 14px;
+			text-shadow: 0px 1px 2px #FFFFFF;
+			border: 1px solid #0C68BD;
+			border-radius: 4px;
+		}
+		paper-spinner.pratilipi-spinner {
+			line-height: 52px;
+			--paper-spinner-layer-1-color: #D0021B;
+			--paper-spinner-layer-2-color: #107FE5;
+			--paper-spinner-layer-3-color: #D0021B;
+			--paper-spinner-layer-4-color: #107FE5;
+		}
+		paper-card.alert-message {
+			display: block;
+			width: 100%;
+			margin: 0;
+			padding: 24px;
+			text-align: center;
+			font-weight: bold;
+		}
+		paper-card.alert-message iron-icon {
+			width: 48px;
+			height: 48px;
+			margin-bottom: 12px;
+		}
+		paper-icon-button.settings-icon {
+			--paper-fab-background: #333;
+			margin-top: -38px;
+		}
+	</style>
+
+	<template>
+		<paper-card class="notifications-heading">
+			<h5 class="pratilipi-red">${ _strings.notification_notifications }</h5>
+			<paper-icon-button hidden$="{{ isGuest }}" noink icon="icons:settings"
+			                   class="settings-icon pull-right"
+			                   on-click="openNotificationSettings" onclick="ga_CA( 'Notification', 'Settings' )"></paper-icon-button>
+		</paper-card>
+		<template is="dom-if" if="{{ isGuest }}">
+			<paper-card class="alert-message">
+				<iron-icon icon="icons:info-outline"></iron-icon>
+				<div><a class="pratilipi-blue" on-click="_login">${ _strings.user_login_to_view_notifications }</a></div>
+			</paper-card>
+		</template>
+		<template is="dom-if" if="{{ emptyNotificationList }}">
+			<paper-card class="alert-message">
+				<iron-icon icon="icons:info-outline"></iron-icon>
+				<div>${ _strings.notifications_no_notifications }</div>
+			</paper-card>
+		</template>
+		<template is="dom-repeat" items="{{ notificationList }}" as="notification">
+			<template is="dom-if" if="{{ notification.message }}">
+				<pratilipi-notification-snippet notification="{{ notification }}"></pratilipi-notification-snippet>
+			</template>
+		</template>
+		<template is="dom-if" if="{{ hasMore }}">
+			<template is="dom-if" if="{{ !isLoading }}">
+				<div class="load-more-button" on-click="_loadMore" onclick="ga_CA( 'Notification', 'Load More' )">${ _strings.view_more }...</div>
+			</template>
+		</template>
+		<template is="dom-if" if="{{ isLoading }}">
+			<paper-spinner class="pratilipi-spinner pratilipi-spinner-center" active></paper-spinner>
+		</template>
+
+		<iron-ajax
+				id="NotificationListApi"
+				url="/api/notification/list"
+				method="GET"
+				content-type="application/json"
+				handle-as="json"
+				on-response="_notificationListApiResponse"
+				on-error="_notificationListApiError"
+				></iron-ajax>
+	</template>
+		
+
+	<script>
+
+		Polymer({
+
+			is: 'pratilipi-notification-grid',
+
+			properties: {
+				notificationObject: { type: Object },
+				notificationList: { type: Array, value: function() { return []; } },
+				cursor: { type: String, value: null },
+				isLoading: { type: Boolean, value: false },
+				isGuest: { type: Boolean }
+			},
+
+			_processNotificationObject: function( notificationObject ) {
+				var notificationList = notificationObject.notificationList;
+				for( var i = 0; i < notificationList.length; i++ )
+					this.push( 'notificationList', notificationList[i] );
+				this.set( 'cursor', notificationObject.cursor );
+				this.set( 'hasMore', notificationList.length == 20 && this.cursor != null );
+			},
+
+			_loadMore: function() {
+				this.set( 'isLoading', true );
+				this.$.NotificationListApi.params.cursor = this.cursor;
+				this.$.NotificationListApi.generateRequest();
+			},
+
+			_notificationListApiResponse: function( response ) {
+				this._processNotificationObject( response.detail.response );
+				this.set( 'isLoading', false );
+			},
+
+			_notificationListApiError: function( response ) {
+				this.set( 'isLoading', false );
+			},
+
+			ready: function() {
+				this._processNotificationObject( this.notificationObject );
+			},
+
+			attached: function() {
+				this.set( 'isGuest', document.querySelector( 'pratilipi-user' ).getCurrentUser().isGuest );
+				this.set( 'emptyNotificationList', ! this.isGuest && this.notificationList.length == 0 )
+			},
+
+			_login: function() {
+				document.querySelector( 'pratilipi-user' ).logIn( true, "${ _strings.user_login_to_view_notifications }" );
+			},
+
+			openNotificationSettings: function() {
+				this.domHost.openNotificationSettings();
+			}
+
+		});
+	</script>
+
+</dom-module>

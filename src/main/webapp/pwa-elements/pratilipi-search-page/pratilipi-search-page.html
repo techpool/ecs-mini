@@ -1,0 +1,41 @@
+<div class="mdl-cell mdl-cell--8-col-tablet mdl-cell--9-col mobile-card generic-list-page">
+	<div data-bind="html: searchTitle()"
+	     class="load-more-container mdl-card-border material-heading"
+	     style="margin-top: 0;">
+	</div>
+	<div data-bind="foreach: { data: pratilipiList, as: 'pratilipi' }, visible: pratilipiList().length > 0"
+	     class="mdl-grid pratilipi-list-grid js-pratilipi-list-grid mobile-card">
+		<div class="mdl-cell mdl-cell--12-col-phone mdl-cell--12-col-tablet mdl-cell--12-col-desktop mobile-card pratilipi-list-card">
+			<!-- ko component: {
+				name: "pratilipi-pratilipi-card",
+				params: { pratilipi: pratilipi }
+			} -->
+			<!-- /ko -->
+		</div>
+	</div>
+	<div class="load-more-container mdl-card-border" data-bind="visible: loadingState() == 'LOADING'">
+		<div class="search-loading-state" data-bind="visible: pratilipiList().length == 0">
+			<!-- ko component: {
+				name: "pratilipi-loading-state",
+				params: { customText: isListPage() ? null : getLoadingStateText() }
+			} -->
+			<!-- /ko -->
+		</div>
+		<span data-bind="visible: pratilipiList().length > 0" class="initial-data-loading-spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></span>
+	</div>
+	<div class="load-more-container mdl-card-border material-subtitle-1" data-bind="visible: loadingState() == 'FAILED' && pratilipiList().length == 0">
+		<a style="cursor: pointer; color: #555;" data-bind="click: fetchPratilipiList">
+			${ _strings.search_load_failed }
+		</a> 
+	</div>
+	<div class="load-more-container mdl-card-border" data-bind="visible: hasMoreContents() && ( loadingState() == 'LOADED' || loadingState() == 'FAILED' ) && pratilipiList().length > 0">
+		<button data-bind="{ click: fetchPratilipiList }" 
+			class="mdl-button mdl-js-button mdl-button--accent mdl-js-ripple-effect">
+			${ _strings.load_more_contents }
+		</button>
+	</div>
+	<div class="load-more-container mdl-card-border material-subtitle-1" data-bind="visible: loadingState() == 'LOADED_EMPTY'">
+		${ _strings.search_no_results_found }
+	</div>
+	
+</div>

@@ -1,0 +1,13 @@
+.pratilipi-review-list {
+	z-index: initial;
+	min-height: auto;
+	li.show-more {
+		list-style-type: none;
+	}
+	.write-review-button {
+	  	@media (max-width: 480px) {
+			float: left !important;
+			margin-top: 5px;
+	  	}		
+	}
+}

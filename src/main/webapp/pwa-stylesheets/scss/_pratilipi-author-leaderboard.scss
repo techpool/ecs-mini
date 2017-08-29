@@ -1,0 +1,60 @@
+.pratilipi-author-leaderboard {
+
+    @media only screen and (max-width: 840px) {
+        display: none !important;
+        visibility: hidden !important;
+    }
+    position:absolute;
+    right:8px;
+    margin:0px;
+    .author-leaderboard-ul {
+        padding: 0;
+        margin: 0;
+
+        .mdl-list__item {
+            padding: 12px 5px !important;
+            border-bottom: 1px solid #e5e5e5;
+            cursor: pointer;
+            flex-grow: 1;
+
+            .author-name {
+                width: 100%;
+                overflow:hidden;
+                display:inline-block;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                line-height: 25px;
+            }
+
+            span.meta-holder {
+                float: left;
+                color: rgba(0,0,0,0.54);
+                span {
+                    font-family: Helvetica, Arial !important;
+                    float: left;
+                    margin-right: 2px;
+                }
+                i {
+                    width: 16px;
+                    height: 16px;
+                    font-size: 16px !important;
+                    position: absolute;
+                }
+            }
+
+            span.reads-holder {
+                margin-right: 36px;
+            }
+
+            .share-button {
+                position: absolute;
+                right:0px;
+            }
+
+            .small-button {
+                min-width: 36px;
+                padding: 0;
+            }
+        }
+    }
+}

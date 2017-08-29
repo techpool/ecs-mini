@@ -1,0 +1,562 @@
+<dom-module id="pratilipi-reader-header">
+	
+	<style>
+		paper-card {
+			height: 54px;
+			width: 100%;
+			opacity: 0.96;
+			padding: 4px 12px;
+			--paper-card-header: { display: none };
+		}
+		.container, .container div {
+			display: inline-block;
+		}
+		paper-icon-button {
+			width: 45px;
+			height: 45px;
+		}
+		paper-item {
+			font-size: 12px;
+			font-family: inherit;
+		}
+		.dropdown-menu {
+			margin-top: 13px;
+			min-width: 210px;
+		}
+		.open paper-icon-button:after {
+			top: 34px;
+			left: 50%;
+			border: solid transparent;
+			content: " ";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+			border-color: rgba(194, 225, 245, 0);
+			border-bottom-color: #d3d3d3;
+			border-width: 8px;
+			margin-left: -8px;
+		}
+		paper-icon-button {
+			color: #333;
+		}
+		.social-share .icon {
+			float: left;
+			margin-right: 4px;
+		}
+		paper-fab.reading-mode {
+			display: inline-block;
+			width: 30px;
+			height: 30px;
+			padding: 2px;
+			margin-top: 6px;
+			margin-right: 8px;
+			--paper-fab-iron-icon: {
+				width: 20px;
+				height: 20px;
+			} 
+		}
+	</style>
+
+	<template>
+		<paper-card id="reader-header">
+			<table style="min-width: 100%;">
+				<tr>
+
+					<td align="left">
+						<!-- Back Button -->
+						<paper-icon-button noink icon="icons:arrow-back" on-click="exitReader"></paper-icon-button>
+						<!-- Pratilipi Logo -->
+						<!-- <img style="max-width: 48px; position: relative;" title="प्रतिलिपि" alt="प्रतिलिपि" src="http://public.pratilipi.com/pratilipi-logo/png/Logo-2C-RGB-80px.png" /> -->
+						
+						<!-- Index Button if content has Index -->
+						<template is="dom-if" if="{{ !hideIndexButton }}">
+							<div class="dropdown" style="display: inline-block;">
+								<paper-icon-button icon="icons:list" data-toggle="dropdown"></paper-icon-button>
+								<ul	id="navigationdropdown"
+									class="dropdown-menu"
+									style="overflow-y: scroll; left: -56px;">
+									<template is="dom-repeat" items="{{ index }}" as="entry">
+										<li>
+											<a style="padding: 5px; margin: 0; white-space: normal;" on-click="_entryClicked">
+												<pratilipi-reader-navigation-entry 
+													entry="{{ entry }}" 
+													page-no="{{ pageNo }}"></pratilipi-reader-navigation-entry>
+											</a>
+										</li>
+									</template>
+								</ul>
+							</div>
+						</template>
+					</td>
+					
+					<td align="right">
+						
+						<!-- Increase and Decrease size buttons -->
+						<!-- In case of PRATILIPI contentType -->
+						<template is="dom-if" if="{{ pratilipiContentType }}">
+							<div class="dropdown" style="display: inline-block;">
+								<paper-icon-button noink icon="editor:format-size" data-toggle="dropdown"></paper-icon-button>
+								<ul class="dropdown-menu pull-right" style="right: -147px;">
+									<li>
+										<a style="padding: 5px; margin: 0;">
+											<paper-item on-click="increaseFontSize">
+												<paper-icon-item><iron-icon icon="icons:add"></iron-icon></paper-icon-item>
+												&nbsp;&nbsp;
+												<paper-item-body>अक्षर बढ़ाए</paper-item-body>
+											</paper-item>
+										</a>
+									</li>
+									<li>
+										<a style="padding: 5px; margin: 0;">
+											<paper-item on-click="decreaseFontSize">
+												<paper-icon-item><iron-icon icon="icons:remove"></iron-icon></paper-icon-item>
+												&nbsp;&nbsp;
+												<paper-item-body>अक्षर घटाए</paper-item-body>
+											</paper-item>
+										</a>
+									</li>
+									<li>
+										<a style="padding: 5px; margin: 0;">
+											<paper-item style="padding: 8px;">
+												<paper-item-body>
+													<div style="font-size: 13px;">बैकग्राउंड</div>
+													<div class="text-center">
+														<paper-fab mini noink 
+																	class="reading-mode" 
+																	style="background-color: #FFF; color: #333;" 
+																	icon="editor:format-color-text" 
+																	on-click="normalReadingMode"></paper-fab>
+														<paper-fab mini noink 
+																	class="reading-mode" 
+																	style="background-color: #222; color: #FFF;" 
+																	icon="editor:format-color-text" 
+																	on-click="nightReadingMode"></paper-fab>
+														<paper-fab mini noink 
+																	class="reading-mode" 
+																	style="background-color: #F4ECD8; color: #181715;" 
+																	icon="editor:format-color-text" 
+																	on-click="sepiaReadingMode"></paper-fab>
+													</div>
+												</paper-item-body>
+											</paper-item>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</template>
+
+						<!-- In case of IMAGE contentType -->
+						<template is="dom-if" if="{{ imageContentType }}">
+							<div class="dropdown" style="display: inline-block;">
+								<paper-icon-button noink icon="icons:aspect-ratio" data-toggle="dropdown"></paper-icon-button>
+								<ul class="dropdown-menu pull-right" style="right: -147px;">
+									<li>
+										<a style="padding: 5px; margin: 0;">
+											<paper-item on-click="increaseImageSize">
+												<paper-icon-item><iron-icon icon="icons:add"></iron-icon></paper-icon-item>
+												&nbsp;&nbsp;
+												<paper-item-body>चित्र कद बढ़ाए</paper-item-body>
+											</paper-item>
+										</a>
+									</li>
+									<li>
+										<a style="padding: 5px; margin: 0;">
+											<paper-item on-click="decreaseImageSize">
+												<paper-icon-item><iron-icon icon="icons:remove"></iron-icon></paper-icon-item>
+												&nbsp;&nbsp;
+												<paper-item-body>चित्र कद घटाए</paper-item-body>
+											</paper-item>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</template>
+						
+						<!-- Library Section -->
+						<div class="dropdown" style="display: inline-block;">
+							<paper-icon-button noink icon="av:library-books" data-toggle="dropdown"></paper-icon-button>
+							<ul class="dropdown-menu pull-right" style="right: -98px;">
+								<template is="dom-if" if="{{ canAddToLibrary }}">
+									<template is="dom-if" if="{{ !addedToLib }}">
+										<li>
+											<a style="padding: 5px; margin: 0;">
+												<paper-item on-click="addToLibrary">
+													<paper-icon-item><iron-icon icon="av:library-add"></iron-icon></paper-icon-item>
+													&nbsp;&nbsp;
+													<paper-item-body>लाइब्रेरी में जोड़े</paper-item-body>
+												</paper-item>
+											</a>
+										</li>
+									</template>
+									<template is="dom-if" if="{{ addedToLib }}">
+										<li>
+											<a style="padding: 5px; margin: 0;">
+												<paper-item on-click="removeFromLibrary">
+													<paper-icon-item><iron-icon icon="icons:remove-circle"></iron-icon></paper-icon-item>
+													&nbsp;&nbsp;
+													<paper-item-body>लाइब्रेरी से हटाए</paper-item-body>
+												</paper-item>
+											</a>
+										</li>
+									</template>
+								</template>
+								<li>
+									<a style="padding: 5px; margin: 0;">
+										<paper-item on-click="goToLibrary">
+											<paper-icon-item><iron-icon icon="maps:local-library"></iron-icon></paper-icon-item>
+											&nbsp;&nbsp;
+											<paper-item-body>मेरी लाइब्रेरी</paper-item-body>
+										</paper-item>
+									</a>
+								</li>
+							</ul>
+						</div>
+						
+						<!-- Share widget -->
+						<div hidden$="{{ ! canShare }}" class="dropdown social-share" style="display: inline-block;">
+							<paper-icon-button noink icon="social:share" data-toggle="dropdown"></paper-icon-button>
+							<ul class="dropdown-menu pull-right" style="right: -49px;">
+								<li>
+									<a style="padding: 5px; margin: 0;">
+										<paper-item on-click="shareOnFacebook">
+											<paper-icon-item><span class="icon icon-facebook"></span></paper-icon-item>
+											&nbsp;&nbsp;
+											<paper-item-body>फेसबुक पर शेयर करें</paper-item-body>
+										</paper-item>
+									</a>
+								</li>
+								<li>
+									<a style="padding: 5px; margin: 0;">
+										<paper-item on-click="shareOnTwitter">
+											<paper-icon-item><span class="icon icon-twitter"></span></paper-icon-item>
+											&nbsp;&nbsp;
+											<paper-item-body>ट्विटर पर शेयर कर</paper-item-body>
+										</paper-item>
+									</a>
+								</li>
+								<li>
+									<a style="padding: 5px; margin: 0;">
+										<paper-item on-click="shareOnGplus">
+											<paper-icon-item><span class="icon icon-google-plus"></span></paper-icon-item>
+											&nbsp;&nbsp;
+											<paper-item-body>गूगल प्लस पर शेयर कर</paper-item-body>
+										</paper-item>
+									</a>
+								</li>
+							</ul>
+						</div>
+						
+						<!-- Menu button -->
+						<div class="dropdown" style="display: inline-block;">
+							<paper-icon-button noink icon="icons:more-vert" data-toggle="dropdown"></paper-icon-button>
+							<ul class="dropdown-menu pull-right" style="width: 300px;">
+								<li>
+									<paper-item style="padding: 5px 15px; margin: 0; display: block; white-space: normal;">
+										<h6 class="pratilipi-red text-center" style="text-align: center; white-space: normal; line-height: 1.6em;">{{ title }}</h6>
+									</paper-item>
+								</li>
+								<template is="dom-if" if="{{ canReview }}">
+									<li>
+										<a style="padding: 5px; margin: 0;">
+											<paper-item on-click=writeReview>
+												<paper-icon-item><iron-icon icon="icons:create"></iron-icon></paper-icon-item>
+												&nbsp;&nbsp;
+												<paper-item-body>टिप्पणी लिखें</paper-item-body>
+											</paper-item>
+										</a>
+									</li>
+								</template>
+								<template is="dom-if" if="{{ canEditContent }}">
+									<li>
+										<a style="padding: 5px; margin: 0;">
+											<paper-item on-click="redirectToWriterPanel">
+												<paper-icon-item><iron-icon icon="icons:create"></iron-icon></paper-icon-item>
+												&nbsp;&nbsp;
+												<paper-item-body>रचना सम्पादित करें</paper-item-body>
+											</paper-item>
+										</a>
+									</li>
+								</template>
+								<li>
+									<a style="padding: 5px; margin: 0;" href="{{ pratilipi.pageUrl }}">
+										<paper-item>
+											<paper-icon-item><iron-icon icon="icons:chrome-reader-mode"></iron-icon></paper-icon-item>
+											&nbsp;&nbsp;
+											<paper-item-body>सारांश पेज पर जाएँ</paper-item-body>
+										</paper-item>
+									</a>
+								</li>
+								<li>
+									<a style="padding: 5px; margin: 0;" href="{{ pratilipi.author.pageUrl }}">
+										<paper-item>
+											<paper-icon-item><iron-icon icon="icons:account-box"></iron-icon></paper-icon-item>
+											&nbsp;&nbsp;
+											<paper-item-body>लेखक की प्रोफाईल पर जाए</paper-item-body>
+										</paper-item>
+									</a>
+								</li>
+								<li>
+									<a style="padding: 5px; margin: 0;" href="/">
+										<paper-item>
+											<paper-icon-item><iron-icon icon="icons:home"></iron-icon></paper-icon-item>
+											&nbsp;&nbsp;
+											<paper-item-body>होम पेज पर जाएँ</paper-item-body>
+										</paper-item>
+									</a>
+								</li>
+								<template is="dom-if" if="{{ switchReaderOptions }}">
+									<template is="dom-if" if="{{ isVersion2 }}">
+										<li>
+											<a style="padding: 5px; margin: 0;" target="_blank" href="/read?id={{ pratilipi.pratilipiId }}&_apiVer=1">
+												<paper-item>
+													<paper-item-body>Go To Old Reader</paper-item-body>
+												</paper-item>
+											</a>
+										</li>
+										<li>
+											<a style="padding: 5px; margin: 0;" on-click="finaliseV2Version">
+												<paper-item>
+													<paper-item-body>Everything seems Okay!</paper-item-body>
+												</paper-item>
+											</a>
+										</li>
+									</template>
+									<template is="dom-if" if="{{ isVersion1 }}">
+										<li>
+											<a style="padding: 5px; margin: 0;" target="_blank" href="/read?id={{ pratilipi.pratilipiId }}&_apiVer=2">
+												<paper-item>
+													<paper-item-body>Go To New Reader</paper-item-body>
+												</paper-item>
+											</a>
+										</li>
+									</template>
+								</template>
+							</ul>
+						</div>
+					</td>
+
+				</tr>
+			</table>
+		</paper-card>
+		<iron-ajax
+				id="PratilipiApi"
+				url="/api/pratilipi"
+				method="POST"
+				content-type="application/x-www-form-urlencoded"
+				handle-as="json"
+				on-response="_handlePratilipiApiResponse"
+				on-error="_handlePratilipiApiError"
+				></iron-ajax>
+	</template>
+
+	<script>
+	
+		Polymer({
+
+			is: 'pratilipi-reader-header',
+			
+			properties: {
+				pratilipi: { type: Object },
+				hasAccessToUpdate: { type: Boolean },
+				addedToLib: { type: Boolean, value: false },
+				hideIndexButton: { type: Boolean },
+				canEditContent: { type: Boolean, value: false },
+				index: { type: Array },
+				pageNo: { type: Number },
+				contentType: { type: String },
+				stage: { type: String },
+				version: { type: String },
+
+				canReview: { type: Boolean },
+				canShare: { type: Boolean, value: true },
+				canAddToLibrary: { type: Boolean, value: true }
+
+			},
+			
+			_entryClicked: function( event ) {
+				var entry = event.model.entry;
+				document.querySelector( 'pratilipi-reader-page' ).setPageNo( entry.pageNo != null ? entry.pageNo : entry.chapterNo );
+			},
+			
+			ready: function() {
+				this.title = 	this.pratilipi.title != null && this.pratilipi.title.trim() != "" ?
+								this.pratilipi.title : this.pratilipi.titleEn;
+
+				this.pratilipiContentType = this.contentType == "PRATILIPI";
+				this.imageContentType = this.contentType == "IMAGE";
+
+				this.set( "canShare", this.pratilipi.state == "PUBLISHED" );
+					
+			},
+			
+			attached: function() {
+				// Hide Edit Content button in Mobile
+				var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+				var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+				this.set( 'canEditContent', ! isMobile() && this.hasAccessToUpdate && this.pratilipiContentType );
+				
+
+				jQuery( "#navigationdropdown" ).css( 'max-height', Math.min( 500, height - 75 ) + "px", "important" );
+				jQuery( "#navigationdropdown" ).css( 'min-width', Math.min( 300, width - 20 ) + "px", "important" );
+				jQuery( "#navigationdropdown" ).css( 'max-width', ( width - 20 ) + "px", "important" );
+				
+				
+				this.set( "switchReaderOptions", this.stage == "gamma" && this.pratilipi.oldContent );
+				this.set( "isVersion1", this.version == "1" );
+				this.set( "isVersion2", this.version == "2" );
+
+				this.async( function() {
+					this.set( "canReview", this.domHost.getUser().isGuest || this.domHost.getUserPratilipi().hasAccessToReview );
+					var user = document.querySelector( 'pratilipi-user' ).getCurrentUser();
+					this.set( "canAddToLibrary", this.pratilipi.state == "PUBLISHED" && ( user.isGuest || this.pratilipi.author.authorId != user.author.authorId ) );
+				});
+				
+				// Hack
+				if( this.pratilipi.state != "PUBLISHED" )
+					$( "pratilipi-reader-header .dropdown-menu" ).css( "right", 0 );
+
+			},
+			
+			shareOnFacebook: function() {
+				document.querySelector( 'pratilipi-reader-page' ).shareOnFacebook( "menu" );
+			},
+			
+			shareOnTwitter: function() {
+				document.querySelector( 'pratilipi-reader-page' ).shareOnTwitter( "menu" );
+			},
+			
+			shareOnGplus: function() {
+				document.querySelector( 'pratilipi-reader-page' ).shareOnGplus( "menu" );
+			},
+			
+			increaseFontSize: function() {
+				document.querySelector( 'pratilipi-reader-content' ).increaseFontSize();
+			},
+			
+			decreaseFontSize: function() {
+				document.querySelector( 'pratilipi-reader-content' ).decreaseFontSize();
+			},
+			
+			increaseImageSize: function() {
+				document.querySelector( 'pratilipi-reader-content' ).increaseImageSize();
+			},
+
+			decreaseImageSize: function() {
+				document.querySelector( 'pratilipi-reader-content' ).decreaseImageSize();
+			},
+
+			addToLibrary: function() {
+				document.querySelector( 'pratilipi-reader-page' ).addToLibrary();
+			},
+			
+			removeFromLibrary: function() {
+				document.querySelector( 'pratilipi-reader-page' ).removeFromLibrary();
+			},
+			
+			goToLibrary: function() {
+				document.querySelector( 'pratilipi-reader-page' ).goToLibrary();
+			},
+			
+			writeReview: function() {
+				document.querySelector( 'pratilipi-reader-page' ).writeReview();
+			},
+			
+			redirectToWriterPanel: function() {
+				document.querySelector( 'pratilipi-reader-page' ).redirectToWriterPanel();
+			},
+			
+			exitReader: function() {
+				document.querySelector( 'pratilipi-reader-page' ).exitReader();
+			},
+
+			normalReadingMode: function() {
+				document.querySelector( 'pratilipi-reader-page' ).normalReadingMode();
+			},
+
+			nightReadingMode: function() {
+				document.querySelector( 'pratilipi-reader-page' ).nightReadingMode();
+			},
+
+			sepiaReadingMode: function() {
+				document.querySelector( 'pratilipi-reader-page' ).sepiaReadingMode();
+			},
+			
+			
+			finaliseV2Version: function() {
+				this.$.PratilipiApi.body = jQuery.param( { "pratilipiId": this.pratilipi.pratilipiId, "oldContent": false, "_apiVer": "2" } );
+				this.$.PratilipiApi.generateRequest();
+			},
+			
+			_handlePratilipiApiResponse: function( event ) {
+				alert( "Success!" );
+				window.location.reload();
+			},
+			
+			_handlePratilipiApiError: function( event ) {
+				alert( "Some Exception at server! Please try again!" );
+			}
+			
+			
+		});
+	</script>
+
+</dom-module>
+
+<dom-module id="pratilipi-reader-navigation-entry">
+	<style>
+		paper-item {
+			font-size: 14px;
+			font-family: inherit;
+		}
+		paper-item-body.heading {
+			font-weight: 600;
+		}
+		paper-item-body.grey {
+			color: #707070;
+		}
+		paper-item-body.black {
+			color: #333;
+		}
+		paper-item-body.blue {
+			color: #107FE5;
+		}
+	</style>
+	<template>
+		<paper-item>
+			<paper-item-body style="white-space: normal;" id="entry">[[ entry.title ]]</paper-item-body>
+		</paper-item>
+	</template>
+	<script>
+		Polymer({
+			is: 'pratilipi-reader-navigation-entry',
+			
+			properties: {
+				entry: { type: Object },
+				pageNo: { type: Number, observer: "_pageNoChanged" }
+			},
+			
+			attached: function() {
+				if( this.entry.level == 0 )
+					jQuery( this.querySelector( '#entry' ) ).addClass( "heading" );
+			},
+			
+			_pageNoChanged: function() {
+				var pageNo = this.entry.pageNo != null ? this.entry.pageNo : this.entry.chapterNo;
+				var level = this.entry.level != null ? this.entry.level : this.entry.nesting;
+				if( this.pageNo == pageNo ) {
+					jQuery( this.querySelector( '#entry' ) ).removeClass( "black" );
+					jQuery( this.querySelector( '#entry' ) ).removeClass( "grey" );
+					jQuery( this.querySelector( '#entry' ) ).addClass( "blue" );
+				} else {
+					jQuery( this.querySelector( '#entry' ) ).removeClass( "blue" );
+					if( level == 0 )
+						jQuery( this.querySelector( '#entry' ) ).addClass( "black" );
+					else
+						jQuery( this.querySelector( '#entry' ) ).addClass( "grey" );
+				}
+			}
+		
+		});
+	</script>
+</dom-module>

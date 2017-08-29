@@ -1,0 +1,198 @@
+
+<#include "pratilipi-comment.html">
+<#include "pratilipi-comment-input.html">
+
+<dom-module id="pratilipi-comment-list">
+
+	<style>
+		.comment-list {
+			padding-left: 8px;
+		}
+		.comments-loaded {
+			border-left: 2px solid #d3d3d3;
+		}
+		paper-spinner.pratilipi-spinner {
+			display: block;
+			margin: 0px auto 12px auto;
+			--paper-spinner-layer-1-color: #D0021B;
+			--paper-spinner-layer-2-color: #107FE5;
+			--paper-spinner-layer-3-color: #D0021B;
+			--paper-spinner-layer-4-color: #107FE5;
+		}
+	</style>
+	
+	<template>
+		<div class="comment-list">
+			<div id="collapse" class="collapse">
+				<div class="comments-loaded">
+					<template is="dom-repeat" items="{{ commentList }}" as="comment">
+						<pratilipi-comment comment="{{ comment }}" user="{{ user }}"></pratilipi-comment>
+					</template>
+				</div>
+				<template is="dom-if" if="{{ isLoading }}">
+					<paper-spinner class="pratilipi-spinner" active></paper-spinner>
+				</template>
+				<pratilipi-comment-input
+						id="add-comment"
+						add-comment
+						user="{{ user }}"
+						parent-id="{{ parentId }}"
+						parent-type="{{ parentType }}"></pratilipi-comment-input>
+			</div>
+		</div>
+		<iron-ajax
+				id="AjaxGet"
+				url="/api/comment/list"
+				method="GET"
+				content-type="application/json"
+				handle-as="json"
+				on-response="_handleAjaxGetResponse"
+				on-error="_handleAjaxGetError"
+				></iron-ajax>
+	</template>
+
+
+	<script>
+
+		Polymer({
+			
+			is: 'pratilipi-comment-list',
+			
+			properties: {
+				user: { type: Object },
+				commentCount: { type: Number, notify: true },
+				parentId: { type: Number },
+				parentType: { type: String },
+				cursor: { type: String, value: null },
+				resultCount: { type: Number },
+				
+				commentList: { type: Array, value: function() { return []; } },
+				isLoading: { type: Boolean, value: false },
+				isFinished: { type: Boolean, value: false },
+
+				writeCommentClicked: { type: Boolean, value: false }
+			},
+			
+			attached: function() {
+				this.set( 'commentList', [] );
+			},
+			
+			writeComment: function() {
+				<#-- Check user -->
+				if( this.user.isGuest ) {
+					this.writeCommentClicked = true;
+					document.querySelector( 'pratilipi-user' ).logIn( true );
+					return;
+				}
+				if( this.commentCount == 0 )
+					this.isFinished = true;
+				if( ! this.isFinished )
+					this.loadComments();
+				jQuery( this.querySelector( 'pratilipi-comment-input#add-comment' ) ).css( 'display', 'block' );
+				this.async( function() { jQuery( this.querySelector( "#collapse" ) ).collapse( 'show' ); } );
+				this.querySelector( 'pratilipi-comment-input#add-comment' ).focusTextarea( jQuery( this.querySelector( "#collapse" ) ).attr( 'aria-expanded' ) == "true" && this.isFinished );
+			},
+			
+			showOrHideComments: function() {
+				if( this.commentCount == 0 )
+					this.isFinished = true;
+				if( ! this.isFinished )
+					this.loadComments();
+				
+				this.async( function() {
+					<#-- Changing the order of executions for better UX -->
+					<#-- Collapse opened if aria-expanded == true -->
+					if( jQuery( this.querySelector( "#collapse" ) ).attr( 'aria-expanded' ) == "true" ) {
+						jQuery( this.querySelector( "#collapse" ) ).collapse( 'toggle' );
+						jQuery( this.querySelector( 'pratilipi-comment-input#add-comment' ) ).css( 'display', 'none' );
+					} else {
+						jQuery( this.querySelector( 'pratilipi-comment-input#add-comment' ) ).css( 'display', 'none' );
+						jQuery( this.querySelector( "#collapse" ) ).collapse( 'toggle' );
+					}
+				} );
+			},
+			
+			closeCommentAdd: function() {
+				jQuery( this.querySelector( 'pratilipi-comment-input#add-comment' ) ).css( 'display', 'none' );
+			},
+			
+			addCommentToList: function( comment ) {
+				this.push( 'commentList', comment );
+				this.incrementCommentCount();
+			},
+
+			incrementCommentCount: function( value ) {
+				this.set( 'commentCount', this.commentCount + ( value != null ? value : 1 ) );
+			},
+			
+			decrementCommentCount: function( value ) {
+				this.set( 'commentCount', this.commentCount - ( value != null ? value : 1 ) );
+			},
+			
+			deleteCommentFromList: function( comment ) {
+				// Removing user's comment from the comment list.
+				var index = -1;
+				for( var i = 0; i < this.commentList.length; i++ ) {
+					if( comment.commentId == this.commentList[i].commentId ) {
+						index = i;
+						break;
+					}
+				}
+				
+				if( index != -1 && index < this.commentList.length )
+					this.splice( 'commentList', index, 1 );
+			},
+			
+			loadComments: function() {
+				
+				if( this.isFinished || this.isLoading )
+					return;
+				
+				this.isLoading = true;
+				this.$.AjaxGet.params.parentId = this.parentId;
+				this.$.AjaxGet.params.parentType = this.parentType;
+				/* this.$.AjaxGet.params.cursor = this.cursor; */
+				this.$.AjaxGet.generateRequest();
+			},
+			
+			_handleAjaxGetResponse: function( event ) {
+				
+				<#-- Disable spinner -->
+				this.isLoading = false;
+				
+				<#-- Call failed -->
+				if( event.detail.xhr.status == 0 )
+					return;
+				
+				var commentList = event.detail.response.commentList;
+				
+				for( var i = commentList.length - 1; i >= 0; i-- )
+					this.push( 'commentList', commentList[i] );
+
+				<#-- if( event.detail.response.cursor == null || commentList.length < 20 )
+					this.isFinished = true;
+				else
+					this.cursor = event.detail.response.cursor; -->
+					
+				this.isFinished = true;
+			
+			},
+			
+			_handleAjaxGetError: function( event ) {
+				this.isLoading = false;
+				
+				if( event.detail.request.xhr.response.message != null )
+					document.querySelector( 'pratilipi-alert' ).alert( event.detail.request.xhr.response.message, false );
+				else
+					document.querySelector( 'pratilipi-alert' ).alert( "${ _strings.server_error_message }", false );
+				
+				this.async( function() {
+					this.loadComments();
+				}, 60000 );
+			},
+			
+		});
+
+	</script>
+
+</dom-module>

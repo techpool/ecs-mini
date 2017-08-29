@@ -1,0 +1,592 @@
+ # Do NOT edit
+pratilipi					= प्रतिलिपि
+home_page_title				= पढ़ें हिंदी कहानियाँ, कवितायें, उपन्यास और बहुत कुछ
+facebook_page				= https://www.facebook.com/Pratilipidotcom/
+twitter_page				= https://twitter.com/TeamPratilipi
+googleplus_page				= https://plus.google.com/+PratilipiTeam
+linkedin_page				= https://www.linkedin.com/company/pratilipi
+
+# Language
+language_choose_language	= भाषा पसंद करें 
+language_all				= भाषाएँ 
+language_hi					= हिन्दी
+language_gu					= गुजराती 
+language_ta					= तमिल 
+language_mr					= मराठी 
+lanugage_ml					= मलयालम 
+language_bn					= बांग्ला
+language_en					= अंग्रेजी 
+language_te					= तेलुगु
+language_kn					=  कन्नडा
+
+# Pratilipi Types
+_pratilipi_type_book		= पुस्तक
+_pratilipi_type_books		= पुस्तकें 
+_pratilipi_type_poem		= कविता 
+_pratilipi_type_poems		= कविताएँ 
+_pratilipi_type_story		= कहानी 
+_pratilipi_type_stories	= कहानियाँ 
+_pratilipi_type_article		= लेख
+_pratilipi_type_articles	= लेख
+_pratilipi_type_magazine	= पत्रिका 
+_pratilipi_type_magazines	= पत्रिका 
+
+# Author
+author_author				= लेखक
+author_about				= संक्षिप्त परिचय
+author_language				= भाषा	
+author_since				= प्रतिलिपि के साथ   
+author_count_works			= प्रकाशित साहित्य 
+author_count_reads			= पाठक संख्या  	
+author_count_likes			= पसंद संख्या 	
+author_edit_profile			= प्रोफ़ाइल संपादित करें
+author_update_image				= प्रोफ़ाइल चित्र अपडेट करे
+author_drafts				= अप्रकाशित रचनायें
+author_published_works		= प्रकाशित रचनायें
+author_add_new_content		= नयी रचना लिखिए 
+author_no_contents_published	= हम माफ़ी चाहते है, इस रचनाकार के अकाउंट में अभी तक कोई प्रकाशन कार्य नहीं हुआ है |
+author_activity					= गतिविधि
+author_about					= लेखक के बारे में  
+author_biography				= परिचय
+author_location					= स्थान
+author_date_of_birth			= जन्म तारीख़ 
+author_follow					= फ़ॉलो
+author_unfollow					= अनफ़ॉलो
+author_followers_heading		= फ़ॉलोअर्स
+author_followers_count			= फ़ॉलोअर्स
+author_no_followers				= फ़ॉलोअर्स संख्या शून्य
+author_following_heading		= फॉलोइंग
+author_following_count			= फॉलोइंग    
+author_no_following				= फॉलोइंग संख्या शून्य
+author_follow_members			= सदस्य 
+author_cannot_follow_yourself	= आपके बारे में 
+author_settings_require_first_name	= पहला नाम दर्ज करें 
+author_settings_require_language	= भाषा सुनिश्चित करें  
+
+# Pratilipi
+pratilipi_type				= प्रकार 
+pratilipi_listing_date		= प्रकाशन दिनांक
+pratilipi_last_updated_date	= आखिरी बदलाव 
+pratilipi_published			= प्रकाशित	
+pratilipi_published_year	= प्रकाशन साल 
+pratilipi_summary			= सारांश 
+pratilipi_edit_info			= संबंधित जानकारी संपादित करें	
+pratilipi_edit_content		= रचना सम्पादित करें 
+pratilipi_update_cover		= अपलोड फोटो
+pratilipi_count_reads		= पाठक संख्या	
+pratilipi_count_reviews		= कुल टिप्पणी 
+pratilipi_count_likes		= कुल लाइक्स	
+pratilipi_confirm_move_to_drafts_title	= ड्राफ्ट में जाएँ
+pratilipi_confirm_move_to_drafts_body	= इस रचना का ड्राफ्ट में जाना सुनिश्चित करें
+pratilipi_confirm_move_to_drafts_true	= हाँ, ड्राफ्ट में जाएँ!
+pratilipi_confirm_move_to_drafts_false	= नहीं, इसे अप्रकाशित न करें
+pratilipi_move_to_drafts				= अप्रकाशित करें
+pratilipi_publish_it					= प्रकाशित करें
+pratilipi_delete_content				= हटाएँ 
+pratilipi_confirm_move_to_drafts		= ड्राफ्ट में ले जाने की पुष्टि करें 
+pratilipi_confirm_move_to_drafts_okay	= स्वीकार हैं 
+pratilipi_confirm_delete_content		= साहित्य हटाने की पुष्टि करें 
+pratilipi_confirm_delete_content_okay	= स्वीकार हैं 
+pratilipi_deleted_successfully			= साहित्य हट चूका है 
+
+# Rating
+rating_rating				= रेटिंग
+rating_ratings				= रेटिंग
+rating_rate_this			= रेटिंग दें
+rating_your_rating			= आपकी रेटिंग
+rating_mandatory_message	= कृपया रेटिंग दे।
+rating_1_star				= १
+rating_2_star				= २
+rating_3_star				= ३
+rating_4_star				= ४
+rating_5_star				= ५ 
+
+# Review
+review_heading				= टिप्पणी 
+review_write_a_review		= टिप्पणी लिखें 
+review_title				= टिप्पणी का शीर्षक  
+review_title_help			= उदाहरण के लिए – एक अद्भुत कहानी या एक सामान्य कहानी 
+review_content				= आपकी टिपण्णी 
+review_content_help			= इस कार्य को और अच्छा बनाने के लिए अपने सुझाव अवश्य दें | आपके सुझाव हमारे लिए अत्यंत महत्वपूर्ण हैं |
+review_submit_review	= दर्ज करें 
+review_edit_review			=  संपादित करें 
+review_delete_review		= टिप्पणी हटायें 
+review_delete_review_confirm	= टिप्पणी हटाने की पुष्टि करें 
+review_delete_okay			= ओके
+review_delete_cancel		= कैंसिल
+review_helpful				= क्या यह टिप्पणी सहायक थी?
+review_see_all_reviews		= सारी टिप्पणियाँ देखें  
+
+# Comments
+comment_reply_to_comment				= रिप्लाय
+comment_number_of_comments_singular		= रिप्लाय
+comment_number_of_comments_plural		= रिप्लाय
+comment_reply_comment_help				= रिप्लाय यहाँ टाइप करें
+comment_add_comment						= कोई टिप्पणी लिखें
+comment_edit_comment					= टिप्पणी सम्पादित करें
+comment_delete_comment					= टिप्पणी हटाएँ
+comment_confirm_delete_comment			= क्या आप इस टिप्पणी को हटाना चाहते है?
+comment_confirm_delete_comment_yes		= हाँ
+comment_confirm_delete_comment_no		= नहीं
+comment_restore_comment					= टिप्पणी पुनःस्थापित करे
+comment_submit_comment					= दर्ज करें
+comment_cancel_comment					= हटाएँ
+
+# Search
+search 						= खोजिए
+search_bar_help				= लेखक का नाम या कहानी,कविता,पुस्तक का शीर्षक टाइप करें 
+search_results				= खोज के परिणाम
+search_no_results_found = हम माफ़ी चाहते है, आपके द्वारा की गई खोज का परिणाम प्रतिलिप पर फ़िलहाल उपलब्ध नहीं है | अन्य रोमांचक और रहस्य कथाएँ आप पढ़ सकते है |
+search_load_failed			= खोज का परिणाम अप्राप्य है, कृपया फिर से कोशिश करने हेतु यहाँ क्लिक करें 
+search_loading             = ख़ोज जारी है : $query
+search_explore_categories   = श्रेणी
+search_explore_categories_help = श्रेणी देखें
+search_results_for          = खोज के नतीजे : $query
+search_results_authors      = लेखक
+search_results_contents     = रचनाएँ
+search_trending_heading     = ट्रेंडिंग
+search_current_event_heading    = ऑनलाइन स्पर्धा
+
+# Write
+write_heading				= लिखिए                                                                                                                                                                                                                                                                                   
+write_help					= कहानी, कविता, लेख, पुस्तक आदि स्वयं प्रकाशित करें |
+write_title					= यहाँ शीर्षक दर्ज कीजिए 
+write_title_en				= शीर्षक अंग्रेजी में  
+write_type					= प्रकार 
+write_language				= भाषा 
+write_summary				= संक्षिप्त सारांश दर्ज करें 
+write_create_new_content	= आगे बढ़िये 
+write_on_desktop_only		= प्रतिलिपि पर रचनायें लिखने के लिए कृपया डेस्कटॉप/लेपटॉप से http://hindi.pratilipi.com पर लोग-इन करें। 
+write_fill_title			= शीर्षक
+write_select_type			= श्रेणी 
+
+# Common User Popups
+user_sign_in				= साइन इन 
+user_to_sign_in				= प्रारंभ कीजिए 
+user_sign_in_with_facebook	= फेसबुक के साथ साइन इन करें
+user_sign_in_with_google	= गूगल के साथ साइन इन करें
+user_sign_in_to_pratilipi	= प्रतिलिपि में साइन इन करें
+user_sign_out				= साइन आउट 
+user_sign_up				= नया अकाउंट बनाइये 
+user_sign_up_for_pratilipi	= प्रतिलिपि  पर नया अकाउंट बनाइये
+user_sign_up_with_facebook	= फ़ेसबुक के साथ साइन अप 
+user_forgot_password		= यदि आप पासवर्ड भूल गए हो?
+user_reset_password			= नया पासवर्ड बनायें
+user_reset_password_help	= इस साइट पर रजिस्टर करने के लिए इस्तेमाल किया ई-मेल  प्रदान करें | जहाँ पासवर्ड रिसेट का आपको ई-मेल प्राप्त होगा | 
+user_current_password		= वर्तमान पासवर्ड
+user_new_password			= नया पासवर्ड
+user_full_name				= पूरा नाम दर्ज करें 
+user_email					= ईमेल प्रदान करे
+user_email_not_available	=  ई–मेल उपलब्ध नहीं है!
+user_phone					= फ़ोन 
+user_phone_not_available	= फ़ोन नंबर उपलब्ध नहीं है! 
+user_password				= पासवर्ड
+user_confirm_password		= पासवर्ड की पुष्टि करें
+user_my_profile				= मेरी प्रोफ़ाइल  
+user_my_account				= सेटिंग्स 
+user_is_new					= उपयोगकर्ता नये है	
+user_is_registered			= उपयोगकर्ता पंजीकृत है
+user_email_verification		= आपको भेजे गए ईमेल की पुष्टि करें		
+user_require_access			= इस प्रक्रिया के लिए कृपया साईट पर लोग इन करें! 
+user_no_followers			= फ़िलहाल आपकी फॉलोअर संख्या शून्य है।  
+user_login_to_view_followers = फॉलोअर्स के बारे में जानने के लिए कृपया लॉग इन करें।
+user_no_following			= फ़िलहाल आप किसी को फॉलो नहीं कर रहे हैं।
+user_login_to_view_following = आपने जिनको फॉलो किया उन्हें देखने के लिए कृपया लॉग इन करें। 
+user_login_to_view_library = अपनी लाइब्रेरी में अनगिनत किताबें जोड़ने के लिए कृपया लॉग-इन करें  
+user_login_to_view_notifications = आप जिन लोगों को फॉलो करते हैं, उनकी सूचनायें पाने के लिए कृपया लॉग-इन करें  
+user_login_to_follow		= कृपया इस लेखक को फॉलो करने के लिए लोग इन करें 
+
+# My Account popup
+edit_account_heading		= आपका अकाउंट 
+edit_account_verify_email	= आपको भेजे गए ईमेल की पुष्टि करें	
+edit_account_email_verified	= ईमेल की पुष्टि कर दी गई है 
+edit_account_change_password	= पासवर्ड बदलें
+
+# Footer
+footer_follow_us_on_social_media	= सोशल मीडिया पर हमें फॉलो करें।  
+footer_about_us				= हमारे बारे में
+footer_work_with_us			= हमारे साथ काम करें
+footer_blog					= ब्लॉग 
+footer_privacy_policy		= गोपनीयता नीति
+footer_terms_of_service		= सेवा की शर्तें
+footer_contact_email		= hindi@pratilipi.com
+footer_contact_10_digit_number		=  8604623871
+
+# Common Words
+okay						= स्वीकृत करें 
+cancel						= कैंसिल करें 
+save_changes				= परिवर्तन सुरक्षित करें	
+show_more					= और देखें 
+show_less					= कम देखें  
+read						= पढ़िए 
+write						= लिखिए 
+free						= निःशुल्क
+saving						= सेव करने की प्रक्रिया जारी है 
+working						= कृपया बने रहें  
+update						= अपडेट 
+share						= शेयर 
+menu						= श्रेणी 
+back						= वापस जाएँं 
+or							= अथवा
+load_more_contents			= और  देखें
+view_more					= और देखें 
+fill_in_the_details			= जानकारी उपलब्ध कराए
+accept_terms				= प्रकाशन शर्तों की पुष्टि करें 
+start_reading               = पढ़ना शुरू करें 
+start_following             = फॉलो करें 
+click_here                  = यहाँ क्लिक करें 
+goto_home                   = होम 
+
+# Success Messages
+success_generic_message				= सफल हुआ 
+password_reset_request_success		= पासवर्ड रीसेट सफल  हुआ
+user_login_success					= लॉग–इन सफल  हुआ
+user_register_success				= पंजीकरण सफल हुआ
+password_change_success				= पासवर्ड परिवर्तन सफल हुआ
+verification_email_sent_success		= पुष्टि हेतु ईमेल सफलता पूर्वक भेजा गया!
+user_verified_success				= उपयोगकर्ता पुष्टि सफल हुई !
+content_created_success				= रचना प्रकाशन सफल
+updated_author_info_success			= लेखक परिचय संपादन सफल हुआ 
+updated_pratilipi_info_success		= रचना संबंधित जानकारी का संपादन सफल हुआ
+updated_review						= प्रक्रिया संपन्न 
+
+#Failure Messages
+server_error_message				= तकनिकी ख़ामी पाई गई है, पुनः प्रयास करें।
+could_not_connect_server			= सर्वर से जुड़ने में असफलता।
+review_authorisation_error			= आप इस रचना को टिप्पणी नहीं दे सकते है। 
+logout_failed						= लॉग आउट असफल। कृपया पुनः प्रयास करें। 
+
+# Author Edit Popup
+edit_author_heading				= लेखक परिचय संपादित करें 
+edit_author_first_name			= पहला नाम बदलें
+edit_author_last_name			= अंतिम नाम बदलें
+edit_author_first_name_en		= पहला नाम (अंग्रेजी में)
+edit_author_last_name_en		= अंतिम नाम (अंग्रेजी में)
+edit_author_pen_name			= उपनाम
+edit_author_pen_name_en			= उपनाम (अंग्रेजी में)
+edit_author_birthday_ddmmyyyy	= जन्मतिथि (dd-mm-yyyy)
+edit_author_language			=  भाषा 
+edit_author_summary				= संक्षिप्त परिचय 
+edit_author_save_changes		= बदलाव सुरक्षित करें 
+
+# Pratilipi Edit Popup
+edit_pratilipi_heading			= रचना की जानकारी में बदलाव करें 
+edit_pratilipi_title			= शीर्षक
+edit_pratilipi_title_en			= शीर्षक (अंग्रेजी में )
+edit_pratilipi_type				= प्रकार 
+edit_pratilipi_language			= भाषा 
+edit_pratilipi_summary			= रचना  का सारांश 
+edit_pratilipi_save_changes		= बदलाव को सुरक्षित करें 
+
+# Register Form
+register_part_1					= यहाँ रजिस्टर होकर आप इन सूचनाओं से सहमत होते हैं 
+register_part_2					= और 
+register_part_3					= .
+
+# Event Page
+event_events			= इवेंट्स
+event_entries			= इवेंट एंट्री 
+event_name				= इवेंट शीर्षक 
+event_name_en			= इवेंट शीर्षक अंग्रेजी में 
+event_description		= इवेंट के बारे में 
+event_entries_url_list	=एंट्री का युआरएल लिस्ट 
+event_save_changes		= बदलाव को सुरक्षित करें
+
+# Gender
+gender				= लिंग 
+gender_male			= पुरुष
+gender_female		=  स्त्री
+gender_other		= अन्य
+
+ # Months
+month_jan	= जनवरी
+month_feb	= फ़रवरी
+month_mar	= मार्च
+month_apr	= अप्रैल
+month_may	= मई 
+month_jun	= जून
+month_jul	= जुलाई
+month_aug	= अगस्त
+month_sep	= सितम्बर
+month_oct	= अक्टूबर
+month_nov	= नवम्बर 
+month_dec	= दिसम्बर
+
+#days
+day_mon = Mon
+day_tue = Tue
+day_wed = Wed
+day_thu = Thu
+day_fri = Fri
+day_sat = Sat
+day_sun = Sun
+
+# Meridiem Time
+meridiem_am = AM
+meridiem_pm = PM 
+
+# Library
+library				= लाइब्रेरी
+my_library			= मेरी लाइब्रेरी 
+add_to_library		= लाइब्रेरी में जोड़े 
+added_to_library	= रचना को लाइब्रेरी में जोड़ दिया गया है।
+remove_from_library	= लाइब्रेरी से हटाए 
+removed_from_library = आपने यह साहित्य लाइब्रेरी से हटा दिया है!
+empty_library		= माफ़ कीजिए, आपकी लाइब्रेरी में फ़िलहाल कुछ भी उपलब्ध नहीं है । आप रोमांचक कहानियां यहाँ जोड़ सकते है ।
+library_content_in_library	= लाईब्रेरी में जोड़े 
+
+# Reader
+reader_goto_content_page	= सारांश पेज पर जाएँ
+reader_goto_author_profile = लेखक की प्रोफाईल पर जाए
+reader_goto_home_page	= होम पेज पर जाएँ 
+share_on_facebook		= फेसबुक पर शेयर करें 
+share_on_twitter		= ट्विटर पर शेयर कर 
+share_on_gplus			= गूगल प्लस पर शेयर कर
+share_on_whatsapp       = वाट्सअप पर साझा करें
+increase_font_size		= अक्षर बढ़ाए
+decrease_font_size		= अक्षर घटाए
+increase_image_size		= चित्र कद बढ़ाए
+decrease_image_size		= चित्र कद घटाए
+reader_background		= पृष्ठभूमि
+
+# Enjoyed Reading the content? Write a review or Share it on
+reader_enjoyed_reading_part1	= क्या आपको यह रचना पसंद आई?
+reader_enjoyed_review_book		= टिप्पणी लिखें 
+reader_enjoyed_reading_part2	= शेयर करे 
+
+# Notifications
+notification_notifications = सूचनाएँ
+notifications_no_notifications = फ़िलहाल आपके लिए कोई सूचना उपलब्ध नहीं है।  
+notifications_load_failed =  सूचनाएँ लोड करने में असमर्थ, कृपया रीलोड करने हेतु यहाँ क्लिक करें 
+
+# Writer Panel
+writer_add_content_title = शीर्षक जोड़ें
+writer_add_chapter_title = अध्याय का शीर्षक 
+writer_select_language = भाषा जिसमें आप लिख रहे हैं
+writer_input_title = यहाँ शीर्षक लिखें 
+writer_input_title_en = शीर्षक को दुबारा अंग्रेजी में लिखें
+writer_you_own_copyright = रचना का कॉपीराइट आपके पास है। 
+writer_read_copyright = कॉपीराइट पालिसी यहाँ पढ़ें
+writer_to_next_screen = आगे बढ़ें 
+writer_publish = प्रकाशित करें
+writer_save = सहेजें
+writer_dont_save = सुरक्षित न करें
+writer_preview = प्रिव्यू 
+writer_changes_saved = सभी परिवर्तन सहेजे गये।
+writer_add_new_chapter = नया अध्याय
+writer_write_here_placeholder = यहाँ लिखें
+writer_edit_title_placeholder = शीर्षक बदलें
+writer_table_of_contents = विषयसूची
+writer_chapter = अध्याय
+writer_chapter_delete_confirmation = क्या आप निश्चित तौर पर हटाना चाहते हैं?
+writer_add_chapter_success = नया अध्याय सफलतापूर्वक जोड़ा गया।
+writer_chapter_delete = Delete Chapter 
+writer_delete_chapter_success = अध्याय सफलतापूर्वक हटाया गया। 
+writer_editor_bold = बोल्ड
+writer_editor_italics = तिरछा
+writer_editor_underline = रेखांकित
+writer_editor_align_left = बाईं ओर रखें
+writer_editor_align_center = मध्य में रखें
+writer_editor_align_right = दाईं ओर रखें
+writer_editor_quote = उद्धरण
+writer_editor_image = फोटो अपलोड करें
+writer_editor_link = लिंक जोड़ें
+writer_okay = ठीक
+writer_cancel = रद्द करें
+writer_select_category = श्रेणी चुनें
+writer_add_cover = कवर फोटो अपलोड करें
+writer_add_summary = सारांश जोड़ें (आप बाद में जोड़ सकते हैं।)
+writer_finish = समाप्त 
+writer_saving = प्रक्रिया ज़ारी है... 
+writer_accept_copyright = मैं कॉपीराइट पॉलिसी और सेवा की शर्तों को स्वीकार करता हूँ।  
+writer_error_title_required = कृपया शीर्षक दर्ज करें 
+writer_error_category_required = कृपया श्रेणी चुनें
+writer_error_copyright_required = कृपया कॉपीराइट पालिसी और सेवा की शर्तों को स्वीकार करें
+writer_save_changes_confirmation = बढ़ने से पहले किए गए बदलाव को सुरक्षित करें ?
+pratilipi_add_summary = सारांश जोड़ने के लिए कृपया यहाँ क्लिक करें
+
+# Android App launch
+android_pratilipi_app = प्रतिलिपि एंड्राइड एप्लीकेशन
+android_alert_message = बिना इन्टरनेट पढ़ें और अनगिनत किताबें डाउनलोड करें. एंड्राइड एप्लीकेशन पाने वाले प्रथम पाठक बनें 
+android_popup_message = प्रतिलिपि एंड्राइड एप्लीकेशन जल्दी ही आ रहा है. सर्वप्रथम पाठकों में शामिल होने के लिए नीचे रजिस्टर करें 
+android_know_more_button =  और जानें
+android_submit = दर्ज करें
+android_invite_friends = दोस्तों को आमंत्रित करें
+android_success_feedback = एप्लीकेशन के लॉंच होते ही हम आपको सूचित करेंगे
+android_email_incorrect = दर्ज की गई ई मेल आई डी गलत है
+android_phone_incorrect = दर्ज किया गया मोबाईल नंबर गलत है
+android_email_or_phone_required = कृपया अपना ई मेल या फ़ोन नंबर दर्ज करें 
+android_whatsapp_share_description = प्रतिलिपि एंड्राइड एप्लीकेशन जल्दी ही आ रहा है. अब डाउनलोड करें अनगिनत किताबें और पढ़ें इन्टरनेट के बिना.
+android_banner_1 = प्रतिलिपि एंड्राइड एप्लीकेशन : अब डाउनलोड करें अनगिनत किताबें और पढ़ें इन्टरनेट के बिना
+android_banner_2 = Register below to get it first.
+android_banner_3 = सर्वप्रथम पाठकों में शामिल होने के लिए नीचे रजिस्टर करें
+android_banner_4 =  और जानें
+android_banner_5 = प्रतिलिपि एंड्राइड एप्लीकेशन जल्दी ही आ रहा है
+android_banner_home_1 = खोजें, पढ़ें और साझा करें
+android_banner_home_2 = Discover trending contents
+android_banner_home_3 = अपनी पसंदीदा श्रेणियों में से पढ़ें
+android_banner_library_1 = कभी भी, कहीं भी, बिना इन्टरनेट के
+android_banner_library_2 = अपने पुस्तक संग्रह में अनगिनत किताबें जोडें
+android_banner_library_3 = Read anytime without internet
+android_banner_notification_1 = कोई अपडेट कभी छूटे नहीं 
+android_banner_notification_2 = नई पठन सामग्री एवं स्पर्धाओं के बारें में तत्काल जानें
+android_banner_notification_3 = Build your own fan following
+android_banner_reader_1 = पढ़ने के आनंद का अनुभव लें
+android_banner_reader_2 = Customize the reader to suit your style
+android_banner_reader_3 = बुकमार्क, रात्रि मोड, साझा करें, समीक्षा करें
+android_banner_profile_1 = आपका प्रोफाइल, आपकी तरह से
+android_banner_profile_2 = Create profile which defines you
+android_banner_profile_3 = अपनी पठन सामग्री और नेटवर्क को मैनेज करें
+
+# Android App launched promotion
+pratilipi_app_launched_website_strip = प्रतिलिपि का मोबाईल एप अब आ चुका है : डाउनलोड करें अनगिनत किताबें।  
+pratilipi_app_click_download = ऐप डाउनलोड करें
+
+pratilipi_android_application = प्रतिलिपि एंड्राइड एप्लीकेशन 
+read_stories_without_internet = बिना इन्टरनेट के भी अपनी मनपसंद कहानियां पढ़ें
+android_download = डाउनलोड करें
+
+# Notification Settings
+notification_settings = नोटिफिकेशन सेटिंग 
+email_frequency =  ईमेल प्राप्त करें
+email_frequency_immediate = तुरंत 
+email_frequency_daily = रोज 
+email_frequency_weekly =  साप्ताहिक 
+email_frequency_monthly = प्रति माह 
+email_frequency_never = कभी नहीं 
+notification_group_content =  रचना के बारे में 
+option_new_review = नयी टिप्पणी 
+option_new_comment =  नये जवाब 
+option_like_review =   टिप्पणी के पसंद होने पर 
+option_like_comment =  जवाब के पसंद होने पर 
+notification_group_network = मित्र मंडल संबंधित 
+option_new_follower = नये फॉलोवर के जुड़ने पर 
+option_pratilipi_published_follower =  फॉलोवर के द्वारा नयी रचना प्रकाशित करने पर 
+option_pratilipi_updates =  प्रतिलिपि की ओर से सुचना और सुझाव 
+notification_settings_save_changes = बदलाव सुरक्षित करें 
+
+#Whatsapp share messages
+whatsapp_read_unlimited_stories = भारतीय भाषाओँ में अनगिनत रचनाएं पढ़ें, लिखें और दोस्तों से साझा करें, पूर्णत: नि:शुल्क
+whatsapp_read_story = , को प्रतिलिपि पर पढ़ें : 
+whatsapp_follow_author = , को प्रतिलिपि पर फॉलो करें:
+
+
+# SEO Titles
+seo_root_domain					= पढ़ें, लिखें और साझा करें आपकी मनपसंद कहानियाँ और कविताएँ आपकी अपनी भाषा में
+seo_pratilipi_page				= ${ authorName } की हिंदी कहानी ${ pratilipiTitle } का सारांश 
+seo_author_page					= ${ authorName }
+seo_home_page					= पढ़ें हिंदी कहानियाँ, कवितायें और किताबें प्रतिलिपि पर
+seo_events_page					= ऑनलाइन प्रतियोगितायें
+seo_library_page				= आपके द्वारा सेव की हुई कहानियाँ, कवितायें और किताबें
+seo_event_page					= ${ eventName }
+seo_reader_panel				= पढ़ें ${ authorName } की हिंदी कहानी ${ pratilipiTitle } प्रतिलिपि पर 
+seo_blogpost_page				= ${ blogTitle }
+seo_search_page					= प्रतिलिपि पर अपनी पसंदीदा कहानियाँ, कविता, रचनायें, लेखक और बहुत कुछ खोजें
+seo_writer_panel				= पढ़ें ${ pratilipiTitle } लेखक ${ authorName } 
+seo_notifications_page			= प्रतिलिपि पर आपके लिए जरूरी सूचनायें
+seo_blog_page					= प्रतिलिपि हिंदी ब्लॉग एवं सम्पादकीय
+seo_author_interview			= लोकप्रिय रचनाकारों के साथ सवाल-जवाब
+seo_followers_page				= ${ authorName } के प्रतिलिपि पर फॉलोवर्स
+seo_following_page				= आप प्रतिलिपि पर इनको फॉलो कर रहे हैं 
+seo_list_page					= ${ listTitle }
+seo_static_page					= ${ staticTitle }
+seo_account_page				= ${ authorName } 
+seo_navigation_page				= श्रेणियाँ
+seo_update_password_page		= पासवर्ड अपडेट 
+seo_share_page					= अपने दोस्तों के साथ साझा करें
+seo_register_page				= प्रतिलिपि पर अपना अकाउंट बनायें
+seo_login_page					= प्रतिलिपि पर लॉग-इन करें
+seo_reset_password_page			= अपना पासवर्ड रीसेट करें 
+
+# Social
+facebook						= फेसबुक
+twitter							= ट्वीटर
+google_plus						= गूगल+
+linkedin                        = लिंक्डइन
+whatsapp						= वाट्सअप
+
+# Footer
+footer_mobile_app    				= मोबाइल ऐप
+footer_contact_us	  				= हमें सम्पर्क करें
+
+# PWA
+user_logged_in_already              = आप लॉग इन हैं ,कृपया पीछे जाने के लिए यहाँ क्लिक करें
+user_email_empty 					= कृपया अपना ई मेल लिखें
+user_password_empty                 = कृपया अपना पासवर्ड लिखें
+user_name_empty 					= कृपया अपना नाम लिखें
+user_email_invalid 					= कृपया ई मेल सही लिखें
+user_login_to_follow	        	= कृपया लेखक को फॉलो करने के लिए लॉग इन करें
+
+pratilipi_rate_and_review 			= रेटिंग दे एवं टिप्पणी लिखें
+pratilipi_review_hide_comments 	= टिप्पणी छुपायें
+pratilipi_no_reviews			    = रचना पर कोई टिप्पणी नहीं है
+rating_be_first_one		= अपनी टिप्पणी दर्ज कर आप प्रथम समीक्षक बन सकते हैं।
+
+author_readby_count                 = $read_count लोगों ने पढ़ा
+
+settings_profile_settings       = प्रोफाइल सेटिंग
+settings_notification_settings  = नोटीफिकेशन सेटिंग
+settings_update_password        = पासवर्ड अपडेट
+
+search_load_failed			= सर्च रिजल्ट लोड करने में असमर्थ ; कृपया फिर से कोशिश करें
+notifications_load_failed = नोटीफिकेशन लोड करने में असमर्थ ; कृपया नोटीफिकेशन फिर से लोड करने के लिए यहाँ क्लिक करें
+image_type_not_supported = इमेज का फॉर्मेट सपोर्ट नहीं कर रहा है ; कृपया दिए गए इमेज फॉर्मेट का उपयोग करें - .png, .jpg, .jpeg
+
+author_published_contents = प्रकाशित रचनायें 
+author_followers		= फ़ॉलोअर्स 
+author_following		= फॉलोइंग
+
+author_follow_success   = आप $authorName को फॉलो कर रहे है।
+author_unfollow_success = आपने $authorName को अनफॉलो किया है। 
+
+library_add_success     = आपने $pratilipiTitle को लाइब्रेरीमें जोड़ा है। 
+library_remove_success     = आपने $pratilipiTitle को लाइब्रेरीसे हटा दिया है।
+
+pratilipi_publish_success   = आपने $pratilipiTitle को प्रकाशित किया है। 
+pratilipi_unpublish_success     = आपने $pratilipiTitle को अप्रकाशित किया है। 
+
+undo_action             = पूर्ववत करें
+
+
+# Reader
+reader_font_size        = फॉण्ट साइज़
+reader_image_size       = इमेज साइज़ 
+reader_background       = बैकग्राउंड
+reader_line_spacing     = पंक्तियों के बीच में अंतर
+reader_report_content   = रचना के बारे में रिपोर्ट करें 
+reader_report_content_placeholder = रचना में गलत क्या है?
+reader_submit_report    =  रिपोर्ट भेजें 
+reader_next_chapter     = अगला अध्याय
+reader_content_unavailable = माफ़ कीजिए, यह रचना उपलब्ध नहीं है!
+
+
+# Pratilipi Tags
+tags_categories				= श्रेणी
+tags_select_pratilipi_type	= प्रकार चुनें
+tags_select_category		= श्रेणी चुनें
+tags_click_to_select		= श्रेणी चुनने के लिए क्लिक करें।  
+tags_add_your_own_category	= नयी श्रेणी जोड़े
+tags_add					= जोड़े
+tags_type_here				= यहाँ लिखें
+tags_goto_category			= श्रेणी पर जायें
+tags_help_message			= प्रस्तुत श्रेणी चुनें और नयी श्रेणी लिखकर जोड़े
+tags_add_category_to_proceed= आगे बढ़ने के लिए श्रेणी चयन करें 
+tags_please_retry			= कृपया फिर से कोशिश करें
+tags_processing				= प्रक्रिया जारी है
+tags_add_category			= श्रेणी जोड़ें 
+tags_edit_category			= श्रेणी एडिट करें 
+
+# Page Not Found
+page_not_found_heading      = पेज नॉट फाउंड 
+page_not_found_description  = लगता है आप गलत पेज पर आ गये हैं | अपनी मनपसन्द कहानियाँ पढने के लिए यहाँ जाए - 
+
+# share dialog strings
+awesome_work            = बधाई हो !!!
+has_been_published      = प्रकाशित हो चुकी है।
+share_and_get_popular   = अपने दोस्तों को इस खुशी में शामिल करे और उनकी राय जाने।
+share_on_facebook       = फेसबुक पर शेयर करें
+
+# leader board string
+top_author_heading      = टॉप लेखक
+top_author_sub_heading  = को रहे सबसे ज्यादा लोकप्रिय
+top_author_message      = * शेयर करे अपनी प्रोफाइल एवं प्रकाशन, साथ ही पाठक, फॉलोवर्स और लोकप्रियता बढ़ाये|

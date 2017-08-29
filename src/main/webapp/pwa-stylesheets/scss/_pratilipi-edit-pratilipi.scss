@@ -1,0 +1,47 @@
+.pratilipi-edit-pratilipi {
+	div.modal-content {
+		border-radius: 1px;
+		div.modal-header {
+			span.close {
+				float: right !important;
+				cursor: pointer;
+			}
+		}
+		div.modal-body {
+			padding: 15px 30px;
+			.mdl-textfield {
+				width: 100%;
+				display: block;
+			}
+			i.dropdown-icon {
+				position: absolute;
+				right: 0px;
+				bottom: 18px;
+				width: 32px;
+				height: 32px;
+				font-size: 32px;
+			}
+			ul.dropdown-ul {
+				width: 100%;
+				-webkit-box-shadow: 0 3px 9px rgba(0,0,0,0.5);
+				box-shadow: 0 3px 9px rgba(0,0,0,0.5);
+				border: 1px solid #999;
+				border: 1px solid rgba(0,0,0,0.2);
+				border-radius: 4px;
+				.mdl-menu__item, .mdl-menu__item:hover {
+					color: #000;
+				}
+			}
+			textarea.summary {
+				display: block;
+				height: 200px;
+				width: 100%;
+				line-height: 1.4em;
+				font-size: 15px;
+			}
+		}
+		div.modal-footer {
+			border: none;
+		}
+	}
+}

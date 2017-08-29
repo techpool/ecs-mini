@@ -1,0 +1,81 @@
+<dom-module id="pratilipi-notification-snippet">
+
+	<style>
+		.notification-unread-state, .notification-unread-state:hover {
+			background-color: #f7f7f7;
+		}
+		.notification-read-state, .notification-read-state:hover {
+			background-color: #ffffff;
+		}
+		.list-group-item {
+			border: 1px solid #d3d3d3;
+			border-top: none;
+		}
+		.vertical-align {
+			display: -webkit-flex;
+			display: flex;
+			-webkit-flex-flow: row;
+			flex-flow: row;
+		}
+		.vertical-align span {
+			align-self: center;
+			float: right;
+		}
+	</style>
+
+	<template>
+		<a class="notification-message list-group-item" style="border-radius: 0px;" href="{{ sourceUrl }}">
+			<span class="vertical-align">
+				<span style="margin-right: 12px;">
+					<img style="width: 48px; height: 48px;" class="img-circle pratilipi-shadow pull-left" src="{{ displayImageUrl }}" />
+				</span>
+				<span style="margin-right: 12px;">
+					<span style="white-space: normal;" class="notification-message-snippet"></span>
+					<br/>
+					<span style="float: left; white-space: normal;"><iron-icon icon="social:person" style="height: 18px;width: 18px;"></iron-icon>&nbsp;<span class="text-muted">{{ time }}</span></span>
+				</span>
+				<template is="dom-if" if="{{ hasSourceImage }}">	
+					<span style="margin-left: auto;">
+						<img class="pratilipi-shadow pull-right" src="{{ sourceImageUrl }}" />
+					</span>				
+				</template>
+			</span>
+		</a>
+	</template>
+
+	<script>
+		Polymer({
+
+			is: 'pratilipi-notification-snippet',
+
+			properties: {
+				notification: { type: Object, observer: "_notificationObserver" },
+				notificationId: { type: String },
+				message: { type: String },
+				sourceUrl: { type: String },
+				state: { type: String }
+			},
+
+			_notificationObserver: function() {
+				this.set( 'notificationId', this.notification.notificationId );
+				this.set( 'message', this.notification.message );
+				this.set( 'sourceUrl', this.notification.sourceUrl );
+				this.set( 'displayImageUrl', this.notification.displayImageUrl != null ?
+						this.notification.displayImageUrl + ( this.notification.displayImageUrl.indexOf( "?" ) == -1 ? "?" : "&" ) + "width=48"
+						: "http://public.pratilipi.com/pratilipi-logo/png/Logo-2C-RGB-80px.png" );
+				this.set( 'time', convertDate( this.notification.lastUpdatedMillis ) );
+				this.set( 'hasSourceImage', this.notification.sourceImageUrl != null );
+				this.set( 'sourceImageUrl', this.notification.sourceImageUrl != null ?
+						this.notification.sourceImageUrl + ( this.notification.sourceImageUrl.indexOf( "?" ) == -1 ? "?" : "&" ) + "width=48"
+						: null );
+
+				jQuery( this.querySelector( '.notification-message-snippet' ) ).html( this.message );
+				jQuery( this.querySelector( '.notification-message' ) ).addClass( this.notification.state == "UNREAD" ? 
+						"notification-unread-state" : "notification-read-state" );
+
+			},
+
+		});
+	</script>
+
+</dom-module>

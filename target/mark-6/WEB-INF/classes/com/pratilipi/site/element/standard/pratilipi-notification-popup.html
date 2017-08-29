@@ -1,0 +1,26 @@
+<#include "pratilipi-notification-snippet.html">
+
+<dom-module id="pratilipi-notification-popup">
+
+	<template>
+		<template is="dom-repeat" items="{{ popupNotificationList }}" as="notification">
+			<template is="dom-if" if="{{ notification.message }}">
+				<pratilipi-notification-snippet notification="{{ notification }}"></pratilipi-notification-snippet>
+			</template>
+		</template>
+	</template>
+
+	<script>
+		Polymer({
+
+			is: 'pratilipi-notification-popup',
+
+			properties: {
+				popupNotificationList: { type: Array, notify: true }
+			},
+
+		});
+
+	</script>
+
+</dom-module>

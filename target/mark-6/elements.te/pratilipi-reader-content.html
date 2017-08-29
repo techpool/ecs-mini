@@ -1,0 +1,359 @@
+<dom-module id="pratilipi-reader-content">
+
+	<style>
+		
+		:host {
+			display: block;
+			overflow: hidden;
+		}
+		
+		:host #pager {
+			margin-bottom: 5px;
+			padding: 16px 22px;
+			width: 100%;
+		}
+		
+		:host #pager #reader-content {
+			-webkit-font-smoothing: antialiased;
+			line-height: 1.6em;
+		}
+		
+		@media only screen and (max-width: 768px) {
+			:host #pager #reader-content {
+				text-align: left;
+			}
+		}
+		@media only screen and (min-width: 769px) {
+			:host #pager #reader-content {
+				text-align: justify;
+			}
+		}
+		
+		/* Bootstrap override */
+		#reader-alert-box {
+			color: #333;
+			background-color: inherit;
+			border-color: #333;
+		}
+
+		#reader-alert-box .alert-link, #reader-alert-box .alert-link:hover, #reader-alert-box .alert-link:focus {
+			font-weight: inherit;
+			color: inherit;
+		}
+
+		.alert .social-icons {
+			display: flex;
+			width: 100%;
+			justify-content: center;
+		}
+
+		.alert .social-icons .icons-holder {
+			white-space: nowrap;
+			display: inline-block;
+			align-self: center;
+			margin-left: 12px;
+		}
+		
+		.hvr-bounce-in {
+			vertical-align: middle;
+			-webkit-transform: translateZ(0);
+			transform: translateZ(0);
+			box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+			-webkit-backface-visibility: hidden;
+			backface-visibility: hidden;
+			-moz-osx-font-smoothing: grayscale;
+			-webkit-transition-duration: 0.5s;
+			transition-duration: 0.5s;
+			max-width: 95%; 
+			margin: 30px auto; 
+		}
+
+
+		.hvr-bounce-in:hover, .hvr-bounce-in:focus, .hvr-bounce-in:active {
+			-webkit-transform: scale(1.05);
+			transform: scale(1.05);
+			-webkit-transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+			transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+		}
+
+		.fa {
+			margin-left: 15px;
+			cursor: pointer;
+		}
+		
+	</style>
+	
+	
+	<template>
+	
+		<paper-card id="pager">
+			<div id="reader-content"></div>
+			<template is="dom-if" if="{{ showContainer }}">
+				<div id="reader-alert-box" class="alert alert-success hvr-bounce-in" role="alert">
+					<template is="dom-if" if="{{ canReview }}">
+						<h3 class="text-center" style="margin-top: 24px;">రచనలు చదవడాన్ని ఆస్వాదిస్తున్నారా?</h3>
+						<div class="text-center" style="margin: 0 auto;">
+							<a class="alert-link" on-click="writeReview">
+								<h6 style="margin: 15px 0px; display: inline-block;">సమీక్ష రాయండి</h6>
+								<iron-icon icon="icons:create" style="margin-left: 0px; display: inline-block; width: 20px;"></iron-icon>
+							</a>
+						</div>
+					</template>
+					<div id="social-icons" class="social-icons text-center" style="margin: 0 auto;">
+						<h6 style="margin: 15px 0px; display: inline-block;">షేర్ చేయండి : </h6>
+						<div class="icons-holder">
+							<a on-click="shareOnFacebook"><span class="icon icon-facebook"></span></a>
+							<a on-click="shareOnTwitter"><span class="icon icon-twitter"></span></a>
+							<a on-click="shareOnGplus"><span class="icon icon-google-plus"></span></a>
+						</div>
+					</div>
+				</div>
+			</template>
+		</paper-card>
+		<iron-ajax
+				id="AjaxGet"
+				url="/api/pratilipi/content"
+				method="GET"
+				content-type="application/json"
+				handle-as="json"
+				on-response="_onResponse"
+				on-error="_onError"
+				></iron-ajax>
+	</template>
+	
+	
+	<script>
+		Polymer({
+			
+			is: 'pratilipi-reader-content',
+			
+			properties: {
+				content: { type: String, observer: "_onContentChange" },
+				contentType: { type: String },
+				contentMap: { type: Object, value: {} },
+
+				pratilipiId: { type: Number },
+				pratilipiState: { type: String },
+				fontSize: { type: Number, observer: "_onFontSizeChange" },
+				imageSize: { type: Number, observer: "_onImageSizeChange" },
+
+				pageNo: { type: Number, observer: "_onPageNoChange" },
+				pageCount: { type: Number },
+				version: { type: String },
+
+				showContainer: { type: Boolean },
+				canReview: { type: Boolean }
+
+			},
+			
+			
+			// Attached
+			attached: function() {
+
+				jQuery( "#pager" ).css( 'min-height', window.innerHeight + "px" );
+				this.set( "canReview", this.domHost.getUser().isGuest || this.domHost.getUserPratilipi().hasAccessToReview );
+				this.set( 'showContainer', this.pageNo == this.pageCount && this.pratilipiState == "PUBLISHED" );
+
+				if( this.contentType == "PRATILIPI" ) {
+					this.contentMap[ this.pageNo ] = this.content;					
+
+				} else if( this.contentType == "IMAGE" ) {
+					var chapters = jQuery.parseJSON( this.content )["chapters"];
+					var c = 1;
+					for( var i = 0; i < chapters.length; i++ ) {
+						var pages = chapters[i].pages;
+						for( var j = 0; j < pages.length; j++ ) {
+							this.contentMap[ c++ ] = pages[j].pagelets[0].data.name;
+						}
+					}
+
+					this.set( 'content', this.getImageUrl( this.pageNo ) );
+					this._setImageSize();
+
+				}
+
+				this._precache();
+			},
+
+
+			// Font size
+			_onFontSizeChange: function() {
+				this.async( function() {
+					jQuery( "#reader-content" ).css( 'font-size', this.fontSize, "important" );
+					jQuery( "#reader-content h2" ).css( 'font-size', this.fontSize + 4, "important" );
+					jQuery( "#reader-content h1" ).css( 'font-size', this.fontSize + 8, "important" );
+				} );
+			},
+
+			_setFontSize: function( fontSize ) {
+				this.set( "fontSize", fontSize == null ? 14 : parseInt( fontSize ) );
+				setCookie( "fontSize", fontSize, 30, "/read" );
+			},
+
+			increaseFontSize: function() {
+				// cutoff = 32
+				if( this.fontSize + 2 <= 32 )
+					this._setFontSize( this.fontSize + 2 );
+			},
+
+			decreaseFontSize: function() {
+				// cutoff = 12
+				if( this.fontSize - 2 >= 12 )
+					this._setFontSize( this.fontSize - 2 );
+			},
+			
+			
+			// Image Size
+			_onImageSizeChange: function() {
+				this.async( function() {
+					jQuery( "#reader-content img" ).css( 'width', this.imageSize + 'px' );
+					if( jQuery( "#reader-content" ).width() < this.imageSize )
+						jQuery( "#reader-content" ).css( "overflow", "scroll" );
+					else
+						jQuery( "#reader-content" ).css( "overflow", "hidden" );	
+				} );
+			},
+			
+			_setImageSize: function( imageSize ) {
+				this.set( "imageSize", imageSize == null ? jQuery( "#reader-content" ).width() : parseInt( imageSize ) );
+			},
+			
+			increaseImageSize: function() {
+				// cutoff = 1500
+				if( this.imageSize + 50 <= 1500 )
+					this._setImageSize( this.imageSize + 50 );
+			},
+			
+			decreaseImageSize: function() {
+				// cutoff = 300
+				if( this.imageSize - 50 >= 300 )
+					this._setImageSize( this.imageSize - 50 );
+			},
+
+
+			// Content
+			_onContentChange: function() {
+				if( this.contentType == "IMAGE" && ( this.contentMap == null || jQuery.isEmptyObject( this.contentMap ) ) ) {
+					jQuery( this.querySelector( '#reader-content' ) ).html( "<paper-spinner class=\"pratilipi-spinner-center\" active></paper-spinner>" );
+					return;
+				}
+				jQuery( this.querySelector( '#reader-content' ) ).html( this.content );
+				this.async( function() {
+					if( this.contentType == "PRATILIPI" ) {
+						jQuery( "#reader-content img" ).css( "cssText", "max-width: 100% !important; display: block !important; text-align: center !important; margin: 8px auto !important;");
+						jQuery( "#reader-content a" ).css( "cssText", "font-style: italic !important; text-decoration: underline !important; color: #707070 !important;" );
+						jQuery( "#reader-content a" ).attr( 'target', '_blank' );
+						jQuery( "#reader-content h1" ).css( "cssText", "text-align: center; margin-bottom: 20px;" );
+					} else if( this.contentType == "IMAGE" ) {
+						this._onImageSizeChange();
+					}
+				} );
+
+				if( jQuery( window ).scrollTop() > 128 ) {
+					this.async( function() {
+						jQuery( 'html, body' ).animate( { scrollTop : 0 }, 500 );
+					} );
+				}
+			},
+
+			getImageUrl: function( pageNo ) {
+				return "<img src='/api/pratilipi/content/image?pratilipiId=" + 
+							this.pratilipiId + "&" + 
+							"name=" + this.contentMap[ pageNo ] + "' />";
+			},
+
+			_precache: function() {
+				if( this.contentType == "PRATILIPI" ) {
+					// Check pageNo
+					if( this.pageNo > 1 )
+						this._loadContent( this.pageNo - 1 );
+					if( this.pageNo < this.pageCount )
+						this._loadContent( this.pageNo + 1 );
+				} else if( this.contentType == "IMAGE" ) {
+					// Prefetch images
+					if( this.pageNo > 1 )
+						jQuery( this.getImageUrl( this.pageNo - 1 ) ).load();
+					if( this.pageNo < this.pageCount )
+						jQuery( this.getImageUrl( this.pageNo + 1 ) ).load();
+				}
+			},
+
+			_onPageNoChange: function() {
+				// Called before ready function
+				if( this.contentMap == null || jQuery.isEmptyObject( this.contentMap ) )
+					return;
+				
+				if( this.contentType == "PRATILIPI" ) {
+					if( this.contentMap[ this.pageNo ] != null ) { // Check in Map if exists
+						this.set( 'content', this.contentMap[ this.pageNo ] );
+					} else {										// Else make api call
+						this.set( 'content', "<paper-spinner class=\"pratilipi-spinner-center\" active></paper-spinner>" );
+						this._loadContent( this.pageNo );
+					}
+				} else if( this.contentType == "IMAGE" ) {
+					this.set( 'content', this.getImageUrl( this.pageNo ) );
+				}
+
+				this.set( 'showContainer', this.pageNo == this.pageCount && this.pratilipiState == "PUBLISHED" );
+
+				this._precache();								// Load Previous and next pages
+
+			},
+
+			_loadContent: function( pageNo ) {
+
+				if( pageNo == null || this.contentMap[ pageNo ] != null )
+					return;
+
+				var ajaxGet = this.$.AjaxGet;
+				ajaxGet.params.pratilipiId = this.pratilipiId;
+				ajaxGet.params.chapterNo = pageNo;
+				ajaxGet.params.contentType = this.contentType;
+				ajaxGet.params._apiVer = this.version; 
+				ajaxGet.generateRequest();
+			},
+
+			_onResponse: function( event ) {
+
+				var response = event.detail.response;
+				var content = response != null && response.content != null ? response.content : "";
+
+				if( response != null && response.chapterTitle != null )
+					content = "<h1>" + response.chapterTitle + "</h1>" + content;
+
+				var pageNo = response.chapterNo;
+				// Populate map
+				this.contentMap[ pageNo ] = content;
+
+				// Update content if response page no == this page no
+				if( this.pageNo == pageNo )
+					this.set( 'content', content );
+			},
+
+			_onError: function( event ) {
+				// Show appropriate message
+				/* alert( "Sorry! Some exception occurred at the server! Try again" ); */
+				// Try again in 3 seconds
+			},
+
+			writeReview: function() {
+				document.querySelector( 'pratilipi-reader-page' ).writeReview();
+			},
+
+			shareOnFacebook: function() {
+				document.querySelector( 'pratilipi-reader-page' ).shareOnFacebook( "container" );
+			},
+
+			shareOnTwitter: function() {
+				document.querySelector( 'pratilipi-reader-page' ).shareOnTwitter( "container" );
+			},
+
+			shareOnGplus: function() {
+				document.querySelector( 'pratilipi-reader-page' ).shareOnGplus( "container" );
+			},
+
+		});
+
+	</script>
+
+</dom-module>

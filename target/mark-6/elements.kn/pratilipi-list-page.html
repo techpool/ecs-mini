@@ -1,0 +1,84 @@
+<dom-module id="pratilipi-list-page">
+
+	<template>
+		<pratilipi-user user='{{ user }}' user-data="[[ userData ]]"></pratilipi-user>
+		<pratilipi-write language-map="[[ languageMap ]]" pratilipi-types='[[ pratilipiTypes ]]'></pratilipi-write>
+		<pratilipi-alert></pratilipi-alert>
+
+		<div class="header-pos">
+			<pratilipi-android-launch-test></pratilipi-android-launch-test>		   		</div>
+   		<main>
+   			<pratilipi-header language-map="[[ languageMap ]]" user='[[ user ]]' query='[[ searchQuery ]]'></pratilipi-header>
+			<div class="parent-container margin-top-bottom">
+				<div class="container">
+					<pratilipi-navigation
+						class='pull-left hidden-xs hidden-sm'
+						navigation-list='[[ navigationList ]]'
+						></pratilipi-navigation>
+					<!-- Navigation & Search bar for extra-small & small screens. -->
+					<pratilipi-navigation-drawer with-backdrop navigation-list='[[ navigationList ]]'></pratilipi-navigation-drawer>
+					<div style="overflow: hidden; padding: 0 2px;">
+						<div id="androidLaunchBottom">
+							<pratilipi-card-grid
+								heading='[[ heading ]]'
+								search-query='[[ searchQuery ]]'
+								pratilipi-list='[[ pratilipiList ]]'
+								filter='[[ filter ]]'
+								cursor='[[ cursor ]]'
+								></pratilipi-card-grid>
+							<br class="pratilipi-break"/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<footer>
+    		<pratilipi-footer></pratilipi-footer>
+		</footer>
+		<div class="scroll-top-button">
+			<a id="scrollToTop" on-click="scrollToTop"><paper-fab mini noink style="background: #c0c0c0;" icon="icons:arrow-upward"></paper-fab></a>
+		</div>
+	</template>
+		
+
+	<script>
+		Polymer({
+
+			is: 'pratilipi-list-page',
+			
+			properties: {
+				userData: { type: Object },
+				heading: { type: String },
+				pratilipiList: { type: Array },
+				navigationList: { type: Array },
+				pratilipiTypes: { types: Object },
+				searchQuery: { type: String },
+				filter: { type: Object },
+				cursor: { type: String },
+				languageMap: { type: Object },
+				lastScrollTop: { type: Number, value: 0 },
+			},
+			
+			scrollToTop: function() {
+				$( 'html, body' ).animate( { scrollTop : 0 },800 );
+			},
+			
+			ready: function() {
+				jQuery( '#scrollToTop' ).css( "display", "none" );
+			},
+			
+			scrollHandler: function( st ) {
+				if( st > this.lastScrollTop || st < 100 ) {
+					jQuery( '#scrollToTop' ).fadeOut();
+					this.querySelector( 'pratilipi-card-grid' ).loadMore( st );
+				}
+				else {
+					jQuery( '#scrollToTop' ).fadeIn();
+				}
+				this.lastScrollTop = st;
+			}
+			
+		});
+	</script>
+
+</dom-module>

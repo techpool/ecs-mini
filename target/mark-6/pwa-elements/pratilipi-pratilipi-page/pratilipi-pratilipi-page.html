@@ -1,0 +1,84 @@
+<div data-bind="visible: ! initialDataLoaded()" class="mdl-cell mdl-cell--8-col-tablet mdl-cell--9-col mdl-card-border mobile-card">
+	<!-- ko component: "pratilipi-loading-state" --><!-- /ko -->
+</div>
+
+<div data-bind="visible: initialDataLoaded()" style="flex-grow: 1; width: 100%;">
+	<!-- ko component: {
+		name: "pratilipi-edit-pratilipi",
+		params: { pratilipi: pratilipi, 
+					updatePratilipi: $data.updatePratilipi }
+	} -->
+	<!-- /ko -->
+	<!-- ko component: {
+		name: "pratilipi-pratilipi-info",
+		params: { pratilipi: pratilipi, 
+					userPratilipi: userPratilipi,
+					updatePratilipi: $data.updatePratilipi, 
+					updateUserPratilipi: $data.updateUserPratilipi }
+	} --> 
+	<!-- /ko -->
+	<!-- ko component: {
+		name: "pratilipi-review-list",
+		params: { pratilipi: pratilipi, 
+					userPratilipi: userPratilipi, 
+					updatePratilipi: $data.updatePratilipi, 
+					updateUserPratilipi: $data.updateUserPratilipi }
+	} --> 
+	<!-- /ko -->
+	<!-- ko if: pratilipi.state() == 'PUBLISHED' -->
+	<div class="mdl-card mdl-card-border mdl-cell mdl-cell--8-col-tablet mdl-cell--9-col mobile-card">
+		<!-- ko component: {
+			name: "pratilipi-recommendation-carousel",
+			params: { pratilipiId: pratilipi.pratilipiId, context: 'summaryPage' }
+		} -->
+		<!-- /ko -->
+	</div>
+	<!-- /ko -->
+</div>
+
+<!-- START :: Developer : Rahul Ranjan :: Function : Share after publish modal -->
+<div class="modal fade pratilipi-write" id="shareModal" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<span data-dismiss="modal" aria-label="Close" class="material-icons close">close</span>
+				<h6 class="material-title" style="font-size:24px !important; text-align:center">${ _strings.awesome_work }</h6>
+			</div>
+			<div class="modal-body">
+				<table style="width:100%">
+					<tr>
+						<td style="width:100px;">
+							<img data-bind="attr:{ src: getImageUrl( pratilipi.coverImageUrl(), 100, false ), alt: pratilipi.title }"
+								 style="vertical-align: middle;width: 100; height: 150; mobWidth: 150; mobHeight: 225" />
+						</td>
+						<td>
+							<div style="margin: 10px; height:130px; position: relative;">
+								<span style="line-height: 20px; font-size:18px;">
+									<span style="font-style: italic;" data-bind="text: pratilipiTitle()"></span>
+									 ${ _strings.has_been_published }
+								</span>
+								<span style="position:absolute; bottom:0px; left:0px; font-size:22px;line-height:26px">
+									${ _strings.share_and_get_popular }
+								</span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-top:20px;">
+							<div class="mdl-list__item-primary-content" data-bind="click: fbShare"
+								 style="background: #3b5998;line-height: 50px;border-radius:2px; text-align:center; cursor:pointer;">
+								<span class="sprites-icon mdl-list__item-icon"
+									  style="background-position:-72px -24px; padding-right:10px;"></span>
+								<span style="color: #fff;vertical-align: middle;padding:10px;font-size:24px;">
+									${ _strings.share_on_facebook }
+								</span>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- END :: Developer : Rahul Ranjan :: Function : Share after publish modal -->

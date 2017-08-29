@@ -1,0 +1,10 @@
+<div data-bind="visible: ! initialDataLoaded()" class="mdl-cell mdl-cell--8-col-tablet mdl-cell--9-col mobile-card">
+	<span class="initial-data-loading-spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></span>
+</div>
+
+<div data-bind="visible: initialDataLoaded()" style="flex-grow: 1; width: 100%;">
+	<div class="mdl-card mdl-card-border mdl-cell mdl-cell--8-col-tablet mdl-cell--9-col mobile-card">
+		<div style="margin-top: 0; " class="load-more-container material-heading" data-bind="text: title()"></div>
+		<div style="border-top: 1px solid lightgrey; padding: 16px;" class="material-subtitle-1 load-more-container" data-bind="html: content()"></div>
+	</div>
+</div>

@@ -1,0 +1,201 @@
+<dom-module id="pratilipi-follow-author">
+	<style>
+		:host {
+			display: block;
+		}
+		.follow-author {
+			padding: 14px 12px;
+			display: flex;
+		}
+		.follow-author .follow-author-image {
+			float: left;
+			text-align: center;
+			align-self: center;
+			margin-right: 16px;
+		}
+		.follow-author .follow-author-name {
+			float: left;
+			width: 100%;
+			text-align: left;
+			align-self: center;
+			font-size: 13px;
+		}
+		.follow-author .follow-author-name a, .follow-author .follow-author-name a:hover, .follow-author .follow-author-name a:focus {
+			color: #333;
+			display: inline-block;
+		}
+		.follow-author .follow-author-name .follow-count {
+			font-size: 12px;
+			white-space: nowrap;
+		}
+		.follow-author .follow-author-buttons-holder {
+			margin-left: 8px;
+			float: right;
+			white-space: nowrap;
+			text-align: center;
+			align-self: center;
+		}
+		.pratilipi-author-follow-button {
+			margin: 0;
+			border-radius: 4px;
+			font-weight: 400;
+			font-size: 12px;
+			letter-spacing: 0;
+			background: #FFFFFF;
+			border: 1px solid #d0021b;
+			box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.05);
+			display: inline-block;
+			outline: none;
+			padding: 4px 8px;
+		}
+		.pratilipi-author-follow-button iron-icon {
+			color: #d0021b;
+			width: 20px;
+			height: 20px;
+		}
+		.pratilipi-author-unfollow-button {
+			margin: 0;
+			border-radius: 4px;
+			font-weight: 400;
+			font-size: 12px;
+			letter-spacing: 0;
+			background: #d41b31;
+			border: 1px solid #fff;
+			box-shadow: 0px 1px 1px 0px rgba(0, 0, 0, 0.05);
+			display: inline-block;
+			outline: none;
+			padding: 4px 8px;
+		}
+		.pratilipi-author-unfollow-button iron-icon {
+			color: #fff;
+			width: 20px;
+			height: 20px;
+		}
+	</style>
+	<template>
+		<div class="follow-author">
+			<div class="follow-author-image">
+				<a href="{{ pageUrl }}"><iron-image style="background-color: #ddd; width: 48px; height: 48px;" 
+					src="{{ imageUrl }}" class="img-circle pratilipi-shadow" ></iron-image></a>
+			</div>
+			<div class="follow-author-name contain-title ellipsed">
+				<a href="{{ pageUrl }}">{{ name }}</a>
+				<template is="dom-if" if="{{ showFollowCount }}">
+					<div class="follow-count">{{ followCount }}&nbsp;ફોલોઅર્સ</div>
+				</template>
+			</div>
+			<template is="dom-if" if="{{ canFollow }}">
+				<div class="follow-author-buttons-holder pull-right">
+					<template is="dom-if" if="{{ !following }}">
+						<button class="pratilipi-author-follow-button" on-click="followAuthor"><iron-icon icon="social:person-add"></button>
+					</template>
+					<template is="dom-if" if="{{ following }}">
+						<button class="pratilipi-author-unfollow-button" on-click="unFollowAuthor"><iron-icon icon="icons:done"></button>
+					</template>
+				</div>
+			</template>
+		</div>
+		<iron-ajax
+			id="UserAuthorFollowApi"
+			url="/api/userauthor/follow"
+			method="POST"
+			content-type="application/x-www-form-urlencoded"
+			handle-as="json"
+			on-response="_userAuthorFollowApiResponse"
+			on-error="_userAuthorFollowApiError"
+		></iron-ajax>
+	</template>
+
+	<script>
+
+		Polymer({
+
+			is: 'pratilipi-follow-author',
+
+			properties: {
+				followObject: { type: Object, notify: true },
+
+				authorId: { type: String },
+				name: { type: String },
+				pageUrl: { type: String },
+				followCount: { type: Number },
+				imageUrl: { type: String },
+				following: { type: Boolean },
+				canFollow: { type: Boolean }
+			},
+
+			observers: [
+	            '_followObjectObserver(followObject.following)'
+			],
+
+			_followObjectObserver: function() {
+				this.set( 'authorId', this.followObject.authorId );
+				this.set( 'name', this.followObject.name );
+				this.set( 'pageUrl', this.followObject.pageUrl );
+				this.set( 'followCount', this.followObject.followCount );
+				this.set( 'showFollowCount', this.followObject.followCount > 0 );
+				this.set( 'imageUrl', this.followObject.imageUrl + ( this.followObject.imageUrl.indexOf( "?" ) == -1 ? "?" : "&" ) + "width=48" );
+				this.set( 'following', this.followObject.following );
+				this.set( 'canFollow', this.followObject.canFollow );
+			},
+
+			_makeFollowApiCall: function( following ) {
+				if( document.querySelector( 'pratilipi-user' ).getCurrentUser().isGuest ) {
+					document.querySelector( 'pratilipi-user' ).logIn( true );
+					return;
+				}
+				this._swapFollowingState();
+				this._disableFollowButtons();
+				var body = { authorId: this.authorId, following: following };
+				this.$.UserAuthorFollowApi.body = jQuery.param( body );
+				this.$.UserAuthorFollowApi.generateRequest();
+				ga_CA( 'Author', following ? 'Follow' : 'UnFollow' );
+			},
+
+			followAuthor: function() {
+				this._makeFollowApiCall( true );
+			},
+
+			unFollowAuthor: function() {
+				this._makeFollowApiCall( false );
+			},
+
+			_userAuthorFollowApiResponse: function( event ) {
+				if( event.detail.response.following != this.following ) {
+					this._swapFollowingState();
+				}
+				this._enableFollowButtons();
+			},
+
+			_userAuthorFollowApiError: function( event ) {
+				this._swapFollowingState();
+				this._enableFollowButtons();
+				if( event != null && event.detail.request.xhr.response.message != null ) {
+					document.querySelector( 'pratilipi-alert' ).alert( event.detail.request.xhr.response.message, false );
+				} else {
+					document.querySelector( 'pratilipi-alert' ).alert( "ટેકનીકલ ખામી હોવાથી ફરી પ્રયત્ન કરો", false );
+				}
+			},
+
+			_disableFollowButtons: function() {
+				this.async( function() {
+					jQuery( this.querySelector( '.follow-author-buttons-holder .pratilipi-author-follow-button' ) ).prop( 'disabled', true );
+					jQuery( this.querySelector( '.follow-author-buttons-holder .pratilipi-author-unfollow-button' ) ).prop( 'disabled', true );
+				});
+			},
+
+			_enableFollowButtons: function() {
+				jQuery( this.querySelector( '.follow-author-buttons-holder .pratilipi-author-follow-button' ) ).prop( 'disabled', false );
+				jQuery( this.querySelector( '.follow-author-buttons-holder .pratilipi-author-unfollow-button' ) ).prop( 'disabled', false );
+			},
+
+			_swapFollowingState: function() {
+				this.set( 'followObject.followCount', this.following ? ( this.followCount - 1 ) : ( this.followCount + 1 ) );
+				this.set( 'followObject.following', !this.following );
+			}
+
+		});
+
+	</script>
+
+</dom-module>

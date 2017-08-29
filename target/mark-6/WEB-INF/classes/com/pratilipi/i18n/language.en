@@ -1,0 +1,593 @@
+# Do NOT edit
+pratilipi					= Pratilipi
+home_page_title				= Read Books, Stories, Poems and Articles in your language.
+facebook_page				= https://www.facebook.com/Pratilipidotcom
+twitter_page				= https://twitter.com/TeamPratilipi
+googleplus_page				= https://plus.google.com/+PratilipiTeam
+linkedin_page				= https://www.linkedin.com/company/pratilipi
+
+# Language
+language_choose_language	= Choose Language
+language_all				= All Languages
+language_hi					= Hindi
+language_gu					= Gujarati
+language_ta					= Tamil
+language_mr					= Marathi
+language_ml					= Malayalam
+language_bn					= Bengali
+language_en					= English
+language_te					= Telugu
+language_kn					= Kannada
+
+# Pratilipi Types
+_pratilipi_type_book		= Book
+_pratilipi_type_books		= Books
+_pratilipi_type_poem		= Poem
+_pratilipi_type_poems		= Poems
+_pratilipi_type_story		= Story
+_pratilipi_type_stories		= Stories
+_pratilipi_type_article		= Article
+_pratilipi_type_articles	= Articles
+_pratilipi_type_magazine	= Magazine
+_pratilipi_type_magazines	= Magazines
+
+# Author
+author_author					= Author
+author_about					= About the Author
+author_language					= Language
+author_since					= Author Since
+author_count_works				= WORKS
+author_count_reads				= READS
+author_count_likes				= LIKES
+author_edit_profile				= Edit My Profile
+author_update_image				= Upload Photo
+author_drafts					= Drafts
+author_published_works			= Published Works
+author_add_new_content			= Add New Content
+author_no_contents_published	= Sorry! This Author doesn't have any books published!
+author_activity					= Activity
+author_about					= About
+author_biography				= Biography
+author_location					= Location
+author_date_of_birth			= Date Of Birth
+author_follow					= Follow
+author_unfollow					= Following
+author_followers_heading		= Followers
+author_followers_count			= Followers
+author_no_followers				= Sorry! This author doesn't have any followers
+author_following_heading		= Following
+author_following_count			= Following
+author_no_following				= Sorry! This author is not following anyone!
+author_follow_members			= Members
+author_cannot_follow_yourself	= Yourself
+author_settings_require_first_name	= Please enter your first name!
+author_settings_require_language	= Please enter your language!
+
+# Pratilipi
+pratilipi_type				= Type
+pratilipi_listing_date		= Listing Date
+pratilipi_last_updated_date	= Last Updated Date
+pratilipi_published			= Published
+pratilipi_published_year	= Published Year
+pratilipi_summary			= Summary
+pratilipi_edit_info			= Edit Info
+pratilipi_edit_content		= Edit Content
+pratilipi_update_cover		= Upload Photo
+pratilipi_count_reads		= READS
+pratilipi_count_reviews		= REVIEWS
+pratilipi_count_likes		= LIKES
+pratilipi_confirm_move_to_drafts_title	= Moving to drafts
+pratilipi_confirm_move_to_drafts_body	= Are you sure to move this content to drafts?
+pratilipi_confirm_move_to_drafts_true	= Yes, move to drafts!
+pratilipi_confirm_move_to_drafts_false	= No, don't unpublish it!
+pratilipi_move_to_drafts				= Move to Drafts
+pratilipi_publish_it					= Publish
+pratilipi_delete_content				= Delete
+pratilipi_confirm_move_to_drafts		= Do you want to move it to drafts?
+pratilipi_confirm_move_to_drafts_okay	= Okay
+pratilipi_confirm_delete_content		= Do you want to delete the content?
+pratilipi_confirm_delete_content_okay	= Okay
+pratilipi_deleted_successfully			= The content has been deleted successfully!
+
+# Rating
+rating_rating				= Rating 
+rating_ratings				= Ratings
+rating_rate_this			= Rate This !
+rating_your_rating			= Your Rating
+rating_mandatory_message	= Please enter your rating!
+rating_1_star				= Poor
+rating_2_star				= Fair
+rating_3_star				= Good
+rating_4_star				= Very Good
+rating_5_star				= Excellent
+
+# Review
+review_heading				= Reviews 
+review_write_a_review		= Write a Review
+review_title				= Review Title
+review_title_help			= e.g., Great Story !
+review_content				= Your Review
+review_content_help			= Share your thoughts ! What made this work interesting ? What made it inspiring ? What did you learn from it ? You are helping others make a better choice !
+review_submit_review		= SUBMIT
+review_edit_review			= Edit Review
+review_delete_review		= Delete Review
+review_delete_review_confirm	= Are you sure to delete your review?
+review_delete_okay			= Yes, Delete review!
+review_delete_cancel		= No, Don't!
+review_helpful				= Was this review helpful?
+review_see_all_reviews		= See All Reviews
+
+# Comments
+comment_reply_to_comment				= Reply
+comment_number_of_comments_singular		= Reply
+comment_number_of_comments_plural		= Replies
+comment_reply_comment_help				= Type here to reply
+comment_add_comment						= Add Comment
+comment_edit_comment					= Edit Comment
+comment_delete_comment					= Delete Comment
+comment_confirm_delete_comment			= Are you sure to delete this comment?
+comment_confirm_delete_comment_yes		= Yes
+comment_confirm_delete_comment_no		= No
+comment_restore_comment					= Restore Comment
+comment_submit_comment					= Submit
+comment_cancel_comment					= Cancel
+
+# Search
+search 						= Search
+search_bar_help				= Search for books, stories, poems and more ...
+search_results				= Search Results
+search_no_results_found	= Sorry! No Search Results found for your search query. Try searching for different search query!
+search_load_failed			= Failed to load search results! Please click here to try again!
+search_loading            = Searching for $query
+search_explore_categories   = Explore Categories
+search_explore_categories_help = Try Exploring these Categories
+search_results_for          = Search Results for $query
+search_results_authors      = Authors
+search_results_contents     = Contents
+search_trending_heading     = Top Searches in the past day
+search_current_event_heading    = Event
+
+# Write
+write_heading				= Add New Content
+write_help					= You can write on Pratilipi!
+write_title					= Title *
+write_title_en				= Title (English)
+write_type					= Select Type *
+write_language				= Language
+write_summary				= Summary (Optional)
+write_create_new_content	= Create New Content
+write_on_desktop_only		= Please login to write content on desktop website!
+write_fill_title			= Please fill in the Title.
+write_select_type			= Please select the type.
+
+# Common User Popups
+user_sign_in				= Sign In
+user_to_sign_in				= To Sign In
+user_sign_in_with_facebook	= Sign In with Facebook
+user_sign_in_with_google	= Sign In with Google
+user_sign_in_to_pratilipi	= Sign in to Pratilipi
+user_sign_out				= Sign Out
+user_sign_up				= Sign Up !
+user_sign_up_for_pratilipi	= Sign Up for Pratilipi
+user_sign_up_with_facebook	= Sign Up with Facebook
+user_forgot_password		= Forgot Password ?
+user_reset_password			= Reset Password
+user_reset_password_help	=  Please enter the email address you signed up with. We will send you a link to reset your password.
+user_current_password		= Current Password
+user_new_password			= New Password
+user_full_name				= Full Name
+user_email					= Email
+user_email_not_available	= Email Not Available!
+user_phone					= Phone
+user_phone_not_available	= Phone Number Not Available!
+user_password				= Password
+user_confirm_password		= Confirm Password
+user_my_profile				= My Profile
+user_my_account				= My Account
+user_is_new					= New?
+user_is_registered			= Already a Member?
+user_email_verification		= Email Verification
+user_require_access			= You need to log in to perform this action!
+user_no_followers			= Sorry! You're not being followed by anyone! 
+user_login_to_view_followers = Please login to view your followers!
+user_no_following			= Sorry! You're not following anyone!
+user_login_to_view_following = Please login to view the people you're following!
+user_login_to_view_library = Please login to save unlimited books to your Library!
+user_login_to_view_notifications = Please login to get Notifications from people you Follow!
+user_login_to_follow		= Please login to follow this author 
+
+# My Account popup
+edit_account_heading		= Edit My Account
+edit_account_verify_email	= Verify Email
+edit_account_email_verified	= Email Verified
+edit_account_change_password	= Change Password
+
+# Footer
+footer_follow_us_on_social_media	= Follow us on Social Media
+footer_about_us				= About Us
+footer_work_with_us			= Work With Us
+footer_blog					= Blog
+footer_privacy_policy		= Privacy Policy
+footer_terms_of_service		= Terms
+footer_contact_email		= contact@pratilipi.com
+footer_contact_10_digit_number		= 9789316700
+
+# Common Words
+okay						= Okay
+cancel						= Cancel
+save_changes				= Save Changes
+show_more					= show more
+show_less					= show less
+read						= Read
+write						= Write
+free						= FREE !
+saving						= Saving ...
+working						= Working ...
+update						= Update
+share						= Share
+menu						= Menu
+back						= Back
+or							= or
+load_more_contents			= Load More Contents
+view_more					= View More
+fill_in_the_details			= Please fill in the details!
+accept_terms				= Please accept to our terms!
+start_reading               = Start Reading
+start_following             = Start Following
+click_here                  = Click here
+goto_home                   = Home
+
+# Success Messages
+success_generic_message				= Success!
+password_reset_request_success		= A mail has been sent to your email Id! 
+user_login_success					= Success !
+user_register_success				= Success !
+password_change_success				= Password has been changed Successfully!
+verification_email_sent_success		= Email Sent Successfully !
+user_verified_success				= Verified Successfully !
+content_created_success				= Success !
+updated_author_info_success			= Success !
+updated_pratilipi_info_success		= Success !
+updated_review						= Success !
+
+#Failure Messages
+server_error_message				= Some error Occurred! Please try again!
+could_not_connect_server			= Could not connect to server !
+review_authorisation_error			= Sorry! You are not authorized to review for this content!
+logout_failed						= Logout failed! Please try again!
+
+# Author Edit Popup
+edit_author_heading				= Edit Author Information	
+edit_author_first_name			= First Name( Vernacular )
+edit_author_last_name			= Last Name( Vernacular )
+edit_author_first_name_en		= First Name( English )
+edit_author_last_name_en		= Last Name( English )
+edit_author_pen_name			= Pen Name ( Vernacular )
+edit_author_pen_name_en			= Pen Name ( English )
+edit_author_birthday_ddmmyyyy	= Birthday (dd-mm-yyyy)
+edit_author_language			= Select Language
+edit_author_summary				= Summary ( Optional )
+edit_author_save_changes		= Save Changes
+
+# Pratilipi Edit Popup
+edit_pratilipi_heading			= Edit Content Information
+edit_pratilipi_title			= Title *
+edit_pratilipi_title_en			= Title (English)
+edit_pratilipi_type				= Select Type *
+edit_pratilipi_language			= Language
+edit_pratilipi_summary			= Summary (Optional) :
+edit_pratilipi_save_changes		= Save Changes
+
+# Register Form
+register_part_1					= By registering, you agree to the 
+register_part_2					= and
+register_part_3					= .
+
+# Event Page
+event_events			= Events
+event_entries			= Event Entries
+event_name				= Event Name
+event_name_en			= Event Name in English
+event_description		= Event Description
+event_entries_url_list	= Entries URL List
+event_save_changes		= Save Changes
+
+# Gender
+gender				= Gender
+gender_male			= Male
+gender_female		= Female
+gender_other		= Other
+
+# Months
+month_jan	= January
+month_feb	= February
+month_mar	= March
+month_apr	= April
+month_may	= May
+month_jun	= June
+month_jul	= July
+month_aug	= August
+month_sep	= September
+month_oct	= October
+month_nov	= November
+month_dec	= December
+
+# days
+day_mon = Mon
+day_tue = Tue
+day_wed = Wed
+day_thu = Thu
+day_fri = Fri
+day_sat = Sat
+day_sun = Sun
+
+# Meridiem Time
+meridiem_am = AM
+meridiem_pm = PM 
+
+# Library
+library				= Library
+my_library			= My Library
+add_to_library		= Add to Library
+added_to_library	= Success! You have added this content to your library!
+remove_from_library	= Remove from Library
+removed_from_library = You have removed the content from your library!
+empty_library		= You've not added any book to your library yet.  Check out the most popular books on Pratilipi and read them offline!
+library_content_in_library	= Add content to Library
+
+# Reader
+reader_goto_content_page	= Go to Content Page
+reader_goto_author_profile = Go to Author's page
+reader_goto_home_page	= Go to Home Page
+share_on_facebook		= Share on Facebook
+share_on_twitter		= Share on Twitter
+share_on_gplus			= Share on Google Plus
+share_on_whatsapp       = Share on Whatsapp
+increase_font_size		= Increase font size
+decrease_font_size		= Decrease font size
+increase_image_size		= Increase image size
+decrease_image_size		= Decrease image size
+reader_background		= Background
+
+# Enjoyed Reading the content? Write a review or Share it on
+reader_enjoyed_reading_part1	= Enjoyed reading the content? 
+reader_enjoyed_review_book		= Write a review
+reader_enjoyed_reading_part2	= Share it on
+
+# Notifications
+notification_notifications = Notifications
+notifications_no_notifications = It seems that you've not followed any author yet. Follow your favorite authors and stay updated about their latest works.
+notifications_load_failed = Notifications failed to load. Please click here to re-load the notifications.
+
+# Writer Panel
+writer_add_content_title = Add Title
+writer_add_chapter_title = Add Chapter Title
+writer_select_language = Language you are writing in
+writer_input_title = Enter Title Here
+writer_input_title_en = Re-enter Title in English
+writer_you_own_copyright = You own the copyright of the content
+writer_read_copyright = Read copyright policy here
+writer_to_next_screen = Next
+writer_publish = Publish
+writer_save = Save
+writer_dont_save = Don't save
+writer_preview = Preview
+writer_changes_saved = All changes saved
+writer_add_new_chapter = New Chapter
+writer_write_here_placeholder = Write here...
+writer_edit_title_placeholder = Edit Title
+writer_table_of_contents = Table of Contents
+writer_chapter = Chapter
+writer_chapter_delete_confirmation = Are you sure you want to delete: 
+writer_add_chapter_success = New chapter added successfully
+writer_chapter_delete = Delete Chapter
+writer_delete_chapter_success = Chapter deleted successfully
+writer_editor_bold = Bold
+writer_editor_italics = Italics
+writer_editor_underline = Underline
+writer_editor_align_left = Left Aligned
+writer_editor_align_center = Center Aligned
+writer_editor_align_right = Right Aligned
+writer_editor_quote = Quote
+writer_editor_image = Add Image
+writer_editor_link = Add URL
+writer_okay = Okay
+writer_cancel = Cancel
+writer_select_category = Select Category
+writer_add_cover = Add cover image
+writer_add_summary = Add summary (You can add it later)
+writer_finish = Finish
+writer_saving = Saving
+writer_accept_copyright = I accept Copyright Policy and Terms of Services
+writer_error_title_required = Please enter a title
+writer_error_category_required = Please select a category
+writer_error_copyright_required = Please accept Copyright Policy and Terms of Services
+writer_save_changes_confirmation = Do you want to save these changes before going forward?
+pratilipi_add_summary = Please click here to add summary
+
+# Android App launch
+android_pratilipi_app = Pratilipi Android App
+android_alert_message = Read without internet and download unlimited books. Be first to get Android app.
+android_popup_message = Pratilipi Android app is coming. Please register below and be the first one to get your very own Pratilipi App.
+android_know_more_button = Know More
+android_submit = Notify Me
+android_invite_friends = Invite Friends
+android_success_feedback = We will inform you once the app is launched
+android_email_incorrect = Email ID has been entered incorrectly
+android_phone_incorrect = Mobile number has been entered incorrectly
+android_email_or_phone_required = Please enter your email or phone number.
+android_whatsapp_share_description = Pratilipi Android app is coming. Download unlimited books and Read without internet.
+android_banner_1 = Pratilipi Android App : Download unlimited books and Read without internet 
+android_banner_2 = Register below to get it first.
+android_banner_3 = Please register below and be the first one to get Pratilipi App.
+android_banner_4 = Know More
+android_banner_5 = Pratilipi Android app is coming.
+android_banner_home_1 = Discover, Read, Share
+android_banner_home_2 = Discover trending contents
+android_banner_home_3 = Read from your favourite categories
+android_banner_library_1 = Anytime, anywhere, without internet
+android_banner_library_2 = Download unlimited content to your library
+android_banner_library_3 = Read anytime without internet
+android_banner_notification_1 = Never miss an update
+android_banner_notification_2 = Instantly know about new contents and events
+android_banner_notification_3 = Build your own fan following
+android_banner_reader_1 = Experience the joy of reading
+android_banner_reader_2 = Customize the reader to suit your style
+android_banner_reader_3 = Bookmark, Night Mode, Share, Review
+android_banner_profile_1 = Your Profile, your way
+android_banner_profile_2 = Create profile which defines you
+android_banner_profile_3 = Manage your contents and network
+
+# Android App launched promotion
+pratilipi_app_launched_website_strip = Pratilipi App Launched : Download unlimited books.
+pratilipi_app_click_download = Download the App
+
+pratilipi_android_application = Pratilipi Android Application
+read_stories_without_internet = Read your favorite stories without the internet
+android_download = Download
+
+# Notification Settings
+notification_settings = Notification Settings
+email_frequency = Email Frequency
+email_frequency_immediate = Immediately
+email_frequency_daily = Daily
+email_frequency_weekly = Weekly
+email_frequency_monthly = Monthly
+email_frequency_never = Never
+notification_group_content = Content
+option_new_review =  New Review 
+option_new_comment =  New Comment 
+option_like_review =  Like on review 
+option_like_comment =  New Like on Comment 
+notification_group_network = Network
+option_new_follower = New Follower
+option_pratilipi_published_follower =  New Content by people you follow 
+option_pratilipi_updates =  Pratilipi Updates and Offers 
+notification_settings_save_changes = Save Changes
+
+# Whatsapp share messages
+whatsapp_read_unlimited_stories = Read unlimited stories, poems, articles in Indian languages for FREE!
+whatsapp_read_story = , read it on Pratilipi : 
+whatsapp_follow_author = , Follow on Pratilipi : 
+
+
+# SEO Titles
+seo_root_domain					= Pratilipi - Read, Write and Share Stories in your own mother tongue
+seo_pratilipi_page				= ${ authorNameEn }'s content ${ pratilipiTitleEn } Summary
+seo_author_page					= ${ authorNameEn }
+seo_home_page					= Read ${ language } Stories, Poems and Books
+seo_events_page					= Online Competitions
+seo_library_page				= Your Saved Stories, Poems and Books
+seo_event_page					= ${ eventNameEn }
+seo_reader_panel				= Read ${ authorNameEn }'s ${ language } content ${ pratilipiTitleEn } on Pratilipi
+seo_blogpost_page				= ${ blogTitleEn }
+seo_search_page					= Search for your favorite Stories, Writers and a lot more on Pratilipi
+seo_writer_panel				= ${ pratilipiTitleEn } by ${ authorNameEn }
+seo_notifications_page			= Your notifications on Pratilipi
+seo_blog_page					= Blog and Editorial
+seo_author_interview			= Interviews with Popular Writers
+seo_followers_page				= Followers of ${ authorNameEn } on Pratilipi
+seo_following_page				= ${ authorNameEn } is following these people on Pratilipi
+seo_list_page					= ${ listTitleEn }
+seo_static_page					= ${ staticTitleEn }
+seo_account_page				= ${ authorNameEn } 
+seo_navigation_page				= Categories
+seo_update_password_page		= Update Password
+seo_share_page					= Share your favourite Stories and Writers
+seo_register_page				= Make your account on Pratilipi
+seo_login_page					= Login to Pratilipi
+seo_reset_password_page			= Reset Your Password - Pratilipi
+
+# Social
+facebook                        = Facebook
+twitter                        	= Twitter
+google_plus                    	= Google Plus
+linkedin                        = Linkedin
+whatsapp                        = Whatsapp
+
+# Footer
+footer_mobile_app    				= Mobile App
+footer_contact_us	  				= Contact Us
+
+# PWA
+user_logged_in_already              = You are already logged in, please click here to go back!
+user_email_empty 					= Please Enter your Email
+user_password_empty                 = Please Enter your Password
+user_name_empty 					= Please Enter your Name
+user_email_invalid 					= Please Enter a valid Email
+user_login_to_follow		        = Please login to follow this author
+
+pratilipi_rate_and_review 			= Rate and review
+pratilipi_review_hide_comments 	= Hide Comments
+pratilipi_no_reviews			    = Sorry! No Reviews found for this content!
+rating_be_first_one		            = Be the first one to rate it!
+
+author_readby_count                 = Read by $read_count people
+
+settings_profile_settings       = Profile Settings
+settings_notification_settings  = Notification Settings
+settings_update_password        = Update Password
+
+search_load_failed			= Failed to load search results! Please click here to try again!
+notifications_load_failed = Notifications failed to load. Please click here to re-load the notifications.
+image_type_not_supported = Image type not supported! Please select another image. Supported Types: .png, .jpg, .jpeg
+
+author_published_contents = Contents
+author_followers		= Followers
+author_following		= Following
+
+author_follow_success   = You are following $authorName.
+author_unfollow_success = You have unfollowed $authorName.
+
+library_add_success     = You have added $pratilipiTitle to your library.
+library_remove_success     = You have removed $pratilipiTitle from your library.
+
+pratilipi_publish_success   = You have published $pratilipiTitle
+pratilipi_unpublish_success     = You have unpublished $pratilipiTitle
+
+undo_action             = UNDO
+
+
+# Reader
+reader_font_size        = Font Size
+reader_image_size       = Image Size
+reader_background       = Background
+reader_line_spacing		= Line Spacing
+reader_report_content	= Report Content
+reader_report_content_placeholder = Whats wrong with the content?
+reader_submit_report    = Submit Report
+reader_next_chapter		= Next Chapter
+reader_content_unavailable = Oops! This content is not available!
+
+
+# Pratilipi Tags
+tags_categories				= Categories
+tags_select_pratilipi_type	= Select Pratilipi type
+tags_select_category		= Select Category
+tags_click_to_select		= Click to select
+tags_add_your_own_category	= Add your own category
+tags_add					= Add
+tags_type_here				= Type here
+tags_goto_category			= Go to Category
+tags_help_message			= Assign pre-defined and add custom categories to your content.
+tags_add_category_to_proceed= Please add a category to proceed
+tags_please_retry			= Please retry
+tags_processing				= Processing
+tags_add_category			= Add Category
+tags_edit_category			= Edit Category
+
+# Page Not Found
+page_not_found_heading      = Page Not Found!
+page_not_found_description  = Oops, you've landed on a wrong page!  Why don't you find your favourite stories by clicking here.
+
+# share dialog strings
+awesome_work            = Awesome Work!!!
+has_been_published      = has been published
+share_and_get_popular   = Share your story and get popular
+share_on_facebook       = Share on Facebook
+
+# leader board string
+top_author_heading      = Top Author
+top_author_sub_heading  = based on read count on
+top_author_message      = *Share your content to increase read count
+

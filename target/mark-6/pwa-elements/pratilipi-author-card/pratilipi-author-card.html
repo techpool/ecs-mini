@@ -1,0 +1,16 @@
+<div class="pratilipi-author-card">
+	<div class="author-image-holder">
+		<a data-bind="attr: { href: author.pageUrl() }" onclick="ga_CA( 'Author', 'Open' );">
+			<img class="cover-image" data-bind="attr: { src: getImageUrl( author.profileImageUrl(), 80 ), alt: author.name() }" />
+		</a>
+	</div>
+	<a class="author-name" data-bind="text: author.name(), attr: { href: author.pageUrl() }" onclick="ga_CA( 'Author', 'Open' );"></a>
+	<div class="follow-button-holder">
+		<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect"
+		        data-bind="{ text: author.following() ? '${ _strings.author_following }' : '${ _strings.author_follow }',
+		        click: followOrUnfollowAuthor,
+		        disable: author.following(),
+		        style: { 'visibility': author.authorId() != appViewModel.user.author.authorId() ? 'visible' : 'hidden' } }">
+		</button>
+	</div>
+</div>

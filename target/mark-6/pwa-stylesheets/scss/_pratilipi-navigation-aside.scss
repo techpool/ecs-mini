@@ -1,0 +1,27 @@
+.pratilipi-navigation-aside {
+
+	* {
+		white-space: nowrap;
+	}
+
+   	h6 {
+		color: $pratilipi_red;
+		margin: 0px;
+		padding: 20px 20px 5px 16px;
+	}
+
+	a {
+		color: #333;
+		text-decoration: none;
+		padding: 16px 16px;
+		margin: 0;
+		display: block;
+		color: #000;
+	}
+
+	a:hover {
+		background-color: #e0e0e0;
+		background-color: rgb(224,224,224);
+	}
+
+}

@@ -1,0 +1,49 @@
+<div class="pratilipi-reader-header">
+	<div class="exit-reader">
+		<a onclick="ga_CA( 'Pratilipi', 'ActionBack' );" class="mdl-button mdl-js-button mdl-button--icon" data-bind="attr: { href: pratilipi.pageUrl() }">
+			<i class="material-icons">arrow_back</i>
+		</a>
+		<button class="mdl-button mdl-js-button mdl-button--icon show-tablet" data-bind="click: openNavigationModal">
+			<i class="material-icons">list</i>
+		</button>
+	</div>
+	<div class="pratilipi-title-holder js-pratilipi-title-holder">
+		<div class="pratilipi-title js-pratilipi-title" data-bind="text: pratilipi.title()"></div>
+	</div>
+	<div class="menu-option-holder">
+		<button onclick="ga_CA( 'Pratilipi', 'Settings' );" class="mdl-button mdl-js-button mdl-button--icon hide-mobile" data-bind="click: openSettings">
+			<i class="material-icons">settings</i>
+		</button>
+		<button onclick="ga_CA( 'Pratilipi', 'AddToLibrary' );" class="mdl-button mdl-js-button mdl-button--icon hide-mobile" data-bind="click: switchLibraryState,
+				disable: pratilipi.state() != 'PUBLISHED' || pratilipi.author.authorId() == appViewModel.user.author.authorId()">
+			<i data-bind="css: { 'pratilipi-red': userPratilipi.addedToLib() }" class="material-icons">bookmark</i>
+		</button>
+		<button onclick="ga_CA( 'Pratilipi', 'Share' );" class="mdl-button mdl-js-button mdl-button--icon hide-mobile" data-bind="click: sharePratilipi">
+			<i class="material-icons">share</i>
+		</button>
+		<button id="reader-report-content"
+		        onclick="ga_CA( 'Pratilipi', 'MoreOptions' );"
+		        class="mdl-button mdl-js-button mdl-button--icon">
+			<i class="material-icons">more_vert</i>
+		</button>
+		<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+			for="reader-report-content">
+			<a class="mdl-menu__item clickable-element"
+			   data-bind="click: reportContent, visible: pratilipi.state() == 'PUBLISHED' && pratilipi.author.authorId() != appViewModel.user.author.authorId()">
+				${ _strings.reader_report_content }</a>
+			<a class="mdl-menu__item clickable-element"
+			   target="_blank"
+			   data-bind="attr: { href: pratilipi.writePageUrl() }, visible: pratilipi.hasAccessToUpdate()">
+				${ _strings.pratilipi_edit_content }</a>
+		</ul>
+	</div>
+</div>
+
+
+<div class="mdl-layout__drawer">
+	<nav class="mdl-navigation">
+		<!-- ko foreach: { data: index() } -->
+		<a class="index-entry" onclick="ga_CA( 'Pratilipi', 'ChangeChapter' );" data-bind="{ text: $data.title, css: { 'highlight': $data.chapterNo == $parent.chapterNo() }, click: $parent.changeChapter }"></a>
+		<!--/ko-->
+	</nav>
+</div>
