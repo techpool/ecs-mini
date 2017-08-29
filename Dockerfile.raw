@@ -1,3 +1,9 @@
 FROM $DOCKER_REPO/jetty:9.4.6
+WORKDIR /var/lib/jetty
+# ENV API_END_POINT=$API_END_POINT:81
+# RUN pwd
+# COPY mark-6.war $JETTY_HOME/start.war
+# COPY mark-6.war $JETTY_BASE/webapps/ROOT.war
+COPY target/mark-6 $JETTY_BASE/webapps/ROOT
 
-EXPOSE 80
+EXPOSE 8080

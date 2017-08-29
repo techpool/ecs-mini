@@ -1,0 +1,66 @@
+<div class="modal fade pratilipi-write" id="pratilipiWrite" tabindex="-1" role="dialog" aria-labelledby="pratilipi-write">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<span data-dismiss="modal" aria-label="Close" class="material-icons close">close</span>
+				<h6 class="material-title">${ _strings.writer_add_content_title }</h6>
+			</div>
+			<div class="modal-body">
+				<div class="mdl-textfield mdl-js-textfield getmdl-select getmdl-select__fullwidth getmdl-select__fix-height mdl-textfield--floating-label">
+					<#assign languageVernacular=_strings[ "language_" + lang ]>
+					<input class="mdl-textfield__input" 
+							id="pratilipi_write_language" 
+							data-val="${ language }"
+							value="${ languageVernacular }"
+							type="text" readonly tabIndex="-1" />
+					<label class="mdl-textfield__label" for="pratilipi_write_language">
+						${ _strings.write_language }
+						<i class="material-icons dropdown-icon">arrow_drop_down</i>
+					</label>
+					<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu dropdown-ul" for="pratilipi_write_language">
+						<#list languageList as aLang>
+							<#if aLang.value == language>
+								<li class="mdl-menu__item" style="background: #eee;">${ aLang.name }</li>
+							<#else>
+								<a class="mdl-menu__item" href="${ aLang.hostName }/?action=write">${ aLang.name }</a>
+							</#if>
+						</#list>
+					</ul>
+				</div>
+				<input data-bind="{ mdlFloatingInput: { label: '${ _strings.writer_input_title } *', value: title, id: 'pratilipi_write_title_input' }, valueUpdate: ['input'], transliterate: true }" />
+				<div class="clearfix"></div>
+				<input data-bind="mdlFloatingInput: { label: '${ _strings.writer_input_title_en }', value: titleEn, id: 'pratilipi_write_title_en_input' }" />
+				<div class="mdl-textfield mdl-js-textfield getmdl-select getmdl-select__fullwidth getmdl-select__fix-height mdl-textfield--floating-label">
+					<input data-bind="event: { change: updateType }"
+							class="mdl-textfield__input" 
+							id="pratilipi_write_type" 
+							type="text" readonly />
+					<label class="mdl-textfield__label" for="pratilipi_write_type">
+						${ _strings.write_type }
+						<i class="material-icons dropdown-icon">arrow_drop_down</i>
+					</label>
+					<ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu dropdown-ul" for="pratilipi_write_type">
+						<#list pratilipiTypes as pratilipiType>
+							<#if pratilipiType.value == 'POEM' || pratilipiType.value == 'STORY' || pratilipiType.value == 'ARTICLE'>
+								<li class="mdl-menu__item" data-val="${ pratilipiType.value }">${ pratilipiType.name }</li>
+							</#if>
+						</#list>
+					</ul>
+				</div>
+				<div class="accept-terms">
+					<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect terms-conditions" for="agree-terms-conditions">
+						<input data-bind="checked: agreedTerms" type="checkbox" id="agree-terms-conditions" class="mdl-checkbox__input" />
+						<span class="mdl-checkbox__label font-s">${ _strings.writer_accept_copyright }</span>
+					</label>
+					<a class="font-s" target="_blank" href="/terms-of-service">${ _strings.writer_read_copyright }</a>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button onclick="ga_CA( 'Pratilipi', 'Create' )"
+						data-bind="{ click: submit, enable: canCreatePratilipi }" 
+						class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect font-m" 
+						type="button">${ _strings.writer_to_next_screen }</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,120 @@
+<div class="pratilipi-author-info js-pratilipi-author-info mdl-card mdl-card-border mdl-cell mdl-cell--8-col-tablet mdl-cell--9-col mobile-card">
+	<div class="author-cover-image-holder">
+		<div class="author-cover-image"
+				data-bind="attr: { 'alt': authorDisplayName() },
+							css: { 'image-loading': coverUploaded() },
+							style: { backgroundImage: 'url(' + author.coverImageUrl() + ')' }"></div>
+		<div data-bind="visible: coverUploaded()" class="cover-spinner-container">
+			<span class="image-uploaded-spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></span>
+		</div>
+		<button onclick="ga_CA( 'User', 'UserCoverImageChange' )"
+				class="upload-cover-button mdl-button mdl-js-button mdl-button--fab"
+				data-bind="{ click: chooseCoverFile,
+								visible: author.hasAccessToUpdate() && ! coverUploaded() }">
+			<i class="material-icons">camera_alt</i>
+		</button>
+		<form id="uploadAuthorCoverForm"
+			  style="position: absolute; top: -1000px;"
+			  method="post"
+			  enctype="multipart/form-data"
+			  data-bind="{ attr: { 'action': '/api/author/cover?authorId=' + author.authorId() }, uniqueName: true }"
+			  target="author_cover_upload_target">
+			<input id="uploadAuthorCoverInput"
+				   data-bind="{ event: { change: uploadAuthorCover }, uniqueName: true }"
+				   type="file"
+				   accept="image/*">
+		</form>
+		<iframe id="author_cover_upload_target"
+				name="author_cover_upload_target"
+				style="display: none;"
+				data-bind="event: { load: coverIframeLoaded }"></iframe>
+	</div>
+	<div class="author-meta-holder">
+		<div class="author-profile-image-holder">
+			<img class="author-profile-image"
+				 data-bind="attr: { 'src': getImageUrl( author.profileImageUrl(), 200 ), 'alt': authorDisplayName() },
+							css: { 'image-loading': imageUploaded() }" />
+			<div data-bind="visible: imageUploaded()" class="spinner-container">
+				<span class="image-uploaded-spinner mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></span>
+			</div>
+			<button onclick="ga_CA( 'User', 'UserProfileImageChange' )"
+					class="upload-image-button mdl-button mdl-js-button mdl-button--fab"
+					data-bind="{ click: chooseImageFile,
+									visible: author.hasAccessToUpdate() && ! imageUploaded() }">
+				<i class="material-icons">camera_alt</i>
+			</button>
+			<form id="uploadAuthorImageForm"
+				  style="position: absolute; top: -1000px;"
+				  method="post"
+				  enctype="multipart/form-data"
+				  data-bind="{ attr: { 'action': '/api/author/image?authorId=' + author.authorId() }, uniqueName: true }"
+				  target="author_upload_target">
+				<input id="uploadAuthorImageInput"
+					   data-bind="{ event: { change: uploadAuthorImage }, uniqueName: true }"
+					   type="file"
+					   accept="image/*">
+			</form>
+			<iframe id="author_upload_target"
+					name="author_upload_target"
+					style="display: none;"
+					data-bind="event: { load: iframeLoaded }"></iframe>
+		</div>
+		<div class="author-meta">
+			<div class="first-line">
+				<div class="author-name-desktop material-heading" data-bind="text: authorDisplayName()"></div>
+				<div class="pull-right">
+					<button data-bind="{ text: userAuthor.following() ? '${ _strings.author_unfollow }' : '${ _strings.author_follow }',
+											click: followOrUnfollowAuthor,
+											visible: canFollow(),
+											disable: followRequestOnFlight() }" 
+							class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect mdl-button-margin font-m">
+					</button>
+					<a onclick="ga_CA( 'User', 'Settings' )"
+							data-bind="visible: author.hasAccessToUpdate(), attr: { 'href': settingsLink() }"
+							class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect mdl-button-margin small-button">
+						<i class="material-icons material-icons-16">settings</i>
+					</a>
+					<!-- GA events sent from Js for sharing -->
+					<button data-bind="click: shareAuthor"
+							class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect mdl-button-margin small-button">
+						<i class="material-icons material-icons-16">share</i>
+					</button>
+				</div>
+			</div>
+			<div class="author-summary-desktop">
+				<div class="author-read-count material-subtitle-1"
+					 data-bind="{ visible: author.totalReadCount() > 0, text: getReadCountText(), css: { 'pratilipi-red': appViewModel.user.author.authorId() == author.authorId() } }"></div>
+				<div class="author-summary material-subtitle-1" onclick="ga_CA( 'Author', 'LoadMore' )" data-bind="seeMoreText: { value: author.summary(), lines: 1 }"></div>
+			</div>
+		</div>
+	</div>
+	<div class="author-meta-holder-mobile">
+		<div class="author-name-mobile material-heading" data-bind="text: authorDisplayName()"></div>
+		<div class="author-read-count material-subtitle-1"
+			 data-bind="{ visible: author.totalReadCount() > 0, text: getReadCountText(), css: { 'pratilipi-red': appViewModel.user.author.authorId() == author.authorId() } }"></div>
+		<div class="author-summary material-subtitle-1" onclick="ga_CA( 'Author', 'LoadMore' )" data-bind="seeMoreText: { value: author.summary(), lines: 1 }"></div>
+	</div>
+
+	<div class="mdl-cell mdl-cell--12-col padding-zero"><hr class="margin-zero"></div>
+
+	<div class="author-stats-holder">
+		<div class="mdl-cell mdl-cell--4-col"
+			data-bind="css: { 'clickable-element': author.contentPublished() > 0 }, click: focusPublishedContentSection">
+			<div class="material-subtitle-1" data-bind="text: author.contentPublished()"></div>
+			<div class="material-body-1">${ _strings.author_published_contents }</div>
+		</div>
+		<div class="mdl-cell mdl-cell--4-col"
+			data-bind="attr: { 'data-toggle': author.followCount() > 0 ? 'modal' : '' }, css: { 'clickable-element': author.followCount() > 0 }" 
+			data-target="#pratilipi-author-follows-followers">
+			<div class="material-subtitle-1" data-bind="text: author.followCount()"></div>
+			<div class="material-body-1">${ _strings.author_followers }</div>
+		</div>
+		<div class="mdl-cell mdl-cell--4-col clickable-element" 
+			data-bind="attr: { 'data-toggle': author.user.followCount() > 0 ? 'modal' : '' }, css: { 'clickable-element': author.user.followCount() > 0 }" 
+			data-target="#pratilipi-author-follows-following">
+			<div class="material-subtitle-1" data-bind="text: author.user.followCount()"></div>
+			<div class="material-body-1">${ _strings.author_following }</div>
+		</div>
+	</div>
+
+</div>

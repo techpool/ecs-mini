@@ -1,0 +1,43 @@
+<dom-module id="pratilipi-user-notification-settings">
+	<style>
+		.modal-content {
+			border-radius: 1px;
+		}
+		.modal-header {
+			border: none;
+		}
+	</style>
+	<template>
+		<div class="modal fade" tabindex="-1" role="dialog" id="pratilipiUserNotificationSettings">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<iron-icon class="pull-right" icon="icons:close" data-dismiss="modal" aria-label="Close"></iron-icon>
+					</div>
+				<div class="modal-body">
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+				</div>
+			</div>
+		</div>
+	</template>
+	<script>
+	Polymer({
+
+		is: 'pratilipi-user-notification-settings',
+		
+		properties: {
+			
+		},
+		
+		open: function() {
+			this.async( function() {
+				jQuery( "#pratilipiUserNotificationSettings" ).modal();
+			});
+		}
+	});
+	</script>
+</dom-module>

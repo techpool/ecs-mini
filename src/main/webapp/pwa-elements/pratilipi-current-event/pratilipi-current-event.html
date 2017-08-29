@@ -1,0 +1,15 @@
+<div class="pratilipi-current-event">
+	<div class="pratilipi-red material-subtitle-1">${ _strings.search_current_event_heading }</div>
+	<div data-bind="visible: isLoading()"
+	     style="margin: 12px auto;"
+	     class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active">
+	</div>
+	<div data-bind="visible: ! isLoading()">
+		<a data-bind="attr: { href: event.pageUrl() }" onclick="ga_CA( 'Event', 'Open' );">
+			<img data-bind="attr: { src: getImageUrl( event.bannerImageUrl(), 400 ) }" />
+		</a>
+		<a data-bind="attr: { href: event.pageUrl() }" onclick="ga_CA( 'Event', 'Open' );">
+			<div class="material-body-1" data-bind="text: event.name()"></div>
+		</a>
+	</div>
+</div>

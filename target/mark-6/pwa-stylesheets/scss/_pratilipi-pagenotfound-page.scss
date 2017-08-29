@@ -1,0 +1,8 @@
+.page-notfound-page {
+	padding: 16px;
+	@include css-prefix( "flex-direction", "row" );
+	@include css-prefix( "align-items", "center" );
+	@media only screen and (max-width: 480px) {
+		@include css-prefix( "flex-direction", "column" );
+	}
+}

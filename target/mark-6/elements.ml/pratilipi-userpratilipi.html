@@ -1,0 +1,97 @@
+<dom-module id="pratilipi-userpratilipi">
+
+	<template>
+		<iron-ajax
+				id="AjaxGet"
+				url="/api/userpratilipi"
+				method="GET"
+				content-type="application/json"
+				handle-as="json"
+				on-response="_handleAjaxGetResponse"
+				on-error="_handleAjaxGetError"
+				></iron-ajax>
+		<iron-ajax
+				id="AjaxPost"
+				url="/api/userpratilipi/library"
+				method="POST"
+				content-type="application/x-www-form-urlencoded"
+				handle-as="json"
+				on-response="_handleAjaxPostResponse"
+				on-error="_handleAjaxPostError"
+				></iron-ajax>
+	</template>
+	
+
+	<script>
+
+		Polymer({
+
+			is: 'pratilipi-userpratilipi',
+			
+			properties: {
+				user: { type: Object, observer: '_userChangeObserver' },
+				pratilipiId: { type: Number },
+				userpratilipi: { type: Object, notify: true },
+				userpratilipiData: { type: Object }
+			},
+			
+			setUserPratilipi: function( userPratilipi ) {
+				this.set( 'userpratilipi', userPratilipi );
+			},
+			
+			ready: function() {
+				this.setUserPratilipi( this.userpratilipiData );
+			},
+			
+			addToLibrary: function( pratilipiId ) {
+				this.$.AjaxPost.body = ( "pratilipiId=" + pratilipiId + "&" + "addedToLib=true" );
+				this.$.AjaxPost.generateRequest();
+			},
+			
+			removeFromLibrary: function( pratilipiId ) {
+				this.$.AjaxPost.body = ( "pratilipiId=" + pratilipiId + "&" + "addedToLib=false" );
+				this.$.AjaxPost.generateRequest();
+			},
+			
+			_handleAjaxPostResponse: function( event ) {
+				if( event.detail.xhr.status != 200 )
+					this._handleAjaxPostError( event );
+				else
+					this.setUserPratilipi( event.detail.response );
+			},
+			
+			_handleAjaxPostError: function( event ) {
+				alert( "എന്തോ സാങ്കേതിക പ്രശ്നം സംഭവിച്ചിരിക്കുന്നു. വീണ്ടും ശ്രമിക്കൂ" );
+			},
+			
+			_userChangeObserver: function() {
+				if( this.user.isGuest ) {
+					this.setUserPratilipi( {} );
+				} else if( this.userpratilipi == null || jQuery.isEmptyObject( this.userpratilipi ) ) {
+					var ajaxGet = this.$.AjaxGet;
+					ajaxGet.params.pratilipiId = this.pratilipiId;
+					ajaxGet.generateRequest();
+				}
+			},
+			
+			_handleAjaxGetResponse: function( event ) {
+				if( event.detail.xhr.status != 200 ) {
+					this.async( function() {
+						this._userChangeObserver();
+					}, 10000 );
+				} else {
+					this.setUserPratilipi( event.detail.response );
+				}
+			},
+
+			_handleAjaxGetError: function( event ) {
+				this.async( function() {
+					this._userChangeObserver();
+				}, 10000 );
+			}
+
+		});
+		
+	</script>
+
+</dom-module>

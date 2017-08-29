@@ -1,0 +1,19 @@
+<div class="pratilipi-pratilipi-card-mini">
+	<a data-bind="attr: { href: pratilipi.pageUrl() }, event: { click: openPratilipi }">
+		<div class="pratilipi-cover-image-holder">
+			<pratilipi-image params="{ src: pratilipi.coverImageUrl,
+									width: 100,
+									height: 150,
+									alt: titleDisplay(),
+									mobWidth: 70,
+									mobHeight: 105 }"></pratilipi-image>
+		</div>
+		<div class="pratilipi-meta-holder">
+			<div class="pratilipi-title font-m" data-bind="text: titleDisplay()"></div>
+			<div class="reads-holder" data-bind="visible: pratilipi.readCount() > 0">
+				<span class="font-xs" data-bind="text: abbrNum( pratilipi.readCount(), 0 )"></span>
+				<i class="material-icons font-xs" style="margin-left: 2px;">remove_red_eye</i>
+			</div>
+		</div>
+	</a>
+</div>

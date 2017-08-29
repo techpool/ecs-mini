@@ -1,0 +1,66 @@
+<dom-module id="pratilipi-navigation">
+
+	<style>
+
+		:host {
+			display: block;
+			margin-right: 10px;
+		}
+	
+		.secondary-500 {
+			min-width: 175px;
+			max-width: 175px;
+			padding-bottom: 15px;
+		}
+		
+		.secondary-500 h6 {
+			margin: 0px;
+			padding: 20px 20px 5px 20px;
+			color: #D0021B;
+		}
+		
+		.secondary-500 a {
+			color: #333;
+		}
+		
+		.secondary-500 div {
+			padding: 5px 20px 5px 20px;
+		}
+		
+	</style>
+
+
+	<template>
+		<paper-card>
+			<div class="secondary-500">
+				<template is="dom-repeat" items="{{ navigationList }}">
+					<h6>{{ item.title }}</h6>
+					<template is="dom-repeat" items="{{ item.linkList }}">
+						<div>
+			        		<a href="{{ item.url }}" on-click="_sendGaEvent">{{ item.name }}</a>
+			        	</div>
+					</template>
+				</template>
+			</div>
+		</paper-card>
+	</template>
+
+
+	<script>
+
+		Polymer({
+			
+			is: 'pratilipi-navigation',
+			
+			properties: {
+				navigationList: { type: Array },
+			},
+
+			_sendGaEvent: function() {
+							}
+		
+		});
+
+	</script>
+
+</dom-module>

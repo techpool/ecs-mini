@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="pratilipi" default='all' basedir="." >
+
+	<property name="src.dir" value="src/main/java"/>
+	<property name="war.dir" value="src/main/webapp"/>
+	<property name="build.dir" value="target/mark-6"/>
+	
+	<target name="all" depends="copy,i18n,i18n-pwa-html,i18n-pwa-sw,i18n-pwa-manifest"/>
+
+	<!-- Copy static resources (because maven doesn't) -->
+	<target name="copy">
+		<copy todir="${build.dir}/WEB-INF/classes" flatten="false">
+			<fileset dir="${src.dir}" includes="META-INF/jdoconfig.xml"/>
+			<fileset dir="${src.dir}" includes="**/data/curated/*"/>
+			<fileset dir="${src.dir}" includes="**/i18n/language.*"/>
+			<fileset dir="${src.dir}" includes="**/*.ftl"/>
+			<fileset dir="${src.dir}" includes="**/*.html"/>
+			<fileset dir="${src.dir}" includes="**/*.json"/>
+			<fileset dir="${src.dir}" includes="**/list.*"/>
+			<fileset dir="${src.dir}" includes="**/static.*"/>
+			<fileset dir="${src.dir}" includes="**/pwa.*"/>
+		</copy>
+	</target>
+
+	<!-- Create language specific copies of Polymer Elements -->
+	<target name="i18n">
+		<java fork="true" failonerror="yes" classname="com.pratilipi.common.util.SiteElementUtil">
+			<arg line="${src.dir}/com/pratilipi/site/element/standard"/>
+			<arg line="${build.dir}/elements."/>
+			<arg line="polymer"/>
+			<classpath>
+				<path location="${build.dir}/WEB-INF/classes"/>
+				<path location="${build.dir}/WEB-INF/lib/*"/>
+			</classpath>
+		</java>
+	</target>
+
+	<!-- Create language specific copies of PWA Elements -->
+	<target name="i18n-pwa-html">
+		<java fork="true" failonerror="yes" classname="com.pratilipi.common.util.SiteElementUtil">
+			<arg line="${war.dir}/pwa-markup"/>
+			<arg line="${build.dir}"/>
+			<arg line="knockout"/>
+			<classpath>
+				<path location="${build.dir}/WEB-INF/classes"/>
+				<path location="${build.dir}/WEB-INF/lib/*"/>
+			</classpath>
+		</java>
+	</target>
+
+	<!-- Create language specific copies of Service Worker -->
+	<target name="i18n-pwa-sw">
+		<java fork="true" failonerror="yes" classname="com.pratilipi.common.util.SiteElementUtil">
+			<arg line="${war.dir}/pwa-service-worker"/>
+			<arg line="${build.dir}"/>
+			<arg line="knockout"/>
+			<classpath>
+				<path location="${build.dir}/WEB-INF/classes"/>
+				<path location="${build.dir}/WEB-INF/lib/*"/>
+			</classpath>
+		</java>
+	</target>
+
+	<!-- Create language specific copies of PWA manifest json -->
+	<target name="i18n-pwa-manifest">
+		<java fork="true" failonerror="yes" classname="com.pratilipi.common.util.SiteElementUtil">
+			<arg line="${war.dir}/pwa-manifest"/>
+			<arg line="${build.dir}"/>
+			<arg line="knockout"/>
+			<classpath>
+				<path location="${build.dir}/WEB-INF/classes"/>
+				<path location="${build.dir}/WEB-INF/lib/*"/>
+			</classpath>
+		</java>
+	</target>
+
+</project>

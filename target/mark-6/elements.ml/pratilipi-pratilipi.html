@@ -1,0 +1,774 @@
+<dom-module id="pratilipi-social">
+
+  	<style>
+		
+		i, .fb{ 
+			color: #3b5998;
+		}
+		
+		i, .tw { 
+			color: #00aced;
+		}
+		
+		i, .google { 
+			color: #dd4b39;
+	    } 
+		
+		ul, li {
+			float: left;
+		}
+			
+	</style>
+	
+	<template>
+		<div style="position: absolute; margin-left: 0px;">
+			<div class="fb-like" data-href="{{ shareUrl }}" data-layout="button" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
+			<template is="dom-if" if="{{ showLikeCount }}">
+				<div style="display: inline-block;
+							height: 20px;
+							padding-left: 5px;
+							padding-right: 5px;
+							font-size: 11px;
+							font-family: helvetica, arial, sans-serif;
+							color: #141823;
+							border: 1px solid grey;
+							border-radius: 2px;
+							text-align: center;
+							vertical-align: bottom;
+							opacity: 0.9;"><div style="margin-top: -2px;">{{ likeCount }}</div></div>
+			</template>
+	 	</div>
+	 	<template is="dom-if" if="{{ share }}">
+	 		<div class="drop_menu" style="margin-left: 100px; position:  absolute;">
+				    <a class="link" href="#" class="dropdown-toggle" data-toggle="dropdown">
+						ഷെയര്‍ 
+						<b class="caret"></b>
+				    </a>
+				
+				    <ul class="dropdown-menu" role="menu">
+						<li>
+							<a href="{{__hack__}}#" title="On Facebook" on-click="_share_facebook">
+								<span class="icon icon-facebook"></span>
+							</a>
+						</li>
+	       				<li>
+							<a href="{{__hack__}}#" title="On Twitter" on-click="_share_twitter">
+								<span class="icon icon-twitter"></span>
+							</a>
+						</li>
+						<li>
+							<a href="{{__hack__}}#" title="On Google Plus" on-click="_share_google_plus">
+								<span class="icon icon-google-plus"></span>
+							</a>
+						</li>
+				    </ul>
+			</div>
+	 	</template>
+	</template>
+
+	<script>
+
+		Polymer({
+
+			is: 'pratilipi-social',
+			
+			properties: {
+				share: { type: Boolean, value: false },
+				shareUrl: { type: String },
+				showLikeCount: { type: Boolean, value: false },
+				likeCount: { type: Number }
+			},
+			
+			ready: function() {
+				if( typeof(FB) == 'undefined' ) {
+					(function(d, s, id) {
+						var js, fjs = d.getElementsByTagName(s)[0];
+						if (d.getElementById(id)) return;
+						js = d.createElement(s); js.id = id;
+						js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.6";
+						fjs.parentNode.insertBefore(js, fjs);
+					}(document, 'script', 'facebook-jssdk'));
+				}
+			},
+			
+			_share_facebook: function() {
+				window.open( "http://www.facebook.com/sharer.php?u=" + this.shareUrl, "share", "width=1100,height=500,left=70px,top=60px" );
+			},
+			
+			_share_twitter: function() {
+				window.open( "http://twitter.com/share?url=" + this.shareUrl, "share", "width=1100,height=500,left=70px,top=60px" );
+			},
+			
+			_share_google_plus: function() {
+				window.open( "https://plus.google.com/share?url=" + this.shareUrl, "share", "width=1100,height=500,left=70px,top=60px" );
+			},
+			
+			attached: function() {
+				if( this.shareUrl != null )
+					this.shareUrl =  "http://www.pratilipi.com" + this.shareUrl;
+				else
+					this.shareUrl = window.location.href;
+			}
+			
+		});
+
+	</script>
+
+</dom-module>
+<dom-module id="pratilipi-pratilipi">
+
+	<style>
+	
+		:host {
+			display: block;
+		}
+		
+		paper-card {
+			width: 100%;
+			--paper-card-header: { display: none };
+		}
+		
+		paper-menu {
+			padding: 0;
+			--paper-menu-color: #333;
+			--paper-menu-focused-item: {
+				color: #107FE5;
+			};
+		}
+		
+		.share-menu paper-item {
+			padding: 0 8px;
+		}
+
+		paper-item {
+			cursor: pointer;
+			font-family: inherit;
+			font-size: 13px;
+		}
+		
+		.col-right-mobile table {
+			margin: 0 auto;
+			text-align: left;
+			white-space: nowrap;
+		}
+		
+		.col-right-widescreen table td, .col-right-widescreen table th, .col-right-mobile table td, .col-right-mobile table th {
+			white-space: nowrap;
+			font-weight: 700;
+			color: #333;
+			height: 30px;
+		}
+		
+		.col-right-widescreen table td, .col-right-mobile table td {
+			padding-left: 10px;
+		}
+		
+		#more, #less {
+			color: #333;
+		}
+		
+		.less {
+			max-height: 190px; 
+			overflow: hidden;
+		}
+		
+		.more {
+			max-height: auto;
+			overflow: visible;
+		}
+		
+		th {
+			font-weight: 400;
+			font-size: 14px;
+		}
+		
+		td {
+			font-weight: 400;
+			font-size: 14px;
+		}
+		
+		.pratilipi-file-upload {
+			width: 150px;
+		}
+		
+		paper-spinner.pratilipi-spinner {
+			display: block;
+			position: absolute;
+			top: 40%;
+			left: 40%;
+			--paper-spinner-layer-1-color: #D0021B;
+			--paper-spinner-layer-2-color: #107FE5;
+			--paper-spinner-layer-3-color: #D0021B;
+			--paper-spinner-layer-4-color: #107FE5;
+		}
+		
+		paper-spinner.pratilipi-spinner-absolute {
+			display: block;
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			--paper-spinner-layer-1-color: #D0021B;
+			--paper-spinner-layer-2-color: #107FE5;
+			--paper-spinner-layer-3-color: #D0021B;
+			--paper-spinner-layer-4-color: #107FE5;
+		}
+
+		.summary-container {
+			padding: 10px 20px 20px 20px;
+		}
+		
+		@media only screen and (max-width: 768px) {
+			.summary-container {
+				text-align: left;
+			}
+		}
+		@media only screen and (min-width: 769px) {
+			.summary-container {
+				text-align: justify;
+			}
+			
+		}
+
+	</style>
+
+	<template>
+		<paper-card>
+			<paper-menu-button hidden$="{{ !canShare }}" vertical-offset=38 style="position: absolute; right: 2px;" horizontal-align="right" vertical-align="top">
+				<iron-icon icon="social:share" class="dropdown-trigger" onclick="ga_CA( 'Pratilipi', 'Share' )"></iron-icon>
+				<paper-menu class="dropdown-content share-menu">
+					<paper-item on-click="sharePratilipiOnFacebook"><span class="icon icon-facebook"></span></paper-item>
+					<paper-item on-click="sharePratilipiOnTwitter"><span class="icon icon-twitter"></span></paper-item>
+					<paper-item on-click="sharePratilipiOnGplus"><span class="icon icon-google-plus"></span></paper-item>
+					<template is="dom-if" if="{{ isMobile() }}">
+						<paper-item on-click="sharePratilipiOnWhatsapp"><span class="icon icon-whatsapp"></span></paper-item>
+					</template>
+				</paper-menu>
+			</paper-menu-button>
+			
+			<div id="pratilipi-row">
+				<div id="pratilipi-col-left" style="padding: 20px 0px 10px 10px;">
+					<template is="dom-if" if="{{ ! hasAccessToUpdate }}">
+						<iron-image class="pratilipi-shadow"
+									width="150" height="225" 
+									style="background-color: #f5f5f5; margin: 0 auto;" 
+									fade preload
+									sizing="cover" 
+									src="{{ pratilipiCoverImageUrl }}" 
+									alt="{{ title }}" 
+									title="{{ title }}"></iron-image>
+					</template>
+					<template is="dom-if" if="{{ hasAccessToUpdate }}">
+						<div style="position: absolute; top: -1000px;">
+							<form id="uploadImage" method="post" enctype="multipart/form-data" action="/api/pratilipi/cover?pratilipiId={{ pratilipi.pratilipiId }}" target="upload_target">
+								<input id="uploadImageInput" type="file" on-change="uploadImage" name="{{ pratilipi.pratilipiId }}" accept="image/*">
+							</form>
+							<iframe id="upload_target" name="upload_target" style="display: none;" on-load="_onchangeiframe"></iframe>
+						</div>
+						<div class="pratilipi-file-upload">
+							<div style="width: 150px; height: 225px;" class="pratilipi-shadow">
+								<template is="dom-if" if="{{ !imageUploaded }}">
+									<img class="pratilipi-shadow"
+										width="150" height="225" 
+										style="background-color: #f5f5f5; margin: 0 auto;" 
+										src="{{ pratilipiCoverImageUrl }}" 
+										alt="{{ title }}" 
+										title="{{ title }}" />
+								</template>
+								<template is="dom-if" if="{{ imageUploaded }}">
+									<paper-spinner class="pratilipi-spinner" active></paper-spinner>
+								</template>
+							</div>
+							<iron-icon icon="image:photo-camera"></iron-icon>
+							<div class="pratilipi-file-upload-caption" on-click="_chooseFile">
+								<iron-icon icon="image:photo-camera"></iron-icon>
+								<strong>ഫോട്ടോ അപ് ലോഡ്  ചെയ്യൂ</strong>
+							</div>
+						</div>
+					</template>
+					<div style="width: 150px; margin: 0px auto 15px auto; display: block; padding: 15px 0px;">
+						<pratilipi-social share-url="/pratilipi/{{ pratilipi.pratilipiId }}" show-like-count like-count="[[ pratilipiData.fbLikeShareCount ]]"></pratilipi-social>
+					</div>
+				</div>
+				<div id="pratilipi-col-right" style="padding: 20px;">
+					<h5 style="margin: 0px; display: inline-block; line-height: 24px;" class="pratilipi-red">
+						{{ title }}
+						<span hidden$="{{ !hasAccessToUpdate }}" class="dropdown">
+							<paper-icon-button style="color: #333; height: 34px; width: 34px; margin-top: -12px;" class="dropdown-trigger" icon="icons:create" noink type="button" data-toggle="dropdown"></paper-icon-button>
+							<ul class="dropdown-menu pull-right">
+								<li>
+									<a style="padding: 0; margin: 0;" on-click="openPratilipiEdit">
+										<paper-item>
+											<paper-icon-item><iron-icon style="margin-right: 4px; width: 22px;" icon="editor:mode-edit"></iron-icon></paper-icon-item>
+											<paper-item-body>വിവരങ്ങള്‍ തിരുത്തൂ</paper-item-body>
+										</paper-item>
+									</a>
+								</li>
+								<li>
+									<a style="padding: 0; margin: 0;" on-click="openWriterPanel">
+										<paper-item>
+											<paper-icon-item><iron-icon style="margin-right: 4px; width: 22px;" icon="icons:description"></iron-icon></paper-icon-item>
+											<paper-item-body>രചന തിരുത്തൂ</paper-item-body>
+										</paper-item>
+									</a>
+								</li>
+							</ul>
+						</span>
+					</h5>
+					<template is="dom-if" if="{{ pratilipi.author }}">
+						<div style="display: block;">
+							<a style="display: inline-block; color: #333;" href="{{ pratilipi.author.pageUrl }}" onclick="ga_CA( 'Author', 'Open' )" target="_blank">
+								{{ pratilipi.author.name }}
+								<iron-icon icon="icons:open-in-new" style="margin-left: 6px; margin-top: -4px; width: 16px; height: 16px;"></iron-icon>
+							</a>
+						</div>
+					</template>
+					
+					<template is="dom-if" if="{{ zeroRating }}">
+						<a class="link" style="text-decoration: underline;" on-click="showReviewInput">റിവ്യൂ ചെയ്യുന്ന ആദ്യത്തെ ആളാവൂ</a>
+					</template>
+					<template is="dom-if" if="{{ !zeroRating }}">
+						<pratilipi-rating style="cursor: pointer; display: inline-block;" on-click="showReviewInput" value="{{ averageRating }}" onclick="ga_CA( 'Review', 'Rating Init' )">
+							<span class="rating-text">&nbsp;
+								{{ ratingCount }}
+								<iron-icon style="width: 16px; height: 16px;" icon="social:people"></iron-icon>
+							</span>
+						</pratilipi-rating>
+					</template>
+					
+					<h6 style="margin-top: 10px;">{{ type }}</h6>
+					
+					<table style="margin-top: 15px; margin-bottom: 25px;">
+						<tr> <th>ചേര്‍ത്ത ദിവസം</th><td>:</td><td>{{ listingDate }}</td> </tr>
+						<tr> <th>വായിച്ചവര്‍</th><td>:</td><td>{{ readCount }}</td> </tr>
+						<template is="dom-if" if="{{ showLastUpdatedDate }}">
+							<tr> <th>അവസാനമായി തിരുത്തിയ ദിവസം</th><td>:</td><td>{{ lastUpdatedDate }}</td> </tr>
+						</template>
+					</table>
+					
+					<div style="position: relative; display: inline-block;">
+						<button on-click="redirectToReader" onclick="ga_CA( 'Pratilipi', 'Read' )" style="margin-bottom: 4px;" class="pratilipi-light-blue-button">വായിക്കൂ</button>
+						<template is="dom-if" if="{{ canMoveToDrafts }}">
+							<button disabled="{{ requestOnFlight }}" on-click="moveToDrafts" class="pratilipi-grey-button">ഡ്രാഫ്റ്റുകളിലേക്ക് മാറ്റൂ</button>
+						</template>
+						<template is="dom-if" if="{{ canPublish }}">
+							<button disabled="{{ requestOnFlight }}" on-click="publishPratilipi" class="pratilipi-light-blue-button">പ്രസിദ്ധീകരിക്കൂ.</button>
+						</template>
+						<template is="dom-if" if="{{ canDelete }}">
+							<button disabled="{{ requestOnFlight }}" on-click="deleteContent" class="pratilipi-grey-button">നീക്കം ചെയ്യൂ</button>
+						</template>
+						<template is="dom-if" if="{{ canAddToLibrary }}">
+							<template is="dom-if" if="{{ !userpratilipi.addedToLib }}">
+								<button on-click="addToLibrary" onclick="ga_CA( 'Pratilipi', 'Add To Library' )" class="pratilipi-light-blue-button">എന്‍റെ ലൈബ്രറിയില്‍ ചേര്‍ക്കുക</button>
+							</template>
+							<template is="dom-if" if="{{ userpratilipi.addedToLib }}">
+								<button on-click="removeFromLibrary" onclick="ga_CA( 'Pratilipi', 'Add To Library' )" class="pratilipi-grey-button">എന്‍റെ ലൈബ്രറിയില്‍ നിന്ന്‍ ഒഴിവാക്കുക</button>
+							</template>
+						</template>
+					</div>
+
+				</div>
+			</div>
+		</paper-card>
+		
+		<br class="pratilipi-break" />
+		
+		<!-- Displaying author summary if.. -->
+		<div id="pratilipi-summary">
+			<paper-card>
+				<div class="summary-container">
+					<h4 style="display: inline-block;" class="pratilipi-red">
+						സംഗ്രഹം
+					</h4>
+					<iron-icon hidden$="{{ !hasAccessToUpdate }}" style="margin-top: -4px; width: 20px; cursor: pointer;" icon="icons:create" on-click="toggleSummary"></iron-icon>
+
+					<div hidden$="{{ !hasAccessToUpdate }}">
+						<div hidden$="{{ toggleSummaryBoolean }}" style="margin: 10px 0px;">
+							<template is="dom-if" if="{{ !hasSummary }}"><div style="cursor: pointer;" on-click="toggleSummary">സംഗ്രഹം ചേർക്കാൻ ഇവിടെ ക്ലിക്ക് ചെയ്യുക</div></template>
+							<template is="dom-if" if="{{ hasSummary }}"><div style="white-space: pre-wrap;">{{ summary }}</div></template>
+						</div>
+						<div hidden$="{{ !toggleSummaryBoolean }}" style="height: 200px;" class="input-summary">
+							<textarea id="summaryTextbox" value="{{ summary::input }}" style="line-height: 1.5em; font-family: inherit !important; font-size: 14px; width: 100%; height: 150px;"></textarea>
+							<button disabled="{{ requestOnFlight }}" class="pratilipi-light-blue-button pull-right" on-click="updateSummary">മാറ്റങ്ങള്‍ സേവ് ചെയ്യുക</button>
+							<button disabled="{{ requestOnFlight }}" style="margin-top: 0;" class="pratilipi-grey-button pull-right" on-click="closeSummaryEdit">വേണ്ടെന്നു വയ്ക്കുക</button>
+						</div>
+					</div>
+
+					<div hidden$="{{ hasAccessToUpdate }}">
+						<div id="pratilipi-summary-text" style="margin-top: 10px; white-space:pre-wrap;">{{ summary }}</div>
+						<div style="text-align: center; padding-top: 10px;">
+							<a id="more" style="font-size: 14px; font-weight: 700;" on-click="_toggleSnippet">(കൂടുതല്‍ കാണിക്കൂ)</a>
+							<a id="less" style="font-size: 14px; font-weight: 700;" on-click="_toggleSnippet">(കുറച്ചു മാത്രം കാണിക്കൂ)</a>
+						</div>
+					</div>
+				</div>
+			</paper-card>
+			<br class="pratilipi-break" />
+		</div>
+		
+		<paper-spinner class="pratilipi-spinner-absolute" active="{{ requestOnFlight }}"></paper-spinner>
+
+		<pratilipi-alert></pratilipi-alert>
+		
+		<pratilipi-confirm-action
+			value="{{ moveToDraftsBoolean }}"
+			modal-title="ഡ്രാഫ്റ്റുകളിലേക്ക് മാറ്റുന്നു"
+			modal-content="ഈ രചന ഡ്രാഫ്റ്റുകളിലേക്ക് മാറ്റട്ടേ ?"
+			modal-okay-button="അതെ, ഡ്രാഫ്റ്റുകളിലേക്ക് മാറ്റൂ!"
+			modal-cancel-button="വേണ്ട, ഡ്രാഫ്റ്റുകളിലേക്ക് മാറ്റരുത്!"
+			invert-buttons></pratilipi-confirm-action>
+		
+		
+		<iron-ajax
+				id="AjaxGet"
+				url="/api/pratilipi"
+				method="GET"
+				params='{"_apiVer": "2"}'
+				content-type="application/json"
+				handle-as="json"
+				on-response="_handleAjaxGetResponse"
+				></iron-ajax>
+		<iron-ajax
+				id="AjaxPost"
+				url="/api/pratilipi?_apiVer=2"
+				method="POST"
+				content-type="application/x-www-form-urlencoded"
+				handle-as="json"
+				on-response="_handleAjaxPostResponse"
+				on-error="_handleAjaxPostError"
+				></iron-ajax>
+	</template>
+	
+	<script>
+	
+		Polymer({
+
+			is: 'pratilipi-pratilipi',
+			
+			behaviors: [		
+				Polymer.IronResizableBehavior		
+			],
+			
+			listeners: {
+				'iron-resize': '_onIronResize'
+			},
+			
+			properties: {
+				user: { type: Object, observer: "_loadPratilipi" },
+				pratilipi: { type:Object, notify: true },
+				pratilipiData: { type: Object },
+				userpratilipi: { type: Object },
+				pratilipiTypes: { types: Object },
+				stage: { type: String },
+				
+				mobile: { type: Boolean },
+				imageUploaded: { type: Boolean, value: false },
+				moveToDraftsBoolean: { type: Boolean, observer: "_moveToDrafts" },
+
+				summary: { type: String, observer: "_summaryObserver" },
+				hasSummary: { type: Boolean },
+				toggleSummaryBoolean: { type: Boolean, value: false },
+				requestOnFlight: { type: Boolean, value: false },
+
+				canAddToLibrary: { type: Boolean, value: true }
+			},
+			
+			isMobile: function() {
+				return isMobile() && this.mobile;
+			},
+			
+			updateUserRating: function( userpratilipi ) {
+
+				if( userpratilipi.reviewState == "DELETED" || userpratilipi.reviewState == "BLOCKED" 
+						|| userpratilipi.rating == null || userpratilipi.rating == 0 )
+					return;
+
+				var rating = userpratilipi.rating;
+
+				var totalRating = this.averageRating * this.ratingCount;
+
+				if( this.userpratilipi.rating == null || this.userpratilipi.rating == 0 )
+					this.set( 'ratingCount', this.ratingCount + 1 );
+
+				this.set( 'averageRating', (  totalRating
+					- ( this.userpratilipi.rating != null ? this.userpratilipi.rating : 0 ) 
+					+ userpratilipi.rating ) / this.ratingCount );
+
+				this.set( 'zeroRating', false );
+
+			},
+			
+			showReviewInput: function() {
+				document.querySelector( 'pratilipi-review-list' ).showReviewInput();
+			},
+			
+			openPratilipiEdit: function() {
+				document.querySelector( 'pratilipi-write' ).editExistingPratilipi( this.pratilipi );
+			},
+			
+			openWriterPanel: function() {
+				if( isMobile() ) {
+					document.querySelector( 'pratilipi-alert' ).alert( 'പ്രതിലിപിയില്‍ എഴുതാന്‍ ,താങ്കളുടെ കമ്പ്യൂട്ടറില്‍ നിന്നും malayalam.pratilipi.com എന്ന വെബ്സൈറ്റില്‍ ലോഗിന്‍ ചെയ്യുക.' );
+					return;
+				}
+				if( this.stage == "gamma" )
+					window.location.href = "/pratilipi-write?id=" + this.pratilipi.pratilipiId + "&ret=" + window.location.pathname;
+				else
+					window.location.href = this.pratilipi.writePageUrl + "&ret=" + window.location.pathname;
+			},
+			
+			redirectToReader: function() {
+				trackPixelEvents( "ReadOnSummaryPage" );
+				window.location.href = this.pratilipi.readPageUrl + "&ret=" + window.location.pathname;
+			},
+			
+			addToLibrary: function() {
+				if( this.user.isGuest ) {
+					document.querySelector( 'pratilipi-user' ).logIn( true, "താങ്കളുടെ ലൈബ്രറിയിലേക്ക് രചനകള്‍ ചേര്‍ക്കാന്‍ ലോഗിന്‍ ചെയ്യൂ" );
+				} else {
+					document.querySelector( 'pratilipi-userpratilipi' ).addToLibrary( this.pratilipi.pratilipiId );
+				}
+			},
+			
+			removeFromLibrary: function() {
+				document.querySelector( 'pratilipi-userpratilipi' ).removeFromLibrary( this.pratilipi.pratilipiId );
+			},
+			
+			_onIronResize: function() {
+				var windowsize = this.clientWidth;
+				if( windowsize > 600 ) {
+					this.mobile = false;
+					jQuery( '#pratilipi-row' ).removeClass( 'row-mobile' );
+					jQuery( '#pratilipi-col-left' ).removeClass( 'col-left-mobile' );
+					jQuery( '#pratilipi-col-right' ).removeClass( 'col-right-mobile' );
+					
+					jQuery( '#pratilipi-row' ).addClass( 'row-widescreen' );
+					jQuery( '#pratilipi-col-left' ).addClass( 'col-left-widescreen' );
+					jQuery( '#pratilipi-col-right' ).addClass( 'col-right-widescreen' );
+				}
+				else {
+					this.mobile = true;
+					jQuery( '#pratilipi-row' ).removeClass( 'row-widescreen' );
+					jQuery( '#pratilipi-col-left' ).removeClass( 'col-left-widescreen' );
+					jQuery( '#pratilipi-col-right' ).removeClass( 'col-right-widescreen' );
+					
+					jQuery( '#pratilipi-row' ).addClass( 'row-mobile' );
+					jQuery( '#pratilipi-col-left' ).addClass( 'col-left-mobile' );
+					jQuery( '#pratilipi-col-right' ).addClass( 'col-right-mobile' );
+				}
+				
+			},
+			
+			updatePratilipi: function( pratilipi ) {
+				
+				if( window.location.pathname != pratilipi.pageUrl )
+					window.location.href = pratilipi.pageUrl;
+
+
+				this.set( 'pratilipi', pratilipi );
+				this.set( 'title', ( pratilipi.title != null && pratilipi.title.trim() != "" ) ? pratilipi.title : pratilipi.titleEn );
+				this.set( 'averageRating', pratilipi.averageRating != null ? pratilipi.averageRating : 0 );
+				this.set( 'ratingCount', pratilipi.ratingCount != null ? pratilipi.ratingCount : 0 );
+				this.set( 'readCount', pratilipi.readCount != null ? commaSeparatedNumber( pratilipi.readCount ) : 0 );
+				this.set( 'pratilipiCoverImageUrl', pratilipi.coverImageUrl + ( pratilipi.coverImageUrl.indexOf( '?' ) == -1 ? "?" : "&" ) + "width=150" );
+				this.set( 'zeroRating', false );
+				this.set( 'listingDate', convertDate( pratilipi.listingDateMillis ) );
+				this.set( 'showLastUpdatedDate', pratilipi.lastUpdatedMillis != null );
+				this.set( 'lastUpdatedDate', pratilipi.lastUpdatedMillis != null ? convertDate( pratilipi.lastUpdatedMillis ) : null );
+				this.set( 'hasAccessToUpdate', pratilipi.hasAccessToUpdate );
+				this.set( 'canMoveToDrafts', pratilipi.state != null && pratilipi.state != "DRAFTED" && pratilipi.hasAccessToUpdate );
+				this.set( 'canPublish', pratilipi.state != null && pratilipi.state != "PUBLISHED" && pratilipi.hasAccessToUpdate );
+				this.set( 'canDelete', pratilipi.state != null && pratilipi.state != "DELETED" && this.state != "PUBLISHED" && false && pratilipi.hasAccessToUpdate );
+				this.set( 'summary', pratilipi.summary != null && pratilipi.summary.trim() != "" ? pratilipi.summary : null );
+				this.set( 'canShare', pratilipi.state == "PUBLISHED" );
+
+				var user = document.querySelector( 'pratilipi-user' ).getCurrentUser();
+				this.set( "canAddToLibrary", this.pratilipi.state == "PUBLISHED" && ( user.isGuest || pratilipi.author.authorId != user.author.authorId ) );
+
+				if( pratilipi.type != null )
+					this.set( 'type', this.pratilipiTypes[ pratilipi.type.toUpperCase() ].name );
+			},
+
+			_summaryObserver: function() {
+				this.set( 'hasSummary', this.summary != null );
+				if( this.hasAccessToUpdate ) {
+					document.getElementById( "pratilipi-summary" ).style.display = "block";
+					document.getElementById( "less" ).style.display = "none";
+					document.getElementById( "more" ).style.display = "none";
+				} else {
+					if( this.summary == null ) { 
+						document.getElementById( "pratilipi-summary" ).style.display = "none";
+					} else {
+						document.getElementById( "pratilipi-summary" ).style.display = "block";
+						jQuery( '#pratilipi-summary-text' ).removeClass( 'less' );
+						jQuery( '#pratilipi-summary-text' ).removeClass( 'more' );
+						var height = jQuery( "#pratilipi-summary-text" ).height();
+
+						if( height > 190 ) {
+							jQuery( '#pratilipi-summary-text' ).addClass( 'less' );
+							document.getElementById( "less" ).style.display = "none";
+							document.getElementById( "more" ).style.display = "block";
+						} else {
+							document.getElementById( "less" ).style.display = "none";
+							document.getElementById( "more" ).style.display = "none";
+						}
+					}
+				}
+			},
+
+			toggleSummary: function() {
+				this.set( 'toggleSummaryBoolean', true );
+			},
+			
+			closeSummaryEdit: function() {
+				this.set( 'summary', this.pratilipi.summary != null && this.pratilipi.summary.trim() != "" ? this.pratilipi.summary : null );
+				this.set( 'toggleSummaryBoolean', false );
+			},
+
+			attached: function() {
+				this.pratilipiTypes = jQuery.parseJSON( this.pratilipiTypes );
+				this.updatePratilipi( this.pratilipiData );
+			},
+			
+			
+			_toggleSnippet: function() {
+				jQuery( '#pratilipi-summary-text' ).toggleClass( 'less' );
+				jQuery( '#pratilipi-summary-text' ).toggleClass( 'more' );
+				
+				if( document.getElementById( "more" ).style.display === "block" )
+					document.getElementById( "more" ).style.display = "none";
+				else
+					document.getElementById( "more" ).style.display = "block";
+				
+				if( document.getElementById( "less" ).style.display === "block" )
+					document.getElementById( "less" ).style.display = "none";
+				else
+					document.getElementById( "less" ).style.display = "block";
+			},
+			
+			_loadPratilipi: function() {
+				if( this.pratilipi == null )
+					return;
+
+				var ajaxGet = this.$.AjaxGet;
+				ajaxGet.params.pratilipiId = this.pratilipi.pratilipiId;
+				ajaxGet.generateRequest();
+			},
+			
+			_handleAjaxGetResponse: function( event ) {
+				this.updatePratilipi( event.detail.response );
+				// In case of image upload.
+				this.async( function() {
+					this.imageUploaded = false;
+				}, 30 );
+			},
+			
+			publishPratilipi: function() {
+				this.$.AjaxPost.body = jQuery.param( { "pratilipiId": this.pratilipi.pratilipiId, "state": "PUBLISHED" } );
+				this.set( 'requestOnFlight', true );
+				this.$.AjaxPost.generateRequest();
+			},
+
+			deleteContent: function() {
+				this.$.AjaxPost.body = jQuery.param( { "pratilipiId": this.pratilipi.pratilipiId, "state": "DELETED" } );
+				this.set( 'requestOnFlight', true );
+				this.$.AjaxPost.generateRequest();
+			},
+
+			_moveToDrafts: function() {
+				if( !this.moveToDraftsBoolean ) return;
+				this.$.AjaxPost.body = jQuery.param( { "pratilipiId": this.pratilipi.pratilipiId, "state": "DRAFTED" } );
+				this.set( 'requestOnFlight', true );
+				this.$.AjaxPost.generateRequest();
+			},
+			
+			moveToDrafts: function() {
+				if( this.moveToDraftsBoolean != null )
+					this.set( 'moveToDraftsBoolean', null );
+				this.querySelector( 'pratilipi-confirm-action' ).open();
+			},
+
+			updateSummary: function() {
+				this.$.AjaxPost.body = jQuery.param( { "pratilipiId": this.pratilipi.pratilipiId, "summary": this.summary } );
+				this.set( 'requestOnFlight', true );
+				this.$.AjaxPost.generateRequest();
+			},
+
+			_handleAjaxPostResponse: function( event ) {
+				var pratilipi = event.detail.response;
+				this.updatePratilipi( pratilipi );
+				document.querySelector( 'pratilipi-alert' ).alert( "വിജയകരമായി പൂര്‍ത്തീകരിച്ചിരിക്കുന്നു !", true, 1500 );
+				this.closeSummaryEdit();
+				this.set( 'requestOnFlight', false );
+			},
+			
+			_handleAjaxPostError: function( event ) {
+				if( event.detail.request.xhr.status === 400 || event.detail.request.xhr.status === 401 || event.detail.request.xhr.status === 500 )
+					alert( event.detail.request.xhr.response.message );
+				else
+					alert( "എന്തോ സാങ്കേതിക പ്രശ്നം സംഭവിച്ചിരിക്കുന്നു. വീണ്ടും ശ്രമിക്കൂ" );
+				this.set( 'requestOnFlight', false );
+			},
+			
+			_chooseFile: function() {
+				document.getElementById( "uploadImageInput" ).click();
+			},
+			
+			_onchangeiframe: function() {
+				if( this.imageUploaded )
+					this._loadPratilipi();
+			},
+			
+			uploadImage: function() {
+				document.getElementById( "uploadImage" ).submit();
+				this.imageUploaded = true;
+			},
+
+			_getShareUrl: function( utm_source ) {
+				if( utm_source == null ) return;
+				if( utm_source == "whatsapp" ) {
+				  return encodeURIComponent( 
+			      		"http://malayalam.pratilipi.com" + this.pratilipi.pageUrl 
+						+ ( this.pratilipi.pageUrl.indexOf( '?' ) == -1 ? "?" : "&" )
+						+ "utm_source=web_standard"
+						+ "&utm_component=content_share" );
+				}
+				var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+				return encodeURIComponent( 
+						"http://malayalam.pratilipi.com" + this.pratilipi.pageUrl 
+						+ ( this.pratilipi.pageUrl.indexOf( '?' ) == -1 ? "?" : "&" )
+						+ "utm_language=malayalam" + "&"
+						+ "utm_version=standard" + "&"
+						+ "utm_device=" + ( width < 600 ? "mobile" : "desktop" ) + "&"
+						+ "utm_parent=content" + "&"
+						+ "utm_action=share" + "&"
+						+ "utm_source=" + utm_source
+					);
+			},
+
+			sharePratilipiOnFacebook: function() {
+				clevertapShareContentOnFacebook( this.pratilipi.title, this.pratilipi.pratilipiId );
+				window.open( "http://www.facebook.com/sharer.php?u=" + this._getShareUrl( "facebook" ), 
+						"share", "width=1100,height=500,left=70px,top=60px" );
+			},
+
+			sharePratilipiOnTwitter: function() {
+				window.open( "http://twitter.com/share?url=" + this._getShareUrl( "twitter" ), 
+						"share", "width=1100,height=500,left=70px,top=60px" );
+			},
+
+			sharePratilipiOnGplus: function() {
+				window.open( "https://plus.google.com/share?url=" + this._getShareUrl( "gplus" ), 
+						"share", "width=1100,height=500,left=70px,top=60px" );
+			},
+			
+			sharePratilipiOnWhatsapp: function() {
+			    var text = "%22" + this.pratilipi.title + "%22%2C%20%E0%B4%8E%E0%B4%A8%E0%B5%8D%E0%B4%A8%20%20%E0%B4%B0%E0%B4%9A%E0%B4%A8%20%E0%B4%AA%E0%B5%8D%E0%B4%B0%E0%B4%A4%E0%B4%BF%E0%B4%B2%E0%B4%BF%E0%B4%AA%E0%B4%BF%E0%B4%AF%E0%B4%BF%E0%B4%B2%E0%B5%8D%E2%80%8D%20%E0%B4%B5%E0%B4%BE%E0%B4%AF%E0%B4%BF%E0%B4%95%E0%B5%8D%E0%B4%95%E0%B5%82%3A%20" + this._getShareUrl( "whatsapp" ) +"%0Aഇന്ത്യന്‍ ഭാഷകളിലുള്ള ഏറെ കഥകളും കവിതകളും ലേഖനങ്ങളുമെല്ലാം സൗജന്യമായി വായിക്കൂ !";
+			  	window.open( "whatsapp://send?text=" + text );
+			}
+			
+		});
+		
+		
+	</script>
+
+</dom-module>

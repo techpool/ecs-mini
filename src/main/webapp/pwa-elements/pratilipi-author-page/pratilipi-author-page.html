@@ -1,0 +1,24 @@
+<div data-bind="visible: ! initialDataLoaded()" class="mdl-cell mdl-cell--8-col-tablet mdl-cell--9-col mdl-card-border mobile-card">
+	<!-- ko component: "pratilipi-loading-state" --><!-- /ko -->
+</div>
+
+<div data-bind="visible: initialDataLoaded()" style="flex-grow: 1; width: 100%;">
+	<!-- ko component: {
+		name: "pratilipi-author-follows",
+		params: { author: author } 
+	} -->
+	<!-- /ko -->
+	<!-- ko component: {
+		name: "pratilipi-author-info",
+		params: { author: author, 
+					updateAuthor: $data.updateAuthor,
+					userAuthor: userAuthor,
+					updateUserAuthor: $data.updateUserAuthor }
+	} -->
+	<!-- /ko -->
+	<!-- ko component: {
+		name: "pratilipi-author-contents",
+		params: { author: author }
+	} -->
+	<!-- /ko -->
+</div>

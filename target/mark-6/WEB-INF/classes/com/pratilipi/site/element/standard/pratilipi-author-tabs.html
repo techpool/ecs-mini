@@ -1,0 +1,152 @@
+<#include "pratilipi-author-drafted-contents.html">
+<#include "pratilipi-author-published-contents.html">
+<#-- <#include "pratilipi-author-library-contents.html"> -->
+<#include "pratilipi-author-biography.html">
+<#include "pratilipi-author-following.html">
+<#include "pratilipi-author-followers.html">
+
+<dom-module id="pratilipi-author-tabs">
+	<style>
+		:host {
+			display: block;
+			margin-bottom: 12px;
+		}
+		.nav-tabs>li>a {
+			font-size: 14px;
+			line-height: 32px;
+			border: none;
+			color: #333;
+			letter-spacing: 0;
+		}
+		.nav-tabs, .nav-tabs>li>a:hover {
+			border-bottom: none;
+			border-top: none;
+			border-left: none;
+			border-right: none;
+			background: none;
+		}
+		.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+			border-bottom: 3px solid #D0021B;
+			border-top: none;
+			border-left: none;
+			border-right: none;
+			background: none;
+			font-weight: 700;
+		}
+		.fade {
+			opacity: 0;
+			-webkit-transition: opacity 0.05s linear;
+			-moz-transition: opacity 0.05s linear;
+			-o-transition: opacity 0.05s linear;
+			transition: opacity 0.05s linear;
+		}
+		.fade.in {
+			opacity: 1;
+			-webkit-transition: opacity 0.05s linear;
+			-moz-transition: opacity 0.05s linear;
+			-o-transition: opacity 0.05s linear;
+			transition: opacity 0.05s linear;
+	}
+	</style>
+	<template>
+		<div class="secondary-500 pratilipi-shadow">
+			<ul class="nav nav-tabs" role="tablist">
+				<li id="author-activity-tab" style="width: 50%;" role="presentation" class="active">	<a href="#author-activity" 	class="text-center" aria-controls="author-activity" role="tab" data-toggle="tab">${ _strings.author_activity }</a>	</li>
+				<li id="author-about-tab" style="width: 50%;" role="presentation">				<a href="#author-about" 	class="text-center" aria-controls="author-about" 	role="tab" data-toggle="tab">${ _strings.author_about }</a>		</li>
+			</ul>
+		</div>
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane fade in active" id="author-activity">
+
+				<template is="dom-if" if="{{ hasAccessToUpdate }}">
+					<pratilipi-author-drafted-contents 
+						author="[[ author ]]"></pratilipi-author-drafted-contents>
+				</template>
+
+				<pratilipi-author-published-contents 
+						author="[[ author ]]"></pratilipi-author-published-contents>
+
+			</div>
+			<div role="tabpanel" class="tab-pane fade" id="author-about">
+				<pratilipi-author-biography author="[[ author ]]"></pratilipi-author-biography>
+				<#-- For Authors without user profile -->
+				<template is="dom-if" if="{{ hasUserId }}">
+					<pratilipi-author-following author="[[ author ]]" user-id="{{ userId }}"></pratilipi-author-following>
+				</template>
+				<pratilipi-author-followers author="[[ author ]]" author-id="{{ authorId }}"></pratilipi-author-followers>
+			</div>
+		</div>
+		<iron-ajax
+				id="PratilipiApi"
+				url="/api/pratilipi?_apiVer=2"
+				method="POST"
+				content-type="application/x-www-form-urlencoded"
+				handle-as="json"
+				on-response="_pratilipiApiResponse"
+				on-error="_pratilipiApiError"
+				></iron-ajax>
+	</template>
+	<script>
+	Polymer({
+
+		is: 'pratilipi-author-tabs',
+		
+		properties: {
+			author: { type: Object, observer: "_authorObserver" },
+		},
+		
+		_authorObserver: function() {
+			this.set( 'hasAccessToUpdate', this.author.hasAccessToUpdate );
+			this.set( 'hasUserId', this.author.user != null && this.author.user.userId != null );
+			this.set( 'userId', this.author.user ? this.author.user.userId : null );
+			this.set( 'authorId', this.author.authorId );
+		},
+
+		moveContentToDrafts: function( pratilipiId ) {
+			var pratilipi = this.querySelector( 'pratilipi-author-published-contents' ).getPratilipiById( pratilipiId );
+			this.querySelector( 'pratilipi-author-published-contents' ).removeFromPratilipiList( pratilipiId );
+			this.querySelector( 'pratilipi-author-drafted-contents' ).addToPratilipiList( pratilipi );
+			this._pratilipiApiPostCall( pratilipiId, "DRAFTED" );
+		},
+
+		publishContent: function( pratilipiId ) {
+			var pratilipi = this.querySelector( 'pratilipi-author-drafted-contents' ).getPratilipiById( pratilipiId );
+			this.querySelector( 'pratilipi-author-drafted-contents' ).removeFromPratilipiList( pratilipiId );
+			this.querySelector( 'pratilipi-author-published-contents' ).addToPratilipiList( pratilipi );
+			this._pratilipiApiPostCall( pratilipiId, "PUBLISHED" );
+		},
+
+		deleteContent: function( pratilipiId ) {
+			this._pratilipiApiPostCall( pratilipiId, "DELETED" );
+		},
+
+		_pratilipiApiPostCall: function( pratilipiId, state ) {
+			this.$.PratilipiApi.body = jQuery.param( { "pratilipiId": pratilipiId, "state": state } );
+			this.$.PratilipiApi.generateRequest();
+		},
+
+		_pratilipiApiResponse: function( response ) {
+			var pratilipi = response.detail.response;
+			if( pratilipi.state == "DELETED" ) {
+				document.querySelector( 'pratilipi-alert' ).alert( "${ _strings.pratilipi_deleted_successfully }" );
+				window.location.reload();
+			}
+		},
+
+		_pratilipiApiError: function( response ) {
+			document.querySelector( 'pratilipi-alert' ).alert( response != null && response.detail.request.xhr.response.message != null ? 
+						response.detail.request.xhr.response.message : "${ _strings.server_error_message }", false );
+			this.async( function() { window.location.reload(); }, 2000 );
+		},
+
+		switchTabs: function() {
+			if( jQuery( ".nav-tabs li.active" ).attr( 'id' ) == "author-activity-tab" ) {
+				jQuery( '.nav-tabs a[href="#author-about"]' ).tab( 'show' );
+			} else if( jQuery( ".nav-tabs li.active" ).attr( 'id' ) == "author-about-tab" ) {
+				jQuery( '.nav-tabs a[href="#author-activity"]' ).tab( 'show' );
+			}
+		}
+		
+	});
+	</script>
+</dom-module>

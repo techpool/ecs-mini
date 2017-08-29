@@ -1,0 +1,230 @@
+<dom-module id="pratilipi-edit-account">
+
+	<style>
+		.modal-fullscreen {
+			padding: 0;
+		}
+		.modal-fullscreen .modal-dialog {
+			height: 100%;
+		}
+		.modal-fullscreen .modal-dialog .modal-content {
+			padding-top: 100px;
+			padding-bottom: 24px;
+			max-width: 600px;
+		}
+		iron-icon {
+			color: #107FE5; 
+			width: 32px; 
+			height: 32px;
+		}
+		.pratilipi-new-blue-button {
+			border-radius: 4px;
+		}
+		.logout-button {
+			margin: 24px auto 0 auto;
+			display: block;
+		}
+		paper-spinner.new-spinner {
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			margin: auto;
+			--paper-spinner-layer-1-color: #D0021B;
+			--paper-spinner-layer-2-color: #107FE5;
+			--paper-spinner-layer-3-color: #D0021B;
+			--paper-spinner-layer-4-color: #107FE5;
+		}
+	</style>
+
+	<template>
+		<div class="modal modal-fullscreen fade" id="pratilipiEditAccount" role="dialog" tabindex="-1">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-fullscreen-close-button">
+						<paper-icon-button noink icon="close" data-dismiss="modal"></paper-icon-button>
+					</div>
+					<img title="பிரதிலிபி" alt="பிரதிலிபி" src="http://public.pratilipi.com/pratilipi-logo/png/Logo-2C-RGB-80px.png" />
+					<h6 class="modal-fullscreen-heading">என் கணக்கை திருத்த</h6>
+					<div class="row">
+						<div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+							<pratilipi-input type="email" disabled="{{ emailDisabled }}" label="மின்னஞ்சல் முகவரி" value="{{ email::input }}" icon="icons:mail"></pratilipi-input>
+						</div>
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+							<iron-icon icon="{{ emailIcon }}" style="margin-top: 24px; width: 28px; height: 28px; cursor: pointer;" on-click="editEmail"></iron-icon>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+							<pratilipi-input type="tel" disabled="{{ phoneDisabled }}" label="தொலைபேசி" value="{{ phone::input }}" icon="icons:settings-phone"></pratilipi-input>
+						</div>
+						<div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+							<iron-icon icon="{{ phoneIcon }}" style="margin-top: 24px; width: 28px; height: 28px; cursor: pointer;" on-click="editPhone"></iron-icon>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-center">
+							<template is="dom-if" if="{{ ! user.isEmailVerified }}">
+								<button class="pratilipi-new-blue-button pratilipi-center-div" on-click="verifyEmail">மின்னஞ்சலை சரிபார்க்க</button>
+							</template>
+							<template is="dom-if" if="{{ user.isEmailVerified }}">
+								<div class="pratilipi-center-div">
+									<span style="font-size: 14px;"><iron-icon icon="icons:verified-user"></iron-icon>மின்னஞ்சல் சரிபார்க்கப்பட்டது</span>
+								</div>
+							</template>
+						</div>
+						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+							<button class="pratilipi-new-blue-button pratilipi-center-div" on-click="changePassword" onclick="ga_CA( 'User', 'Password' )">கடவுச்சொல்லை மாற்ற</button>
+						</div>
+					</div>
+					<template is="dom-if" if="{{ showLogoutButton }}">
+						<button class="pratilipi-new-blue-button logout-button" on-click="logoutUser" onclick="ga_CA( 'User', 'Logout' )">
+							வெளியேற
+						</button>
+					</template>
+					<paper-spinner active="{{ spinnerActive }}" class="new-spinner"><</paper-spinner>
+				</div>
+			</div>
+		</div>
+		<iron-ajax
+				id="UserApi"
+				url="/api/user"
+				method="POST"
+				content-type="application/x-www-form-urlencoded"
+				handle-as="json"
+				on-response="_apiResponse"
+				on-error="_apiError"
+				></iron-ajax>
+	</template>
+	
+	<script>
+		Polymer({
+	
+			is: 'pratilipi-edit-account',
+	
+			properties: {
+				user: { type: Object, observer: "_userChanged" },
+
+				emailDisabled: { type: Boolean, value: true },
+				emailIcon: { type: String, value: "icons:create" },
+				email: { type: String },
+
+				phoneDisabled: { type: Boolean, value: true },
+				phoneIcon: { type: String, value: "icons:create" },
+				phone: { type: String },
+
+				showLogoutButton: { type: Boolean, value: false },
+				spinnerActive: { type: Boolean, value: false }
+			},
+			
+			_userChanged: function() {
+				if( this.user.email != null )
+					this.set( "email", this.user.email );
+				if( this.user.phone != null )
+					this.set( "phone", this.user.phone );
+			},
+			
+			_disableEditEmail: function() {
+				this.set( 'emailDisabled', true );
+				this.set( 'emailIcon', "icons:create" );
+			},
+			
+			_disableEditPhone: function() {
+				this.set( 'phoneDisabled', true );
+				this.set( 'phoneIcon', "icons:create" );
+			},
+			
+			editEmail: function() {
+				if( this.emailDisabled ) {
+					this.set( 'emailDisabled', false );
+					this.set( 'emailIcon', "icons:save" );
+				} else {
+					if( this.email == this.user.email ) {
+						this._disableEditEmail();
+						return;
+					}
+					// Make Api call
+					var ajaxPost = this.$.UserApi;
+					delete ajaxPost.params[ "phone" ];
+					ajaxPost.params.email = this.email;
+					ajaxPost.generateRequest();
+					this.set( 'spinnerActive', true );
+				}
+			},
+			
+			editPhone: function() {
+				if( this.phoneDisabled ) {
+					this.set( 'phoneDisabled', false );
+					this.set( 'phoneIcon', "icons:save" );
+				} else {
+					if( this.phone == this.user.phone ) {
+						this._disableEditPhone();
+						return;
+					}
+					// Make Api call
+					var ajaxPost = this.$.UserApi;
+					delete ajaxPost.params[ "email" ];
+					if ( isNaN( this.phone ) || this.phone.length != 10 ) {
+						alert( "Invalid Phone Number. Please enter the 10-digit phone Number!" );
+						return;
+					}
+					ajaxPost.params.phone = this.phone;
+					ajaxPost.generateRequest();
+					this.set( 'spinnerActive', true );
+				}
+			},
+			
+			_apiResponse: function() {
+				var user = event.detail.response;
+				document.querySelector( 'pratilipi-user' ).updateUser( user );
+				this.set( 'spinnerActive', false );
+				this._disableEditEmail();
+				this._disableEditPhone();
+			},
+			
+			_apiError: function() {
+				this.set( 'spinnerActive', false );
+				if( event.detail.request.xhr.status === 400 || event.detail.request.xhr.status === 401 || event.detail.request.xhr.status === 500 )
+					alert( event.detail.request.xhr.response.email != null ? event.detail.request.xhr.response.email : event.detail.request.xhr.response.message );
+				else
+					alert( "Some Error occurred! Please try Again." );
+				this.set( 'email', this.user.email );
+				this.set( 'phone', this.user.phone );
+				this._disableEditEmail();
+				this._disableEditPhone();
+			},
+			
+			open: function() {
+				this.async( function() {
+					jQuery( "#pratilipiEditAccount" ).modal();
+				});
+			},
+			
+			close: function() {
+				this._userChanged();
+				this._disableEditEmail();
+				this._disableEditPhone();
+				jQuery( "#pratilipiEditAccount" ).modal( 'hide' );	
+			},
+			
+			changePassword: function() {
+				this.close();
+				document.querySelector( 'pratilipi-user' ).changePassword();
+			},
+			
+			verifyEmail: function() {
+				this.close();
+				document.querySelector( 'pratilipi-user' ).sendVerificationMail();
+			},
+			
+			logoutUser: function() {
+				this.close();
+				document.querySelector( 'pratilipi-user' ).logOut();
+			}
+			
+		});
+	</script>
+	
+
+</dom-module>

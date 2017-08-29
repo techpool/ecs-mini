@@ -1,0 +1,361 @@
+<dom-module id="pratilipi-comment">
+
+	<style>
+		.comment {
+			padding: 12px 8px 16px 8px;
+		}
+		
+		.user-dp {
+			width: 36px;
+			height: 36px;
+			margin-top: 4px;
+			margin-left: 4px;
+			float: left; 
+		}
+		
+		.user-name {
+			color: inherit; 
+			text-transform: capitalize; 
+			display: inline-block; 
+			margin: 0px;
+			font-size: 15px;
+		}
+		
+		.comment-text {
+			font-size: 14px;
+			text-align: justify; 
+			white-space:pre-wrap;
+			padding: 14px 0px 4px 4px;
+			letter-spacing: 0.1px;
+		}
+		
+		paper-menu-button {
+			padding: 0px;
+		}
+		
+		paper-menu {
+			cursor: pointer;
+			--paper-menu-color: #333;
+			--paper-menu-focused-item: {
+				color: #107FE5;
+			};
+		}
+		
+		paper-item {
+			cursor: pointer;
+			font-family: inherit;
+			font-size: 13px;
+		}
+		
+		button.pratilipi-grey-button {
+			padding: 6px 8px;
+			margin: 0px;
+			margin-top: 4px;
+		}
+
+		.comment-liked, .comment-liked * {
+			color: #de4d5f;
+		}
+		
+		.comment-none, .comment-none * {
+			color: grey;
+		}
+	
+	</style>
+	
+	<template>
+		<div class="comment">
+			<div hidden$="{{ !hasAccessToUpdate }}" class="dropdown">
+				<paper-icon-button style="color: #333;" class="dropdown-trigger pull-right" icon="icons:more-horiz" noink type="button" data-toggle="dropdown"></paper-icon-button>
+				<ul style="margin-right: -20px; margin-top: -4px;" class="dropdown-menu pull-right">
+					<li>
+						<a style="padding: 0; margin: 0;" on-click="openCommentEdit">
+							<paper-item>
+								<paper-icon-item><iron-icon style="margin-right: 8px; width: 20px; height: 20px;" icon="icons:create"></iron-icon></paper-icon-item>
+								<paper-item-body>ટિપ્પણી સુધારો</paper-item-body>
+							</paper-item>
+						</a>
+					</li>
+					<li>
+						<a style="padding: 0; margin: 0;" on-click="_confirmDeleteComment">
+							<paper-item>
+								<paper-icon-item><iron-icon style="margin-right: 8px; width: 20px; height: 20px;" icon="icons:delete"></iron-icon></paper-icon-item>
+								<paper-item-body>ટિપ્પણી હટાવો</paper-item-body>
+							</paper-item>
+						</a>
+					</li>
+				</ul>
+			</div>
+
+			<button hidden$="{{ !showRestoreComment }}" class="pratilipi-grey-button pull-right" on-click="_restoreComment" class="pull-right">
+				<iron-icon style="width: 16px; height: 16px; margin-top: -4px;" icon="icons:restore"></iron-icon>
+				ટિપ્પણી પુનઃસ્થાપિત કરો
+			</button>
+			
+			<div class="user-details">
+				<a href="{{ comment.user.profilePageUrl }}">
+					<img class="img-circle user-dp pratilipi-shadow" src="{{ userProfileImageUrl }}" alt="username" title="username"/>
+				</a>
+				<div style="display: inline-block; margin-left: 16px;">
+					<a class="user-name" href="{{ comment.user.profilePageUrl }}">{{ comment.user.displayName }}</a>
+					<span style="display: block;">{{ lastUpdatedDate }}</span>
+				</div>
+			</div>
+			
+			<div class="comment-text">{{ content }}</div>
+			
+			<div id="comment-like-{{ comment.commentId }}" style="display: inline-block;">
+				<a on-click="likeDislikeComment">
+					<iron-icon style="width: 16px; height: 16px; margin-top: -2px; margin-left: 6px;" icon="icons:thumb-up"></iron-icon>
+				</a>
+				<template is="dom-if" if="{{ showLikeCount }}">
+					<span style="margin-left: 8px; font-size: 15px;">
+						{{ likeCount }}
+					</span>
+				</template>
+			</div>
+			
+			<iron-icon icon="icons:add-circle" style="width: 4px; height: 4px; margin-left: 8px; color: grey;"></iron-icon>
+			
+			<a class="reply-text" style="color: grey; margin-left: 10px;" on-click="writeComment">
+				ટિપ્પણી કરો
+			</a>
+		</div>
+		
+		<div style="display: none; padding: 16px 10px;" class="delete-comment-confirmation">
+			<h5 class="text-center">શું ખરેખર તમે ટિપ્પણી રદ કરવા માંગો છો?</h5>
+			<div class="text-center" style="margin: 16px auto 4px auto;">
+				<button style="margin-right: 4px; padding-left: 16px; padding-right: 16px; outline: none;" class="btn btn-danger" on-click="_deleteComment">હા</button>
+				<button style="margin-left: 4px; padding-left: 22px; padding-right: 22px; outline: none;" class="btn btn-primary" on-click="_cancelDeleteComment">ના</button>
+			</div>
+		</div>
+		
+		<template is="dom-if" if="{{ hasAccessToUpdate }}">
+			<pratilipi-comment-input 	
+					style="display: none;"
+					edit-comment
+					user="{{ comment.user }}" 
+					comment-id="{{ comment.commentId }}" 
+					content="{{ content }}"></pratilipi-comment-input>
+		</template>
+		
+		<iron-ajax
+				id="AjaxPost"
+				url="/api/comment"
+				method="POST"
+				content-type="application/x-www-form-urlencoded"
+				handle-as="json"
+				on-response="_handleAjaxPostResponse"
+				on-error="_handleAjaxPostError"
+				></iron-ajax>
+				
+		<iron-ajax
+				id="LikeDislikePost"
+				url="/api/vote"
+				method="POST"
+				content-type="application/x-www-form-urlencoded"
+				handle-as="json"
+				on-response="_likeDislikePostResponse"
+				on-error="_likeDislikePostError"
+				></iron-ajax>
+
+	</template>
+	
+
+	<script>
+	
+		Polymer({
+
+			is: 'pratilipi-comment',
+			
+			properties: {
+				user: { type: Object },
+				comment: { type: Object, observer: "_commentObserver" },
+				userProfileImageUrl: { type: String, value: "https://0.ptlp.co/author/image?width=36" },
+
+				editComment: { type: Boolean, value: false },
+				deleteComment: { type: Boolean, value: false },
+				restoreComment: { type: Boolean, value: false },
+
+				showRestoreComment: { type: Boolean, value: false },
+
+				likeCount: { type: Number, observer: "_likeCountObserver" },
+				showLikeCount: { type: Boolean, value: false },
+				isLiked: { type: Boolean, observer: "_isLikedObserver" }
+			},
+			
+			_commentObserver: function() {
+				this.lastUpdatedDate = convertDate( this.comment.lastUpdatedMillis != null ? 
+											this.comment.lastUpdatedMillis : this.comment.creationDateMillis );
+				
+				if( this.comment && this.comment.user && this.comment.user.profileImageUrl ) {
+					this.set( 'userProfileImageUrl', this.comment.user.profileImageUrl 
+							+ ( this.comment.user.profileImageUrl.indexOf( "?" ) == -1 ? "?" : "&" ) 
+							+ "width=36" )
+				}
+				
+				
+				this.hasAccessToUpdate = this.comment.hasAccessToUpdate == null ? false : this.comment.hasAccessToUpdate;
+				this.content = this.comment.content;
+				this.likeCount = this.comment.likeCount;
+				this.isLiked = this.comment.isLiked;
+			},
+			
+			_likeCountObserver: function() {
+				this.showLikeCount = this.likeCount != null && this.likeCount > 0;
+			},
+			
+			_isLikedObserver: function() {
+				jQuery( this.querySelector( '#comment-like-' + this.comment.commentId ) ).removeClass( this.isLiked ? "comment-none" : "comment-liked" );
+				jQuery( this.querySelector( '#comment-like-' + this.comment.commentId ) ).addClass( this.isLiked ? "comment-liked" : "comment-none" );
+			},
+			
+			writeComment: function() {
+				this.domHost.writeComment();
+			},
+
+			openCommentEdit: function() {
+				jQuery( this.querySelector( '.comment' ) ).css( 'display', 'none' );
+				jQuery( this.querySelector( 'pratilipi-comment-input' ) ).css( 'display', 'block' );
+			},
+			
+			closeCommentEdit: function() {
+				jQuery( this.querySelector( 'pratilipi-comment-input' ) ).css( 'display', 'none' );
+				jQuery( this.querySelector( '.comment' ) ).css( 'display', 'block' );
+			},
+			
+			editExistingComment: function( content ) {
+				if( this.editComment )
+					return;
+				this.editComment = true;
+				var body = {
+					commentId: this.comment.commentId,
+					content: content
+				};
+				this.$.AjaxPost.body = jQuery.param( body );
+				this.$.AjaxPost.generateRequest();
+			},
+			
+			_confirmDeleteComment: function() {
+				var height = jQuery( this.querySelector( '.comment' ) ).height() + 24; // 12px padding top and bottom
+				jQuery( this.querySelector( '.comment' ) ).css( 'display', 'none', 'important' );
+				jQuery( this.querySelector( '.delete-comment-confirmation' ) ).css( 'display', 'block', 'important' );
+				jQuery( this.querySelector( '.delete-comment-confirmation' ) ).css( 'min-height', height );
+				
+			},
+			
+			_cancelDeleteComment: function() {
+				jQuery( this.querySelector( '.delete-comment-confirmation' ) ).css( 'display', 'none', 'important' );
+				jQuery( this.querySelector( '.comment' ) ).css( 'display', 'block', 'important' );
+			},
+			
+			_deleteComment: function() {
+				if( this.deleteComment )
+					return;
+				this.deleteComment = true;
+				var body = {
+					commentId: this.comment.commentId,
+					state: "DELETED"
+				};
+				this.$.AjaxPost.body = jQuery.param( body );
+				this.$.AjaxPost.generateRequest();
+			},
+			
+			_restoreComment: function() {
+				if( this.restoreComment )
+					return;
+				this.restoreComment = true;
+				var body = {
+					commentId: this.comment.commentId,
+					state: "ACTIVE"
+				};
+				this.$.AjaxPost.body = jQuery.param( body );
+				this.$.AjaxPost.generateRequest();
+			},
+			
+			_handleAjaxPostResponse: function( event ) {
+				var comment = event.detail.response;
+
+				if( this.editComment ) {
+					this.editComment = false;
+					this.set( 'comment', comment );
+					this.closeCommentEdit();
+				} else if( this.deleteComment ) {
+					this.deleteComment = false;
+					
+					
+					this.set( 'comment', comment );
+					jQuery( this.querySelector( '.comment' ) ).css( 'display', 'none' );
+					this.domHost.decrementCommentCount();
+					this.async( function() { this.domHost.deleteCommentFromList( comment ); });
+				} else if( this.restoreComment ) {
+					this.restoreComment = false;
+					// Active comment
+					jQuery( this.querySelector( '.comment' ) ).css( 'color', 'inherit', 'important' );
+					jQuery( this.querySelector( '.comment' ) ).css( 'background-color', 'inherit', 'important' );
+					// Disable restoring the comment
+					this.showRestoreComment = false;
+					this.set( 'comment', comment );
+					this.domHost.incrementCommentCount();
+				}
+			},
+			
+			_handleAjaxPostError: function( event ) {
+				if( event.detail.request.xhr.response.message != null )
+					document.querySelector( 'pratilipi-alert' ).alert( event.detail.request.xhr.response.message, false );
+				else
+					document.querySelector( 'pratilipi-alert' ).alert( "Some error occurred! Please try again!", false );
+			},
+			
+			likeDislikeComment: function( event ) {
+				
+				if( this.user.isGuest ) {
+					document.querySelector( 'pratilipi-user' ).logIn( true );
+					return;
+				}
+				
+				if( this.isLiked ) {
+					this.isLiked = false;
+					this.likeCount --;
+				} else {
+					this.isLiked = true;
+					this.likeCount ++;
+				}
+				
+				// When called from _handleAjaxPostError
+				if( event == null )
+					return;
+				
+				// Make Ajax call
+				var body = {
+						parentType: "COMMENT",
+						parentId: this.comment.commentId,
+						type: this.isLiked ? "LIKE" : "NONE"
+				};
+				this.$.LikeDislikePost.body = jQuery.param( body );
+				this.$.LikeDislikePost.generateRequest();
+			},
+			
+			_likeDislikePostResponse: function( event ) {
+				if( event.detail.xhr.status == 0 ) {
+					document.querySelector( 'pratilipi-alert' ).alert( "સર્વરથી જોડાવામાં અસફળ!", false );
+					this._handleAjaxPostError();
+					return;
+				}
+			},
+			
+			_likeDislikePostError: function( event ) {
+				if( event != null && event.detail.request.xhr.response.message != null )
+					document.querySelector( 'pratilipi-alert' ).alert( event.detail.request.xhr.response.message, false );
+				else
+					document.querySelector( 'pratilipi-alert' ).alert( "ટેકનીકલ ખામી હોવાથી ફરી પ્રયત્ન કરો", false );
+				
+				// Reverting it
+				this.likeDislikeComment();
+			},
+
+		});
+		
+	</script>
+
+</dom-module>

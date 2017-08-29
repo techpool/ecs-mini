@@ -1,0 +1,382 @@
+<dom-module id="pratilipi-write">
+
+	<style>
+	
+		:host {
+			display: block;
+		}
+		
+		textarea {
+			display: block;
+			width: 100%;
+		}
+		
+		paper-dropdown-menu {
+			width: 100%;
+			--paper-dropdown-menu-focus-color: #333;
+			--paper-dropdown-menu-input-color: #333;
+			--primary-text-color: #333;
+			--paper-input-container: {
+				color: #333;
+			};
+			--paper-input-container-input: {
+				font-family: inherit;
+				color: #333;
+			};
+			--paper-input-container-underline: {
+				background: #333;
+				color: #333;
+			};
+			--paper-input-container-label: {
+				font-size: 15px;
+				font-family: inherit;
+				text-align: left;
+				color: #333;
+			};
+			--paper-input-container-focus:{
+				color: #333;
+			};
+		}
+		
+		paper-menu {
+			--paper-menu-color: #333;
+			width: 100%;
+			--paper-menu-focused-item: {
+				color: #333;
+			};
+			--paper-item-focused-before: {
+				color: #333;
+				background: #fff;
+			};
+		}
+		
+		paper-menu paper-item {
+			font-size: 15px;
+			font-family: inherit;
+			color: #333;
+			white-space: nowrap;
+		}
+		
+		#pratilipiWriteButton {
+			color: #fff;
+			border: 1px solid #d3d3d3;
+			background: #d0021b;
+			outline: none;
+			padding: 6px 12px;
+			font-weight: normal;
+		}
+		
+		.row {padding-left: 10px;padding-right: 10px;}
+		.modal-content {border-radius: 0;}
+		.pull-center {display:block;margin-left:auto;margin-right:auto;text-align:center;}
+		
+		paper-checkbox.pratilipi-red {
+			align-self: center;
+			--paper-checkbox-checked-color: #d0021b;
+			--paper-checkbox-checked-ink-color: #333;
+			--paper-checkbox-unchecked-color: #333;
+			--paper-checkbox-unchecked-ink-color: #333;
+			--paper-checkbox-label-color: #333;
+			--paper-checkbox-label-spacing: 0;
+			--paper-checkbox-margin: 0 8px 8px 0;
+			--paper-checkbox-vertical-align: top;
+		}
+		input {
+			border: none;
+			box-shadow: none !important;
+			border-bottom: 1px solid black;
+			border-radius: 0px;
+			width: 100%;
+			outline: none;
+			margin-top: 20px;
+		}
+	</style>
+	
+
+	<template>
+		<div class="modal fade" id="pratilipiWrite" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button style="opacity: 1; outline: none;" type="button" class="close" data-dismiss="modal" aria-label="Close"><iron-icon style="color: #333;" icon="icons:close"></iron-icon></button>
+						<h6 style="min-height: 20px; line-height: 20px;" class="modal-title">
+							<template is="dom-if" if="{{ createPratilipi }}">शिर्षक जोडा</template>
+							<template is="dom-if" if="{{ editPratilipi }}">संबंधित माहिती संपादित करा</template>
+						</h6>
+					</div>
+					<div class="modal-body" style="padding-bottom: 0px;">
+						<div class="row">
+							<div hidden$="{{ editPratilipi }}" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+								<paper-dropdown-menu id="selectPratilipiLanguage" on-click="_languageChanged" noink label="भाषा ज्यात आपण लिहीत आहात *" vertical-align="top" horizontal-align="right">
+									<paper-menu noink class="dropdown-content" selected="[[ selectedLanguage ]]" style="white-space: nowrap; width: auto;">
+										<paper-item value="BENGALI">{{ languageMap.BENGALI }}</paper-item>
+										<paper-item value="MARATHI">{{ languageMap.MARATHI }}</paper-item>
+										<paper-item value="HINDI">{{ languageMap.HINDI }}</paper-item>
+										<paper-item value="GUJARATI">{{ languageMap.GUJARATI }}</paper-item>
+										<paper-item value="TAMIL">{{ languageMap.TAMIL }}</paper-item>
+										<paper-item value="MALAYALAM">{{ languageMap.MALAYALAM }}</paper-item>
+										<paper-item value="TELUGU">{{ languageMap.TELUGU }}</paper-item>
+										<paper-item value="KANNADA">{{ languageMap.KANNADA }}</paper-item>
+									</paper-menu>
+								</paper-dropdown-menu>
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+								<input name="pratilipiInputTransliterable" id="titleInput" placeholder="इथे शिर्षक लिहा *" value="{{ title::input }}">
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+								<input id="titleInputEn" placeholder="शिर्षकाला पुन्हा इंग्रजीत लिहा" value="{{ titleEn::input }}">
+							</div>
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+								<paper-dropdown-menu id="selectPratilipiType" noink label="श्रेणी निवडा *" vertical-align="bottom" horizontal-align="right">
+									<paper-menu noink class="dropdown-content" selected="[[ selectedType ]]" style="white-space: nowrap; width: auto;">
+										<paper-item value="BOOK">{{ pratilipiTypes.BOOK.name }}</paper-item>
+										<paper-item value="POEM">{{ pratilipiTypes.POEM.name }}</paper-item>
+										<paper-item value="STORY">{{ pratilipiTypes.STORY.name }}</paper-item>
+										<paper-item value="ARTICLE">{{ pratilipiTypes.ARTICLE.name }}</paper-item>
+										<paper-item value="MAGAZINE">{{ pratilipiTypes.MAGAZINE.name }}</paper-item>
+									</paper-menu>
+								</paper-dropdown-menu>
+							</div>
+						</div>
+						<template is="dom-if" if="{{ createPratilipi }}">
+							<div style="padding: 16px 0 16px 16px;">
+								<paper-checkbox checked="{{ acceptedTerms }}" class="pratilipi-red" noink>मी कॉपीराइट धोरण आणि सेवा अटी स्विकारत आहे</paper-checkbox>
+								<br/>
+								<a target="_blank" style="color: #333; text-decoration: underline;" href="/terms-of-service">कॉपीराईट पॉलिसी इथे वाचा</a>
+							</div>
+						</template>
+						<div class="display-message-div pratilipi-red"><p>{{ message }}</p></div>
+					</div>
+					<div class="modal-footer" style="border: none; padding-top: 0px;">
+						<button id="pratilipiWriteButton" type="button" on-click="onSubmit">
+							<template is="dom-if" if="{{ createPratilipi }}">पुढे</template>
+							<template is="dom-if" if="{{ editPratilipi }}">बदल जतन करा</template>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<iron-ajax
+				id="AjaxPost"
+				url="/api/pratilipi?_apiVer=2"
+				method="POST"
+				content-type="application/x-www-form-urlencoded"
+				handle-as="json"
+				on-response="_handleAjaxPostResponse"
+				on-error="_handleAjaxPostError"
+				></iron-ajax>
+	</template>
+	
+	<script>
+		Polymer({
+
+ 			is: 'pratilipi-write',
+ 			
+			properties: {
+				authorId: { type: String },
+
+				pratilipiId: { type: String },
+				title: { type: String },
+				titleEn: { type: String },
+ 				type: { type: String, observer: "_typeObserver" },
+ 				language: { type: String, observer: "_languageObserver" },
+ 				state: { type: String },
+
+ 				createPratilipi: { type: Boolean },
+ 				editPratilipi: { type: Boolean },
+				pratilipiTypes: { types: Object },
+				languageMap: { type: Object },
+				selectedType: { type: Number },
+				selectedLanguage: { type: Number },
+				acceptedTerms: { type: Boolean, value: false },
+ 				message: { type: String }
+			},
+			
+			attached: function() {
+				this.pratilipiTypes = jQuery.parseJSON( this.pratilipiTypes );
+			},
+			
+			createNewPratilipi: function( authorId ) {
+				this.set( 'createPratilipi', true );
+				this.set( 'editPratilipi', false );
+				this.set( 'authorId', authorId );
+				this.process( {} );
+				
+			},
+			
+			editExistingPratilipi: function( pratilipi ) {
+				this.set( 'editPratilipi', true );
+				this.set( 'createPratilipi', false );
+				this.set( 'authorId', null );
+				this.process( pratilipi );
+			},
+			
+			process: function( pratilipi ) {
+				this.set( 'message' , null );
+				this.set( 'pratilipiId', pratilipi.pratilipiId == null ? null : pratilipi.pratilipiId );
+				this.set( 'title', pratilipi.title == null ? null : pratilipi.title );
+				this.set( 'titleEn', pratilipi.titleEn == null ? null : pratilipi.titleEn );
+				this.set( 'state', pratilipi.state == null ? "DRAFTED" : pratilipi.state );
+				this.set( 'language', pratilipi.language == null ? "MARATHI" : pratilipi.language );
+				this.set( 'type', pratilipi.type == null ? null : pratilipi.type );
+				this.async( function() { jQuery( "#pratilipiWrite" ).modal(); });
+			},
+
+			_typeObserver: function() {
+				if( this.type != null ) {
+					if( this.type == "BOOK" )
+						this.set( 'selectedType', 0 );
+					else if( this.type == "POEM" )
+						this.set( 'selectedType', 1 );
+					else if( this.type == "STORY" )
+						this.set( 'selectedType', 2 );
+					else if( this.type == "ARTICLE" )
+						this.set( 'selectedType', 3 );
+					else if( this.type == "MAGAZINE" )
+						this.set( 'selectedType', 4 );
+				} else {
+					this.set( 'selectedType', null );
+				}
+			},
+
+			_languageObserver: function() {
+				var languageVernacular = {
+						"HINDI" : this.languageMap[ "HINDI" ],
+						"GUJARATI" : this.languageMap[ "GUJARATI" ],
+						"TAMIL" : this.languageMap[ "TAMIL" ],
+						"MARATHI" : this.languageMap[ "MARATHI" ],
+						"MALAYALAM" : this.languageMap[ "MALAYALAM" ],
+						"BENGALI" : this.languageMap[ "BENGALI" ],
+						"TELUGU" : this.languageMap[ "TELUGU" ],
+						"KANNADA" : this.languageMap[ "KANNADA" ]
+					};
+				this.set( 'languageVernacular', languageVernacular[ this.language ] );
+
+				if( this.language != null ) {
+					if( this.language == "BENGALI" ) this.set( 'selectedLanguage', 0 );
+					else if( this.language == "MARATHI" ) this.set( 'selectedLanguage', 1 );
+					else if( this.language == "HINDI" ) this.set( 'selectedLanguage', 2 );
+					else if( this.language == "GUJARATI" ) this.set( 'selectedLanguage', 3 );
+					else if( this.language == "TAMIL" ) this.set( 'selectedLanguage', 4 );
+					else if( this.language == "MALAYALAM" ) this.set( 'selectedLanguage', 5 );
+					else if( this.language == "TELUGU" ) this.set( 'selectedLanguage', 6 );
+					else if( this.language == "KANNADA" ) this.set( 'selectedLanguage', 7 );
+				} else {
+					this.set( 'selectedLanguage', null );
+				}
+			},
+
+			_languageChanged: function() {
+				if( this.editPratilipi ) return;
+				if( this.$.selectPratilipiLanguage.selectedItem == null ) return;
+				var language = this.$.selectPratilipiLanguage.selectedItem.getAttribute( "value" );
+				if( language == "MARATHI" ) return;
+				window.location = "https://" + language.toLowerCase() + ".pratilipi.com/?action=start_writing";
+			},
+
+			clearAndClose: function() {
+				this.set( 'message', null );
+				this.set( 'authorId', null );
+				this.set( 'title', null );
+				this.set( 'titleEn', null );
+				this.set( 'type', null );
+				this.set( 'state', null );
+				this.set( 'createPratilipi', false );
+				this.set( 'editPratilipi', false );
+ 				jQuery( "#pratilipiWrite" ).modal( 'hide' );
+			},
+
+			onSubmit: function( event ) {
+
+				var title = this.$.titleInput.value;
+
+				if( title == null || title.trim() == "" ) {
+					this.message = "कृपया शिर्षक लिहा";
+					return;
+				}
+
+				this.type = this.$.selectPratilipiType.selectedItem != null ? this.$.selectPratilipiType.selectedItem.getAttribute( "value" ) : null;
+				if( this.type == null ) {
+					this.message = "कृपया  श्रेणी निवडा";
+					return;
+				}
+
+				this.language = this.$.selectPratilipiLanguage.selectedItem != null ? this.$.selectPratilipiLanguage.selectedItem.getAttribute( "value" ) : null;
+				if( this.createPratilipi && this.language != "MARATHI" ) {
+					window.location = "https://" + language.toLowerCase() + ".pratilipi.com";
+					return;
+				}
+
+				if( this.createPratilipi && !this.acceptedTerms ) {
+					this.message = "कृपया कॉपीराइट धोरण आणि सेवा अटी स्वीकार करा";
+					return;
+				}
+
+				this.message = "कृपया प्रतीक्षा करा";
+
+				var body = {
+						title: title,
+						type: this.type,
+						state: this.state
+				};
+
+				if( this.pratilipiId != null )
+					body.pratilipiId = this.pratilipiId;
+
+				if( this.titleEn != null )
+					body.titleEn = this.titleEn;
+
+				if( this.authorId != null )
+					body.authorId = this.authorId;
+
+				if( this.createPratilipi ) {
+					body.oldContent = false;
+					body.language = "MARATHI";
+				}				
+
+				jQuery( '#pratilipiWriteButton' ).prop( 'disabled', true );
+
+				this.$.AjaxPost.body = jQuery.param( body );
+				this.$.AjaxPost.generateRequest();
+				ga_CA( 'Pratilipi', 'Create' );
+			},
+
+			_handleAjaxPostResponse: function( event ) {
+
+				var pratilipi = event.detail.response;
+
+				if( this.createPratilipi )
+					this.message = "प्रकाशन काम यशस्वी";
+				else if( this.editPratilipi ) 
+					this.message = "संपादित माहिती निर्मिती यशस्वी आहे";
+
+				jQuery( '#pratilipiWriteButton' ).prop( 'disabled', false );
+
+				if( this.createPratilipi ) {
+					// Redirect to writer with return option to pratilipi page
+					this.async( function() {
+						this.clearAndClose();
+						window.location.href = pratilipi.writePageUrl;
+					}, 1000 );
+				} else if( this.editPratilipi ) {
+					document.querySelector( 'pratilipi-pratilipi' ).updatePratilipi( pratilipi );
+					this.async( function() {
+						this.clearAndClose();
+					}, 1000 );
+				}
+			},
+
+			_handleAjaxPostError: function( event ) {
+				jQuery( '#pratilipiWriteButton' ).prop( 'disabled', false );
+				if( event.detail.request.xhr.status === 400 || event.detail.request.xhr.status === 401 || event.detail.request.xhr.status === 500 && event.detail.request.xhr.response.message != null )
+					this.message = event.detail.request.xhr.response.message;
+				else
+					this.message = "तांत्रिक अडचण आढळली आहे, कृपया पुन्हा प्रयत्न करा!"
+			}
+ 			
+		});
+
+	</script>
+	
+</dom-module>

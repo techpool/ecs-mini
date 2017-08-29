@@ -1,0 +1,19 @@
+విభాగాలు
+/love             ప్రేమ               Analytics#categoryName::romance     App#imageName::event_romance.jpg            App#PratilipiList::{ "language":"TELUGU", "state":"PUBLISHED", "listName":"love" }
+/ministories      మినీకథలు          Analytics#categoryName::two-min        App#imageName::shortstories.jpg         App#PratilipiList::{ "language":"TELUGU", "state":"PUBLISHED", "listName":"ministories" }
+/women            మహిళ               Analytics#categoryName::women     App#imageName::women.jpg              App#PratilipiList::{ "language":"TELUGU", "state":"PUBLISHED", "listName":"women" }
+/life             జీవితం             Analytics#categoryName::life        App#imageName::life.jpg                App#PratilipiList::{ "language":"TELUGU", "state":"PUBLISHED", "listName":"life" }
+/social           సామాజికం          Analytics#categoryName::social        App#imageName::social.jpg             App#PratilipiList::{ "language":"TELUGU", "state":"PUBLISHED", "listName":"social" }     
+/children         బాల సాహిత్యం       Analytics#categoryName::children     App#imageName::children.jpg            App#PratilipiList::{ "language":"TELUGU", "state":"PUBLISHED", "listName":"children" }
+/teluguculture    తెలుగు సంస్కృతి     Analytics#categoryName::culture      App#imageName::culture.jpg             App#PratilipiList::{ "language":"TELUGU", "state":"PUBLISHED", "listName":"teluguculture" }
+/spiritual        ఆధ్యాత్మికం          Analytics#categoryName::spiritual   App#imageName::event_spirituality.jpg   App#PratilipiList::{ "language":"TELUGU", "state":"PUBLISHED", "listName":"spiritual" }
+/stories          కథలు              Analytics#categoryName::stories        App#imageName::event_generic3.jpg    App#PratilipiList::{ "language":"TELUGU", "state":"PUBLISHED", "listName":"stories" }
+/nonfiction       నాన్ - ఫిక్షన్       Analytics#categoryName::articles     App#imageName::classic.jpg            App#PratilipiList::{ "language":"TELUGU", "state":"PUBLISHED", "listName":"nonfiction" }
+/poems   కవితలు               Analytics#categoryName::poetry        App#imageName::poems.jpg               App#PratilipiList::{ "language":"TELUGU", "state":"PUBLISHED", "listName":"poems" }
+
+విషయసూచిక
+/mostread         పాఠకులకు ప్రత్యేకం       Analytics#categoryName::most-read        App#imageName::mostpopular.jpg          App#PratilipiList::{ "language":"TELUGU", "state":"PUBLISHED", "listName":"mostread" }
+/new              కొత్త రచనలు             Analytics#categoryName::newly-published  App#imageName::newpublished.jpg          App#PratilipiList::{ "language":"TELUGU", "state":"PUBLISHED", "listName":"new" }
+/fivemin          అయిదు నిమిషాల కథలు  Analytics#categoryName::short-stories   App#imageName::5minread.jpg            App#PratilipiList::{ "language":"TELUGU", "state":"PUBLISHED", "listName":"fivemin" }
+/events           పోటీలు                 Analytics#categoryName::online-events     App#imageName::events.jpg               App#EventList::{ "language":"TELUGU" }
+/blog             బ్లాగు                   Analytics#categoryName::blogs     App#imageName::blog.jpg                   App#BlogPostList::{ "language":"TELUGU", "blogId":5683739602452480 }

@@ -1,0 +1,49 @@
+<ul class="pratilipi-notification-list">
+	<!-- ko foreach: { data: notificationList, as: 'notification' } -->
+		<!--ko if: notification.message && notification.message() -->
+			<li class="mdl-menu__item"
+				data-bind="css: { 'notif-unread': ( notification.state() == 'UNREAD' ) }">
+				<span class="notification-message">
+					<a onclick="ga_CA( 'Notification', 'Open' )"
+						data-bind="attr: { 'href': notification.sourceUrl() }, click: $parent.markNotificationRead">
+						<span style="display: flex;">
+							<span class="notification-display-image">
+								<img class="img-circle" data-bind="attr: { src: getImageUrl( notification.displayImageUrl(), 48 ) }" />
+							</span>
+							<span class="notification-message-holder">
+								<span class="font-s" data-bind="html: notification.message()"></span>
+								<br/>
+								<span class="notification-meta">
+									<span class="text-muted font-xs" data-bind="text: convertDate( notification.lastUpdatedMillis() )"></span>
+								</span>
+							</span>
+							<span class="notification-source-image" data-bind="if: notification.sourceImageUrl && notification.sourceImageUrl()">
+								<img data-bind="attr: { src: getImageUrl( notification.sourceImageUrl(), 48 ) }" />
+							</span>
+						</span>
+					</a>
+				</span>
+			</li>
+		<!--/ko-->
+	<!--/ko-->
+	<li class="mdl-menu__item show-more" data-bind="visible: hasMoreContents() && loadingState() != 'LOADING'">
+		<button onclick="ga_CA( 'Notification', 'Load More' )"
+				data-bind="click: fetchNotificationList"
+				class="mdl-button mdl-js-button">${ _strings.view_more }</button>
+	</li>
+</ul>
+<div data-bind="visible: loadingState() == 'LOADING'"
+		class="spinner-holder">
+	<span data-bind="visible: notificationList().length > 0 || ! notificationsPageBehaviour"
+	      class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></span>
+	<pratilipi-loading-state data-bind="visible: notificationList().length == 0 && notificationsPageBehaviour"></pratilipi-loading-state>
+</div>
+<div style="margin: 25px 15px;" class="text-center" data-bind="visible: loadingState() == 'LOADED_EMPTY'">
+	<div data-bind="visible: notificationsPageBehaviour" style="width: 200px; height: 200px; margin: auto;" class="empty-notifications-icon"></div>
+	${ _strings.notifications_no_notifications }
+</div>
+<div style="margin: 25px 15px;" data-bind="visible: loadingState() == 'FAILED'">
+	<a style="cursor: pointer; color: #555;" data-bind="click: fetchNotificationList">
+		${ _strings.notifications_load_failed }
+	</a> 
+</div>

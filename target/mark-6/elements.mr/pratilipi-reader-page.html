@@ -1,0 +1,1419 @@
+<dom-module id="pratilipi-reader-header">
+	
+	<style>
+		paper-card {
+			height: 54px;
+			width: 100%;
+			opacity: 0.96;
+			padding: 4px 12px;
+			--paper-card-header: { display: none };
+		}
+		.container, .container div {
+			display: inline-block;
+		}
+		paper-icon-button {
+			width: 45px;
+			height: 45px;
+		}
+		paper-item {
+			font-size: 12px;
+			font-family: inherit;
+		}
+		.dropdown-menu {
+			margin-top: 13px;
+			min-width: 210px;
+		}
+		.open paper-icon-button:after {
+			top: 34px;
+			left: 50%;
+			border: solid transparent;
+			content: " ";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+			border-color: rgba(194, 225, 245, 0);
+			border-bottom-color: #d3d3d3;
+			border-width: 8px;
+			margin-left: -8px;
+		}
+		paper-icon-button {
+			color: #333;
+		}
+		.social-share .icon {
+			float: left;
+			margin-right: 4px;
+		}
+		paper-fab.reading-mode {
+			display: inline-block;
+			width: 30px;
+			height: 30px;
+			padding: 2px;
+			margin-top: 6px;
+			margin-right: 8px;
+			--paper-fab-iron-icon: {
+				width: 20px;
+				height: 20px;
+			} 
+		}
+	</style>
+
+	<template>
+		<paper-card id="reader-header">
+			<table style="min-width: 100%;">
+				<tr>
+
+					<td align="left">
+						<!-- Back Button -->
+						<paper-icon-button noink icon="icons:arrow-back" on-click="exitReader"></paper-icon-button>
+						<!-- Pratilipi Logo -->
+						<!-- <img style="max-width: 48px; position: relative;" title="प्रतिलिपि" alt="प्रतिलिपि" src="http://public.pratilipi.com/pratilipi-logo/png/Logo-2C-RGB-80px.png" /> -->
+						
+						<!-- Index Button if content has Index -->
+						<template is="dom-if" if="{{ !hideIndexButton }}">
+							<div class="dropdown" style="display: inline-block;">
+								<paper-icon-button icon="icons:list" data-toggle="dropdown"></paper-icon-button>
+								<ul	id="navigationdropdown"
+									class="dropdown-menu"
+									style="overflow-y: scroll; left: -56px;">
+									<template is="dom-repeat" items="{{ index }}" as="entry">
+										<li>
+											<a style="padding: 5px; margin: 0; white-space: normal;" on-click="_entryClicked">
+												<pratilipi-reader-navigation-entry 
+													entry="{{ entry }}" 
+													page-no="{{ pageNo }}"></pratilipi-reader-navigation-entry>
+											</a>
+										</li>
+									</template>
+								</ul>
+							</div>
+						</template>
+					</td>
+					
+					<td align="right">
+						
+						<!-- Increase and Decrease size buttons -->
+						<!-- In case of PRATILIPI contentType -->
+						<template is="dom-if" if="{{ pratilipiContentType }}">
+							<div class="dropdown" style="display: inline-block;">
+								<paper-icon-button noink icon="editor:format-size" data-toggle="dropdown"></paper-icon-button>
+								<ul class="dropdown-menu pull-right" style="right: -147px;">
+									<li>
+										<a style="padding: 5px; margin: 0;">
+											<paper-item on-click="increaseFontSize">
+												<paper-icon-item><iron-icon icon="icons:add"></iron-icon></paper-icon-item>
+												&nbsp;&nbsp;
+												<paper-item-body>फॉन्ट आकार वाढवा</paper-item-body>
+											</paper-item>
+										</a>
+									</li>
+									<li>
+										<a style="padding: 5px; margin: 0;">
+											<paper-item on-click="decreaseFontSize">
+												<paper-icon-item><iron-icon icon="icons:remove"></iron-icon></paper-icon-item>
+												&nbsp;&nbsp;
+												<paper-item-body>फॉन्ट आकार कमी करा</paper-item-body>
+											</paper-item>
+										</a>
+									</li>
+									<li>
+										<a style="padding: 5px; margin: 0;">
+											<paper-item style="padding: 8px;">
+												<paper-item-body>
+													<div style="font-size: 13px;">पार्श्वभूमी</div>
+													<div class="text-center">
+														<paper-fab mini noink 
+																	class="reading-mode" 
+																	style="background-color: #FFF; color: #333;" 
+																	icon="editor:format-color-text" 
+																	on-click="normalReadingMode"></paper-fab>
+														<paper-fab mini noink 
+																	class="reading-mode" 
+																	style="background-color: #222; color: #FFF;" 
+																	icon="editor:format-color-text" 
+																	on-click="nightReadingMode"></paper-fab>
+														<paper-fab mini noink 
+																	class="reading-mode" 
+																	style="background-color: #F4ECD8; color: #181715;" 
+																	icon="editor:format-color-text" 
+																	on-click="sepiaReadingMode"></paper-fab>
+													</div>
+												</paper-item-body>
+											</paper-item>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</template>
+
+						<!-- In case of IMAGE contentType -->
+						<template is="dom-if" if="{{ imageContentType }}">
+							<div class="dropdown" style="display: inline-block;">
+								<paper-icon-button noink icon="icons:aspect-ratio" data-toggle="dropdown"></paper-icon-button>
+								<ul class="dropdown-menu pull-right" style="right: -147px;">
+									<li>
+										<a style="padding: 5px; margin: 0;">
+											<paper-item on-click="increaseImageSize">
+												<paper-icon-item><iron-icon icon="icons:add"></iron-icon></paper-icon-item>
+												&nbsp;&nbsp;
+												<paper-item-body>प्रतिमा आकार वाढवा</paper-item-body>
+											</paper-item>
+										</a>
+									</li>
+									<li>
+										<a style="padding: 5px; margin: 0;">
+											<paper-item on-click="decreaseImageSize">
+												<paper-icon-item><iron-icon icon="icons:remove"></iron-icon></paper-icon-item>
+												&nbsp;&nbsp;
+												<paper-item-body>प्रतिमा आकार घटवा</paper-item-body>
+											</paper-item>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</template>
+						
+						<!-- Library Section -->
+						<div class="dropdown" style="display: inline-block;">
+							<paper-icon-button noink icon="av:library-books" data-toggle="dropdown"></paper-icon-button>
+							<ul class="dropdown-menu pull-right" style="right: -98px;">
+								<template is="dom-if" if="{{ canAddToLibrary }}">
+									<template is="dom-if" if="{{ !addedToLib }}">
+										<li>
+											<a style="padding: 5px; margin: 0;">
+												<paper-item on-click="addToLibrary">
+													<paper-icon-item><iron-icon icon="av:library-add"></iron-icon></paper-icon-item>
+													&nbsp;&nbsp;
+													<paper-item-body>संग्रहाला जोडा</paper-item-body>
+												</paper-item>
+											</a>
+										</li>
+									</template>
+									<template is="dom-if" if="{{ addedToLib }}">
+										<li>
+											<a style="padding: 5px; margin: 0;">
+												<paper-item on-click="removeFromLibrary">
+													<paper-icon-item><iron-icon icon="icons:remove-circle"></iron-icon></paper-icon-item>
+													&nbsp;&nbsp;
+													<paper-item-body>संग्रहाला हटवा</paper-item-body>
+												</paper-item>
+											</a>
+										</li>
+									</template>
+								</template>
+								<li>
+									<a style="padding: 5px; margin: 0;">
+										<paper-item on-click="goToLibrary">
+											<paper-icon-item><iron-icon icon="maps:local-library"></iron-icon></paper-icon-item>
+											&nbsp;&nbsp;
+											<paper-item-body>माझा संग्रह</paper-item-body>
+										</paper-item>
+									</a>
+								</li>
+							</ul>
+						</div>
+						
+						<!-- Share widget -->
+						<div hidden$="{{ ! canShare }}" class="dropdown social-share" style="display: inline-block;">
+							<paper-icon-button noink icon="social:share" data-toggle="dropdown"></paper-icon-button>
+							<ul class="dropdown-menu pull-right" style="right: -49px;">
+								<li>
+									<a style="padding: 5px; margin: 0;">
+										<paper-item on-click="shareOnFacebook">
+											<paper-icon-item><span class="icon icon-facebook"></span></paper-icon-item>
+											&nbsp;&nbsp;
+											<paper-item-body>फेसबुक वर शेयर करा</paper-item-body>
+										</paper-item>
+									</a>
+								</li>
+								<li>
+									<a style="padding: 5px; margin: 0;">
+										<paper-item on-click="shareOnTwitter">
+											<paper-icon-item><span class="icon icon-twitter"></span></paper-icon-item>
+											&nbsp;&nbsp;
+											<paper-item-body>ट्वीटर वर शेयर करा</paper-item-body>
+										</paper-item>
+									</a>
+								</li>
+								<li>
+									<a style="padding: 5px; margin: 0;">
+										<paper-item on-click="shareOnGplus">
+											<paper-icon-item><span class="icon icon-google-plus"></span></paper-icon-item>
+											&nbsp;&nbsp;
+											<paper-item-body>गूगल + वर शेयर करा</paper-item-body>
+										</paper-item>
+									</a>
+								</li>
+							</ul>
+						</div>
+						
+						<!-- Menu button -->
+						<div class="dropdown" style="display: inline-block;">
+							<paper-icon-button noink icon="icons:more-vert" data-toggle="dropdown"></paper-icon-button>
+							<ul class="dropdown-menu pull-right" style="width: 300px;">
+								<li>
+									<paper-item style="padding: 5px 15px; margin: 0; display: block; white-space: normal;">
+										<h6 class="pratilipi-red text-center" style="text-align: center; white-space: normal; line-height: 1.6em;">{{ title }}</h6>
+									</paper-item>
+								</li>
+								<template is="dom-if" if="{{ canReview }}">
+									<li>
+										<a style="padding: 5px; margin: 0;">
+											<paper-item on-click=writeReview>
+												<paper-icon-item><iron-icon icon="icons:create"></iron-icon></paper-icon-item>
+												&nbsp;&nbsp;
+												<paper-item-body>एक टिप्पणी लिहा</paper-item-body>
+											</paper-item>
+										</a>
+									</li>
+								</template>
+								<template is="dom-if" if="{{ canEditContent }}">
+									<li>
+										<a style="padding: 5px; margin: 0;">
+											<paper-item on-click="redirectToWriterPanel">
+												<paper-icon-item><iron-icon icon="icons:create"></iron-icon></paper-icon-item>
+												&nbsp;&nbsp;
+												<paper-item-body>साहित्य संपादित करा</paper-item-body>
+											</paper-item>
+										</a>
+									</li>
+								</template>
+								<li>
+									<a style="padding: 5px; margin: 0;" href="{{ pratilipi.pageUrl }}">
+										<paper-item>
+											<paper-icon-item><iron-icon icon="icons:chrome-reader-mode"></iron-icon></paper-icon-item>
+											&nbsp;&nbsp;
+											<paper-item-body>साहित्याच्या सामग्री पुष्ठावर जा</paper-item-body>
+										</paper-item>
+									</a>
+								</li>
+								<li>
+									<a style="padding: 5px; margin: 0;" href="{{ pratilipi.author.pageUrl }}">
+										<paper-item>
+											<paper-icon-item><iron-icon icon="icons:account-box"></iron-icon></paper-icon-item>
+											&nbsp;&nbsp;
+											<paper-item-body>लेखकाच्या पुष्ठावर जा</paper-item-body>
+										</paper-item>
+									</a>
+								</li>
+								<li>
+									<a style="padding: 5px; margin: 0;" href="/">
+										<paper-item>
+											<paper-icon-item><iron-icon icon="icons:home"></iron-icon></paper-icon-item>
+											&nbsp;&nbsp;
+											<paper-item-body>मुखपुष्ठावर जा</paper-item-body>
+										</paper-item>
+									</a>
+								</li>
+								<template is="dom-if" if="{{ switchReaderOptions }}">
+									<template is="dom-if" if="{{ isVersion2 }}">
+										<li>
+											<a style="padding: 5px; margin: 0;" target="_blank" href="/read?id={{ pratilipi.pratilipiId }}&_apiVer=1">
+												<paper-item>
+													<paper-item-body>Go To Old Reader</paper-item-body>
+												</paper-item>
+											</a>
+										</li>
+										<li>
+											<a style="padding: 5px; margin: 0;" on-click="finaliseV2Version">
+												<paper-item>
+													<paper-item-body>Everything seems Okay!</paper-item-body>
+												</paper-item>
+											</a>
+										</li>
+									</template>
+									<template is="dom-if" if="{{ isVersion1 }}">
+										<li>
+											<a style="padding: 5px; margin: 0;" target="_blank" href="/read?id={{ pratilipi.pratilipiId }}&_apiVer=2">
+												<paper-item>
+													<paper-item-body>Go To New Reader</paper-item-body>
+												</paper-item>
+											</a>
+										</li>
+									</template>
+								</template>
+							</ul>
+						</div>
+					</td>
+
+				</tr>
+			</table>
+		</paper-card>
+		<iron-ajax
+				id="PratilipiApi"
+				url="/api/pratilipi"
+				method="POST"
+				content-type="application/x-www-form-urlencoded"
+				handle-as="json"
+				on-response="_handlePratilipiApiResponse"
+				on-error="_handlePratilipiApiError"
+				></iron-ajax>
+	</template>
+
+	<script>
+	
+		Polymer({
+
+			is: 'pratilipi-reader-header',
+			
+			properties: {
+				pratilipi: { type: Object },
+				hasAccessToUpdate: { type: Boolean },
+				addedToLib: { type: Boolean, value: false },
+				hideIndexButton: { type: Boolean },
+				canEditContent: { type: Boolean, value: false },
+				index: { type: Array },
+				pageNo: { type: Number },
+				contentType: { type: String },
+				stage: { type: String },
+				version: { type: String },
+
+				canReview: { type: Boolean },
+				canShare: { type: Boolean, value: true },
+				canAddToLibrary: { type: Boolean, value: true }
+
+			},
+			
+			_entryClicked: function( event ) {
+				var entry = event.model.entry;
+				document.querySelector( 'pratilipi-reader-page' ).setPageNo( entry.pageNo != null ? entry.pageNo : entry.chapterNo );
+			},
+			
+			ready: function() {
+				this.title = 	this.pratilipi.title != null && this.pratilipi.title.trim() != "" ?
+								this.pratilipi.title : this.pratilipi.titleEn;
+
+				this.pratilipiContentType = this.contentType == "PRATILIPI";
+				this.imageContentType = this.contentType == "IMAGE";
+
+				this.set( "canShare", this.pratilipi.state == "PUBLISHED" );
+					
+			},
+			
+			attached: function() {
+				// Hide Edit Content button in Mobile
+				var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+				var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+				this.set( 'canEditContent', ! isMobile() && this.hasAccessToUpdate && this.pratilipiContentType );
+				
+
+				jQuery( "#navigationdropdown" ).css( 'max-height', Math.min( 500, height - 75 ) + "px", "important" );
+				jQuery( "#navigationdropdown" ).css( 'min-width', Math.min( 300, width - 20 ) + "px", "important" );
+				jQuery( "#navigationdropdown" ).css( 'max-width', ( width - 20 ) + "px", "important" );
+				
+				
+				this.set( "switchReaderOptions", this.stage == "gamma" && this.pratilipi.oldContent );
+				this.set( "isVersion1", this.version == "1" );
+				this.set( "isVersion2", this.version == "2" );
+
+				this.async( function() {
+					this.set( "canReview", this.domHost.getUser().isGuest || this.domHost.getUserPratilipi().hasAccessToReview );
+					var user = document.querySelector( 'pratilipi-user' ).getCurrentUser();
+					this.set( "canAddToLibrary", this.pratilipi.state == "PUBLISHED" && ( user.isGuest || this.pratilipi.author.authorId != user.author.authorId ) );
+				});
+				
+				// Hack
+				if( this.pratilipi.state != "PUBLISHED" )
+					$( "pratilipi-reader-header .dropdown-menu" ).css( "right", 0 );
+
+			},
+			
+			shareOnFacebook: function() {
+				document.querySelector( 'pratilipi-reader-page' ).shareOnFacebook( "menu" );
+			},
+			
+			shareOnTwitter: function() {
+				document.querySelector( 'pratilipi-reader-page' ).shareOnTwitter( "menu" );
+			},
+			
+			shareOnGplus: function() {
+				document.querySelector( 'pratilipi-reader-page' ).shareOnGplus( "menu" );
+			},
+			
+			increaseFontSize: function() {
+				document.querySelector( 'pratilipi-reader-content' ).increaseFontSize();
+			},
+			
+			decreaseFontSize: function() {
+				document.querySelector( 'pratilipi-reader-content' ).decreaseFontSize();
+			},
+			
+			increaseImageSize: function() {
+				document.querySelector( 'pratilipi-reader-content' ).increaseImageSize();
+			},
+
+			decreaseImageSize: function() {
+				document.querySelector( 'pratilipi-reader-content' ).decreaseImageSize();
+			},
+
+			addToLibrary: function() {
+				document.querySelector( 'pratilipi-reader-page' ).addToLibrary();
+			},
+			
+			removeFromLibrary: function() {
+				document.querySelector( 'pratilipi-reader-page' ).removeFromLibrary();
+			},
+			
+			goToLibrary: function() {
+				document.querySelector( 'pratilipi-reader-page' ).goToLibrary();
+			},
+			
+			writeReview: function() {
+				document.querySelector( 'pratilipi-reader-page' ).writeReview();
+			},
+			
+			redirectToWriterPanel: function() {
+				document.querySelector( 'pratilipi-reader-page' ).redirectToWriterPanel();
+			},
+			
+			exitReader: function() {
+				document.querySelector( 'pratilipi-reader-page' ).exitReader();
+			},
+
+			normalReadingMode: function() {
+				document.querySelector( 'pratilipi-reader-page' ).normalReadingMode();
+			},
+
+			nightReadingMode: function() {
+				document.querySelector( 'pratilipi-reader-page' ).nightReadingMode();
+			},
+
+			sepiaReadingMode: function() {
+				document.querySelector( 'pratilipi-reader-page' ).sepiaReadingMode();
+			},
+			
+			
+			finaliseV2Version: function() {
+				this.$.PratilipiApi.body = jQuery.param( { "pratilipiId": this.pratilipi.pratilipiId, "oldContent": false, "_apiVer": "2" } );
+				this.$.PratilipiApi.generateRequest();
+			},
+			
+			_handlePratilipiApiResponse: function( event ) {
+				alert( "Success!" );
+				window.location.reload();
+			},
+			
+			_handlePratilipiApiError: function( event ) {
+				alert( "Some Exception at server! Please try again!" );
+			}
+			
+			
+		});
+	</script>
+
+</dom-module>
+
+<dom-module id="pratilipi-reader-navigation-entry">
+	<style>
+		paper-item {
+			font-size: 14px;
+			font-family: inherit;
+		}
+		paper-item-body.heading {
+			font-weight: 600;
+		}
+		paper-item-body.grey {
+			color: #707070;
+		}
+		paper-item-body.black {
+			color: #333;
+		}
+		paper-item-body.blue {
+			color: #107FE5;
+		}
+	</style>
+	<template>
+		<paper-item>
+			<paper-item-body style="white-space: normal;" id="entry">[[ entry.title ]]</paper-item-body>
+		</paper-item>
+	</template>
+	<script>
+		Polymer({
+			is: 'pratilipi-reader-navigation-entry',
+			
+			properties: {
+				entry: { type: Object },
+				pageNo: { type: Number, observer: "_pageNoChanged" }
+			},
+			
+			attached: function() {
+				if( this.entry.level == 0 )
+					jQuery( this.querySelector( '#entry' ) ).addClass( "heading" );
+			},
+			
+			_pageNoChanged: function() {
+				var pageNo = this.entry.pageNo != null ? this.entry.pageNo : this.entry.chapterNo;
+				var level = this.entry.level != null ? this.entry.level : this.entry.nesting;
+				if( this.pageNo == pageNo ) {
+					jQuery( this.querySelector( '#entry' ) ).removeClass( "black" );
+					jQuery( this.querySelector( '#entry' ) ).removeClass( "grey" );
+					jQuery( this.querySelector( '#entry' ) ).addClass( "blue" );
+				} else {
+					jQuery( this.querySelector( '#entry' ) ).removeClass( "blue" );
+					if( level == 0 )
+						jQuery( this.querySelector( '#entry' ) ).addClass( "black" );
+					else
+						jQuery( this.querySelector( '#entry' ) ).addClass( "grey" );
+				}
+			}
+		
+		});
+	</script>
+</dom-module><dom-module id="pratilipi-reader-content">
+
+	<style>
+		
+		:host {
+			display: block;
+			overflow: hidden;
+		}
+		
+		:host #pager {
+			margin-bottom: 5px;
+			padding: 16px 22px;
+			width: 100%;
+		}
+		
+		:host #pager #reader-content {
+			-webkit-font-smoothing: antialiased;
+			line-height: 1.6em;
+		}
+		
+		@media only screen and (max-width: 768px) {
+			:host #pager #reader-content {
+				text-align: left;
+			}
+		}
+		@media only screen and (min-width: 769px) {
+			:host #pager #reader-content {
+				text-align: justify;
+			}
+		}
+		
+		/* Bootstrap override */
+		#reader-alert-box {
+			color: #333;
+			background-color: inherit;
+			border-color: #333;
+		}
+
+		#reader-alert-box .alert-link, #reader-alert-box .alert-link:hover, #reader-alert-box .alert-link:focus {
+			font-weight: inherit;
+			color: inherit;
+		}
+
+		.alert .social-icons {
+			display: flex;
+			width: 100%;
+			justify-content: center;
+		}
+
+		.alert .social-icons .icons-holder {
+			white-space: nowrap;
+			display: inline-block;
+			align-self: center;
+			margin-left: 12px;
+		}
+		
+		.hvr-bounce-in {
+			vertical-align: middle;
+			-webkit-transform: translateZ(0);
+			transform: translateZ(0);
+			box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+			-webkit-backface-visibility: hidden;
+			backface-visibility: hidden;
+			-moz-osx-font-smoothing: grayscale;
+			-webkit-transition-duration: 0.5s;
+			transition-duration: 0.5s;
+			max-width: 95%; 
+			margin: 30px auto; 
+		}
+
+
+		.hvr-bounce-in:hover, .hvr-bounce-in:focus, .hvr-bounce-in:active {
+			-webkit-transform: scale(1.05);
+			transform: scale(1.05);
+			-webkit-transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+			transition-timing-function: cubic-bezier(0.47, 2.02, 0.31, -0.36);
+		}
+
+		.fa {
+			margin-left: 15px;
+			cursor: pointer;
+		}
+		
+	</style>
+	
+	
+	<template>
+	
+		<paper-card id="pager">
+			<div id="reader-content"></div>
+			<template is="dom-if" if="{{ showContainer }}">
+				<div id="reader-alert-box" class="alert alert-success hvr-bounce-in" role="alert">
+					<template is="dom-if" if="{{ canReview }}">
+						<h3 class="text-center" style="margin-top: 24px;">सामग्री वाचन आनंद लुटा?</h3>
+						<div class="text-center" style="margin: 0 auto;">
+							<a class="alert-link" on-click="writeReview">
+								<h6 style="margin: 15px 0px; display: inline-block;">पुनरावलोकन लिहा</h6>
+								<iron-icon icon="icons:create" style="margin-left: 0px; display: inline-block; width: 20px;"></iron-icon>
+							</a>
+						</div>
+					</template>
+					<div id="social-icons" class="social-icons text-center" style="margin: 0 auto;">
+						<h6 style="margin: 15px 0px; display: inline-block;">सामायिक करा : </h6>
+						<div class="icons-holder">
+							<a on-click="shareOnFacebook"><span class="icon icon-facebook"></span></a>
+							<a on-click="shareOnTwitter"><span class="icon icon-twitter"></span></a>
+							<a on-click="shareOnGplus"><span class="icon icon-google-plus"></span></a>
+						</div>
+					</div>
+				</div>
+			</template>
+		</paper-card>
+		<iron-ajax
+				id="AjaxGet"
+				url="/api/pratilipi/content"
+				method="GET"
+				content-type="application/json"
+				handle-as="json"
+				on-response="_onResponse"
+				on-error="_onError"
+				></iron-ajax>
+	</template>
+	
+	
+	<script>
+		Polymer({
+			
+			is: 'pratilipi-reader-content',
+			
+			properties: {
+				content: { type: String, observer: "_onContentChange" },
+				contentType: { type: String },
+				contentMap: { type: Object, value: {} },
+
+				pratilipiId: { type: Number },
+				pratilipiState: { type: String },
+				fontSize: { type: Number, observer: "_onFontSizeChange" },
+				imageSize: { type: Number, observer: "_onImageSizeChange" },
+
+				pageNo: { type: Number, observer: "_onPageNoChange" },
+				pageCount: { type: Number },
+				version: { type: String },
+
+				showContainer: { type: Boolean },
+				canReview: { type: Boolean }
+
+			},
+			
+			
+			// Attached
+			attached: function() {
+
+				jQuery( "#pager" ).css( 'min-height', window.innerHeight + "px" );
+				this.set( "canReview", this.domHost.getUser().isGuest || this.domHost.getUserPratilipi().hasAccessToReview );
+				this.set( 'showContainer', this.pageNo == this.pageCount && this.pratilipiState == "PUBLISHED" );
+
+				if( this.contentType == "PRATILIPI" ) {
+					this.contentMap[ this.pageNo ] = this.content;					
+
+				} else if( this.contentType == "IMAGE" ) {
+					var chapters = jQuery.parseJSON( this.content )["chapters"];
+					var c = 1;
+					for( var i = 0; i < chapters.length; i++ ) {
+						var pages = chapters[i].pages;
+						for( var j = 0; j < pages.length; j++ ) {
+							this.contentMap[ c++ ] = pages[j].pagelets[0].data.name;
+						}
+					}
+
+					this.set( 'content', this.getImageUrl( this.pageNo ) );
+					this._setImageSize();
+
+				}
+
+				this._precache();
+			},
+
+
+			// Font size
+			_onFontSizeChange: function() {
+				this.async( function() {
+					jQuery( "#reader-content" ).css( 'font-size', this.fontSize, "important" );
+					jQuery( "#reader-content h2" ).css( 'font-size', this.fontSize + 4, "important" );
+					jQuery( "#reader-content h1" ).css( 'font-size', this.fontSize + 8, "important" );
+				} );
+			},
+
+			_setFontSize: function( fontSize ) {
+				this.set( "fontSize", fontSize == null ? 14 : parseInt( fontSize ) );
+				setCookie( "fontSize", fontSize, 30, "/read" );
+			},
+
+			increaseFontSize: function() {
+				// cutoff = 32
+				if( this.fontSize + 2 <= 32 )
+					this._setFontSize( this.fontSize + 2 );
+			},
+
+			decreaseFontSize: function() {
+				// cutoff = 12
+				if( this.fontSize - 2 >= 12 )
+					this._setFontSize( this.fontSize - 2 );
+			},
+			
+			
+			// Image Size
+			_onImageSizeChange: function() {
+				this.async( function() {
+					jQuery( "#reader-content img" ).css( 'width', this.imageSize + 'px' );
+					if( jQuery( "#reader-content" ).width() < this.imageSize )
+						jQuery( "#reader-content" ).css( "overflow", "scroll" );
+					else
+						jQuery( "#reader-content" ).css( "overflow", "hidden" );	
+				} );
+			},
+			
+			_setImageSize: function( imageSize ) {
+				this.set( "imageSize", imageSize == null ? jQuery( "#reader-content" ).width() : parseInt( imageSize ) );
+			},
+			
+			increaseImageSize: function() {
+				// cutoff = 1500
+				if( this.imageSize + 50 <= 1500 )
+					this._setImageSize( this.imageSize + 50 );
+			},
+			
+			decreaseImageSize: function() {
+				// cutoff = 300
+				if( this.imageSize - 50 >= 300 )
+					this._setImageSize( this.imageSize - 50 );
+			},
+
+
+			// Content
+			_onContentChange: function() {
+				if( this.contentType == "IMAGE" && ( this.contentMap == null || jQuery.isEmptyObject( this.contentMap ) ) ) {
+					jQuery( this.querySelector( '#reader-content' ) ).html( "<paper-spinner class=\"pratilipi-spinner-center\" active></paper-spinner>" );
+					return;
+				}
+				jQuery( this.querySelector( '#reader-content' ) ).html( this.content );
+				this.async( function() {
+					if( this.contentType == "PRATILIPI" ) {
+						jQuery( "#reader-content img" ).css( "cssText", "max-width: 100% !important; display: block !important; text-align: center !important; margin: 8px auto !important;");
+						jQuery( "#reader-content a" ).css( "cssText", "font-style: italic !important; text-decoration: underline !important; color: #707070 !important;" );
+						jQuery( "#reader-content a" ).attr( 'target', '_blank' );
+						jQuery( "#reader-content h1" ).css( "cssText", "text-align: center; margin-bottom: 20px;" );
+					} else if( this.contentType == "IMAGE" ) {
+						this._onImageSizeChange();
+					}
+				} );
+
+				if( jQuery( window ).scrollTop() > 128 ) {
+					this.async( function() {
+						jQuery( 'html, body' ).animate( { scrollTop : 0 }, 500 );
+					} );
+				}
+			},
+
+			getImageUrl: function( pageNo ) {
+				return "<img src='/api/pratilipi/content/image?pratilipiId=" + 
+							this.pratilipiId + "&" + 
+							"name=" + this.contentMap[ pageNo ] + "' />";
+			},
+
+			_precache: function() {
+				if( this.contentType == "PRATILIPI" ) {
+					// Check pageNo
+					if( this.pageNo > 1 )
+						this._loadContent( this.pageNo - 1 );
+					if( this.pageNo < this.pageCount )
+						this._loadContent( this.pageNo + 1 );
+				} else if( this.contentType == "IMAGE" ) {
+					// Prefetch images
+					if( this.pageNo > 1 )
+						jQuery( this.getImageUrl( this.pageNo - 1 ) ).load();
+					if( this.pageNo < this.pageCount )
+						jQuery( this.getImageUrl( this.pageNo + 1 ) ).load();
+				}
+			},
+
+			_onPageNoChange: function() {
+				// Called before ready function
+				if( this.contentMap == null || jQuery.isEmptyObject( this.contentMap ) )
+					return;
+				
+				if( this.contentType == "PRATILIPI" ) {
+					if( this.contentMap[ this.pageNo ] != null ) { // Check in Map if exists
+						this.set( 'content', this.contentMap[ this.pageNo ] );
+					} else {										// Else make api call
+						this.set( 'content', "<paper-spinner class=\"pratilipi-spinner-center\" active></paper-spinner>" );
+						this._loadContent( this.pageNo );
+					}
+				} else if( this.contentType == "IMAGE" ) {
+					this.set( 'content', this.getImageUrl( this.pageNo ) );
+				}
+
+				this.set( 'showContainer', this.pageNo == this.pageCount && this.pratilipiState == "PUBLISHED" );
+
+				this._precache();								// Load Previous and next pages
+
+			},
+
+			_loadContent: function( pageNo ) {
+
+				if( pageNo == null || this.contentMap[ pageNo ] != null )
+					return;
+
+				var ajaxGet = this.$.AjaxGet;
+				ajaxGet.params.pratilipiId = this.pratilipiId;
+				ajaxGet.params.chapterNo = pageNo;
+				ajaxGet.params.contentType = this.contentType;
+				ajaxGet.params._apiVer = this.version; 
+				ajaxGet.generateRequest();
+			},
+
+			_onResponse: function( event ) {
+
+				var response = event.detail.response;
+				var content = response != null && response.content != null ? response.content : "";
+
+				if( response != null && response.chapterTitle != null )
+					content = "<h1>" + response.chapterTitle + "</h1>" + content;
+
+				var pageNo = response.chapterNo;
+				// Populate map
+				this.contentMap[ pageNo ] = content;
+
+				// Update content if response page no == this page no
+				if( this.pageNo == pageNo )
+					this.set( 'content', content );
+			},
+
+			_onError: function( event ) {
+				// Show appropriate message
+				/* alert( "Sorry! Some exception occurred at the server! Try again" ); */
+				// Try again in 3 seconds
+			},
+
+			writeReview: function() {
+				document.querySelector( 'pratilipi-reader-page' ).writeReview();
+			},
+
+			shareOnFacebook: function() {
+				document.querySelector( 'pratilipi-reader-page' ).shareOnFacebook( "container" );
+			},
+
+			shareOnTwitter: function() {
+				document.querySelector( 'pratilipi-reader-page' ).shareOnTwitter( "container" );
+			},
+
+			shareOnGplus: function() {
+				document.querySelector( 'pratilipi-reader-page' ).shareOnGplus( "container" );
+			},
+
+		});
+
+	</script>
+
+</dom-module><dom-module id="pratilipi-reader-footer">
+
+	<style>
+		:host {
+			display: block;
+		}
+		paper-slider.pratilipi-slider {
+			margin-top: 2px;
+			width: 100%;
+			--paper-slider-active-color: #D0021B;
+			--paper-slider-knob-color: #D0021B;
+			--paper-slider-knob-start-color: #D0021B;
+			--paper-slider-pin-start-color: #D0021B;
+		}
+		paper-fab.pratilipi-red {
+			--paper-fab-background: #FFF;
+			--paper-fab-keyboard-focus-background: #FFF;
+		}
+		paper-input.normal-mode {
+			color: #333 !important;
+			--paper-input-container-color: #333 !important;
+			--paper-input-container-focus-color: #333 !important;
+			--paper-input-container-invalid-color: #333 !important;
+			--paper-input-container-input-color: #333 !important;
+		}
+		paper-input.night-mode {
+			color: #fff !important;
+			--paper-input-container-color: #fff !important;
+			--paper-input-container-focus-color: #fff !important;
+			--paper-input-container-invalid-color: #fff !important;
+			--paper-input-container-input-color: #fff !important;
+		}
+		paper-input.sepia-mode {
+			color: #181715 !important;
+			--paper-input-container-color: #181715 !important;
+			--paper-input-container-focus-color: #181715 !important;
+			--paper-input-container-invalid-color: #181715 !important;
+			--paper-input-container-input-color: #181715 !important;
+		}
+	</style>
+
+
+	<template>
+		<div id="reader-footer-holder" class="parent-container margin-top-bottom">
+			<div class="container" style="text-align: center; margin: 0 auto;">
+				<template is="dom-if" if="{{ showSlider }}">
+					<paper-fab	class="pratilipi-red"
+							style="display: inline-block; margin-right: 40px;"
+							mini
+							icon="icons:chevron-left" title="Previous Page"
+							disabled="{{ prevButtonDisabled }}"
+							on-click="showPrevious"></paper-fab>
+				</template>
+				<paper-input id="pageNoInputHolder"
+							type="number" 
+							style="display: inline-block; width: 75px;" 
+							value="{{ pageNoInput }}" 
+							on-change="_inputObserver">
+					<div suffix>/ {{ pageCount }}</div>
+				</paper-input>
+				<template is="dom-if" if="{{ showSlider }}">
+					<paper-fab	class="pratilipi-red"
+							style="display: inline-block;margin-left: 40px;"
+							mini
+							icon="icons:chevron-right" title="Next Page"
+							disabled="{{ nextButtonDisabled }}"
+							on-click="showNext"></paper-fab>
+				</template>
+			</div>
+			
+			<template is="dom-if" if="{{ showSlider }}">
+				<div class="container" style="margin: 0 auto;">
+					<div class="horizontal layout center">
+						<paper-slider
+								id="pageNoSlider"
+								stop-keyboard-event-propagation
+								class="flex pratilipi-slider"
+								min="1" max="{{ pageCount }}"
+								value="{{ pageNoSlider }}"
+								on-change="_sliderObserver"
+								disabled="{{ sliderDisabled }}"></paper-slider>
+					</div>
+				</div>
+			</template>
+		</div>
+	</template>
+	
+	
+	<script>
+
+		Polymer({
+
+			is: 'pratilipi-reader-footer',
+			
+			properties: {
+				pageNo: { type:Number, observer: "_pageNoChanged" },
+				pageNoInput: { type: Number },
+				pageNoSlider: { type: Number },
+				pageCount: { type:Number },
+				showSlider: { type: Boolean },
+				sliderDisabled: { type:Boolean },
+				prevButtonDisabled: { type:Boolean },
+				nextButtonDisabled: { type:Boolean },
+			},
+			
+			_pageNoChanged: function() {
+				if( this.pageCount == null || this.pageNo == null )
+					return;
+				
+				this.set( 'pageNoInput', this.pageNo );
+				this.set( 'pageNoSlider', this.pageNo );
+				this.set( 'prevButtonDisabled', this.pageNo <= 1 );
+				this.set( 'nextButtonDisabled', ( this.pageCount <= 1 || this.pageNo >= this.pageCount ) )
+			},
+
+			showPrevious: function() {
+				document.querySelector( 'pratilipi-reader-page' ).showPrevious();
+			},
+			
+			showNext: function() {
+				document.querySelector( 'pratilipi-reader-page' ).showNext();
+			},
+			
+			ready: function() {
+				this.sliderDisabled = this.pageCount <= 1;
+				this.set( 'showSlider', this.pageCount > 1 );
+				this._pageNoChanged();
+			},
+			
+			_inputObserver: function() {
+				if( this.pageNoInput >= 1 && this.pageNoInput <= this.pageCount && this.pageNo != this.pageNoInput )
+					document.querySelector( 'pratilipi-reader-page' ).setPageNo( this.pageNoInput );
+				else
+					this.pageNoInput = this.pageNo;
+			},
+			
+			_sliderObserver: function() {
+				if( this.pageNo != this.pageNoSlider )
+					document.querySelector( 'pratilipi-reader-page' ).setPageNo( this.pageNoSlider );
+			},
+			
+			isInputFocused: function() {
+				return this.$.pageNoSlider != null 
+							? this.$.pageNoInputHolder.focused && this.$.pageNoSlider.focused
+							: this.$.pageNoInputHolder.focused;
+			},
+
+			readingMode: function( class_name ) {
+				if( class_name == 'normal-mode' ) {
+					jQuery( this.querySelector( '#pageNoInputHolder' ) ).removeClass( 'night-mode' );
+					jQuery( this.querySelector( '#pageNoInputHolder' ) ).removeClass( 'sepia-mode' );
+					jQuery( this.querySelector( '#pageNoInputHolder' ) ).addClass( 'normal-mode' );
+				} else if( class_name == 'night-mode' ) {
+					jQuery( this.querySelector( '#pageNoInputHolder' ) ).removeClass( 'normal-mode' );
+					jQuery( this.querySelector( '#pageNoInputHolder' ) ).removeClass( 'sepia-mode' );
+					jQuery( this.querySelector( '#pageNoInputHolder' ) ).addClass( 'night-mode' );
+				} else if( class_name == 'sepia-mode' ) {
+					jQuery( this.querySelector( '#pageNoInputHolder' ) ).removeClass( 'normal-mode' );
+					jQuery( this.querySelector( '#pageNoInputHolder' ) ).removeClass( 'night-mode' );
+					jQuery( this.querySelector( '#pageNoInputHolder' ) ).addClass( 'sepia-mode' );
+				}
+
+				this.updateStyles();
+			}
+			
+		});
+
+	</script>
+
+</dom-module>
+<dom-module id="pratilipi-reader-page">
+
+	<template>
+		<header>
+    		<pratilipi-reader-header 
+    				pratilipi="{{ pratilipi }}"
+    				has-access-to-update="[[ pratilipi.hasAccessToUpdate ]]"
+    				added-to-lib="[[ addedToLib ]]"
+    				hide-index-button="[[ hideIndexButton ]]"
+    				page-no="[[ pageNo ]]"
+    				index="{{ index }}"
+    				content-type="{{ contentType }}"
+    				stage="{{ stage }}"
+    				version="{{ version }}"></pratilipi-reader-header>
+		</header>
+		<pratilipi-user user='{{ user }}' user-data="[[ userData ]]"></pratilipi-user>
+		<pratilipi-alert></pratilipi-alert>
+		<pratilipi-review-input pratilipi="[[ pratilipi ]]"></pratilipi-review-input>
+		<div style="margin-top: 60px;">
+			<div class="parent-container">
+				<div class="container" style="margin: 0 auto;">
+					<div style="overflow:hidden;">
+						<pratilipi-reader-content
+							content-type="{{ contentType }}"
+							content="{{ content }}"
+							font-size="{{ fontSize }}"
+							page-no="{{ pageNo }}"
+							page-count="{{ pageCount }}"
+							pratilipi-id="{{ pratilipi.pratilipiId }}"
+							pratilipi-state="{{ pratilipi.state }}"
+							version="{{ version }}"></pratilipi-reader-content>
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer>
+    		<pratilipi-reader-footer
+    			page-no="[[ pageNo ]]"
+    			page-count="{{ pageCount }}"></pratilipi-reader-footer>
+    	</footer>
+		<iron-ajax
+				id="AjaxPost"
+				url="/api/userpratilipi/library"
+				method="POST"
+				content-type="application/x-www-form-urlencoded"
+				handle-as="json"
+				on-response="_handleAjaxPostResponse"
+				on-error="_handleAjaxPostError"
+				></iron-ajax>
+		<iron-ajax
+				id="GetUserPratilipi"
+				url="/api/userpratilipi"
+				method="GET"
+				content-type="application/json"
+				handle-as="json"
+				on-response="_getUserPratilipiResponse"
+				on-error="_getUserPratilipiError"
+				></iron-ajax>
+	</template>
+
+	<script>
+		Polymer({
+
+			is: 'pratilipi-reader-page',
+			
+			properties: {
+				userData: { type: Object },
+				user: { type: Object, observer: "_userChanged" },
+				pratilipi: { type: Object },
+				userpratilipi: { type: Object },
+				addedToLib: { type: Boolean },
+				
+				fontSize: { type: Number },
+				pageNo: { type: Number },
+				pageCount: { type: Number },
+				contentType: { type: String },
+				content: { types: String },
+				index: { types: Array, value: [] },
+				version: { type: String },
+				stage: { type: String },
+				
+				addToLibClicked: { type: Boolean, value: false },
+				goToLibraryBoolean: { type: Boolean, value: false },
+				reviewButtonClicked: { type: Boolean, value: false },
+				hideIndexButton: { type: Boolean, value: true },
+				
+			},
+			
+			// Ready function
+			ready: function() {
+				var index = this.index;
+				index = jQuery.parseJSON( index );
+				index = JSON.parse( index );
+				if( index != null ) {
+					if( index.length > 0 )
+						this.set( 'hideIndexButton', false );
+
+					for( var i = 0; i < index.length; i++ )
+						if( index[i].title == null )
+							index[i].title = "धडा " + index[i].chapterNo;
+					this.set( 'index', index );
+				}
+
+				this.set( 'addedToLib', this.userpratilipi != null ? this.userpratilipi.addedToLib : false );
+
+			},
+
+			attached: function() {
+				// Color modes available only on PRATILIPI contents
+				if( this.contentType == "PRATILIPI" ) {
+					if( getCookie( "PREFERRED_READING_MODE" ) == null || getCookie( "PREFERRED_READING_MODE" ) == "NORMAL_MODE" )
+						this.normalReadingMode();
+					else if( getCookie( "PREFERRED_READING_MODE" ) == "NIGHT_MODE" )
+						this.nightReadingMode();
+					else if( getCookie( "PREFERRED_READING_MODE" ) == "SEPIA_MODE" )
+						this.sepiaReadingMode();
+				}
+			},
+
+			// Setting Page Number
+			setPageNo: function( pageNo ) {
+				if( pageNo != this.pageNo && pageNo >= 1 && pageNo <= this.pageCount ) {
+					this.set( 'pageNo', parseInt( pageNo ) );
+					//Set cookie
+					setCookie( "reader_page_number_" + this.pratilipi.pratilipiId, pageNo, 30, "/read" );
+				}
+			},
+			
+			showPrevious: function() {
+				this.setPageNo( this.pageNo - 1 );
+			},
+			
+			showNext: function() {
+				this.setPageNo( this.pageNo + 1 );
+			},
+			
+			keyupHandler: function( keyCode ) {
+				// paper-input at footer active
+				if( this.querySelector( 'pratilipi-reader-footer' ).isInputFocused() )
+					return;
+				// Left - 37 ; Right - 39
+				if( parseInt( keyCode ) == 37 )
+					this.showPrevious();
+				else if( parseInt( keyCode ) == 39 ) 
+					this.showNext();
+			},
+			
+			
+			// Review and Share
+			writeReview: function() {
+				if( this.user.isGuest ) {
+					this.reviewButtonClicked = true;
+					document.querySelector( 'pratilipi-user' ).logIn( true );
+				} else {
+					this.querySelector( 'pratilipi-review-input' ).openReviewInput( this.userpratilipi );
+				}
+			},
+
+			_getShareUrl: function( utm_location, utm_source ) {
+				if( utm_location == null || utm_source == null ) return;
+				var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+				return encodeURIComponent( 
+						"http://marathi.pratilipi.com" + this.pratilipi.pageUrl 
+						+ ( this.pratilipi.pageUrl.indexOf( '?' ) == -1 ? "?" : "&" )
+						+ "utm_language=marathi" + "&"
+						+ "utm_version=standard" + "&"
+						+ "utm_device=" + ( width < 600 ? "mobile" : "desktop" ) + "&"
+						+ "utm_parent=reader" + "&"
+						+ "utm_location=" + utm_location + "&"
+						+ "utm_action=share" + "&"
+						+ "utm_source=" + utm_source
+					);
+			},
+
+			shareOnFacebook: function( utm_location ) {
+				clevertapShareContentOnFacebook( this.pratilipi.title, this.pratilipi.pratilipiId );
+				window.open( "http://www.facebook.com/sharer.php?u=" + this._getShareUrl( utm_location, "facebook" ),
+						"share", "width=1100,height=500,left=70px,top=60px" );
+			},
+			
+			shareOnTwitter: function( utm_location ) {
+				window.open( "http://twitter.com/share?url=" + this._getShareUrl( utm_location, "twitter" ), 
+						"share", "width=1100,height=500,left=70px,top=60px" );
+			},
+			
+			shareOnGplus: function( utm_location ) {
+				window.open( "https://plus.google.com/share?url=" + this._getShareUrl( utm_location, "gplus" ), 
+						"share", "width=1100,height=500,left=70px,top=60px" );
+			},
+			
+			
+			// Library
+			_userChanged: function() {
+				if( this.user.isGuest )
+					return;
+				if( this.addToLibClicked ) {
+					this.addToLibClicked = false;
+					this.async( function() { this.addToLibrary(); }, 1500 );
+				} else if( this.goToLibraryBoolean ) {
+					this.goToLibraryBoolean = false;
+					this.goToLibrary();
+				} else if( this.reviewButtonClicked ) {
+					// Load UserPratilipi
+					var getUserPratilipi = this.$.GetUserPratilipi;
+					getUserPratilipi.params.pratilipiId = this.pratilipi.pratilipiId;
+					getUserPratilipi.generateRequest();
+				}
+			},
+			
+			updateUserPratilipi: function( userpratilipi ) {
+				this.set( 'userpratilipi', userpratilipi );
+			},
+			
+			_getUserPratilipiResponse: function( event ) {
+				this.reviewButtonClicked = false;
+				this.updateUserPratilipi( event.detail.response );
+				this.writeReview();
+			},
+			
+			_getUserPratilipiError: function( event ) {
+				this.async( function() { this._userChanged(); }, 3000 );
+			},
+			
+			addToLibrary: function() {
+				if( this.user.isGuest ) {
+					this.addToLibClicked = true;
+					document.querySelector( 'pratilipi-user' ).logIn( true, "आपल्या ग्रंथालयात अमर्यादित पुस्तके डाउनलोड करण्यासाठी कृपया लॉग-इन करा" );
+				} else {
+					this.$.AjaxPost.body = ( "pratilipiId=" + this.pratilipi.pratilipiId + "&" + "addedToLib=true" );
+					this.$.AjaxPost.generateRequest();
+				}
+			},
+			
+			removeFromLibrary: function() {
+				this.$.AjaxPost.body = ( "pratilipiId=" + this.pratilipi.pratilipiId + "&" + "addedToLib=false" );
+				this.$.AjaxPost.generateRequest();
+			},
+			
+			_handleAjaxPostResponse: function( event ) {
+				if( event.detail.xhr.status != 200 )
+					this._handleAjaxPostError( event );
+				else {
+					this.set( 'addedToLib', Boolean( event.detail.response.addedToLib ) );
+					document.querySelector( 'pratilipi-alert' ).alert( event.detail.response.addedToLib ? 
+							"यशस्वी! आपल्या ग्रंथालयामध्ये सामग्री जोडली आहे" : "आपण आपल्या ग्रंथालयामधून सामग्री रद्द केली आहे" );
+				}
+			},
+			
+			_handleAjaxPostError: function( event ) {
+				document.querySelector( 'pratilipi-alert' ).alert( "तांत्रिक अडचण आढळली आहे, कृपया पुन्हा प्रयत्न करा!", false );
+			},
+			
+			goToLibrary: function() {
+				if( this.user.isGuest ) {
+					this.goToLibraryBoolean = true;
+					document.querySelector( 'pratilipi-user' ).logIn( true, "आपल्या ग्रंथालयात अमर्यादित पुस्तके डाउनलोड करण्यासाठी कृपया लॉग-इन करा" );
+				} else {
+					window.location.href = "/library";
+				}
+			},
+			
+			
+			// Reader functions
+			redirectToWriterPanel: function() {
+				if( isMobile() ) {
+					document.querySelector( 'pratilipi-alert' ).alert( 'प्रतिलिपिवर साहित्य लिहिण्यासाठी कृपया डेस्कटॉप/लेपटॉप वरून http://marathi.pratilipi.com पर लॉग-इन करा.' );
+					return;
+				}
+				if( this.stage == "gamma" ) {
+					window.location.href = "/pratilipi-write?id=" + this.pratilipi.pratilipiId;
+					
+				} else {
+					window.location.href = this.pratilipi.writePageUrl +
+						( this.pratilipi.writePageUrl.indexOf( "?" ) != -1 ? "&" : "?" ) + 
+						"ret=" +
+						( getUrlParameter( "ret" ) != null ? getUrlParameter( "ret" ) : this.pratilipi.pageUrl );
+				}
+				
+			},
+			
+			exitReader: function() {
+				window.location.href = getUrlParameter( "ret" ) != null ? decodeURIComponent( getUrlParameter( "ret" ) ) : this.pratilipi.pageUrl;
+			},
+			
+			
+			// Ignore this
+			scrollHandler: function( st ) {},
+
+			normalReadingMode: function() {
+				jQuery( 'body' ).removeClass( 'night-mode' );
+				jQuery( 'body' ).removeClass( 'sepia-mode' );
+				jQuery( 'body' ).addClass( 'normal-mode' );
+				/* For paper input in footer */
+				this.querySelector( 'pratilipi-reader-footer' ).readingMode( 'normal-mode' );
+				/* Setting cookie */
+				setCookie( "PREFERRED_READING_MODE", "NORMAL_MODE", 30, "/read" );
+			},
+
+			nightReadingMode: function() {
+				jQuery( 'body' ).removeClass( 'normal-mode' );
+				jQuery( 'body' ).removeClass( 'sepia-mode' );
+				jQuery( 'body' ).addClass( 'night-mode' );
+				/* For paper input in footer */
+				this.querySelector( 'pratilipi-reader-footer' ).readingMode( 'night-mode' );
+				/* Setting cookie */
+				setCookie( "PREFERRED_READING_MODE", "NIGHT_MODE", 30, "/read" );
+			},
+
+			sepiaReadingMode: function() {
+				jQuery( 'body' ).removeClass( 'normal-mode' );
+				jQuery( 'body' ).removeClass( 'night-mode' );
+				jQuery( 'body' ).addClass( 'sepia-mode' );
+				/* For paper input in footer */
+				this.querySelector( 'pratilipi-reader-footer' ).readingMode( 'sepia-mode' );
+				/* Setting cookie */
+				setCookie( "PREFERRED_READING_MODE", "SEPIA_MODE", 30, "/read" );
+			},
+
+			getUser: function() {
+				return this.user;
+			},
+
+			getUserPratilipi: function() {
+				return this.userpratilipi;
+			}
+			
+		});
+	</script>
+
+</dom-module>

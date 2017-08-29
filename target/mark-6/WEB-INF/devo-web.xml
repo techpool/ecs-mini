@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app
+		version="2.5"
+		xmlns="http://java.sun.com/xml/ns/javaee"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<filter>
+		<filter-name>ObjectifyFilter</filter-name>
+		<filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ObjectifyFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>PratilipiSiteFilter</filter-name>
+		<filter-class>com.pratilipi.filter.PratilipiSiteFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>PratilipiSiteFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>UxModeFilter</filter-name>
+		<filter-class>com.pratilipi.filter.UxModeFilter</filter-class>
+		<init-param>
+			<param-name>Module</param-name>
+			<param-value>WebApp</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>UxModeFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>AccessTokenFilter</filter-name>
+		<filter-class>com.pratilipi.filter.AccessTokenFilter</filter-class>
+		<init-param>
+			<param-name>AutoGenerate</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>AccessTokenFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>LogAndSecurityFilter</filter-name>
+		<filter-class>com.pratilipi.filter.LogAndSecurityFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>LogAndSecurityFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>NotificationFilter</filter-name>
+		<filter-class>com.pratilipi.filter.NotificationFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>NotificationFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<servlet>
+		<servlet-name>RemoteApiServlet</servlet-name>
+		<servlet-class>com.google.apphosting.utils.remoteapi.RemoteApiServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RemoteApiServlet</servlet-name>
+		<url-pattern>/remote_api</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>DevoService</servlet-name>
+		<servlet-class>com.pratilipi.service.DevoService</servlet-class>
+		<init-param>
+			<param-name>Prefix</param-name>
+			<param-value>/api</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DevoService</servlet-name>
+		<url-pattern>/api</url-pattern>
+		<url-pattern>/api/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PratilipiSite</servlet-name>
+		<servlet-class>com.pratilipi.site.PratilipiSite</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PratilipiSite</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+
+</web-app>

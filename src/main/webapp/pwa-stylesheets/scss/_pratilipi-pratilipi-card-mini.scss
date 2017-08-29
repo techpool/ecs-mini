@@ -1,0 +1,28 @@
+.pratilipi-pratilipi-card-mini {
+	display: block;
+	width: 100%;
+	max-width: 100%;
+	text-align: center;
+	a {
+		color: inherit;
+		display: block;
+		margin: auto;
+		max-width: 100%;
+	}
+	.pratilipi-meta-holder {
+		.pratilipi-title {
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			display: block;
+			position: relative;
+			overflow: hidden;
+			text-align: left;
+			padding: 8px 0 0 0;
+		}
+		.reads-holder {
+			color: grey;
+			@include css-prefix( "display", "flex" );
+			@include css-prefix( "align-items", "center" );
+		}
+	}
+}

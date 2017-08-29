@@ -1,0 +1,193 @@
+.pratilipi-search-page {
+	div.header, div.body {
+		max-width: 800px;
+		margin: auto;
+	}
+	.pratilipi-search-header {
+		position: fixed;
+		background: white;
+		width: 100%;
+		z-index: 3;
+		* {
+			box-sizing: border-box;
+		}
+		div.header {
+			@media only screen and (max-width: 808px) { // 4px on both sides
+				padding: 6px 4px;
+			}
+			@include css-prefix( "display", "flex" );
+			@include css-prefix( "align-items", "center" );
+			padding: 6px 0;
+			flex-grow: 1;
+			position: relative;
+			button.search-button {
+				position: absolute;
+				right: 2px;
+				top: 12px;
+				background: transparent;
+				border: none;
+				color: #444;
+			}
+			span.search-loading-spinner {
+				position: absolute;
+				right: 12px;
+				top: 18px;
+				width: 16px;
+				height: 16px;
+				.mdl-spinner__circle {
+					border-width: 2px;
+				}
+			}
+			button.exit-search-button {
+				position: relative;
+				margin-right: 6px;
+			}
+			input[type="text"] {
+				position: relative;
+				padding: 10px;
+				margin: 0;
+				border: solid 1px #dcdcdc;
+				transition: border 0.2s;
+				outline: none;
+				flex-grow: 1;
+				font-size: 13px;
+			}
+			input[type="text"]:focus,
+			input[type="text"].focus {
+				border: solid 1px #707070;
+			}
+		}
+	}
+	div.body {
+
+		background: white;
+		margin-top: 60px;
+		margin-bottom: 12px;
+		min-height: 100vh;
+		min-height: calc( 100vh - 60px );
+
+		.default-result {
+			@media only screen and (min-width: 1025px) {
+				min-height: 285px;
+			}
+		}
+
+		.search-results-incomplete {
+			.result-title {
+				color: grey;
+			}
+			.result-entries .result-link {
+				display: block;
+				margin: 8px auto;
+				color: inherit;
+			}
+		}
+
+		.explore-categories {
+			.image-bk {
+				margin: 4px;
+				@media only screen and (max-width: 479px) {
+					height: 80px;
+					width: calc(100% - 8px);
+				}
+				@media only screen and (min-width: 840px) {
+					width: calc(25% - 8px);
+				}
+				@media (max-width: 839px) and (min-width: 480px) {
+					width: calc(50% - 8px);
+				}
+				height: 150px;
+				@include css-prefix( "box-shadow", "inset 0 0 0 1000px rgba(0,0,0,0.3)" );
+				@include css-prefix( "border-radius", "2px" );
+				@include css-prefix( "display", "flex" );
+				@include css-prefix( "align-items", "center" );
+				@include css-prefix( "justify-content", "center" );
+				@include css-prefix( "background-size", "cover" );
+				@include css-prefix( "background-repeat", "no-repeat" );
+				@include css-prefix( "background-position", "center right" );
+				.link-name {
+					font-weight: 700;
+					color: #fff;
+					width: 200px;
+					overflow: hidden;
+					white-space: nowrap;
+					white-space: normal;
+					display: inline-block;
+					text-overflow: ellipsis;
+					text-align: center;
+				}
+			}
+		}
+
+		.search-results-complete {
+			.search-results-heading {
+				color: grey;
+			}
+			.pratilipi-carousel {
+				width: 100%;
+				max-width: 100%;
+				padding: 0 48px;
+				position: relative;
+				box-sizing: border-box;
+				@media only screen and (max-width: 768px) {
+					padding: 0;
+					button[action] {
+						display: none;
+					}
+				}
+				* {
+					box-sizing: border-box;
+				}
+				.carousel-wrapper {
+					overflow: hidden;
+					width: 100%;
+					.carousel {
+						transition: -webkit-transform 0.4s ease-in-out;
+						transition: transform 0.4s ease-in-out;
+						transition: transform 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
+						background: white;
+						white-space: nowrap;
+						ul {
+							display: inline-block;
+							position: relative;
+							left: 0;
+							padding: 0;
+							max-width: 100%;
+							margin: 0 -6px;
+							li {
+								padding: 0 6px;
+								list-style: none;
+								display: inline-block;
+								position: relative;
+							}
+						}
+					}
+				}
+				button[action] {
+					border-radius: 0 4px 4px 0;
+					border: none;
+					background: transparent;
+					position: absolute;
+					top: 50%;
+					margin-top: -25px;
+					cursor: pointer;
+					outline: none;
+				}
+				button[action='prev'] {
+					left: 6px;
+				}
+				button[action='next'] {
+					right: 6px;
+				}
+			}
+			.pratilipi-list-grid {
+				border-left: none;
+				border-right: none;
+			}
+		}
+
+		.search-loaded-empty, .search-load-failed {
+			@include css-prefix( "flex-flow", "row" );
+		}
+	}
+}

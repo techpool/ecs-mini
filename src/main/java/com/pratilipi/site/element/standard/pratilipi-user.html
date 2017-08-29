@@ -1,0 +1,137 @@
+<#include "pratilipi-facebook-login.html" />
+<#include "pratilipi-google-login.html" />
+<#include "pratilipi-user-login.html" />
+<#include "pratilipi-user-register.html" />
+<#include "pratilipi-user-password-reset.html" />
+<#include "pratilipi-user-password-update.html" />
+<#include "pratilipi-user-verification.html" />
+
+<dom-module id="pratilipi-user">
+
+	<template>
+		<pratilipi-user-password-update></pratilipi-user-password-update>
+		<pratilipi-user-verification></pratilipi-user-verification>
+		<pratilipi-user-login></pratilipi-user-login>
+		<pratilipi-user-register></pratilipi-user-register>
+		<pratilipi-user-password-reset></pratilipi-user-password-reset>
+		
+		<iron-ajax
+				id="AjaxGet"
+				url="/api/user/logout"
+				method="GET"
+				content-type="application/json"
+				handle-as="json"
+				on-response="_handleAjaxGetResponse"
+				on-error="_handleAjaxGetError"
+				></iron-ajax>
+	</template>
+	
+	<script>
+
+		Polymer({
+			
+	 		is: 'pratilipi-user',
+
+	 		properties: {
+				user: { type: Object, notify: true, observer: "_userChanged" },
+				userData: { type: Object }
+			},
+
+			_userChanged: function() {
+				userChanged( this.user );
+			},
+
+			getCurrentUser: function() {
+				return this.user;
+			},
+			
+			updateUser: function( user ) {
+				this.set( 'user', user );
+			},
+			
+			closeAllElements: function() {
+				jQuery( '.modal' ).modal( 'hide' );
+			},
+
+			logIn: function( requireAccess, customMessage ) {
+				this.closeAllElements();
+				this.querySelector( 'pratilipi-user-login' ).open( requireAccess, customMessage );
+			},
+			
+			register: function() {
+				this.closeAllElements();
+				this.querySelector( 'pratilipi-user-register' ).open();
+			},
+
+			startWriting: function() {
+				this.closeAllElements();
+				document.querySelector( 'pratilipi-header' ).write();
+			},
+			
+			resetPassword: function() {
+				this.closeAllElements();
+				this.querySelector( 'pratilipi-user-password-reset' ).open();
+			},
+			
+			changePassword: function() {
+				this.closeAllElements();
+				this.querySelector( 'pratilipi-user-password-update' ).open();
+			},
+			
+			sendVerificationMail: function() {
+				this.closeAllElements();
+				this.querySelector( 'pratilipi-user-verification' ).sendVerificationMail( this.user.email );
+			},
+			
+			logOut: function() {
+				this.$.AjaxGet.generateRequest();
+			},
+			
+			_handleAjaxGetResponse: function(  request ) {
+				if( ! request.detail.response ) {
+					// TODO: show error
+					this._handleAjaxGetError();
+					return;
+				}
+				
+				this.updateUser( request.detail.response );
+			},
+
+			_handleAjaxGetError: function() {
+				// TODO: show error
+				alert( "${ _strings.logout_failed }" );
+			},
+
+			attached: function() {
+				
+				this.updateUser( this.userData );
+
+				if( getUrlParameter( 'action' ) != null ) {
+					if( getUrlParameter( 'action' ) == "login" && this.user.isGuest )
+						this.logIn();
+					else if( getUrlParameter( 'action' ) == "register" && this.user.isGuest )
+						this.register();
+					else if( getUrlParameter( 'action' ) == "start_writing" )
+						this.startWriting();
+					return;
+				}
+
+				if( getUrlParameter( 'email' ) != null && getUrlParameter( 'token' ) != null ) {
+
+					this.closeAllElements();
+
+					if( getUrlParameter( 'verifyUser' ) == "true" ) {
+						this.querySelector( 'pratilipi-user-verification' ).verifyUser( getUrlParameter( 'email' ), getUrlParameter( 'token' ) );
+					}
+					else if( getUrlParameter( 'passwordReset' ) == "true" ) {
+						this.querySelector( 'pratilipi-user-password-update' ).openPasswordUpdate( getUrlParameter( 'email' ), getUrlParameter( 'token' ) );
+					}
+				}
+
+			}
+
+		});
+
+	</script>
+	
+</dom-module>
