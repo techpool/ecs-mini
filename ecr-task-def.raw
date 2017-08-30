@@ -5,9 +5,9 @@
         {
             "name": "$APP_NAME",
             "image": "$DOCKER_REPO/$APP_NAME:$APP_VERSION",
-            "cpu": 128,
-            "memoryReservation": 512,
-            "memory": 2048,
+            "cpu": 64,
+            "memoryReservation": 1024,
+            "memory": 4096,
             "portMappings": [
                 {
                     "hostPort": 0,
