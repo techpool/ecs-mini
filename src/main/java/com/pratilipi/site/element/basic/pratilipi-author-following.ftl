@@ -27,7 +27,7 @@
 					retUrl=author.getPageUrl()
 					authorId=local_author.getId()
 					followCount=local_author.getFollowCount()
-					following=local_author.isFollowing()?c
+					following=local_author.isFollowing()
 					name=local_author.getName()!local_author.getNameEn()
 					pageUrl=local_author.getPageUrl()
 					imageUrl=local_author.getProfileImageUrl(100) />
