@@ -11,7 +11,7 @@
 		var params = {
 			"Screen Name": "Search",
 		    "Location": "Content Results",
-		    "Value": "${ pratilipiListSearchQuery }",
+		    "Value": "<#if pratilipiListSearchQuery??>${ pratilipiListSearchQuery }</#if>",
 		    "Content ID": content_id,
 		    "Content Name": content_name,		    
 		    "Author ID": author_id,
