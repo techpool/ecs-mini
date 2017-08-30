@@ -40,11 +40,38 @@ public class SEOTitleUtil {
 
 	}
 
+	// Helpers
+	private static String _getAuthorName( AuthorData authorData ) {
+		if( authorData.getFullName() != null )
+			return authorData.getFullName();
+		else if( authorData.getName() != null )
+			return authorData.getName();
+		else if( authorData.getFullNameEn() != null )
+			return authorData.getFullNameEn();
+		else if( authorData.getNameEn() != null )
+			return authorData.getNameEn();
+		else
+			return "";
+	}
+
+	private static String _getAuthorNameEn( AuthorData authorData ) {
+		if( authorData.getFullNameEn() != null )
+			return authorData.getFullNameEn();
+		else if( authorData.getNameEn() != null )
+			return authorData.getNameEn();
+		else if( authorData.getFullName() != null )
+			return authorData.getFullName();
+		else if( authorData.getName() != null )
+			return authorData.getName();
+		else
+			return "";
+	}
+
 	// TYPE: PRATILIPI
 	private static Map<String, String> _getDataModelForPratilipiData( PratilipiData pratilipi ) {
 		Map<String,String> dataModel = new HashMap<>();
-		dataModel.put( "authorName", pratilipi.getAuthor().getName() != null ? pratilipi.getAuthor().getName() : pratilipi.getAuthor().getNameEn() );
-		dataModel.put( "authorNameEn", pratilipi.getAuthor().getNameEn() != null ? pratilipi.getAuthor().getNameEn() : pratilipi.getAuthor().getName() );
+		dataModel.put( "authorName", _getAuthorName( pratilipi.getAuthor() ) );
+		dataModel.put( "authorNameEn", _getAuthorNameEn( pratilipi.getAuthor() ) );
 		dataModel.put( "pratilipiTitle", pratilipi.getTitle() );
 		dataModel.put( "pratilipiTitleEn", pratilipi.getTitleEn() != null ? pratilipi.getTitleEn() : pratilipi.getTitle() );
 		dataModel.put( "language", pratilipi.getLanguage().getNameEn() );
@@ -109,8 +136,8 @@ public class SEOTitleUtil {
 			throws UnexpectedServerException {
 
 		Map<String,String> dataModel = new HashMap<>();
-		dataModel.put( "authorName", author.getName() != null ? author.getName() : author.getNameEn() );
-		dataModel.put( "authorNameEn", author.getNameEn() != null ? author.getNameEn() : author.getName() );
+		dataModel.put( "authorName", _getAuthorName( author ) );
+		dataModel.put( "authorNameEn", _getAuthorNameEn( author ) );
 		return _getPageTitle( "seo_author_page", dataModel, language );
 	}
 
@@ -301,8 +328,8 @@ public class SEOTitleUtil {
 			throws UnexpectedServerException {
 
 		Map<String,String> dataModel = new HashMap<>();
-		dataModel.put( "authorName", author.getName() != null ? author.getName() : author.getNameEn() );
-		dataModel.put( "authorNameEn", author.getNameEn() != null ? author.getNameEn() : author.getName() );
+		dataModel.put( "authorName", _getAuthorName( author ) );
+		dataModel.put( "authorNameEn", _getAuthorNameEn( author ) );
 		return _getPageTitle( "seo_followers_page", dataModel, language );
 	}
 	
@@ -318,8 +345,8 @@ public class SEOTitleUtil {
 			throws UnexpectedServerException {
 
 		Map<String,String> dataModel = new HashMap<>();
-		dataModel.put( "authorName", author.getName() != null ? author.getName() : author.getNameEn() );
-		dataModel.put( "authorNameEn", author.getNameEn() != null ? author.getNameEn() : author.getName() );
+		dataModel.put( "authorName", _getAuthorName( author ) );
+		dataModel.put( "authorNameEn", _getAuthorNameEn( author ) );
 		return _getPageTitle( "seo_following_page", dataModel, language );
 
 	}
