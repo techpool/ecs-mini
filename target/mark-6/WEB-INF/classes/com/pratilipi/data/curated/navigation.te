@@ -5,6 +5,7 @@
 /life             జీవితం             Analytics#categoryName::life        App#imageName::life.jpg                App#PratilipiList::{ "language":"TELUGU", "state":"PUBLISHED", "listName":"life" }
 /social           సామాజికం          Analytics#categoryName::social        App#imageName::social.jpg             App#PratilipiList::{ "language":"TELUGU", "state":"PUBLISHED", "listName":"social" }     
 /children         బాల సాహిత్యం       Analytics#categoryName::children     App#imageName::children.jpg            App#PratilipiList::{ "language":"TELUGU", "state":"PUBLISHED", "listName":"children" }
+/horror           హర్రర్                Analytics#categoryName::horror        App#imageName::horror.jpg                App#PratilipiList::{ "language":"TELUGU", "state":"PUBLISHED", "listName":"horror" }
 /teluguculture    తెలుగు సంస్కృతి     Analytics#categoryName::culture      App#imageName::culture.jpg             App#PratilipiList::{ "language":"TELUGU", "state":"PUBLISHED", "listName":"teluguculture" }
 /spiritual        ఆధ్యాత్మికం          Analytics#categoryName::spiritual   App#imageName::event_spirituality.jpg   App#PratilipiList::{ "language":"TELUGU", "state":"PUBLISHED", "listName":"spiritual" }
 /stories          కథలు              Analytics#categoryName::stories        App#imageName::event_generic3.jpg    App#PratilipiList::{ "language":"TELUGU", "state":"PUBLISHED", "listName":"stories" }
