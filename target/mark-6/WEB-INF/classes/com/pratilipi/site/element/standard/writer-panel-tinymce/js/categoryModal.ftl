@@ -237,6 +237,7 @@ CategoryModal.prototype.ajaxCall = function(selectedTags, userTags, fbEventType,
 
 	var ajaxData = { 
 		pratilipiId: ${ pratilipiId?c },
+		type: _this.pratilipi_data.type,
 		tagIds: JSON.stringify(selectedTags),
 		suggestedTags: JSON.stringify(userTags)
 	};
