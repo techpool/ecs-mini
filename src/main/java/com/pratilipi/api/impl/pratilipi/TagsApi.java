@@ -23,6 +23,7 @@ import com.pratilipi.data.client.TagData;
 import com.pratilipi.data.type.AccessToken;
 import com.pratilipi.data.util.TagDataUtil;
 import com.pratilipi.filter.AccessTokenFilter;
+import com.pratilipi.filter.UxModeFilter;
 
 @SuppressWarnings("serial")
 @Bind(uri = "/pratilipi/tags")
@@ -111,7 +112,7 @@ public class TagsApi extends GenericApi {
 		paramsMap.put( "language", request.language.name() );
 		if( request.type != null )
 			paramsMap.put( "type", request.type.name() );
-		String responseString = HttpUtil.doGet( "http://hindi.pratilipi.com" + "/api/pratilipi/tags", paramsMap );
+		String responseString = HttpUtil.doGet( UxModeFilter.getEcsEndpoint() + "/api/pratilipi/tags", paramsMap );
 		return new Gson().fromJson( responseString, Response.class );
 
 	}
