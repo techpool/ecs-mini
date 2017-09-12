@@ -53,7 +53,7 @@ public class AccessTokenFilter implements Filter {
 		else if( request.getParameter( RequestParameter.ACCESS_TOKEN.getName() ) != null )
 			threadLocalAccessTokenId.set( request.getParameter( RequestParameter.ACCESS_TOKEN.getName() ) );
 		else
-			threadLocalAccessTokenId.set( null );
+			threadLocalAccessTokenId.set( getCookieValue( RequestCookie.ACCESS_TOKEN.getName(), request ) );
 
 		chain.doFilter( request, response );
 		threadLocalAccessTokenId.remove();
