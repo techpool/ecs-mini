@@ -26,17 +26,15 @@ import com.pratilipi.filter.AccessTokenFilter;
 import com.pratilipi.filter.UxModeFilter;
 
 @SuppressWarnings("serial")
-@Bind(uri = "/pratilipi/tags")
-public class TagsApi extends GenericApi {
+@Bind(uri = "/pratilipi/tags", ver = "2")
+public class TagsV2Api extends GenericApi {
 
-	private static Logger logger = Logger.getLogger(TagsApi.class.getSimpleName());
+	private static Logger logger = Logger.getLogger(TagsV2Api.class.getSimpleName());
 
 	public static class Request extends GenericRequest {
 
 		@Validate(required=true)
 		Language language;
-
-		PratilipiType type;
 
 		public Language getLanguage() {
 			return language;
@@ -45,15 +43,6 @@ public class TagsApi extends GenericApi {
 		public void setLanguage(Language language) {
 			this.language = language;
 		}
-
-		public PratilipiType getType() {
-			return type;
-		}
-
-		public void setType(PratilipiType type) {
-			this.type = type;
-		}
-
 
 	}
 
@@ -69,41 +58,42 @@ public class TagsApi extends GenericApi {
 		public static class ResponseObject {
 			PratilipiType pratilipiType;
 			String title;
-			List<TagData> tags;
+			List<TagData> STORY;
+			List<TagData> ARTICLE;
+			List<TagData> POEM;
 
-			public ResponseObject(PratilipiType pratilipiType, String title, List<TagData> tags) {
+			public ResponseObject(PratilipiType pratilipiType, String title) {
 				this.pratilipiType = pratilipiType;
 				this.title = title;
-				this.tags = tags;
 			}
 
-			public List<TagData> getTagDataList() {
-				return tags;
+			public List<TagData> getTagDataList( String type ) {
+				if( type.equals( "STORY" ) )
+					return STORY;
+				else if( type.equals( "ARTICLE" ) )
+					return ARTICLE;
+				else if( type.equals( "POEM" ) )
+					return POEM;
+				return null;
 			}
+
+			public List<TagData> getStoryTagDataList() {
+				return STORY;
+			}
+
+			public List<TagData> getArticleTagDataList() {
+				return ARTICLE;
+			}
+
+			public List<TagData> getPoemTagDataList() {
+				return POEM;
+			}
+
 		}
 
 		public List<ResponseObject> getResponseObject() {
 			return response;
 		}
-
-	}
-
-	@SuppressWarnings("unused")
-	public static class PostRequest extends GenericRequest {
-
-		private String id;
-
-		private String name;
-		private boolean hasName;
-
-		private String nameEn;
-		private boolean hasNameEn;
-
-		private Language language;
-		private boolean hasLanguage;
-
-		private PratilipiType type;
-		private boolean hasType;
 	}
 
 	@Get
@@ -111,33 +101,9 @@ public class TagsApi extends GenericApi {
 
 		Map<String, String> paramsMap = new HashMap<>();
 		paramsMap.put( "language", request.language.name() );
-		if( request.type != null )
-			paramsMap.put( "type", request.type.name() );
-		String responseString = HttpUtil.doGet( UxModeFilter.getEcsEndpoint() + "/api/pratilipi/tags", paramsMap );
+		String responseString = HttpUtil.doGet( UxModeFilter.getEcsEndpoint() + "/api/pratilipi/v2/categories/system", paramsMap );
 		return new Gson().fromJson( responseString, Response.class );
 
-	}
-
-	@Post
-	public GenericResponse addTags(PostRequest request) throws InsufficientAccessException {
-		// Security Hack
-		AccessToken accessToken = AccessTokenFilter.getAccessToken();
-		if(accessToken.getUserId() != 5073076857339904L) {
-			Logger.getLogger(TagsApi.class.getSimpleName())
-					.log(Level.SEVERE, "AccessToken : " + accessToken.getId());
-			Logger.getLogger(TagsApi.class.getSimpleName())
-					.log(Level.SEVERE, "User Id : " + accessToken.getUserId());
-			throw new InsufficientAccessException();
-		}
-
-		Gson gson = new Gson();
-		// Creating TagData object.
-		TagData tagData = gson.fromJson( gson.toJson( request ), TagData.class );
-
-		tagData = TagDataUtil.saveTag(tagData);
-
-
-		return new GenericResponse();
 	}
 
 }
