@@ -7,3 +7,4 @@ WORKDIR /var/lib/jetty
 COPY target/mark-6 $JETTY_BASE/webapps/ROOT
 
 EXPOSE 8080
+
