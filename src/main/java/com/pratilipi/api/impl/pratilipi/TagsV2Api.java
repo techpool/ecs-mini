@@ -47,52 +47,38 @@ public class TagsV2Api extends GenericApi {
 	}
 
 	public static class Response extends GenericResponse {
-		List<ResponseObject> response;
 
-		public Response() {}
+		List<TagData> STORY;
+		List<TagData> ARTICLE;
+		List<TagData> POEM;
 
-		public Response(List<ResponseObject> response) {
-			this.response = response;
+		public Response( List<TagData> STORY, List<TagData> ARTICLE, List<TagData> POEM ) {
+			this.STORY = STORY;
+			this.ARTICLE = ARTICLE;
+			this.POEM = POEM;
 		}
 
-		public static class ResponseObject {
-			PratilipiType pratilipiType;
-			String title;
-			List<TagData> STORY;
-			List<TagData> ARTICLE;
-			List<TagData> POEM;
-
-			public ResponseObject(PratilipiType pratilipiType, String title) {
-				this.pratilipiType = pratilipiType;
-				this.title = title;
-			}
-
-			public List<TagData> getTagDataList( String type ) {
-				if( type.equals( "STORY" ) )
-					return STORY;
-				else if( type.equals( "ARTICLE" ) )
-					return ARTICLE;
-				else if( type.equals( "POEM" ) )
-					return POEM;
-				return null;
-			}
-
-			public List<TagData> getStoryTagDataList() {
+		public List<TagData> getTagDataList( PratilipiType type ) {
+			if( type == PratilipiType.STORY )
 				return STORY;
-			}
-
-			public List<TagData> getArticleTagDataList() {
+			else if( type == PratilipiType.ARTICLE )
 				return ARTICLE;
-			}
-
-			public List<TagData> getPoemTagDataList() {
+			else if( type == PratilipiType.POEM )
 				return POEM;
-			}
-
+			else
+				return null;
 		}
 
-		public List<ResponseObject> getResponseObject() {
-			return response;
+		public List<TagData> getStoryTagDataList() {
+			return STORY;
+		}
+
+		public List<TagData> getArticleTagDataList() {
+			return ARTICLE;
+		}
+
+		public List<TagData> getPoemTagDataList() {
+			return POEM;
 		}
 	}
 
