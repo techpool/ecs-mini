@@ -4,7 +4,7 @@ WORKDIR /var/lib/jetty
 # RUN pwd
 # COPY mark-6.war $JETTY_HOME/start.war
 # COPY mark-6.war $JETTY_BASE/webapps/ROOT.war
-COPY target/mark-6 $JETTY_BASE/webapps/ROOT
+COPY target $JETTY_BASE/webapps/ROOT
 
 EXPOSE 8080
 
