@@ -3,6 +3,7 @@
 /Users/Raghu/git/intellij/ecs-mini/src/main/java/com/pratilipi/data/util/BlogPostDataUtil.java
 /Users/Raghu/git/intellij/ecs-mini/src/main/java/com/pratilipi/data/type/UserPratilipiDoc.java
 /Users/Raghu/git/intellij/ecs-mini/src/main/java/com/pratilipi/api/impl/pratilipi/PratilipiV1Api.java
+/Users/Raghu/git/intellij/ecs-mini/src/main/java/com/pratilipi/api/impl/pratilipi/TagsV2Api.java
 /Users/Raghu/git/intellij/ecs-mini/src/main/java/com/pratilipi/data/type/gae/PageEntity.java
 /Users/Raghu/git/intellij/ecs-mini/src/main/java/com/pratilipi/data/type/gae/NotificationEntity.java
 /Users/Raghu/git/intellij/ecs-mini/src/main/java/com/pratilipi/api/GenericService.java

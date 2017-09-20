@@ -47,6 +47,7 @@ import com.pratilipi.api.impl.pratilipi.PratilipiTagsUpdateApi;
 import com.pratilipi.api.impl.pratilipi.PratilipiV1Api;
 import com.pratilipi.api.impl.pratilipi.PratilipiV2Api;
 import com.pratilipi.api.impl.pratilipi.TagsApi;
+import com.pratilipi.api.impl.pratilipi.TagsV2Api;
 import com.pratilipi.api.impl.test.TestApi;
 import com.pratilipi.api.impl.user.*;
 import com.pratilipi.api.impl.userauthor.UserAuthorFollowListApi;
@@ -156,6 +157,7 @@ public class ApiService extends GenericService {
 		ApiRegistry.register( NavigationListApi.class );			// *.pratilipi.com
 
 		ApiRegistry.register( TagsApi.class );						// *.pratilipi.com
+		ApiRegistry.register( TagsV2Api.class );						// *.pratilipi.com
 		ApiRegistry.register( DeleteTagsApi.class );						// *.pratilipi.com
 
 		ApiRegistry.register( AppPropertyApi.class );						// *.pratilipi.com

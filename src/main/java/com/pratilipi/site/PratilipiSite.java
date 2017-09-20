@@ -284,10 +284,9 @@ public class PratilipiSite extends HttpServlet {
 						.getIndex( indexReq );
 
 
-				TagsApi.Request tagsRequest = new TagsApi.Request();
+				TagsV2Api.Request tagsRequest = new TagsV2Api.Request();
 				tagsRequest.setLanguage( pratilipiResponse.getLanguage() );
-				tagsRequest.setType( pratilipiResponse.getType() );
-				List<TagData> tags = ApiRegistry.getApi( TagsApi.class ).getTags( tagsRequest ).getResponseObject().get(0).getTagDataList();
+				List<TagData> tags = ApiRegistry.getApi( TagsV2Api.class ).getTags( tagsRequest ).getTagDataList( pratilipiResponse.getType() );
 
 				dataModel = new HashMap<String, Object>();
 				Gson gson = new Gson();

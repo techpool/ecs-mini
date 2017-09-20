@@ -172,6 +172,7 @@ com/pratilipi/common/util/PasswordUtil.class
 com/pratilipi/common/type/WidgetType.class
 com/pratilipi/data/DataAccessor.class
 com/pratilipi/common/util/FirebaseApi$NotificationDB.class
+com/pratilipi/api/impl/pratilipi/TagsV2Api$Request.class
 com/pratilipi/data/type/Email.class
 com/pratilipi/common/type/UserStatus.class
 com/pratilipi/api/impl/init/InitV2Api.class
@@ -263,6 +264,7 @@ com/pratilipi/data/type/doc/PratilipiContentDocImpl$ChapterImpl.class
 com/pratilipi/filter/DefaultFilter.class
 com/pratilipi/common/type/Website.class
 com/pratilipi/api/impl/notification/NotificationListApi$GetRequest.class
+com/pratilipi/api/impl/pratilipi/TagsV2Api$Response.class
 com/pratilipi/data/util/EventDataUtil.class
 com/pratilipi/api/impl/pratilipi/PratilipiContentImageApi$PostResponse.class
 com/pratilipi/api/impl/init/InitBannerListApi$Response.class
@@ -441,6 +443,7 @@ com/pratilipi/data/util/BlogPostDataUtil.class
 com/pratilipi/api/impl/vote/VoteApi.class
 com/pratilipi/common/type/RequestHeader.class
 com/pratilipi/data/util/CommentDataUtil.class
+com/pratilipi/api/impl/pratilipi/TagsV2Api.class
 com/pratilipi/api/impl/userauthor/UserAuthorFollowV1Api$PostRequest.class
 com/pratilipi/data/type/UserPratilipi.class
 com/pratilipi/api/shared/GenericResponse.class
