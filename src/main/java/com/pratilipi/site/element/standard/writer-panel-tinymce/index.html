@@ -23,7 +23,18 @@
 				</ul>
 			</div>
 			<div class="pull-right">
-				<button class="pratilipi-red-background-button" style="padding: 6px 12px; margin-right: 0px; border-radius: 4px;" data-toggle="modal" data-target="#categoryModal" data-behaviour="publish_button">${ _strings.writer_finish }</button>
+				<button
+						class="pratilipi-red-background-button"
+						style="padding: 6px 12px; margin-right: 0px; border-radius: 4px;"
+						data-toggle="modal"
+						<#if tags??>
+							data-target="#categoryModal"
+						<#else>
+							data-target="#publishModal"
+						</#if>
+						data-behaviour="publish_button">
+					${ _strings.writer_finish }
+				</button>
 				<button class="btn btn-default small-screen-hidden" style="margin: 0 5px 0 10px; font-size: 13px;" data-behaviour="save_button_desktop">${ _strings.writer_save }</button>
 				<a href="${ pratilipi.getReadPageUrl() }" target="_blank" class="btn btn-default small-screen-hidden" style="margin: 0 0px 0 5px; font-size: 13px;" data-behaviour="preview_button_desktop">${ _strings.writer_preview }</a>
 				<img	style="width: 48px; height: 25px; margin-right: -12px;" 
@@ -117,6 +128,7 @@
 	</div>
 </div>
 
+
 <#-- Modal for Adding categories -->
 <div class="modal fade" id="categoryModal" role="dialog" aria-labelledby="publishContent">
 	<div class="modal-dialog" role="document">
@@ -136,25 +148,27 @@
 					<span class="subtitle-span">( ${ _strings.tags_click_to_select } )</span>
 				</h5>
 				<div class="pratilipi-tag-container" style="padding-bottom: 10px">
-					<#list tags as tag>
-						<span id="${tag.getId()?c}" 
-							class="pratilipi-tags pratilipi-tag-element" 
-							data-behaviour="pratilipi_suggested_tag"
-							data-select="0" 
-							data-deselect="0">
-							${tag.getName()}
-						</span>
-					</#list>
+					<#if tags??>
+						<#list tags as tag>
+							<span id="${tag.getId()?c}"
+								class="pratilipi-tags pratilipi-tag-element"
+								data-behaviour="pratilipi_suggested_tag"
+								data-select="0"
+								data-deselect="0">
+								${tag.getName()}
+							</span>
+						</#list>
+					</#if>
 				</div>
 				<div style="padding-top: 10px">
 					<h5 class="material-subtitle-1">${ _strings.tags_add_your_own_category }</h5>
 					<div id="user-tags-container" class="pratilipi-tag-container" style="padding-bottom: 10px">
 						<#if pratilipi.getSuggestedTags()?? >
 							<#list pratilipi.getSuggestedTags() as tag>
-								<span 
-									class="user-tags pratilipi-tag-element pratilipi-tag-checked" 
+								<span
+									class="user-tags pratilipi-tag-element pratilipi-tag-checked"
 									data-behaviour="user_suggested_tag"
-									data-select="1" 
+									data-select="1"
 									data-deselect="0">
 									${tag}
 								</span>
@@ -162,7 +176,7 @@
 						</#if>
 					</div>
 					<div>
-						<input id="user_suggested_tags_input" placeholder="${ _strings.tags_type_here }" 
+						<input id="user_suggested_tags_input" placeholder="${ _strings.tags_type_here }"
 							style="border: 1px solid #D3D3D3; padding:5px;font-size:14px"/>
 						<button class="btn btn-default" style="margin-left:10px;" data-behaviour='add_user_tag_button'>
 							${ _strings.tags_add }
@@ -172,7 +186,7 @@
 			</div>
 			<div class="modal-footer text-center" style="text-align: center;">
 				<span id="category_msg" class="category-message-span">${_strings.tags_processing}</span>
-				<button class="pratilipi-red-background-modal-button" 
+				<button class="pratilipi-red-background-modal-button"
 					type="button"
 					data-behaviour='goto_summary_button'
 					style="float: right">
@@ -209,15 +223,17 @@
 					</div>
 				</div>
 				<div class="modal-footer text-center">
-					<button class="btn btn-default" 
-						type="button" 
-						data-toggle="modal" 
-						data-dismiss="modal"
-						data-target="#categoryModal" 
-						data-behaviour='goto_category_button'
-						style="float:left">
-						${ _strings.tags_goto_category }
-					</button>
+					<#if tags??>
+						<button class="btn btn-default"
+							type="button"
+							data-toggle="modal"
+							data-dismiss="modal"
+							data-target="#categoryModal"
+							data-behaviour='goto_category_button'
+							style="float:left">
+							${ _strings.tags_goto_category }
+						</button>
+					</#if>
 					<button type="submit" data-behaviour='final_publish_button' class="pratilipi-red-background-modal-button">${ _strings.writer_publish }</button>
 				</div>
 			</form>
