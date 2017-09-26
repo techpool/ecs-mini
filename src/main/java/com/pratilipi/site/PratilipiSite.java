@@ -286,8 +286,8 @@ public class PratilipiSite extends HttpServlet {
 
 				TagsV2Api.Request tagsRequest = new TagsV2Api.Request();
 				tagsRequest.setLanguage( pratilipiResponse.getLanguage() );
-
-				List<TagData> tags = ApiRegistry.getApi( TagsV2Api.class ).getTags( tagsRequest ).getTagDataList( pratilipiResponse.getType() );
+				TagsV2Api.Response tagsResponse = ApiRegistry.getApi( TagsV2Api.class ).getTags( tagsRequest );
+				List<TagData> tags = tagsResponse.getTagDataList( pratilipiResponse.getType() );
 
 				dataModel = new HashMap<String, Object>();
 				Gson gson = new Gson();
@@ -296,9 +296,10 @@ public class PratilipiSite extends HttpServlet {
 				dataModel.put( "authorId", authorId );
 				dataModel.put( "pratilipiId", pratilipiId );
 				dataModel.put( "pratilipi", pratilipiResponse );
-				dataModel.put( "pratilipiJson", new Gson().toJson( pratilipiResponse ) );
-				dataModel.put( "indexJson", new Gson().toJson( indexResponse ) );
+				dataModel.put( "pratilipiJson", gson.toJson( pratilipiResponse ) );
+				dataModel.put( "indexJson", gson.toJson( indexResponse ) );
 				dataModel.put( "tags", tags );
+				dataModel.put( "tagsJson", gson.toJson( tagsResponse ) );
 				dataModel.put( "ga_websiteVersion", "Mark-7" );
 
 				String action = request.getParameter( "action" );
@@ -570,6 +571,7 @@ public class PratilipiSite extends HttpServlet {
 			Map<String, String> pratilipiTypeMap = new HashMap<>();
 			pratilipiTypeMap.put( "name", I18n.getString( pratilipiType.getStringId(), displayLanguage ) );
 			pratilipiTypeMap.put( "namePlural", I18n.getString( pratilipiType.getPluralStringId(), displayLanguage ) );
+			pratilipiTypeMap.put( "value", pratilipiType.name() );
 			pratilipiTypes.put( pratilipiType, pratilipiTypeMap );
 		}
 
