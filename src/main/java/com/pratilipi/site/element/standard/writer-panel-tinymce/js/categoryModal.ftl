@@ -122,7 +122,8 @@ CategoryModal.prototype.addUserTag = function() {
 
 	var $deleteButton = $("<button/>", {
 		class: 'mdl-chip__action',
-		type: "button"
+		type: "button",
+		"data-behaviour": "remove_suggested_category"
 	}).append($("<div/>", {
 		"class": 'sprites-icon cross-with-circle-icon'
 	}));
