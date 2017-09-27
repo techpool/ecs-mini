@@ -1,22 +1,59 @@
 var CategoryModal = function() {
 	this.pratilipiTagIds = [];
 	this.pratilipi_data = ${ pratilipiJson };
-	
+	this.systemCategoriesJson = ${ systemCategoriesJson };
+	this.contentType = this.pratilipi_data.type;
+
 	this.nextButton = $( "[data-behaviour='goto_summary_button']" );
 	this.addTagButton = $( "[data-behaviour='add_user_tag_button']" );
-	this.pratilipiTag = $( "[data-behaviour='pratilipi_suggested_tag']" );
-	this.userTag = $( "[data-behaviour='user_suggested_tag']" );
+	this.pratilipiTag = $( "[data-behaviour='pratilipi_suggested_tag']" ); /* system categories*/
+	this.userTag = $( "[data-behaviour='user_suggested_tag']" ); /* already user sugg tags */
 	this.messageSpan = $("#category_msg");
-	
+	this.$systemCategoriesContainer = $( "[data-behaviour='system-categories-container']" );
+	this.$userTagsContainer = document.getElementById("user-tags-container");
+
 	this.fbEvent = new FBEvents();
 };
 
 CategoryModal.prototype.init = function() {
+	// this.preselectContentType();
+	// this.prepopulateSystemCategories();
 	this.setSelectedTags();
 	this.addClickListener();
-	
+
 	if (!(this.pratilipi_data.tags || this.pratilipi_data.suggestedTags) && !this.fbEvent.isUserAdmin())
 		this.nextButton.addClass('category-save-button-disabled');
+};
+
+CategoryModal.prototype.preselectContentType = function () {
+	var _this = this;
+	this.contentTypeRadios = document.querySelectorAll('input[type=radio][name="pratilipi-type"]');
+	if(['ARTICLE', 'STORY', 'POEM'].includes(contentType)) {
+		Array.prototype.forEach.call(this.contentTypeRadios, function(radio) {
+			if (radio.value == _this.contentType) {
+				radio.checked = true;
+			}
+		});
+	}
+};
+
+CategoryModal.prototype.prepopulateSystemCategories = function () {
+	if(['ARTICLE', 'STORY', 'POEM'].includes(contentType)) {
+		var systemCategories = _this.systemCategoriesJson[contentType];
+
+		for(var i=0; i<systemCategories.length; i++) {
+
+			$('<div/>', {
+				id: systemCategories[i].id,
+				"class": 'pratilipi-tags pratilipi-tag-element',
+				data-behaviour: "pratilipi_suggested_tag",
+				data-select: 0,
+				data-deselect: 0,
+				text: systemCategories[i].name
+			}).appendTo(this.$systemCategoriesContainer);
+
+		}
+	}
 };
 
 CategoryModal.prototype.addClickListener = function() {
@@ -25,15 +62,15 @@ CategoryModal.prototype.addClickListener = function() {
 	this.addTagButton.on('click', function() {
 		_this.addUserTag();
 	});
-	
+
 	this.pratilipiTag.on('click', function(event) {
 		_this.pratilipiTagClicked(event);
 	});
-	
+
 	this.userTag.on('click', function(event) {
 		_this.userTagClicked(event);
 	});
-	
+
 	this.nextButton.on('click', function() {
 		_this.saveTags();
 	});
@@ -54,20 +91,43 @@ CategoryModal.prototype.setSelectedTags = function() {
 
 
 CategoryModal.prototype.addUserTag = function() {
-	var userTagsContainer = document.getElementById("user-tags-container");
 	var inputElement = $("#user_suggested_tags_input");
 	var userTag = $.trim(inputElement.val());
 	var _this = this;
-	
+
 	if (!userTag)
 		return;
-		
+
 	/* clear input box. Add tag to the suggested list and to suggested selected list */
 	inputElement.val("");
 	inputElement.focus();
-	
+
 	/* Creating new span and appending to container div */
-	var newSpan = document.createElement("span");
+
+	var $suggestedTagDiv = $("<div/>", {
+		"class": 'pratilipi-tag-element font-16 pratilipi-tag-checked tag-deletable',
+		data-behaviour: "user_suggested_tag",
+		data-select: 1,
+		data-deselect: 0,
+	})
+
+	var $textSpan = $("<span/>", {
+		"class": 'mdl-chip__text font-16',
+		text: userTag
+	});
+
+	var $deleteButton = $("<button/>", {
+		class: 'mdl-chip__action',
+		type: "button"
+	}).append($("<div/>", {
+		"class": 'sprites-icon cross-with-circle-icon'
+	}));
+
+	$suggestedTagDiv.append($textSpan).append($deleteButton);
+
+	$suggestedTagDiv.appendTo(this.$userTagsContainer);
+
+	/*var newSpan = document.createElement("span");
 	newSpan.setAttribute("class", "user-tags pratilipi-tag-element pratilipi-tag-checked");
 	newSpan.setAttribute("data-behaviour", "user_suggested_tag");
 	newSpan.setAttribute("data-select", "1");
@@ -77,10 +137,11 @@ CategoryModal.prototype.addUserTag = function() {
 	};
 	newSpan.innerHTML = userTag;
 	userTagsContainer.appendChild(newSpan);
-	
+	*/
+
 	/* Enable next button */
 	this.nextButton.removeClass('category-save-button-disabled');
-	
+
 	/* FB - USER TAG SELECT EVENT */
 	this.fbEvent.logEvent('SELECT_TAG', null, userTag, null, null, null, null, null)
 };
@@ -93,7 +154,7 @@ CategoryModal.prototype.pratilipiTagClicked = function(event) {
 	if (element.hasClass("pratilipi-tag-checked")) {
 		/* Enable next button */
 		this.nextButton.removeClass('category-save-button-disabled');
-		
+
 		/* FB - CATEGORY SELECT EVENT */
 		var selectCount = Number(element.attr("data-select"))+1;
 		element.attr("data-select",selectCount);
@@ -104,11 +165,11 @@ CategoryModal.prototype.pratilipiTagClicked = function(event) {
 		if (!this.fbEvent.isUserAdmin()) {
 			/* disable if category is not selected */
 			var selectedCount = $(".pratilipi-tag-checked").length;
-			
+
 			if (!selectedCount)	/* disable when length is 0 */
 				this.nextButton.addClass('category-save-button-disabled');
 		}
-		
+
 		/* FB - CATEGORY DESELECT EVENT */
 		var deselectCount = Number(element.attr("data-deselect"))+1;
 		element.attr("data-deselect",deselectCount);
@@ -125,14 +186,14 @@ CategoryModal.prototype.userTagClicked = function(event) {
 	element.toggleClass("pratilipi-tag-checked");
 	if (!element.hasClass("pratilipi-tag-checked")) {
 		/* User is not an admin */
-		if (!this.fbEvent.isUserAdmin()) {	
+		if (!this.fbEvent.isUserAdmin()) {
 			/* disable if category is not selected */
 			var selectedCount = $(".pratilipi-tag-checked").length;
-			
+
 			if (!selectedCount)	/* disable when length is 0 */
 				this.nextButton.addClass('category-save-button-disabled');
 		}
-		
+
 		/* GA - USER TAG DESELECT EVENT */
 		var deselectCount = Number(element.attr("data-deselect"))+1;
 		element.attr("data-deselect",deselectCount);
@@ -151,8 +212,8 @@ CategoryModal.prototype.userTagClicked = function(event) {
 CategoryModal.prototype.saveTags = function() {
 	isCategoriesUpdated = false;
 	isUserTagsUpdated = false;
-	
-	
+
+
 	/* message to choose category */
 	if (this.nextButton.hasClass("category-save-button-disabled")) {
 		this.messageSpan.text('${ _strings.tags_add_category_to_proceed }');
@@ -160,13 +221,13 @@ CategoryModal.prototype.saveTags = function() {
 		this.messageSpan.css('visibility', 'visible');
 		return;
 	}
-	
+
 	selectedTagIds = [];
 	pratilipiSelectedTags = $(".pratilipi-tags.pratilipi-tag-checked");
 	pratilipiSelectedTags.each(function(i, object) {
 		selectedTagIds.push($(object).attr('id'));
 	});
-	if (this.pratilipiTagIds && this.pratilipiTagIds.length) {	/* self.pratilipi.tags is not null and not empty */ 
+	if (this.pratilipiTagIds && this.pratilipiTagIds.length) {	/* self.pratilipi.tags is not null and not empty */
 		if (selectedTagIds.toString() != this.pratilipiTagIds.toString()) {
 			isCategoriesUpdated = true;
 		}
@@ -174,7 +235,7 @@ CategoryModal.prototype.saveTags = function() {
 		if (selectedTagIds.length > 0)	/* selectedTagIds length is greater than 0 */
 			isCategoriesUpdated = true;
 	}
-	
+
 	userTags = [];
 	userSelectedTags = $(".user-tags.pratilipi-tag-checked");
 	userSelectedTags.each(function(i, object) {
@@ -182,7 +243,7 @@ CategoryModal.prototype.saveTags = function() {
 		userTags.push(value);
 	});
 	/* existing suggested tags is not null and not equal to updated value */
-	if (this.pratilipi_data.suggestedTags) { /* this.pratilipi_data.suggestedTags is not null */ 
+	if (this.pratilipi_data.suggestedTags) { /* this.pratilipi_data.suggestedTags is not null */
 		if (userTags.toString() != this.pratilipi_data.suggestedTags.toString()) {
 			isUserTagsUpdated = true;
 		}
@@ -190,14 +251,14 @@ CategoryModal.prototype.saveTags = function() {
 		if (userTags.length > 0)  /* suggestedTags length is greater than 0 */
 			isUserTagsUpdated = true;
 	}
-	
+
 	if (isCategoriesUpdated || isUserTagsUpdated) {
-	
+
 		var fbEventType, fbEventValue;
-					
+
 		if (isCategoriesUpdated && isUserTagsUpdated) {
 			fbEventValue = "CATEGORY_TAG";
-			if ((this.pratilipiTagIds && this.pratilipiTagIds.length) && 
+			if ((this.pratilipiTagIds && this.pratilipiTagIds.length) &&
 					(this.pratilipi_data.suggestedTags && this.pratilipi_data.suggestedTags.length))
 				fbEventType =  "UPDATE";
 			else
@@ -215,12 +276,12 @@ CategoryModal.prototype.saveTags = function() {
 			else
 				fbEventType =  "NEW";
 		}
-		
+
 		/* making server call */
 		this.ajaxCall(selectedTagIds, userTags, fbEventType, fbEventValue);
 		return;
 	}
-	
+
 	/* server call not required when author come to edit content OR user is an admin */
 	if (this.pratilipi_data.suggestedTags || this.pratilipi_data.tags || this.fbEvent.isUserAdmin()) {
 		/* move to next modal */
@@ -228,35 +289,35 @@ CategoryModal.prototype.saveTags = function() {
 		$('#publishModal').modal('show');
 		return;
 	}
-	
+
 };
 
 
 CategoryModal.prototype.ajaxCall = function(selectedTags, userTags, fbEventType, fbEventValue) {
 	var _this = this;
 
-	var ajaxData = { 
+	var ajaxData = {
 		pratilipiId: ${ pratilipiId?c },
 		type: _this.pratilipi_data.type,
 		tagIds: JSON.stringify(selectedTags),
 		suggestedTags: JSON.stringify(userTags)
 	};
-	
+
 	toastr.options = {
 		positionClass: 'toast-top-center',
 		"timeOut": "500"
 	};
-	
+
 	var isSuccess = 0;
 	$.ajax({
 		type: "POST",
 		url: "/api/pratilipi/tags/update",
 		data: ajaxData,
 		beforeSend: function() {
-			
+
 			/* disable elements before making server call */
 			_this.nextButton.attr('disabled', true);
-			
+
 			/* show processing message */
 			_this.messageSpan.text('${_strings.tags_processing}');
 			_this.messageSpan.removeClass('category-failed-message');
@@ -266,17 +327,17 @@ CategoryModal.prototype.ajaxCall = function(selectedTags, userTags, fbEventType,
 			console.log("Server call successful");
 			toastr.success( '${_strings.updated_pratilipi_info_success}' );
 			isSuccess = 1;
-			
+
 			_this.pratilipiTagIds = selectedTags.slice();
-			
+
 			/* Update suggested tag in praitlipi_data json and recreate all spans. */
 			_this.pratilipi_data.suggestedTags = userTags;
 			_this.createUserTagSpans(userTags);
-			
+
 			/* Enabling next button and hide processing message. */
 			_this.nextButton.removeAttr('disabled');
 			_this.messageSpan.css('visibility', 'hidden');
-			
+
 			/* hide current modal and show publish modal */
 			$("#categoryModal").modal("hide");
 			$('#publishModal').modal('show');
@@ -285,7 +346,7 @@ CategoryModal.prototype.ajaxCall = function(selectedTags, userTags, fbEventType,
 			console.log("Server call failed");
 			_this.nextButton.removeAttr('disabled');
 			isSuccess = 0;
-			
+
 			/* show retry message */
 			_this.messageSpan.text('${ _strings.tags_please_retry }');
 			_this.messageSpan.addClass('category-failed-message');
@@ -303,7 +364,7 @@ CategoryModal.prototype.ajaxCall = function(selectedTags, userTags, fbEventType,
 				userTags ? userTags.toString() : null,
 				isSuccess
 			);
-		}			
+		}
 	});
 };
 
@@ -311,12 +372,12 @@ CategoryModal.prototype.ajaxCall = function(selectedTags, userTags, fbEventType,
 CategoryModal.prototype.createUserTagSpans = function(userTags) {
 	var userTagsContainer = document.getElementById("user-tags-container");
 	var _this = this;
-	
+
 	/* Remove existing tags. */
 	while (userTagsContainer.hasChildNodes()) {
 	    userTagsContainer.removeChild(userTagsContainer.lastChild);
 	}
-	
+
 	/* Add New tags */
 	userTags.forEach(function(tag) {
 		var newSpan = document.createElement("span");
@@ -331,4 +392,3 @@ CategoryModal.prototype.createUserTagSpans = function(userTags) {
 		userTagsContainer.appendChild(newSpan);
 	});
 };
-
