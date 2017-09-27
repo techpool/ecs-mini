@@ -67,7 +67,7 @@ CategoryModal.prototype.addClickListener = function() {
 		_this.pratilipiTagClicked(event);
 	});
 
-	this.$userTagsContainer.on( "click", "button[data-behaviour='remove_suggested_category'", function( event ) {
+	this.$userTagsContainer.on( "click", "button[data-behaviour='remove_suggested_category']", function( event ) {
     _this.userTagClicked( $( this ) );
 	});
 
