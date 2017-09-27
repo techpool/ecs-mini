@@ -566,6 +566,15 @@ public class PratilipiSite extends HttpServlet {
 		// Adding common data to the Data Model
 		Gson gson = new Gson();
 
+		List<Map<String, Object>> pratilipiTypesList = new ArrayList<>();
+		for( PratilipiType pratilipiType : PratilipiType.values() ) {
+			Map<String, Object> type = new HashMap<>();
+			type.put( "name", I18n.getString( pratilipiType.getStringId(), displayLanguage ) );
+			type.put( "namePlural", I18n.getString( pratilipiType.getPluralStringId(), displayLanguage ) );
+			type.put( "value", pratilipiType.name() );
+			pratilipiTypesList.add( type );
+		}
+
 		Map<PratilipiType, Map<String, String>> pratilipiTypes = new HashMap<>();
 		for( PratilipiType pratilipiType : PratilipiType.values() ) {
 			Map<String, String> pratilipiTypeMap = new HashMap<>();
@@ -606,6 +615,7 @@ public class PratilipiSite extends HttpServlet {
 		dataModel.put( "user", userData );
 		dataModel.put( "userJson", gson.toJson( userData ) );
 		dataModel.put( "pratilipiTypes", pratilipiTypes );
+		dataModel.put( "pratilipiTypesList", pratilipiTypesList );
 		dataModel.put( "pratilipiTypesJson", gson.toJson( pratilipiTypes ) );
 		dataModel.put( "navigationListJson", gson.toJson( navigationList ) );
 		dataModel.put( "stage", SystemProperty.STAGE );
