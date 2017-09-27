@@ -67,9 +67,13 @@ CategoryModal.prototype.addClickListener = function() {
 		_this.pratilipiTagClicked(event);
 	});
 
-	this.userTag.on('click', function(event) {
-		_this.userTagClicked(event);
+	this.$userTagsContainer.on( "click", "button[data-behaviour='remove_suggested_category'", function( event ) {
+    _this.userTagClicked( $( this ) );
 	});
+
+	/*this.userTag.on('click', function(event) {
+		_this.userTagClicked(event);
+	});*/
 
 	this.nextButton.on('click', function() {
 		_this.saveTags();
@@ -181,31 +185,8 @@ CategoryModal.prototype.pratilipiTagClicked = function(event) {
 };
 
 
-CategoryModal.prototype.userTagClicked = function(event) {
-	var element = $(event.target);
-	element.toggleClass("pratilipi-tag-checked");
-	if (!element.hasClass("pratilipi-tag-checked")) {
-		/* User is not an admin */
-		if (!this.fbEvent.isUserAdmin()) {
-			/* disable if category is not selected */
-			var selectedCount = $(".pratilipi-tag-checked").length;
-
-			if (!selectedCount)	/* disable when length is 0 */
-				this.nextButton.addClass('category-save-button-disabled');
-		}
-
-		/* GA - USER TAG DESELECT EVENT */
-		var deselectCount = Number(element.attr("data-deselect"))+1;
-		element.attr("data-deselect",deselectCount);
-		if (deselectCount == 1) {/* send GA event only first time */
-			var userTag = $.trim(element.text());
-			if (this.pratilipi_data.suggestedTags.indexOf(userTag) != -1) /* send only if it is existing user tag */
-				this.fbEvent.logEvent('DESELECT_TAG', null, userTag, null, null, null, null, null);
-		}
-	} else {
-		/* Enable next button */
-		this.nextButton.removeClass('category-save-button-disabled');
-	}
+CategoryModal.prototype.userTagClicked = function($element) {
+	$element.closest("div[data-behaviour='user_suggested_tag']").remove();
 };
 
 
