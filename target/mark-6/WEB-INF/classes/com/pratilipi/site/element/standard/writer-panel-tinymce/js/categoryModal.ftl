@@ -46,9 +46,9 @@ CategoryModal.prototype.prepopulateSystemCategories = function () {
 			$('<div/>', {
 				id: systemCategories[i].id,
 				"class": 'pratilipi-tags pratilipi-tag-element',
-				data-behaviour: "pratilipi_suggested_tag",
-				data-select: 0,
-				data-deselect: 0,
+				"data-behaviour": "pratilipi_suggested_tag",
+				"data-select": 0,
+				"data-deselect": 0,
 				text: systemCategories[i].name
 			}).appendTo(this.$systemCategoriesContainer);
 
@@ -106,9 +106,9 @@ CategoryModal.prototype.addUserTag = function() {
 
 	var $suggestedTagDiv = $("<div/>", {
 		"class": 'pratilipi-tag-element font-16 pratilipi-tag-checked tag-deletable',
-		data-behaviour: "user_suggested_tag",
-		data-select: 1,
-		data-deselect: 0,
+		"data-behaviour": "user_suggested_tag",
+		"data-select": 1,
+		"data-deselect": 0,
 	})
 
 	var $textSpan = $("<span/>", {
