@@ -10,7 +10,7 @@ var CategoryModal = function() {
 	this.userTag = $( "[data-behaviour='user_suggested_tag']" ); /* already user sugg tags */
 	this.messageSpan = $("#category_msg");
 	this.$systemCategoriesContainer = $( "[data-behaviour='system-categories-container']" );
-	this.$userTagsContainer = document.getElementById("user-tags-container");
+	this.$userTagsContainer = $("#user-tags-container");
 
 	this.fbEvent = new FBEvents();
 };
