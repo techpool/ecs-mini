@@ -1,7 +1,7 @@
 var CategoryModal = function() {
 	this.pratilipiTagIds = [];
 	this.pratilipi_data = ${ pratilipiJson };
-	this.systemCategoriesJson = ${ systemCategoriesJson };
+	this.systemCategoriesJson = ${ tagsJson };
 	this.contentType = this.pratilipi_data.type;
 
 	this.nextButton = $( "[data-behaviour='goto_summary_button']" );
