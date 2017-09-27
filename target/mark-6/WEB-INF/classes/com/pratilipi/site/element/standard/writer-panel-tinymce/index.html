@@ -143,6 +143,9 @@
 													<input type="radio"
 													       name="pratilipi-type"
 													       value="${ pratilipiType.value }" id="radio-${ pratilipiType.value }"
+																 <#if pratilipiType.value == pratilipi.getType()>
+																 checked
+																 </#if>
 													>
 													<label for="radio-${ pratilipiType.value }">
 														${ pratilipiType.name }
