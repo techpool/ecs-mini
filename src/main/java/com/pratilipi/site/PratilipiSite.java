@@ -605,6 +605,7 @@ public class PratilipiSite extends HttpServlet {
 		dataModel.put( "deferredResourceList", deferredResourceList );
 		dataModel.put( "user", userData );
 		dataModel.put( "userJson", gson.toJson( userData ) );
+		dataModel.put( "pratilipiTypes", pratilipiTypes );
 		dataModel.put( "pratilipiTypesJson", gson.toJson( pratilipiTypes ) );
 		dataModel.put( "navigationListJson", gson.toJson( navigationList ) );
 		dataModel.put( "stage", SystemProperty.STAGE );
