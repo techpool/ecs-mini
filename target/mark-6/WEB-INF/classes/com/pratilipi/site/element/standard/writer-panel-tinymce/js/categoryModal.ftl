@@ -130,10 +130,13 @@ CategoryModal.prototype.changeSystemCategoriesOptions = function (contentType) {
 
 CategoryModal.prototype.handleContentTypeChange = function ($element) {
 	this.changeSystemCategoriesOptions($element.val());
-
+	this.showSystemCategoriesLengthViolationMsg(false);
 	if($element.val() == this.contentType) {
 		if(this.pratilipiTagIds.length) {
 			this.markSystemCategoriesAsChecked(this.pratilipiTagIds);
+		}
+		if(this.pratilipiTagIds.length > 3) {
+			this.showSystemCategoriesLengthViolationMsg(true);
 		}
 	}
 };
