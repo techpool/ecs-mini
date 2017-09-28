@@ -405,6 +405,6 @@ CategoryModal.prototype.disableAddSuggestedTagButton = function (disableButtonBo
 
 
 CategoryModal.prototype.checkSuggestedTagLength = function ($input) {
-	showSuggestedCategoryLengthViolationMessage($input.val() > 30);
-	disableAddSuggestedTagButton($input.val() > 30);
+	this.showSuggestedCategoryLengthViolationMessage($input.val() > 30);
+	this.disableAddSuggestedTagButton($input.val() > 30);
 };
