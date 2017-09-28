@@ -113,7 +113,7 @@ CategoryModal.prototype.markSystemCategoriesAsChecked = function (categoryIds) {
 
 CategoryModal.prototype.changeSystemCategoriesOptions = function (contentType) {
 	this.$systemCategoriesContainer.remove();
-	var systemCategories = _this.systemCategoriesJson[contentType];
+	var systemCategories = this.systemCategoriesJson[contentType];
 
 	for(var i=0; i<systemCategories.length; i++) {
 		$('<div/>', {
