@@ -609,7 +609,7 @@ blockquote {
 }
 
 .chevron-right-icon-36 {
-    background-position: 0 -288;
+    background-position: 0 -288px;
 }
 .camera-sprite-icon {
     background-position: 0 -216px;

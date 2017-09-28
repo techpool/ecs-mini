@@ -159,15 +159,15 @@
 										category
 										<span class="subtitle-span" data-behaviour="system-categories-length-msg">select maximum 3 categories</span>
 									</h5>
-									<div class="pratilipi-tag-container" style="padding-bottom: 10px">
+									<div class="pratilipi-tag-container" style="padding-bottom: 10px" data-behaviour="system-categories-container">
 										<#list tags as tag>
-											<span id="${tag.getId()?c}"
+											<div id="${tag.getId()?c}"
 											      class="pratilipi-tags pratilipi-tag-element"
 											      data-behaviour="pratilipi_suggested_tag"
 											      data-select="0"
 											      data-deselect="0">
 												${tag.getName()}
-											</span>
+											</div>
 										</#list>
 									</div>
 									<div style="padding-top: 10px">

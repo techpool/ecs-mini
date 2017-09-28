@@ -14,6 +14,7 @@ var CategoryModal = function() {
 	this.$systemCategoriesLengthViolationMsgContainer = $("[data-behaviour='system-categories-length-msg']");
 	this.$suggestedCategoriesLengthViolationMsgContainer = $("[data-behaviour='suggested-categories-length-msg']");
 	this.$suggestedCategoryInput = $("#user_suggested_tags_input");
+	this.$contentTypeRadios = $("input[type=radio][name='pratilipi-type']");
 	this.fbEvent = new FBEvents();
 };
 
@@ -84,6 +85,10 @@ CategoryModal.prototype.addChangeListeners = function () {
 	this.$suggestedCategoryInput.on('change paste keyup', function() {
     _this.checkSuggestedTagLength($(this));
 	});
+
+	this.$contentTypeRadios.on('change', function () {
+		_this.handleContentTypeChange($(this));
+	});
 };
 
 
@@ -96,6 +101,40 @@ CategoryModal.prototype.setSelectedTags = function() {
 			$('#' + tag.id).attr("data-select", "1");
 			_this.pratilipiTagIds.push(tag.id);
 		});
+	}
+};
+
+CategoryModal.prototype.markSystemCategoriesAsChecked = function (categoryIds) {
+	categoryIds.forEach(function(id){
+		$('#' + id).addClass("pratilipi-tag-checked");
+		$('#' + id).attr("data-select", "1");
+	});
+};
+
+CategoryModal.prototype.changeSystemCategoriesOptions = function (contentType) {
+	this.$systemCategoriesContainer.remove();
+	var systemCategories = _this.systemCategoriesJson[contentType];
+
+	for(var i=0; i<systemCategories.length; i++) {
+		$('<div/>', {
+			id: systemCategories[i].id,
+			"class": 'pratilipi-tags pratilipi-tag-element',
+			"data-behaviour": "pratilipi_suggested_tag",
+			"data-select": 0,
+			"data-deselect": 0,
+			text: systemCategories[i].name
+		}).appendTo(this.$systemCategoriesContainer);
+
+	}
+};
+
+CategoryModal.prototype.handleContentTypeChange = function ($element) {
+	this.changeSystemCategoriesOptions($element.val());
+
+	if($element.val() == this.contentType) {
+		if(this.pratilipiTagIds.length) {
+			this.markSystemCategoriesAsChecked(this.pratilipiTagIds);
+		}
 	}
 };
 
