@@ -2,8 +2,8 @@ var CategoryModal = function() {
 	this.pratilipiTagIds = [];
 	this.pratilipi_data = ${ pratilipiJson };
 	this.systemCategoriesJson = ${ tagsJson };
-	this.contentType = this.pratilipi_data.type;
-
+	this.originalContentType = this.pratilipi_data.type;
+	this.currentContentType = this.pratilipi_data.type;
 	this.nextButton = $( "[data-behaviour='goto_summary_button']" );
 	this.addTagButton = $( "[data-behaviour='add_user_tag_button']" );
 	this.pratilipiTag = $( "[data-behaviour='system_category']" ); /* system categories*/
@@ -34,7 +34,7 @@ CategoryModal.prototype.preselectContentType = function () {
 	this.contentTypeRadios = document.querySelectorAll('input[type=radio][name="pratilipi-type"]');
 	if(['ARTICLE', 'STORY', 'POEM'].includes(contentType)) {
 		Array.prototype.forEach.call(this.contentTypeRadios, function(radio) {
-			if (radio.value == _this.contentType) {
+			if (radio.value == _this.originalContentType) {
 				radio.checked = true;
 			}
 		});
@@ -129,9 +129,10 @@ CategoryModal.prototype.changeSystemCategoriesOptions = function (contentType) {
 };
 
 CategoryModal.prototype.handleContentTypeChange = function ($element) {
-	this.changeSystemCategoriesOptions($element.val());
+	this.currentContentType = $element.val();
+	this.changeSystemCategoriesOptions(this.currentContentType);
 	this.showSystemCategoriesLengthViolationMsg(false);
-	if($element.val() == this.contentType) {
+	if(this.currentContentType == this.originalContentType) {
 		if(this.pratilipiTagIds.length) {
 			this.markSystemCategoriesAsChecked(this.pratilipiTagIds);
 		}
@@ -333,7 +334,7 @@ CategoryModal.prototype.ajaxCall = function(selectedTags, userTags, fbEventType,
 
 	var ajaxData = {
 		pratilipiId: ${ pratilipiId?c },
-		type: _this.pratilipi_data.type,
+		type: _this.currentContentType,
 		tagIds: JSON.stringify(selectedTags),
 		suggestedTags: JSON.stringify(userTags)
 	};
