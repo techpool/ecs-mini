@@ -560,7 +560,7 @@ blockquote {
 }
 .sprites-icon {
     background-image: url(resources/icons-writer.svg);
-    background-size: 24px 288px;
+    background-size: 24px 312px;
     display: inline-block;
     width: 24px;
     height: 24px;
@@ -568,7 +568,7 @@ blockquote {
 }
 .sprites-icon-size-16 {
     background-image: url(resources/icons-writer.svg);
-    background-size: 16px 160px;
+    background-size: 16px 208px;
     display: inline-block;
     width: 16px;
     height: 16px;
@@ -576,7 +576,7 @@ blockquote {
 }
 .sprites-icon-size-36 {
     background-image: url(resources/icons-writer.svg);
-    background-size: 36px 360px;
+    background-size: 36px 468px;
     display: inline-block;
     width: 36px;
     height: 36px;
@@ -605,22 +605,30 @@ blockquote {
     background-position: 0 -144px;
 }
 .chevron-left-icon-36 {
-    background-position: 0 180px;
+    background-position: 0 -252px;
 }
 
 .chevron-right-icon-36 {
-    background-position: 0 144px;
+    background-position: 0 -288;
 }
 .camera-sprite-icon {
-    background-position: 0 72px;
+    background-position: 0 -216px;
 }
 
 .cross-with-circle-icon {
-    background-position:0 48px;
+    background-position:0 -240px;
 }
 
 .submit-icon {
-    background-position:0 24px;
+    background-position:0 -264px;
+}
+
+.submit-icon {
+    background-position:0 -264px;
+}
+
+.info-icon-16 {
+    background-position:0 -192px;
 }
 
 @media only screen and (max-device-width: 549px)  {
@@ -971,6 +979,12 @@ button[disabled], html input[disabled] {
     overflow: hidden;
     color: inherit;
     line-height: normal;
+}
+
+.mdl-button[disabled][disabled], .mdl-button.mdl-button--disabled.mdl-button--disabled {
+    color: rgba(0,0,0,0.26);
+    cursor: default;
+    background-color: transparent;
 }
 
 .tag-deletable{

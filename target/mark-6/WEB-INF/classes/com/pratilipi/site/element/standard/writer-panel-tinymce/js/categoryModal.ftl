@@ -12,7 +12,8 @@ var CategoryModal = function() {
 	this.$systemCategoriesContainer = $( "[data-behaviour='system-categories-container']" );
 	this.$userTagsContainer = $("#user-tags-container");
 	this.$systemCategoriesLengthViolationMsgContainer = $("[data-behaviour='system-categories-length-msg']");
-
+	this.$suggestedCategoriesLengthViolationMsgContainer = $("[data-behaviour='suggested-categories-length-msg']");
+	this.$suggestedCategoryInput = $("#user_suggested_tags_input");
 	this.fbEvent = new FBEvents();
 };
 
@@ -21,6 +22,7 @@ CategoryModal.prototype.init = function() {
 	// this.prepopulateSystemCategories();
 	this.setSelectedTags();
 	this.addClickListener();
+	this.addChangeListeners();
 
 	if (!(this.pratilipi_data.tags || this.pratilipi_data.suggestedTags) && !this.fbEvent.isUserAdmin())
 		this.nextButton.addClass('category-save-button-disabled');
@@ -74,6 +76,13 @@ CategoryModal.prototype.addClickListener = function() {
 
 	this.nextButton.on('click', function() {
 		_this.saveTags();
+	});
+};
+
+CategoryModal.prototype.addChangeListeners = function () {
+	var _this = this;
+	this.$suggestedCategoryInput.on('change paste keyup', function() {
+    _this.checkSuggestedTagLength($(this));
 	});
 };
 
@@ -384,4 +393,18 @@ CategoryModal.prototype.showSystemCategoriesLengthViolationMsg = function (showE
 	} else {
 		this.$systemCategoriesLengthViolationMsgContainer.removeClass("pratilipi-red-important");
 	}
+};
+
+CategoryModal.prototype.showSuggestedCategoryLengthViolationMessage = function (showErrorBoolean) {
+	showErrorBoolean ? this.$suggestedCategoriesLengthViolationMsgContainer.show() : this.$suggestedCategoriesLengthViolationMsgContainer.hide();
+};
+
+CategoryModal.prototype.disableAddSuggestedTagButton = function (disableButtonBoolean) {
+	this.addTagButton.prop('disabled', disableButtonBoolean);
+};
+
+
+CategoryModal.prototype.checkSuggestedTagLength = function ($input) {
+	showSuggestedCategoryLengthViolationMessage($input.val() > 30);
+	disableAddSuggestedTagButton($input.val() > 30);
 };
