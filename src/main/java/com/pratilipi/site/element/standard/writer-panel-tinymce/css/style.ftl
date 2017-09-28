@@ -985,6 +985,7 @@ button[disabled], html input[disabled] {
     color: rgba(0,0,0,0.26);
     cursor: default;
     background-color: transparent;
+    opacity: 0.23 !important;
 }
 
 .tag-deletable{
