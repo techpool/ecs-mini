@@ -26,7 +26,7 @@ CategoryModal.prototype.init = function() {
 	this.addChangeListeners();
 
 	if (!(this.pratilipi_data.tags || this.pratilipi_data.suggestedTags) && !this.fbEvent.isUserAdmin())
-		this.nextButton.addClass('category-save-button-disabled');
+		this.checkNextButtonState();
 };
 
 CategoryModal.prototype.preselectContentType = function () {
@@ -140,6 +140,8 @@ CategoryModal.prototype.handleContentTypeChange = function ($element) {
 			this.showSystemCategoriesLengthViolationMsg(true);
 		}
 	}
+
+	this.checkNextButtonState();
 };
 
 
@@ -194,7 +196,8 @@ CategoryModal.prototype.addUserTag = function() {
 	*/
 
 	/* Enable next button */
-	this.nextButton.removeClass('category-save-button-disabled');
+	/* this.nextButton.removeClass('category-save-button-disabled'); */
+	this.checkNextButtonState();
 
 	/* FB - USER TAG SELECT EVENT */
 	this.fbEvent.logEvent('SELECT_TAG', null, userTag, null, null, null, null, null)
@@ -210,8 +213,6 @@ CategoryModal.prototype.pratilipiTagClicked = function(element) {
 		this.showSystemCategoriesLengthViolationMsg(false);
 		element.toggleClass("pratilipi-tag-checked");
 		if (element.hasClass("pratilipi-tag-checked")) {
-			/* Enable next button */
-			this.nextButton.removeClass('category-save-button-disabled');
 
 			/* FB - CATEGORY SELECT EVENT */
 			var selectCount = Number(element.attr("data-select"))+1;
@@ -224,8 +225,6 @@ CategoryModal.prototype.pratilipiTagClicked = function(element) {
 				/* disable if category is not selected */
 				var selectedCount = $(".pratilipi-tag-checked").length;
 
-				if (!selectedCount)	/* disable when length is 0 */
-					this.nextButton.addClass('category-save-button-disabled');
 			}
 
 			/* FB - CATEGORY DESELECT EVENT */
@@ -236,12 +235,14 @@ CategoryModal.prototype.pratilipiTagClicked = function(element) {
 					this.fbEvent.logEvent('DESELECT_CATEGORY', null, id.toString(), null, null, null, null, null)
 			}
 		}
+		this.checkNextButtonState();
 	}
 };
 
 
 CategoryModal.prototype.userTagClicked = function($element) {
 	$element.closest("div[data-behaviour='user_suggested_tag']").remove();
+	this.checkNextButtonState();
 };
 
 
@@ -445,6 +446,15 @@ CategoryModal.prototype.disableAddSuggestedTagButton = function (disableButtonBo
 	this.addTagButton.prop('disabled', disableButtonBoolean);
 };
 
+CategoryModal.prototype.disableNextButton = function (disableButtonBoolean) {
+	this.nextButton.prop('disabled', disableButtonBoolean);
+};
+
+CategoryModal.prototype.checkNextButtonState = function () {
+	var systemCategoriesLength = $(".pratilipi-tags.pratilipi-tag-checked").length;
+	var suggestedCategoriesLength = $("[data-behaviour='user_suggested_tag']").length;
+	this.disableNextButton(suggestedCategoriesLength + systemCategoriesLength) == 0 || systemCategoriesLength > 3);
+};
 
 CategoryModal.prototype.checkSuggestedTagLength = function ($input) {
 	this.showSuggestedCategoryLengthViolationMessage($input.val().length > 30);
