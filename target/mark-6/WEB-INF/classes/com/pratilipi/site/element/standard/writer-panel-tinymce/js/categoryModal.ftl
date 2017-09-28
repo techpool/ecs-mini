@@ -453,7 +453,7 @@ CategoryModal.prototype.disableNextButton = function (disableButtonBoolean) {
 CategoryModal.prototype.checkNextButtonState = function () {
 	var systemCategoriesLength = $(".pratilipi-tags.pratilipi-tag-checked").length;
 	var suggestedCategoriesLength = $("[data-behaviour='user_suggested_tag']").length;
-	this.disableNextButton(suggestedCategoriesLength + systemCategoriesLength) == 0 || systemCategoriesLength > 3);
+	this.disableNextButton(suggestedCategoriesLength + systemCategoriesLength) == 0 || systemCategoriesLength > 3));
 };
 
 CategoryModal.prototype.checkSuggestedTagLength = function ($input) {
