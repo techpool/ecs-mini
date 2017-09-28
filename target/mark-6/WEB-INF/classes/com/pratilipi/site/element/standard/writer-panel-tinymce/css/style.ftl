@@ -976,3 +976,7 @@ button[disabled], html input[disabled] {
 .tag-deletable{
   padding-right: 4px;
 }
+
+.pratilipi-red-important {
+  color: #d0021b !important;
+}

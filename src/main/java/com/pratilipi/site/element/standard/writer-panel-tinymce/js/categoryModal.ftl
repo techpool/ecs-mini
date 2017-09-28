@@ -11,6 +11,7 @@ var CategoryModal = function() {
 	this.messageSpan = $("#category_msg");
 	this.$systemCategoriesContainer = $( "[data-behaviour='system-categories-container']" );
 	this.$userTagsContainer = $("#user-tags-container");
+	this.$systemCategoriesLengthViolationMsgContainer = $("[data-behaviour='system-categories-length-msg']");
 
 	this.fbEvent = new FBEvents();
 };
@@ -70,10 +71,6 @@ CategoryModal.prototype.addClickListener = function() {
 	this.$userTagsContainer.on( "click", "button[data-behaviour='remove_suggested_category']", function( event ) {
     _this.userTagClicked( $( this ) );
 	});
-
-	/*this.userTag.on('click', function(event) {
-		_this.userTagClicked(event);
-	});*/
 
 	this.nextButton.on('click', function() {
 		_this.saveTags();
@@ -155,32 +152,38 @@ CategoryModal.prototype.addUserTag = function() {
 CategoryModal.prototype.pratilipiTagClicked = function(event) {
 	var element = $(event.target);
 	var id = element.attr('id');
-	element.toggleClass("pratilipi-tag-checked");
-	if (element.hasClass("pratilipi-tag-checked")) {
-		/* Enable next button */
-		this.nextButton.removeClass('category-save-button-disabled');
 
-		/* FB - CATEGORY SELECT EVENT */
-		var selectCount = Number(element.attr("data-select"))+1;
-		element.attr("data-select",selectCount);
-		if (selectCount == 1)	/* send FB event only first time */
-			this.fbEvent.logEvent('SELECT_CATEGORY', null, id.toString(), null, null, null, null, null)
+	if(!element.hasClass("pratilipi-tag-checked") && $(".pratilipi-tag-checked[data-behaviour='pratilipi_suggested_tag']").length >= 3) {
+		this.showSystemCategoriesLengthViolationMsg(true);
 	} else {
-		/* User is not an admin */
-		if (!this.fbEvent.isUserAdmin()) {
-			/* disable if category is not selected */
-			var selectedCount = $(".pratilipi-tag-checked").length;
+		this.showSystemCategoriesLengthViolationMsg(false);
+		element.toggleClass("pratilipi-tag-checked");
+		if (element.hasClass("pratilipi-tag-checked")) {
+			/* Enable next button */
+			this.nextButton.removeClass('category-save-button-disabled');
 
-			if (!selectedCount)	/* disable when length is 0 */
-				this.nextButton.addClass('category-save-button-disabled');
-		}
+			/* FB - CATEGORY SELECT EVENT */
+			var selectCount = Number(element.attr("data-select"))+1;
+			element.attr("data-select",selectCount);
+			if (selectCount == 1)	/* send FB event only first time */
+				this.fbEvent.logEvent('SELECT_CATEGORY', null, id.toString(), null, null, null, null, null)
+		} else {
+			/* User is not an admin */
+			if (!this.fbEvent.isUserAdmin()) {
+				/* disable if category is not selected */
+				var selectedCount = $(".pratilipi-tag-checked").length;
 
-		/* FB - CATEGORY DESELECT EVENT */
-		var deselectCount = Number(element.attr("data-deselect"))+1;
-		element.attr("data-deselect",deselectCount);
-		if (deselectCount == 1) { /* send FB event only first time */
-			if (this.pratilipiTagIds.indexOf(Number(id)) != -1) /* send only if it is existing category */
-				this.fbEvent.logEvent('DESELECT_CATEGORY', null, id.toString(), null, null, null, null, null)
+				if (!selectedCount)	/* disable when length is 0 */
+					this.nextButton.addClass('category-save-button-disabled');
+			}
+
+			/* FB - CATEGORY DESELECT EVENT */
+			var deselectCount = Number(element.attr("data-deselect"))+1;
+			element.attr("data-deselect",deselectCount);
+			if (deselectCount == 1) { /* send FB event only first time */
+				if (this.pratilipiTagIds.indexOf(Number(id)) != -1) /* send only if it is existing category */
+					this.fbEvent.logEvent('DESELECT_CATEGORY', null, id.toString(), null, null, null, null, null)
+			}
 		}
 	}
 };
@@ -373,4 +376,12 @@ CategoryModal.prototype.createUserTagSpans = function(userTags) {
 		};
 		userTagsContainer.appendChild(newSpan);
 	});
+};
+
+CategoryModal.prototype.showSystemCategoriesLengthViolationMsg = function (showErrorBoolean) {
+	if(showErrorBoolean) {
+		this.$systemCategoriesLengthViolationMsgContainer.addClass("pratilipi-red-important");
+	} else {
+		this.$systemCategoriesLengthViolationMsgContainer.removeClass("pratilipi-red-important");
+	}
 };
