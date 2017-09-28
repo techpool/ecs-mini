@@ -6,7 +6,7 @@ var CategoryModal = function() {
 
 	this.nextButton = $( "[data-behaviour='goto_summary_button']" );
 	this.addTagButton = $( "[data-behaviour='add_user_tag_button']" );
-	this.pratilipiTag = $( "[data-behaviour='pratilipi_suggested_tag']" ); /* system categories*/
+	this.pratilipiTag = $( "[data-behaviour='system_category']" ); /* system categories*/
 	this.userTag = $( "[data-behaviour='user_suggested_tag']" ); /* already user sugg tags */
 	this.messageSpan = $("#category_msg");
 	this.$systemCategoriesContainer = $( "[data-behaviour='system-categories-container']" );
@@ -50,7 +50,7 @@ CategoryModal.prototype.prepopulateSystemCategories = function () {
 			$('<div/>', {
 				id: systemCategories[i].id,
 				"class": 'pratilipi-tags pratilipi-tag-element',
-				"data-behaviour": "pratilipi_suggested_tag",
+				"data-behaviour": "system_category",
 				"data-select": 0,
 				"data-deselect": 0,
 				text: systemCategories[i].name
@@ -67,8 +67,8 @@ CategoryModal.prototype.addClickListener = function() {
 		_this.addUserTag();
 	});
 
-	this.pratilipiTag.on('click', function(event) {
-		_this.pratilipiTagClicked(event);
+	this.$systemCategoriesContainer.on("click", "div[data-behaviour='system_category']", function(event) {
+		_this.pratilipiTagClicked($(this));
 	});
 
 	this.$userTagsContainer.on( "click", "button[data-behaviour='remove_suggested_category']", function( event ) {
@@ -119,7 +119,7 @@ CategoryModal.prototype.changeSystemCategoriesOptions = function (contentType) {
 		$('<div/>', {
 			id: systemCategories[i].id,
 			"class": 'pratilipi-tags pratilipi-tag-element',
-			"data-behaviour": "pratilipi_suggested_tag",
+			"data-behaviour": "system_category",
 			"data-select": 0,
 			"data-deselect": 0,
 			text: systemCategories[i].name
@@ -197,11 +197,10 @@ CategoryModal.prototype.addUserTag = function() {
 };
 
 
-CategoryModal.prototype.pratilipiTagClicked = function(event) {
-	var element = $(event.target);
+CategoryModal.prototype.pratilipiTagClicked = function(element) {
 	var id = element.attr('id');
 
-	if(!element.hasClass("pratilipi-tag-checked") && $(".pratilipi-tag-checked[data-behaviour='pratilipi_suggested_tag']").length >= 3) {
+	if(!element.hasClass("pratilipi-tag-checked") && $(".pratilipi-tag-checked[data-behaviour='system_category']").length >= 3) {
 		this.showSystemCategoriesLengthViolationMsg(true);
 	} else {
 		this.showSystemCategoriesLengthViolationMsg(false);
