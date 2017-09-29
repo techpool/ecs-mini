@@ -131,9 +131,9 @@
 							</div>
 							<div style="padding:15px">
 								<#-- Categories code goes here -->
-									<span class="subtitle-span">( ${ _strings.tags_click_to_select } )</span>
+									<span class="subtitle-span">${ _strings.tags_select_for_max_people }</span>
 									<h5 class="material-subtitle-1">
-										${ _strings.tags_select_category }
+										${ _strings.tags_content_type }
 									</h5>
 
 									<form>
@@ -156,8 +156,8 @@
 									</form>
 
 									<h5 class="material-subtitle-1">
-										category
-										<span class="subtitle-span" data-behaviour="system-categories-length-msg">select maximum 3 categories</span>
+										${ _strings.tags_categories }
+										<span class="subtitle-span" data-behaviour="system-categories-length-msg">( ${ _strings.tags_select_best_three } )</span>
 									</h5>
 									<div class="pratilipi-tag-container" style="padding-bottom: 10px" data-behaviour="system-categories-container">
 										<#list tags as tag>
@@ -171,7 +171,7 @@
 										</#list>
 									</div>
 									<div style="padding-top: 10px">
-										<h5 class="material-subtitle-1">${ _strings.tags_add_your_own_category }</h5>
+										<h5 class="material-subtitle-1">${ _strings.tags_add_custom_category }</h5>
 										<div id="user-tags-container" class="pratilipi-tag-container" style="padding-bottom: 10px">
 											<#if pratilipi.getSuggestedTags()?? >
 												<#list pratilipi.getSuggestedTags() as tag>
@@ -187,7 +187,7 @@
 											</#if>
 										</div>
 										<div>
-											<input id="user_suggested_tags_input" placeholder="${ _strings.tags_type_here }"
+											<input id="user_suggested_tags_input" placeholder="${ _strings.tags_add_category }"
 											       class="form-control horizontal-form-input"
 											       style="padding:5px;font-size:14px;display: inline;width: 50%;"/>
 											<button class="mdl-button mdl-button--icon" data-behaviour='add_user_tag_button' style="margin-left:10px;">
@@ -195,7 +195,7 @@
 											</button>
 											<div class="pratilipi-red" data-behaviour="suggested-categories-length-msg" style="margin-top: 5px;display: none">
 												<div class="sprites-icon-size-16 info-icon-16"></div>
-												<span class="">Make a category less than 30 characters</span>
+												<span class="">${ _strings.tags_error_custom_thirty_chars }</span>
 											</div>
 										</div>
 									</div>
