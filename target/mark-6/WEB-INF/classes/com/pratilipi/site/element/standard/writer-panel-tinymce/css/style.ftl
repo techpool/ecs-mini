@@ -988,10 +988,22 @@ button[disabled], html input[disabled] {
     opacity: 0.23 !important;
 }
 
-.tag-deletable{
+.tag-deletable {
   padding-right: 4px;
 }
 
 .pratilipi-red-important {
   color: #d0021b !important;
+}
+
+.font-12 {
+  font-size: 12px !important;
+}
+
+.font-14 {
+  font-size: 12px !important;
+}
+
+.font-16 {
+  font-size: 12px !important;
 }

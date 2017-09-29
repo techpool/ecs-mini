@@ -131,8 +131,8 @@
 							</div>
 							<div style="padding:15px">
 								<#-- Categories code goes here -->
-									<span class="subtitle-span">${ _strings.tags_select_for_max_people }</span>
-									<h5 class="material-subtitle-1">
+									<span class="subtitle-span font-12">${ _strings.tags_select_for_max_people }</span>
+									<h5 class="material-subtitle-1 font-14">
 										${ _strings.tags_content_type }
 									</h5>
 
@@ -147,7 +147,7 @@
 																 checked
 																 </#if>
 													>
-													<label for="radio-${ pratilipiType.value }">
+													<label class="font-14" for="radio-${ pratilipiType.value }">
 														${ pratilipiType.name }
 													</label>
 												</div>
@@ -155,14 +155,14 @@
 										</#list>
 									</form>
 
-									<h5 class="material-subtitle-1">
+									<h5 class="material-subtitle-1 font-14">
 										${ _strings.tags_categories }
-										<span class="subtitle-span" data-behaviour="system-categories-length-msg">( ${ _strings.tags_select_best_three } )</span>
+										<span class="subtitle-span font-12" data-behaviour="system-categories-length-msg">( ${ _strings.tags_select_best_three } )</span>
 									</h5>
 									<div class="pratilipi-tag-container" style="padding-bottom: 10px" data-behaviour="system-categories-container">
 										<#list tags as tag>
 											<div id="${tag.getId()?c}"
-											      class="pratilipi-tags pratilipi-tag-element"
+											      class="pratilipi-tags pratilipi-tag-element font-14"
 											      data-behaviour="system_category"
 											      data-select="0"
 											      data-deselect="0">
@@ -171,12 +171,12 @@
 										</#list>
 									</div>
 									<div style="padding-top: 10px">
-										<h5 class="material-subtitle-1">${ _strings.tags_add_custom_category }</h5>
+										<h5 class="material-subtitle-1 font-14">${ _strings.tags_add_custom_category }</h5>
 										<div id="user-tags-container" class="pratilipi-tag-container" style="padding-bottom: 10px">
 											<#if pratilipi.getSuggestedTags()?? >
 												<#list pratilipi.getSuggestedTags() as tag>
 													<div
-															class="pratilipi-tag-element font-16 pratilipi-tag-checked tag-deletable"
+															class="pratilipi-tag-element font-14 pratilipi-tag-checked tag-deletable"
 															data-behaviour="user_suggested_tag"
 															data-select="1"
 															data-deselect="0">
@@ -188,7 +188,7 @@
 										</div>
 										<div>
 											<input id="user_suggested_tags_input" placeholder="${ _strings.tags_add_category }"
-											       class="form-control horizontal-form-input"
+											       class="form-control horizontal-form-input font-14"
 											       style="padding:5px;font-size:14px;display: inline;width: 50%;"/>
 											<button class="mdl-button mdl-button--icon" data-behaviour='add_user_tag_button' style="margin-left:10px;">
 												<div class="sprites-icon submit-icon"></div>
