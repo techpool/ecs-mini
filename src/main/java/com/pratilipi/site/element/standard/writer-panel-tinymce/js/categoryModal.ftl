@@ -252,12 +252,12 @@ CategoryModal.prototype.saveTags = function() {
 
 
 	/* message to choose category */
-	if (this.nextButton.hasClass("category-save-button-disabled")) {
+	/* if (this.nextButton.hasClass("category-save-button-disabled")) {
 		this.messageSpan.text('${ _strings.tags_add_category_to_proceed }');
 		this.messageSpan.addClass('category-failed-message');
 		this.messageSpan.css('visibility', 'visible');
 		return;
-	}
+	} */
 
 	selectedTagIds = [];
 	pratilipiSelectedTags = $(".pratilipi-tags.pratilipi-tag-checked");
@@ -274,9 +274,9 @@ CategoryModal.prototype.saveTags = function() {
 	}
 
 	userTags = [];
-	userSelectedTags = $(".user-tags.pratilipi-tag-checked");
+	userSelectedTags = $("[data-behaviour='user_suggested_tag']");
 	userSelectedTags.each(function(i, object) {
-		var value = $.trim($(object).text());
+		var value = $.trim($(object).find("span").text());
 		userTags.push(value);
 	});
 	/* existing suggested tags is not null and not equal to updated value */
