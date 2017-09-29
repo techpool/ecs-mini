@@ -94,7 +94,7 @@ CategoryModal.prototype.addChangeListeners = function () {
 
 
 CategoryModal.prototype.setSelectedTags = function() {
-	_this.showSystemCategoriesLengthViolationMsg(false);
+	this.showSystemCategoriesLengthViolationMsg(false);
 	var tags = this.pratilipi_data.tags;
 	var _this = this;
 	if (tags) {
