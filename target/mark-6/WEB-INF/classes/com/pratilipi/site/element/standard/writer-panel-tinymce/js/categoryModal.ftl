@@ -94,6 +94,7 @@ CategoryModal.prototype.addChangeListeners = function () {
 
 
 CategoryModal.prototype.setSelectedTags = function() {
+	_this.showSystemCategoriesLengthViolationMsg(false);
 	var tags = this.pratilipi_data.tags;
 	var _this = this;
 	if (tags) {
@@ -102,6 +103,10 @@ CategoryModal.prototype.setSelectedTags = function() {
 			$('#' + tag.id).attr("data-select", "1");
 			_this.pratilipiTagIds.push(tag.id);
 		});
+
+		if(tags.length > 3) {
+			_this.showSystemCategoriesLengthViolationMsg(true);
+		}
 	}
 };
 
@@ -432,11 +437,7 @@ CategoryModal.prototype.createUserTagSpans = function(userTags) {
 };
 
 CategoryModal.prototype.showSystemCategoriesLengthViolationMsg = function (showErrorBoolean) {
-	if(showErrorBoolean) {
-		this.$systemCategoriesLengthViolationMsgContainer.addClass("pratilipi-red-important");
-	} else {
-		this.$systemCategoriesLengthViolationMsgContainer.removeClass("pratilipi-red-important");
-	}
+	showErrorBoolean ? this.$systemCategoriesLengthViolationMsgContainer.show() : this.$systemCategoriesLengthViolationMsgContainer.hide();
 };
 
 CategoryModal.prototype.showSuggestedCategoryLengthViolationMessage = function (showErrorBoolean) {
