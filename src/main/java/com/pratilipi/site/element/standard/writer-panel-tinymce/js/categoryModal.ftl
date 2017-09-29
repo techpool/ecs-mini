@@ -25,8 +25,9 @@ CategoryModal.prototype.init = function() {
 	this.addClickListener();
 	this.addChangeListeners();
 
-	if (!(this.pratilipi_data.tags || this.pratilipi_data.suggestedTags) && !this.fbEvent.isUserAdmin())
-		this.checkNextButtonState();
+	this.checkNextButtonState();
+	if (!this.fbEvent.isUserAdmin())
+		this.disableNextButton(true);
 };
 
 CategoryModal.prototype.preselectContentType = function () {

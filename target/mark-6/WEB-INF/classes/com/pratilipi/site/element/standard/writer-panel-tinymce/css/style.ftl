@@ -1001,9 +1001,9 @@ button[disabled], html input[disabled] {
 }
 
 .font-14 {
-  font-size: 12px !important;
+  font-size: 14px !important;
 }
 
 .font-16 {
-  font-size: 12px !important;
+  font-size: 16px !important;
 }
