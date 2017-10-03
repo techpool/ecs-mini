@@ -582,8 +582,8 @@ page_not_found_description  = மன்னிக்கவும். நீங்
 
 # Categories
 tags_content_type = வகை
-tags_select_for_max_people = படைப்பின் பிரிவை தேர்ந்தெடுத்து அதிக வாசகர்களை சென்றடையுங்கள்
-tags_select_best_three = படைப்புக்கேற்ற 3 பிரிவுகளை தேர்ந்தெடுக்கவும்
+tags_select_for_max_people = படைப்பின் பிரிவைத் தேர்ந்தெடுத்து அதிக வாசகர்களைச் சென்றடையுங்கள்
+tags_select_best_three = மொத்தம் 3 பிரிவை மட்டுமே தேர்ந்தெடுக்க முடியும்
 tags_add_custom_category = புதிய பிரிவுகள்
-tags_add_category = படைப்பிற்கு தகுந்த புதிய பிரிவை சேருங்கள்
+tags_add_category = இங்கே எழுதவும்..
 tags_error_custom_thirty_chars = 30 எழுத்துகளுக்குள் புதிய பிரிவை எழுதவும்

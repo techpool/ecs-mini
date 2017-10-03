@@ -583,7 +583,7 @@ page_not_found_description  = માફ કરશો. આપ ખોટા પા
 # Categories
 tags_content_type = પ્રકાર
 tags_select_for_max_people = વધુમાં વધુ વાચકો સુધી પહોંચવા માટે શ્રેણી પસંદ કરો
-tags_select_best_three = રચના માટે વધુમાં વધુ ૩ શ્રેણીઓ પસંદ કરો
+tags_select_best_three = આપ માત્ર ૩ શ્રેણીઓ જોડી શકો છો
 tags_add_custom_category = નવી શ્રેણી
-tags_add_category = નવી શ્રેણી ઉમેરો
+tags_add_category = અહીં લખો
 tags_error_custom_thirty_chars = શ્રેણીનું નામ ૩૦ અક્ષરોની અંદર લખો

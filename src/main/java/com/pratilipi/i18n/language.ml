@@ -583,7 +583,7 @@ page_not_found_description  = ക്ഷമിക്കണം, താങ്കള
 # Categories
 tags_content_type = സാഹിത്യരൂപം
 tags_select_for_max_people = രചന കൂടുതല്‍ പേരിലെക്കെത്തിക്കാന്‍ ഒരു വിഭാഗം തെരെഞ്ഞെടുക്കൂ
-tags_select_best_three = ഏറ്റവും യോജിച്ച 3 വിഭാഗങ്ങള്‍ ചേര്‍ക്കൂ
+tags_select_best_three = ഏറ്റവും യോജിച്ച 3 വിഭാഗങ്ങള്‍ മാത്രം തെരെഞ്ഞെടുക്കുക
 tags_add_custom_category = പുതിയ വിഭാഗം
-tags_add_category = പുതിയ വിഭാഗം ചേര്‍ക്കൂ
+tags_add_category = ഇവിടെ ടൈപ്പ് ചെയ്യൂ
 tags_error_custom_thirty_chars = വിഭാഗത്തിന്‍റെ പേരില്‍ പരമാവധി 30 അക്ഷരങ്ങളേ പാടുള്ളൂ
