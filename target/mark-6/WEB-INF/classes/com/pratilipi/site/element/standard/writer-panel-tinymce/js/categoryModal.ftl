@@ -423,16 +423,31 @@ CategoryModal.prototype.createUserTagSpans = function(userTags) {
 
 	/* Add New tags */
 	userTags.forEach(function(tag) {
-		var newSpan = document.createElement("span");
-		newSpan.setAttribute("class", "user-tags pratilipi-tag-element pratilipi-tag-checked");
-		newSpan.setAttribute("data-behaviour", "user_suggested_tag");
-		newSpan.setAttribute("data-select", "1");
-		newSpan.setAttribute("data-deselect", "0");
-		newSpan.innerHTML = tag;
-		newSpan.onclick = function(event) {
-			_this.userTagClicked(event);
-		};
-		userTagsContainer.appendChild(newSpan);
+
+		var $suggestedTagDiv = $("<div/>", {
+			"class": 'pratilipi-tag-element font-16 pratilipi-tag-checked tag-deletable',
+			"data-behaviour": "user_suggested_tag",
+			"data-select": 1,
+			"data-deselect": 0,
+		})
+
+		var $textSpan = $("<span/>", {
+			"class": 'mdl-chip__text font-16',
+			text: tag
+		});
+
+		var $deleteButton = $("<button/>", {
+			class: 'mdl-chip__action',
+			type: "button",
+			"data-behaviour": "remove_suggested_category"
+		}).append($("<div/>", {
+			"class": 'sprites-icon cross-with-circle-icon'
+		}));
+
+		$suggestedTagDiv.append($textSpan).append($deleteButton);
+
+		$suggestedTagDiv.appendTo(_this.$userTagsContainer);
+
 	});
 };
 
