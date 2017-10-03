@@ -930,6 +930,12 @@ button[disabled], html input[disabled] {
     overflow: hidden;
 }
 
+.mdl-chip__text {
+    font-size: 13px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
 .mdl-button {
     min-width: initial;
 }
