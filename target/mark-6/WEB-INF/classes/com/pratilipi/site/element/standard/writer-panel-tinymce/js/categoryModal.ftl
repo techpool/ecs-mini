@@ -26,8 +26,6 @@ CategoryModal.prototype.init = function() {
 	this.addChangeListeners();
 
 	this.checkNextButtonState();
-	if (!this.fbEvent.isUserAdmin())
-		this.disableNextButton(true);
 };
 
 CategoryModal.prototype.preselectContentType = function () {
@@ -470,8 +468,8 @@ CategoryModal.prototype.disableNextButton = function (disableButtonBoolean) {
 CategoryModal.prototype.checkNextButtonState = function () {
 	var systemCategoriesLength = $(".pratilipi-tags.pratilipi-tag-checked").length;
 	var suggestedCategoriesLength = $("[data-behaviour='user_suggested_tag']").length;
-	var isOwnsBook = ${ user.getAuthor().getId()?c } == ${ pratilipi.getAuthor().getId()?c };
-	this.disableNextButton(isOwnsBook && ((suggestedCategoriesLength + systemCategoriesLength) == 0 || systemCategoriesLength > 3));
+	var isOwnsBook = !this.fbEvent.isUserAdmin();
+	this.disableNextButton(systemCategoriesLength > 3 || (isOwnsBook && ((suggestedCategoriesLength + systemCategoriesLength) == 0)));
 };
 
 CategoryModal.prototype.checkSuggestedTagLength = function ($input) {
