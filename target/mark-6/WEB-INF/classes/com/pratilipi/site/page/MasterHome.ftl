@@ -824,9 +824,9 @@
 					<span>Jai&nbsp;Plaza&nbsp;Elite, #1064, 1st&nbsp;Floor, 7th&nbsp;A&nbsp;Main, 3rd&nbsp;Block&nbsp;Koramangala, Bengaluru, Karnataka&nbsp;-&nbsp;560095</span>
 					<span>CIN:&nbsp;U72200KA2015PTC079230</span>
 					<br/>
-					<a href="mailto:contact@pratilipi.com"><span>contact@pratilipi.com</span></a>
+					<a href="mailto:${ _strings.footer_contact_email }"><span>${ _strings.footer_contact_email }</span></a>
 					<br/>
-					<a href="tel:+918041710149"><span>080-41710149</span></a>
+					<a href="tel:${ _strings.footer_contact_number?replace(' ', '') }"><span>${ _strings.footer_contact_number }</span></a>
 				</div>
 				<div class="about-part-3">
 					<span>Follow us on Social Media :</span>

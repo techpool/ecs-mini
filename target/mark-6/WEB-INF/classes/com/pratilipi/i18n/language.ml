@@ -210,7 +210,7 @@ footer_blog					= ബ്ലോഗ്‌
 footer_privacy_policy		= പ്രൈവസി പോളിസി
 footer_terms_of_service		= നിബന്ധനകള്‍
 footer_contact_email		= malayalam@pratilipi.com
-footer_contact_10_digit_number		= 9036506463
+footer_contact_number		= +91 9036506463
 
 # Common Words
 okay						= ശരി
