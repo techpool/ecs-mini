@@ -55,7 +55,7 @@
 							
 							<!-- Show More Button in case of network call failure -->
 							<template is="dom-if" if="{{ includeShowMoreButton }}">
-								<button style="width: 100%;" class="pratilipi-new-blue-button" on-click="loadMore">మరింత సమాచారం కోసం..</button>
+								<button style="width: 100%;" class="pratilipi-new-blue-button" on-click="loadMore">మరిన్ని రచనలు లోడ్ చేయండి</button>
 							</template>
 						</div>
 					</div>
@@ -266,7 +266,7 @@
 					<iron-icon icon="icons:open-in-new"></iron-icon>
 				</a>
 			</div>
-			<div class="text-muted content-summary">{{ content }}<a class="view-more" href="{{ blogpost.pageUrl }}" onclick="ga_CA( window.location.pathname == '/blog' ? 'Blog' : 'AuthorInterview', 'Open' );">( మరింత సమాచారం కోసం.. )</a></div>
+			<div class="text-muted content-summary">{{ content }}<a class="view-more" href="{{ blogpost.pageUrl }}" onclick="ga_CA( window.location.pathname == '/blog' ? 'Blog' : 'AuthorInterview', 'Open' );">( మరిన్ని రచనలు లోడ్ చేయండి )</a></div>
 		</paper-card>
 	</template>
 	<script>
