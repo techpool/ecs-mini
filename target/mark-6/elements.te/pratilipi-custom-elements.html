@@ -1462,7 +1462,7 @@ src="http://public.pratilipi.com/pratilipi-logo/png/Logo-2C-RGB-80px.png"></iron
 <paper-spinner class="pratilipi-spinner" active></paper-spinner>
 </template>
 <pratilipi-notification-popup popup-notification-list="[[ popupNotificationList ]]"></pratilipi-notification-popup>
-<a href="/notifications" style="color: #d0021b!important;" class="view-more-button" onclick="ga_CA( 'Notification', 'Load More' )">మరింత సమాచారం కోసం.....</a>
+<a href="/notifications" style="color: #d0021b!important;" class="view-more-button" onclick="ga_CA( 'Notification', 'Load More' )">మరిన్ని రచనలు లోడ్ చేయండి...</a>
 </div>
 </template>
 <template is="dom-if" if="{{ !isBigWindow }}">
@@ -2603,7 +2603,7 @@ padding-right: 4px;
 </template>
 <template is="dom-if" if="{{ headingUrl }}">
 <a class="pratilipi-red" style="font-size: 22px;" href="{{ headingUrl }}">{{ heading }}</a>
-<a href="{{ headingUrl }}" class="link pull-right pratilipi-blue">మరింత సమాచారం కోసం.....</a>
+<a href="{{ headingUrl }}" class="link pull-right pratilipi-blue">మరిన్ని రచనలు లోడ్ చేయండి...</a>
 </template>
 </div>
 <br class="pratilipi-break"/>
@@ -9615,7 +9615,7 @@ Published Entries
 </template>
 <!-- Show More Button in case of network call failure -->
 <template is="dom-if" if="{{ includeShowMoreButton }}">
-<button style="width: 100%;" class="pratilipi-new-blue-button" on-click="loadMore">మరింత సమాచారం కోసం..</button>
+<button style="width: 100%;" class="pratilipi-new-blue-button" on-click="loadMore">మరిన్ని రచనలు లోడ్ చేయండి</button>
 </template>
 </div>
 </div>
@@ -9802,7 +9802,7 @@ color: #111;
 <iron-icon icon="icons:open-in-new"></iron-icon>
 </a>
 </div>
-<div class="text-muted content-summary">{{ content }}<a class="view-more" href="{{ blogpost.pageUrl }}" onclick="ga_CA( window.location.pathname == '/blog' ? 'Blog' : 'AuthorInterview', 'Open' );">( మరింత సమాచారం కోసం.. )</a></div>
+<div class="text-muted content-summary">{{ content }}<a class="view-more" href="{{ blogpost.pageUrl }}" onclick="ga_CA( window.location.pathname == '/blog' ? 'Blog' : 'AuthorInterview', 'Open' );">( మరిన్ని రచనలు లోడ్ చేయండి )</a></div>
 </paper-card>
 </template>
 <script>
@@ -11156,7 +11156,7 @@ on-click="openNotificationSettings" onclick="ga_CA( 'Notification', 'Settings' )
 </template>
 <template is="dom-if" if="{{ hasMore }}">
 <template is="dom-if" if="{{ !isLoading }}">
-<div class="load-more-button" on-click="_loadMore" onclick="ga_CA( 'Notification', 'Load More' )">మరింత సమాచారం కోసం.....</div>
+<div class="load-more-button" on-click="_loadMore" onclick="ga_CA( 'Notification', 'Load More' )">మరిన్ని రచనలు లోడ్ చేయండి...</div>
 </template>
 </template>
 <template is="dom-if" if="{{ isLoading }}">
