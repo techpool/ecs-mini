@@ -470,7 +470,7 @@ CategoryModal.prototype.disableNextButton = function (disableButtonBoolean) {
 CategoryModal.prototype.checkNextButtonState = function () {
 	var systemCategoriesLength = $(".pratilipi-tags.pratilipi-tag-checked").length;
 	var suggestedCategoriesLength = $("[data-behaviour='user_suggested_tag']").length;
-	var isOwnsBook = ${ user.getAuthor().getId() } == ${ pratilipi.getAuthor.getId() };
+	var isOwnsBook = ${ user.getAuthor().getId() } == ${ pratilipi.getAuthor().getId() };
 	this.disableNextButton(isOwnsBook && ((suggestedCategoriesLength + systemCategoriesLength) == 0 || systemCategoriesLength > 3));
 };
 
