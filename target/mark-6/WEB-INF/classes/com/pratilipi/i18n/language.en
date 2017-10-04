@@ -90,7 +90,7 @@ pratilipi_confirm_delete_content_okay	= Okay
 pratilipi_deleted_successfully			= The content has been deleted successfully!
 
 # Rating
-rating_rating				= Rating 
+rating_rating				= Rating
 rating_ratings				= Ratings
 rating_rate_this			= Rate This !
 rating_your_rating			= Your Rating
@@ -102,7 +102,7 @@ rating_4_star				= Very Good
 rating_5_star				= Excellent
 
 # Review
-review_heading				= Reviews 
+review_heading				= Reviews
 review_write_a_review		= Write a Review
 review_title				= Review Title
 review_title_help			= e.g., Great Story !
@@ -188,13 +188,13 @@ user_is_new					= New?
 user_is_registered			= Already a Member?
 user_email_verification		= Email Verification
 user_require_access			= You need to log in to perform this action!
-user_no_followers			= Sorry! You're not being followed by anyone! 
+user_no_followers			= Sorry! You're not being followed by anyone!
 user_login_to_view_followers = Please login to view your followers!
 user_no_following			= Sorry! You're not following anyone!
 user_login_to_view_following = Please login to view the people you're following!
 user_login_to_view_library = Please login to save unlimited books to your Library!
 user_login_to_view_notifications = Please login to get Notifications from people you Follow!
-user_login_to_follow		= Please login to follow this author 
+user_login_to_follow		= Please login to follow this author
 
 # My Account popup
 edit_account_heading		= Edit My Account
@@ -239,7 +239,7 @@ goto_home                   = Home
 
 # Success Messages
 success_generic_message				= Success!
-password_reset_request_success		= A mail has been sent to your email Id! 
+password_reset_request_success		= A mail has been sent to your email Id!
 user_login_success					= Success !
 user_register_success				= Success !
 password_change_success				= Password has been changed Successfully!
@@ -257,7 +257,7 @@ review_authorisation_error			= Sorry! You are not authorized to review for this 
 logout_failed						= Logout failed! Please try again!
 
 # Author Edit Popup
-edit_author_heading				= Edit Author Information	
+edit_author_heading				= Edit Author Information
 edit_author_first_name			= First Name( Vernacular )
 edit_author_last_name			= Last Name( Vernacular )
 edit_author_first_name_en		= First Name( English )
@@ -279,7 +279,7 @@ edit_pratilipi_summary			= Summary (Optional) :
 edit_pratilipi_save_changes		= Save Changes
 
 # Register Form
-register_part_1					= By registering, you agree to the 
+register_part_1					= By registering, you agree to the
 register_part_2					= and
 register_part_3					= .
 
@@ -323,7 +323,7 @@ day_sun = Sun
 
 # Meridiem Time
 meridiem_am = AM
-meridiem_pm = PM 
+meridiem_pm = PM
 
 # Library
 library				= Library
@@ -350,7 +350,7 @@ decrease_image_size		= Decrease image size
 reader_background		= Background
 
 # Enjoyed Reading the content? Write a review or Share it on
-reader_enjoyed_reading_part1	= Enjoyed reading the content? 
+reader_enjoyed_reading_part1	= Enjoyed reading the content?
 reader_enjoyed_review_book		= Write a review
 reader_enjoyed_reading_part2	= Share it on
 
@@ -378,7 +378,7 @@ writer_write_here_placeholder = Write here...
 writer_edit_title_placeholder = Edit Title
 writer_table_of_contents = Table of Contents
 writer_chapter = Chapter
-writer_chapter_delete_confirmation = Are you sure you want to delete: 
+writer_chapter_delete_confirmation = Are you sure you want to delete:
 writer_add_chapter_success = New chapter added successfully
 writer_chapter_delete = Delete Chapter
 writer_delete_chapter_success = Chapter deleted successfully
@@ -417,7 +417,7 @@ android_email_incorrect = Email ID has been entered incorrectly
 android_phone_incorrect = Mobile number has been entered incorrectly
 android_email_or_phone_required = Please enter your email or phone number.
 android_whatsapp_share_description = Pratilipi Android app is coming. Download unlimited books and Read without internet.
-android_banner_1 = Pratilipi Android App : Download unlimited books and Read without internet 
+android_banner_1 = Pratilipi Android App : Download unlimited books and Read without internet
 android_banner_2 = Register below to get it first.
 android_banner_3 = Please register below and be the first one to get Pratilipi App.
 android_banner_4 = Know More
@@ -455,20 +455,20 @@ email_frequency_weekly = Weekly
 email_frequency_monthly = Monthly
 email_frequency_never = Never
 notification_group_content = Content
-option_new_review =  New Review 
-option_new_comment =  New Comment 
-option_like_review =  Like on review 
-option_like_comment =  New Like on Comment 
+option_new_review =  New Review
+option_new_comment =  New Comment
+option_like_review =  Like on review
+option_like_comment =  New Like on Comment
 notification_group_network = Network
 option_new_follower = New Follower
-option_pratilipi_published_follower =  New Content by people you follow 
-option_pratilipi_updates =  Pratilipi Updates and Offers 
+option_pratilipi_published_follower =  New Content by people you follow
+option_pratilipi_updates =  Pratilipi Updates and Offers
 notification_settings_save_changes = Save Changes
 
 # Whatsapp share messages
 whatsapp_read_unlimited_stories = Read unlimited stories, poems, articles in Indian languages for FREE!
-whatsapp_read_story = , read it on Pratilipi : 
-whatsapp_follow_author = , Follow on Pratilipi : 
+whatsapp_read_story = , read it on Pratilipi :
+whatsapp_follow_author = , Follow on Pratilipi :
 
 
 # SEO Titles
@@ -490,7 +490,7 @@ seo_followers_page				= Followers of ${ authorNameEn } on Pratilipi
 seo_following_page				= ${ authorNameEn } is following these people on Pratilipi
 seo_list_page					= ${ listTitleEn }
 seo_static_page					= ${ staticTitleEn }
-seo_account_page				= ${ authorNameEn } 
+seo_account_page				= ${ authorNameEn }
 seo_navigation_page				= Categories
 seo_update_password_page		= Update Password
 seo_share_page					= Share your favourite Stories and Writers
@@ -591,3 +591,10 @@ top_author_heading      = Top Author
 top_author_sub_heading  = based on read count on
 top_author_message      = *Share your content to increase read count
 
+# Categories
+tags_content_type = Content Type
+tags_select_for_max_people = Choose categories so your content reaches more people
+tags_select_best_three = Select the best three categories
+tags_add_custom_category = Your own Category / New category
+tags_add_category = Add category
+tags_error_custom_thirty_chars = Type a category less than 30 characters
