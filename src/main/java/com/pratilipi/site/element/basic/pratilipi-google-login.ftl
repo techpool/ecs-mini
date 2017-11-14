@@ -45,7 +45,8 @@
 			url: '/api/user/login/google',
 
 			data: { 
-				'googleIdToken': idToken
+				'googleIdToken': idToken,
+				'language': '${ language }'
 			},
 
 			success: function( response ) {
