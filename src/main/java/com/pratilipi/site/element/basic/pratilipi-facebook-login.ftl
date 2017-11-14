@@ -48,7 +48,8 @@
 				url: '/api/user/login/facebook',
 
 				data: { 
-					'fbUserAccessToken': response.authResponse.accessToken
+					'fbUserAccessToken': response.authResponse.accessToken,
+					'language': '${ language }'
 				},
 				
 				success: function( response ) {
