@@ -447,7 +447,10 @@ public class PratilipiSite extends HttpServlet {
 			    String slug = "/" + uri.split("/")[2];
 			    logger.log(Level.INFO, "slug is :" + slug);
                 dataModel = createDataModelForAuthorPageFromSlug( slug, filterLanguage, basicMode, request );
-				ga_location = "AuthorPage";
+                ga_location = userData.getAuthor().getId() != null &&
+                        userData.getAuthor().getId() == dataModel.get("authorId") ? "UserPage" : "AuthorPage";
+
+                logger.log(Level.INFO, "authorId is  : " + dataModel.get("authorId"));
                 templateName = ( basicMode ? "AuthorBasic.ftl" : "Author.ftl" );
 			}
 
@@ -923,7 +926,7 @@ public class PratilipiSite extends HttpServlet {
         Long authorId = authorData.getId();
 
         dataModel.put( "title", SEOTitleUtil.getAuthorPageTitle( authorData, language ) );
-
+        dataModel.put( "authorId", authorId );
         if( basicMode )
             dataModel.put( "author", authorResponse );
         else
