@@ -88,6 +88,7 @@ public class PratilipiSite extends HttpServlet {
 		String templateName = null;
 
 		String uri = request.getRequestURI();
+		logger.log(Level.INFO, "request Uri is " + uri);
 		if( uri.equals( "/health" ) ) {
 			_dispatchResponse( "Healthy!", "text/plain", "UTF-8", response );
 			return;
@@ -441,6 +442,13 @@ public class PratilipiSite extends HttpServlet {
 				}
 
 				templateName = "BlogEdit.ftl";
+			} else if ( uri.startsWith( "/user" ) ){
+
+			    String slug = "/" + uri.split("/")[2];
+			    logger.log(Level.INFO, "slug is :" + slug);
+                dataModel = createDataModelForAuthorPageFromSlug( slug, filterLanguage, basicMode, request );
+				ga_location = "AuthorPage";
+                templateName = ( basicMode ? "AuthorBasic.ftl" : "Author.ftl" );
 			}
 
 			if( templateName == null ) {
@@ -900,6 +908,118 @@ public class PratilipiSite extends HttpServlet {
 		return dataModel;
 
 	}
+
+    public Map<String, Object> createDataModelForAuthorPageFromSlug( String slug, Language language, boolean basicMode, HttpServletRequest request )
+            throws InsufficientAccessException, UnexpectedServerException {
+        Map<String, Object> dataModel = new HashMap<String, Object>();
+        Gson gson = new Gson();
+
+        AuthorApi.GetFromSlugRequest authorApiGetRequest = new AuthorApi.GetFromSlugRequest();
+        authorApiGetRequest.setSlug( slug );
+        AuthorApi.Response authorResponse = ApiRegistry
+                .getApi( AuthorApi.class )
+                .get( authorApiGetRequest );
+        AuthorData authorData = gson.fromJson( gson.toJson( authorResponse ), AuthorData.class );
+        Long authorId = authorData.getId();
+
+        dataModel.put( "title", SEOTitleUtil.getAuthorPageTitle( authorData, language ) );
+
+        if( basicMode )
+            dataModel.put( "author", authorResponse );
+        else
+            dataModel.put( "authorJson", gson.toJson( authorResponse ) );
+
+        String action = request.getParameter( "action" ) != null ? request.getParameter( "action" ) : "author_page";
+        dataModel.put( "action", action );
+
+        if( basicMode && action.equals( "list_contents" ) ) {
+
+            Integer pageCurr = request.getParameter( RequestParameter.LIST_PAGE_NUMBER.getName() ) != null
+                    ? Integer.parseInt( request.getParameter( RequestParameter.LIST_PAGE_NUMBER.getName() ) )
+                    : 1;
+
+            PratilipiState pratilipiState = request.getParameter( RequestParameter.PRATILIPI_STATE.getName() ) != null
+                    ? PratilipiState.valueOf( request.getParameter( RequestParameter.PRATILIPI_STATE.getName() ) )
+                    : PratilipiState.PUBLISHED;
+
+            Integer resultCount = 10;
+            PratilipiListV2Api.GetRequest pratilipiListRequest = new PratilipiListV2Api.GetRequest();
+            pratilipiListRequest.setAuthorId( authorId );
+            pratilipiListRequest.setState( pratilipiState );
+            pratilipiListRequest.setResultCount( resultCount );
+            pratilipiListRequest.setOffset( ( pageCurr - 1 ) * resultCount );
+            PratilipiListV2Api.Response pratilipiListResponse = ApiRegistry
+                    .getApi( PratilipiListV2Api.class )
+                    .get( pratilipiListRequest );
+
+            dataModel.put( "state", pratilipiState.toString() );
+            dataModel.put( "pratilipiList", pratilipiListResponse.getPratilipiList() );
+            dataModel.put( "pratilipiListPageCurr", pageCurr );
+            Integer pageMax = pratilipiListResponse.getNumberFound() != null ?
+                    (int) Math.ceil( ( (double) pratilipiListResponse.getNumberFound() ) / resultCount ) : 1;
+            dataModel.put( "pratilipiListPageMax", pageMax );
+
+            return dataModel;
+
+        }
+
+
+        UserAuthorFollowV1Api.GetRequest getRequest = new UserAuthorFollowV1Api.GetRequest();
+        getRequest.setAuthorId( authorId );
+        UserAuthorFollowV1Api.Response userAuthorResponse = ApiRegistry
+                .getApi( UserAuthorFollowV1Api.class )
+                .get( getRequest );
+        if( basicMode )
+            dataModel.put( "userAuthor", userAuthorResponse );
+        else
+            dataModel.put( "userAuthorJson", gson.toJson( userAuthorResponse ) );
+
+
+        if( basicMode ) {
+
+            Integer resultCount = 3;
+            PratilipiListV2Api.GetRequest publishedPratilipiListRequest = new PratilipiListV2Api.GetRequest();
+            publishedPratilipiListRequest.setAuthorId( authorId );
+            publishedPratilipiListRequest.setState( PratilipiState.PUBLISHED );
+            publishedPratilipiListRequest.setResultCount( resultCount );
+            PratilipiListV2Api.Response publishedPratilipiListResponse = ApiRegistry
+                    .getApi( PratilipiListV2Api.class )
+                    .get( publishedPratilipiListRequest );
+
+            if( authorResponse.hasAccessToUpdate() ) {
+                PratilipiListV2Api.GetRequest draftedPratilipiListRequest = new PratilipiListV2Api.GetRequest();
+                draftedPratilipiListRequest.setAuthorId( authorId );
+                draftedPratilipiListRequest.setState( PratilipiState.DRAFTED );
+                draftedPratilipiListRequest.setResultCount( resultCount );
+                PratilipiListV2Api.Response draftedPratilipiListResponse = ApiRegistry
+                        .getApi( PratilipiListV2Api.class )
+                        .get( draftedPratilipiListRequest );
+                dataModel.put( "draftedPratilipiList", draftedPratilipiListResponse.getPratilipiList() );
+            }
+
+            Integer followResultCount = 3;
+            UserAuthorFollowListApi.GetRequest followersListRequest = new UserAuthorFollowListApi.GetRequest();
+            followersListRequest.setAuthorId( authorId );
+            followersListRequest.setResultCount( followResultCount );
+            UserAuthorFollowListApi.Response followersList = ApiRegistry
+                    .getApi( UserAuthorFollowListApi.class )
+                    .get( followersListRequest );
+
+            if( authorResponse.getUser() != null ) {
+                UserAuthorFollowListApi.GetRequest followingListRequest = new UserAuthorFollowListApi.GetRequest();
+                followingListRequest.setUserId( authorResponse.getUser().getId() );
+                followingListRequest.setResultCount( followResultCount );
+                UserAuthorFollowListApi.Response followingList= ApiRegistry
+                        .getApi( UserAuthorFollowListApi.class )
+                        .get( followingListRequest );
+                dataModel.put( "followingList", followingList );
+            }
+            dataModel.put( "followersList", followersList );
+            dataModel.put( "publishedPratilipiList", publishedPratilipiListResponse.getPratilipiList() );
+        }
+
+        return dataModel;
+    }
 
 	public Map<String, Object> createDataModelForAuthorPage( Long authorId, Language language, boolean basicMode, HttpServletRequest request )
 			throws InsufficientAccessException, UnexpectedServerException {
