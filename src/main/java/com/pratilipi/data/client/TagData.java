@@ -21,6 +21,9 @@ public class TagData  implements Serializable {
 	private PratilipiType type;
 	private boolean hasType;
 
+	private String pageUrl;
+
+
 	public Long getId() {
 		return id;
 	}
@@ -71,6 +74,10 @@ public class TagData  implements Serializable {
 	
 	public PratilipiType getPratilipiType() {
 		return type;
+	}
+
+	public String getPageUrl() {
+		return pageUrl;
 	}
 
 	public void setPratilipiType(PratilipiType pratilipiType) {

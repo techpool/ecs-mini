@@ -55,6 +55,18 @@ public class AuthorApi extends GenericApi {
 		}
 
 	}
+
+	public static class GetFromSlugRequest extends GenericRequest {
+
+		@Validate( required = true )
+		private String slug;
+
+
+		public void setSlug( String slug ) {
+			this.slug = slug;
+		}
+
+	}
 	
 	public static class PostRequest extends GenericRequest {
 		
@@ -558,6 +570,17 @@ public class AuthorApi extends GenericApi {
 		return new Gson().fromJson( responseString, Response.class );
 
 	}
+
+
+    @Get
+    public Response get( GetFromSlugRequest request ) throws UnexpectedServerException {
+
+        Map<String, String> paramsMap = new HashMap<>();
+        paramsMap.put( "slug", request.slug );
+        String responseString = HttpUtil.doGet( UxModeFilter.getEcsEndpoint() + "/api/authorNew", paramsMap );
+        return new Gson().fromJson( responseString, Response.class );
+
+    }
 	
 	@Post
 	public Response post( PostRequest request ) 

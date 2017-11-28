@@ -9,6 +9,14 @@
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 	<style>
 		@import url(https://fonts.googleapis.com/css?family=Montserrat);
+		@import url(https://www.ptlp.co/resource-all/font/font-hi.css);
+		@import url(https://www.ptlp.co/resource-all/font/font-gu.css);
+		@import url(https://www.ptlp.co/resource-all/font/font-mr.css);
+		@import url(https://www.ptlp.co/resource-all/font/font-bn.css);
+		@import url(https://www.ptlp.co/resource-all/font/font-ta.css);
+		@import url(https://www.ptlp.co/resource-all/font/font-te.css);
+		@import url(https://www.ptlp.co/resource-all/font/font-ml.css);
+		@import url(https://www.ptlp.co/resource-all/font/font-kn.css);
 		html, body, div, span, applet, object, iframe,
 		h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 		a, abbr, acronym, address, big, cite, code,
@@ -27,17 +35,27 @@
 			border: 0;
 			font-size: 100%;
 			font: inherit;
-			vertical-align: baseline; 
+			vertical-align: baseline;
 		}
-		
+
+		/* Font */
+		.font-hi { font-family: 'Noto Sans'; }
+		.font-bn { font-family: 'Noto Sans Bengali'; }
+		.font-mr { font-family: 'Noto Sans Devanagari'; }
+		.font-gu { font-family: 'Shruti'; }
+		.font-ta { font-family: 'Noto Sans Tamil'; }
+		.font-ml { font-family: 'Noto Sans Malayalam'; }
+		.font-te { font-family: 'Noto Sans Telugu'; }
+		.font-kn { font-family: 'Noto Sans Kannada'; }
+
 		/* HTML5 display-role reset for older browsers */
 		article, aside, details, figcaption, figure,
 		footer, header, hgroup, menu, nav, section {
-			display: block; 
+			display: block;
 		}
-		
+
 		body {
-			line-height: 1; 
+			line-height: 1;
 			font-family: Avenir-Black, Montserrat, Helvetica;
 			font-weight: 600;
 		}
@@ -48,56 +66,56 @@
 			cursor: pointer;
 		}
 		ol, ul {
-			list-style: none; 
+			list-style: none;
 		}
-		
+
 		blockquote, q {
-			quotes: none; 
+			quotes: none;
 		}
-		
+
 		blockquote:before, blockquote:after,
 		q:before, q:after {
 			content: '';
-			content: none; 
+			content: none;
 		}
-		
+
 		table {
 			border-collapse: collapse;
-			border-spacing: 0; 
+			border-spacing: 0;
 		}
-		
-		
+
+
 		.container {
 			width: 100%;
-			padding: 0px; 
+			padding: 0px;
 		}
-		
+
 		.wrapper {
 			width: 100%;
 		}
-		
+
 		.active {
-			display: block !important; 
+			display: block !important;
 		}
-		
+
 		.inactive {
-			display: none !important; 
+			display: none !important;
 		}
-		
+
 		a {
-			text-decoration: none; 
+			text-decoration: none;
 		}
-		
+
 		.clearfix:after {
 			content: "";
 			display: block;
-			clear: both; 
+			clear: both;
 		}
-		
+
 		* {
-			box-sizing: border-box; 
+			box-sizing: border-box;
 		}
-		
+
 		.landing-page .pratilipi-banner {
 			position: relative;
 			z-index: 1;
@@ -106,7 +124,7 @@
 			min-height: 520px;
 			overflow: hidden;
 		}
-		
+
 		.landing-page .pratilipi-banner .pratilipi-background {
 			position: absolute;
 			z-index: -1;
@@ -143,7 +161,7 @@
 			line-height: 18px;
 			color: #FFFFFF;
 			padding: 8px 24px;
-		    padding-top: 10px;
+			padding-top: 10px;
 			outline: none;
 			background: transparent;
 		}
@@ -154,7 +172,7 @@
 			line-height: 40px;
 			font-weight: 200;
 			margin: 0;
-			outline: none; 
+			outline: none;
 			border: none;
 			color: #FFFFFF;
 		}
@@ -211,10 +229,10 @@
 			to {
 				opacity: 1;
 			}
-		}	
-		
+		}
+
 		.landing-page .pratilipi-banner .content-wrapper {
-			padding: 64px 0px; 
+			padding: 64px 0px;
 		}
 		.landing-page .pratilipi-banner .content-wrapper .description {
 			margin: 12px auto;
@@ -257,7 +275,7 @@
 			.landing-page .pratilipi-banner .content-wrapper .description h5.bg-white {
 				display: inline-block;
 				margin: 2px 10px;
-				padding: 2px 5px; 
+				padding: 2px 5px;
 				font-size: 18px;
 				opacity: 0.80;
 			}
@@ -271,7 +289,7 @@
 			color: #FFFFFF;
 			text-shadow: 4px 1px 4px rgba(0,0,0,0.50);
 		}
-		
+
 		@media only screen and (max-width: 840px) {
 			.landing-page .pratilipi-banner .content-wrapper .heading-wrapper {
 				font-size: 28px;
@@ -295,7 +313,7 @@
 			border-radius: 50%;
 			background-image: url("https://www.ptlp.co/resource-all/home-page/pratilipi_logo.png");
 			background-repeat: no-repeat;
-			background-size: cover; 
+			background-size: cover;
 		}
 		.landing-page .pratilipi-banner .content-wrapper .logo h1 {
 			display: inline-block;
@@ -307,8 +325,8 @@
 			letter-spacing: 1.21px;
 			text-shadow: 0px 2px 4px rgba(0,0,0,0.50);
 		}
-		.landing-page .pratilipi-banner .content-wrapper button.start-reading-btn, 
-		.landing-page .pratilipi-banner .content-wrapper button.start-reading-btn:hover, 
+		.landing-page .pratilipi-banner .content-wrapper button.start-reading-btn,
+		.landing-page .pratilipi-banner .content-wrapper button.start-reading-btn:hover,
 		.landing-page .pratilipi-banner .content-wrapper button.start-reading-btn:focus {
 			opacity: 0.85;
 			background: #D0021B;
@@ -319,8 +337,8 @@
 			letter-spacing: 0px;
 			outline: none;
 			margin: 10px;
-		    border: 2px solid transparent;
-		    padding: 10px 48px;
+			border: 2px solid transparent;
+			padding: 10px 48px;
 		}
 		.landing-page .wrapper {
 			margin: auto;
@@ -370,23 +388,23 @@
 			position: relative;
 			top: 1px;
 		}
-		
-		
+
+
 		@media only screen and (min-width: 769px) {
 			.landing-page .wrapper ul.tiles-container {
 				width: 100%;
 				text-align: center;
 			}
 			.landing-page .wrapper ul.tiles-container li.image a .tiles {
-				background-size: cover; 
+				background-size: cover;
 				background-position: top;
 				height: 300px;
 			}
 			.landing-page .wrapper .tiles-container-mobile {
 				display: none;
-			} 
+			}
 		}
-		
+
 		@media only screen and (max-width: 768px) {
 			.landing-page .wrapper ul.tiles-container {
 				display: none;
@@ -395,11 +413,11 @@
 				display: block;
 			}
 		}
-		
-		
+
+
 		.landing-page .wrapper a {
 			width: 100%;
-			margin: 0; 
+			margin: 0;
 		}
 		.landing-page .wrapper a .tiles {
 			width: 100%;
@@ -408,10 +426,10 @@
 			background-repeat: no-repeat;
 			background-size: cover;
 			background-position: center;
-			opacity: 0.6; 
+			opacity: 0.6;
 		}
 		.landing-page .wrapper a .tiles:hover {
-			opacity: 1; 
+			opacity: 1;
 			transition: opacity .5s;
 			-webkit-transition: opacity .5s;
 		}
@@ -424,7 +442,7 @@
 			padding: 20px;
 			font-size: 18px;
 			color: #000;
-			display: inline-block; 
+			display: inline-block;
 		}
 		.landing-page .notify-me-wrapper {
 			padding: 20px 5px;
@@ -432,26 +450,26 @@
 			background-color: #333;
 		}
 		.landing-page .notify-me-wrapper .notify-elements {
-			margin: 0 auto; 
+			margin: 0 auto;
 		}
 		.landing-page .notify-me-wrapper .notify-elements h3 {
 			color: #fff;
 			font-size: 24px;
 			margin: 16px;
 			line-height: 28px;
-			font-weight: 400; 
+			font-weight: 400;
 		}
 		.landing-page .notify-me-wrapper .notify-loader {
 			display: none;
-		    margin: 0 auto;
-		    border: 2px solid #D0021B;
-		    border-radius: 50%;
-		    border-top: 2px solid #333;
-		    width: 28px;
-		    height: 28px;
-		    margin-top: 36px;
-		    -webkit-animation: spin 1s linear infinite;
-		    animation: spin 1s linear infinite;
+			margin: 0 auto;
+			border: 2px solid #D0021B;
+			border-radius: 50%;
+			border-top: 2px solid #333;
+			width: 28px;
+			height: 28px;
+			margin-top: 36px;
+			-webkit-animation: spin 1s linear infinite;
+			animation: spin 1s linear infinite;
 		}
 		@-webkit-keyframes spin {
 		  0% { -webkit-transform: rotate(0deg); }
@@ -470,7 +488,7 @@
 			font-size: 26px;
 			line-height: 32px;
 			margin: 16px;
-			font-weight: 400; 
+			font-weight: 400;
 		}
 		.landing-page .notify-me-wrapper .notify-elements .language-selection {
 			background-color: #ebebeb;
@@ -478,7 +496,7 @@
 			font-size: 16px;
 			font-weight: 100;
 			float: none;
-			height: 35px; 
+			height: 35px;
 		}
 		.landing-page .notify-me-wrapper .notify-elements .input-field {
 			color: #555555;
@@ -486,7 +504,7 @@
 			border-radius: 4px;
 			height: 35px;
 			background-color: #ebebeb;
-			padding-left: 10px; 
+			padding-left: 10px;
 		}
 		.landing-page .notify-me-wrapper .notify-elements .notify-me-btn,
 		.landing-page .notify-me-wrapper .notify-message .notify-me-btn {
@@ -545,7 +563,7 @@
 		.landing-page .pratilipi-footer {
 			font-family: Montserrat, Helvetica;
 			padding: 20px;
-			background-color: #ebebeb; 
+			background-color: #ebebeb;
 		}
 		.landing-page .pratilipi-footer p {
 			margin-top: 12px;
@@ -559,7 +577,7 @@
 		.landing-page .pratilipi-footer .about-pratilipi h5 {
 			font-size: 18px;
 			margin-bottom: 10px;
-			color: inherit; 
+			color: inherit;
 		}
 		.landing-page .pratilipi-footer .about-pratilipi span {
 			display: block;
@@ -577,7 +595,7 @@
 		.landing-page .pratilipi-footer .about-pratilipi .copyrights {
 			font-size: 14px;
 			position: absolute;
-			bottom: 0; 
+			bottom: 0;
 		}
 		@media only screen and (max-width: 599px) {
 			.landing-page .pratilipi-footer .about-pratilipi {
@@ -623,7 +641,7 @@
 		.landing-page .pratilipi-footer .about-part-3 span {
 			display: block;
 			line-height: 1.3em;
-			margin-bottom: 16px; 
+			margin-bottom: 16px;
 		}
 		.landing-page .pratilipi-footer .about-part-3 .social-media-links {
 			white-space: nowrap;
@@ -633,7 +651,7 @@
 		}
 		.landing-page .pratilipi-footer .about-part-3 a {
 			color: #666;
-			margin-right: 16px; 
+			margin-right: 16px;
 		}
 		.android-logo img {
 			max-width: 128px;
@@ -706,86 +724,86 @@
 				<ul class="tiles-container" id="tiles-container">
 					<li class="image">
 						<a href="http://hindi.pratilipi.com/">
-							<div class="tiles" style="background-image:url('https://www.ptlp.co/resource-all/home-page/pratilipi-hindi-compressed-s.jpg');">
+							<div class="tiles font-hi" style="background-image:url('https://www.ptlp.co/resource-all/home-page/pratilipi-hindi-compressed-s.jpg');">
 								<span class="language">हिंदी</span>
 							</div>
 						</a>
 					</li>
 					<li class="image">
 						<a href="http://tamil.pratilipi.com/">
-							<div class="tiles" style="background-image:url('https://www.ptlp.co/resource-all/home-page/pratilipi-tamil-compressed-s.jpg');">
+							<div class="tiles font-ta" style="background-image:url('https://www.ptlp.co/resource-all/home-page/pratilipi-tamil-compressed-s.jpg');">
 								<span class="language">தமிழ்</span>
 							</div>
 						</a>
 					</li>
 					<li class="image">
 						<a href="http://malayalam.pratilipi.com/">
-							<div class="tiles" style="background-image:url('https://www.ptlp.co/resource-all/home-page/pratilipi-malayalam-compressed-s.jpg');">
+							<div class="tiles font-ml" style="background-image:url('https://www.ptlp.co/resource-all/home-page/pratilipi-malayalam-compressed-s.jpg');">
 								<span class="language">മലയാളം</span>
 							</div>
 						</a>
 					</li>
 					<li class="image">
 						<a href="http://bengali.pratilipi.com/">
-							<div class="tiles" style="background-image:url('https://www.ptlp.co/resource-all/home-page/pratilipi-bengali-compressed-s.jpg'); background-size: cover; background-position: top;">
+							<div class="tiles font-bn" style="background-image:url('https://www.ptlp.co/resource-all/home-page/pratilipi-bengali-compressed-s.jpg'); background-size: cover; background-position: top;">
 								<span class="language">বাংলা</span>
 							</div>
 						</a>
 					</li>
 					<li class="image">
 						<a href="http://telugu.pratilipi.com/">
-							<div class="tiles" style="background-image:url('https://www.ptlp.co/resource-all/home-page/pratilipi-telugu-compressed-s.jpg');">
+							<div class="tiles font-te" style="background-image:url('https://www.ptlp.co/resource-all/home-page/pratilipi-telugu-compressed-s.jpg');">
 								<span class="language">తెలుగు</span>
 							</div>
 						</a>
 					</li>
 					<li class="image">
 						<a href="http://gujarati.pratilipi.com/">
-							<div class="tiles" style="background-image:url('https://www.ptlp.co/resource-all/home-page/pratilipi-gujarati-compressed-s.jpg'); background-size: cover; background-position: top;">
+							<div class="tiles font-gu" style="background-image:url('https://www.ptlp.co/resource-all/home-page/pratilipi-gujarati-compressed-s.jpg'); background-size: cover; background-position: top;">
 								<span class="language">ગુજરાતી</span>
 							</div>
 						</a>
 					</li>
 					<li class="image">
 						<a href="http://marathi.pratilipi.com/">
-							<div class="tiles" style="background-image:url('https://www.ptlp.co/resource-all/home-page/pratilipi-marathi-compressed-s.jpg');">
+							<div class="tiles font-mr" style="background-image:url('https://www.ptlp.co/resource-all/home-page/pratilipi-marathi-compressed-s.jpg');">
 								<span class="language">मराठी</span>
 							</div>
 						</a>
 					</li>
 					<li class="image">
 						<a href="http://kannada.pratilipi.com/">
-							<div class="tiles" style="background-image:url('https://www.ptlp.co/resource-all/home-page/pratilipi-kannada-compressed-s.jpg');">
+							<div class="tiles font-kn" style="background-image:url('https://www.ptlp.co/resource-all/home-page/pratilipi-kannada-compressed-s.jpg');">
 								<span class="language">ಕನ್ನಡ</span>
 							</div>
 						</a>
-					</li> 
+					</li>
 				</ul>
 
 				<div class="tiles-container-mobile" id="tiles-container-mobile">
 					<a class="language-button" href="http://hindi.pratilipi.com/">
-						<span>हिंदी</span>
+						<span class="language font-hi">हिंदी</span>
 					</a>
 					<a class="language-button" href="http://tamil.pratilipi.com/">
-						<span>தமிழ்</span>
+						<span class="language font-ta">தமிழ்</span>
 					</a>
 					<a class="language-button" href="http://malayalam.pratilipi.com/">
-						<span class="language">മലയാളം</span>
+						<span class="language font-ml">മലയാളം</span>
 					</a>
 					<a class="language-button" href="http://bengali.pratilipi.com/">
-						<span class="language">বাংলা</span>
+						<span class="language font-bn">বাংলা</span>
 					</a>
 					<a class="language-button" href="http://telugu.pratilipi.com/">
-						<span class="language">తెలుగు</span>
+						<span class="language font-te">తెలుగు</span>
 					</a>
 					<a class="language-button" href="http://gujarati.pratilipi.com/">
-						<span class="language">ગુજરાતી</span>
+						<span class="language font-gu">ગુજરાતી</span>
 					</a>
 					<a class="language-button" href="http://marathi.pratilipi.com/">
-						<span class="language">मराठी</span>
+						<span class="language font-mr">मराठी</span>
 					</a>
 					<a class="language-button" href="http://kannada.pratilipi.com/">
-						<span class="language">ಕನ್ನಡ</span>
+						<span class="language font-kn">ಕನ್ನಡ</span>
 					</a>
 				</div>
 
@@ -810,7 +828,7 @@
 					<input class="input-field" type="email" name="mailingListEmail" id="mailingListEmail" placeholder="Email" onKeyPress="mailingList( event, this )">
 					<button class="notify-me-btn" onClick="mailingList()">NOTIFY ME!</button>
 				</div>
-				
+
 				<div id="notify-loader" class="notify-loader"></div>
 
 				<div class="notify-message" id="notify-message">
@@ -886,12 +904,12 @@
 					return;
 			}
 			var mailingList = document.getElementById( 'mailingListLanguage' ).value;
-			var comment = mailingList == "LAUNCH_ANNOUNCEMENT_OTHER" ? 
+			var comment = mailingList == "LAUNCH_ANNOUNCEMENT_OTHER" ?
 					document.getElementById( 'mailingListLanguageInput' ).value.trim() : "";
 
 			var email = document.getElementById( 'mailingListEmail' ).value;
 			var passed = true;
-			
+
 			if( mailingList == "none" ) {
 				jQuery( '#mailingListLanguage' ).css( { "border": '#FF0000 1px solid' } );
 				passed = false;
@@ -912,7 +930,7 @@
 			} else {
 				jQuery( '#mailingListEmail' ).css( { "border": 'none' } );
 			}
-			
+
 			if( !passed )
 				return;
 
@@ -921,8 +939,8 @@
 			document.getElementById( "notify-elements" ).style.display = "none";
 			document.getElementById( 'notify-loader' ).style.display = "block";
 
-			var body = { 
-					'email': email, 
+			var body = {
+					'email': email,
 					'mailingList': mailingList,
 			};
 			if( comment != "" )
