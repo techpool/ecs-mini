@@ -452,6 +452,17 @@ public class PratilipiSite extends HttpServlet {
 
                 logger.log(Level.INFO, "authorId is  : " + dataModel.get("authorId"));
                 templateName = ( basicMode ? "AuthorBasic.ftl" : "Author.ftl" );
+			} else if ( uri.startsWith("/story") ){
+				String slug = "/" + uri.split("/")[2];
+				ga_location = "PratilipiPage";
+				dataModel = createDataModelForPratilipiFromSlug( slug, filterLanguage, basicMode, request );
+
+				// created page object to seamlessly merge with already working system
+				Page page = new PageEntity();
+				page.setUri(slug);
+				resourceList.addAll( createFbOpenGraphTags( ((PratilipiV2Api.Response)dataModel.get("pratilipi")).getId(), page ) );
+				logger.log(Level.INFO, "authorId is  : " + dataModel.get("authorId"));
+				templateName = ( basicMode ? "PratilipiBasic.ftl" : "Pratilipi.ftl" );
 			}
 
 			if( templateName == null ) {
@@ -849,6 +860,79 @@ public class PratilipiSite extends HttpServlet {
 		PratilipiV2Api.Response pratilipiResponse = ApiRegistry
 				.getApi( PratilipiV2Api.class )
 				.get( pratilipiRequest );
+
+		UserPratilipiApi.GetRequest userPratilipiRequest = new UserPratilipiApi.GetRequest();
+		userPratilipiRequest.setPratilipiId( pratilipiId );
+		UserPratilipiApi.Response userPratilipiResponse = ApiRegistry
+				.getApi( UserPratilipiApi.class )
+				.getUserPratilipi( userPratilipiRequest );
+
+
+		Map<String, Object> dataModel = new HashMap<String, Object>();
+		Gson gson = new Gson();
+		PratilipiData pratilipiData = gson.fromJson( gson.toJson( pratilipiResponse ), PratilipiData.class );
+		dataModel.put( "title", SEOTitleUtil.getPratilipiPageTitle( pratilipiData, language ) );
+		if( basicMode ) {
+			dataModel.put( "pratilipi", pratilipiResponse );
+			dataModel.put( "userpratilipi", userPratilipiResponse );
+			String action = request.getParameter( "action" ) != null ? request.getParameter( "action" ) : "content_page";
+			dataModel.put( "action", action );
+			String reviewParam = request.getParameter( RequestParameter.PRATILIPI_REVIEW.getName() );
+			if( reviewParam != null && reviewParam.trim().equals( "list" ) ) {
+				int reviewPageCurr = 1;
+				int reviewPageSize = 20;
+				String pageNoStr = request.getParameter( RequestParameter.LIST_PAGE_NUMBER.getName() );
+				if( pageNoStr != null && ! pageNoStr.trim().isEmpty() )
+					reviewPageCurr = Integer.parseInt( pageNoStr );
+
+				UserPratilipiReviewListApi.GetRequest reviewListRequest = new UserPratilipiReviewListApi.GetRequest();
+				reviewListRequest.setPratilipiId( pratilipiId );
+				reviewListRequest.setOffset( ( reviewPageCurr - 1 ) * reviewPageSize );
+				reviewListRequest.setResultCount( reviewPageSize );
+				UserPratilipiReviewListApi.Response reviewListResponse = ApiRegistry
+						.getApi( UserPratilipiReviewListApi.class )
+						.get( reviewListRequest );
+				dataModel.put( "reviewList", reviewListResponse.getReviewList() );
+				dataModel.put( "reviewListPageCurr", reviewPageCurr );
+				if( pratilipiResponse.getReviewCount() != 0 )
+					dataModel.put( "reviewListPageMax", (int) Math.ceil( ( (double) pratilipiResponse.getReviewCount() ) / reviewPageSize ) );
+				dataModel.put( "reviewParam", reviewParam );
+			} else if( reviewParam != null && reviewParam.trim().equals( "write" ) && userPratilipiResponse != null && userPratilipiResponse.hasAccessToReview() ) {
+				dataModel.put( "reviewParam", reviewParam );
+			} else if( reviewParam != null && reviewParam.trim().equals( "reply" ) ) {
+				dataModel.put( "reviewParam", reviewParam );
+			} else { // if( reviewParam == null || reviewParam.trim().isEmpty() ) {
+				UserPratilipiReviewListApi.GetRequest reviewListRequest = new UserPratilipiReviewListApi.GetRequest();
+				reviewListRequest.setPratilipiId( pratilipiId );
+				reviewListRequest.setResultCount( 10 );
+				UserPratilipiReviewListApi.Response reviewListResponse = ApiRegistry
+						.getApi( UserPratilipiReviewListApi.class )
+						.get( reviewListRequest );
+				dataModel.put( "reviewList", reviewListResponse.getReviewList() );
+			}
+		} else {
+			dataModel.put( "pratilipi", pratilipiResponse );
+			dataModel.put( "pratilipiJson", gson.toJson( pratilipiResponse ) );
+			dataModel.put( "userpratilipiJson", gson.toJson( userPratilipiResponse ) );
+		}
+
+		// TODO: CleverTap Boolean - Remove after POC
+		dataModel.put( "isContentPage", true );
+
+		return dataModel;
+
+	}
+
+	public Map<String, Object> createDataModelForPratilipiFromSlug( String slug, Language language, boolean basicMode, HttpServletRequest request )
+			throws InsufficientAccessException, UnexpectedServerException {
+
+		PratilipiV2Api.GetFromSlugRequest pratilipiRequest = new PratilipiV2Api.GetFromSlugRequest();
+		pratilipiRequest.setSlug( slug );
+		PratilipiV2Api.Response pratilipiResponse = ApiRegistry
+				.getApi( PratilipiV2Api.class )
+				.get( pratilipiRequest );
+
+		Long pratilipiId = pratilipiResponse.getId();
 
 		UserPratilipiApi.GetRequest userPratilipiRequest = new UserPratilipiApi.GetRequest();
 		userPratilipiRequest.setPratilipiId( pratilipiId );

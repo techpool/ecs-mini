@@ -43,11 +43,18 @@ public class PratilipiV1Api extends GenericApi {
 		@Validate( required = true, minLong = 1L )
 		protected Long pratilipiId;
 
-
 		public void setPratilipiId( Long pratilipiId ) {
 			this.pratilipiId = pratilipiId;
 		}
-		
+	}
+
+
+	public static class GetFromSlugRequest extends GenericRequest {
+
+		protected String slug;
+		public void setSlug(String slug) {
+			this.slug = slug;
+		}
 	}
 	
 	@SuppressWarnings("unused")
