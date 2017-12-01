@@ -422,6 +422,7 @@ com/pratilipi/data/type/doc/UserFollowsDocImpl.class
 com/pratilipi/common/type/BatchProcessType.class
 com/pratilipi/api/impl/author/AuthorListApi$GetRequest.class
 com/pratilipi/api/impl/pratilipi/PratilipiListV3Api.class
+com/pratilipi/api/impl/pratilipi/PratilipiV1Api$GetFromSlugRequest.class
 com/pratilipi/common/util/ImageSvgUtil.class
 com/pratilipi/api/impl/userauthor/UserAuthorFollowV2Api$PostRequest.class
 com/pratilipi/filter/AccessTokenFilter.class
