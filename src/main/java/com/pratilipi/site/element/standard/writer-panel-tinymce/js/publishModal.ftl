@@ -131,20 +131,21 @@ PublishModal.prototype.attachFormSubmitListener = function() {
             _this.ajaxSubmitForm();
         });
 
+        var fbEvents = new FBEvents();
         if (!_this.shouldBeAnUpdateBookCoverEvent) {
             if (_this.recommendedImageSource) {
-                FBEvents.logGrowthEvent('NEWBOOKINFO_BOOKCOVER_WRITER', 'PALBUM', 'WRITER', 'BOOKCOVER', 'NEWBOOKINFO', 'WPRC001A' );
+                fbEvents.logGrowthEvent('NEWBOOKINFO_BOOKCOVER_WRITER', 'PALBUM', 'WRITER', 'BOOKCOVER', 'NEWBOOKINFO', 'WPRC001A' );
             } else {
-                FBEvents.logGrowthEvent('NEWBOOKINFO_BOOKCOVER_WRITER', 'SELFUPLOAD', 'WRITER', 'BOOKCOVER', 'NEWBOOKINFO', 'WPRC001A' );
+                fbEvents.logGrowthEvent('NEWBOOKINFO_BOOKCOVER_WRITER', 'SELFUPLOAD', 'WRITER', 'BOOKCOVER', 'NEWBOOKINFO', 'WPRC001A' );
             }
         } else {
             if (_this.recommendedImageSource) {
-                FBEvents.logGrowthEvent('UPDATEBOOKINFO_BOOKCOVER_WRITER', 'PALBUM', 'WRITER', 'BOOKCOVER', 'UPDATEBOOKINFO', 'WPRC001A' );
+                fbEvents.logGrowthEvent('UPDATEBOOKINFO_BOOKCOVER_WRITER', 'PALBUM', 'WRITER', 'BOOKCOVER', 'UPDATEBOOKINFO', 'WPRC001A' );
             } else {
-                FBEvents.logGrowthEvent('UPDATEBOOKINFO_BOOKCOVER_WRITER', 'SELFUPLOAD', 'WRITER', 'BOOKCOVER', 'UPDATEBOOKINFO', 'WPRC001A' );
+                fbEvents.logGrowthEvent('UPDATEBOOKINFO_BOOKCOVER_WRITER', 'SELFUPLOAD', 'WRITER', 'BOOKCOVER', 'UPDATEBOOKINFO', 'WPRC001A' );
             }
         }
-        FBEvents.logGrowthEvent('PUBLISHBOOK_WRITERM_WRITER', null, 'WRITER', 'BOOKCOVER', 'PUBLISHBOOK', 'WPRC001A' );
+        fbEvents.logGrowthEvent('PUBLISHBOOK_WRITERM_WRITER', null, 'WRITER', 'BOOKCOVER', 'PUBLISHBOOK', 'WPRC001A' );
     } );
 };
 
@@ -244,7 +245,8 @@ PublishModal.prototype.ajaxSubmitForm = function() {
 PublishModal.prototype.attachGetRecommendedImagesListener = function() {
     var _this = this;
     $( "#publishModal" ).on( "getRecommendedImages", function( event, selectedTagIds, contentType ) {
-        FBEvents.logGrowthEvent('LANDED_BOOKCOVER_WRITER', null, 'WRITER', 'BOOKCOVER', 'LANDED', 'WPRC001A' );
+        var fbEvents = new FBEvents();
+        fbEvents.logGrowthEvent('LANDED_BOOKCOVER_WRITER', null, 'WRITER', 'BOOKCOVER', 'LANDED', 'WPRC001A' );
         getRecommendedImages(selectedTagIds, contentType, _this.systemCategoriesJson[contentType])
     });
 
