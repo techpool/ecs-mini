@@ -38,7 +38,7 @@ public class PratilipiV2Api extends PratilipiV1Api {
 		Map<String, String> paramsMap = new HashMap<>();
 		paramsMap.put( "_apiVer", "2" );
 		paramsMap.put( "slug", request.slug );
-		String responseString = HttpUtil.doGet( UxModeFilter.getEcsEndpoint() + "/api/pratilipiNew", paramsMap );
+		String responseString = HttpUtil.doGet( UxModeFilter.getEcsEndpoint() + "/api/pratilipis", paramsMap );
 		return new Gson().fromJson( responseString, PratilipiV1Api.Response.class );
 
 	}
