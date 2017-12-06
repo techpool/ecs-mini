@@ -24,6 +24,7 @@ CategoryModal.prototype.init = function() {
 	this.setSelectedTags();
 	this.addClickListener();
 	this.addChangeListeners();
+
 	this.checkNextButtonState();
 };
 
@@ -276,8 +277,6 @@ CategoryModal.prototype.saveTags = function() {
 			isCategoriesUpdated = true;
 	}
 
-	$( "#publishModal").trigger( "getRecommendedImages", [ selectedTagIds, this.currentContentType ] );
-
 	userTags = [];
 	userSelectedTags = $("[data-behaviour='user_suggested_tag']");
 	userSelectedTags.each(function(i, object) {
@@ -383,9 +382,6 @@ CategoryModal.prototype.ajaxCall = function(selectedTags, userTags, fbEventType,
 			/* hide current modal and show publish modal */
 			$("#categoryModal").modal("hide");
 			$('#publishModal').modal('show');
-			setTimeout(function() {
-				$('.recommendation-image-list').scrollTop(0);
-			}, 500);
 		},
 		error: function( response ) {
 			console.log("Server call failed");

@@ -516,21 +516,17 @@ blockquote {
     height: 20px;
 }
 .image-container {
+    margin-left: 15px;
     position:relative;
-    margin-left: 0px; 
-    border: 1px #00000054 dashed;
-    text-align: center;
-    display: table;
-    width: 167px;
-    height: 250px;
 }
 .cover-image {
     height: 150px;
-    width: 100px;
+    width: 115px;
 }
  .camera-icon {
     position:absolute;
-    left:20px;
+    top:50%;
+    left:35%;
  }
  .grey-background {
     background-color: #eee;
@@ -1016,109 +1012,4 @@ button[disabled], html input[disabled] {
 
 .font-16 {
   font-size: 16px !important;
-}
-
-/* relevant styles */
-.img__wrap {
-  position: relative;
-  display: inline-block;
-}
-
-.img__description_layer {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(208, 2, 27, 0.7);
-  color: #fff;
-  visibility: hidden;
-  opacity: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
-
-  /* transition effect. not necessary */
-  transition: opacity .2s, visibility .2s;
-}
-
-.img__wrap:hover .img__description_layer {
-  visibility: visible;
-  opacity: 1;
-  cursor: pointer;
-}
-
-.img__description {
-  transition: .2s;
-  transform: translateY(1em);
-}
-
-.img__wrap:hover .img__description {
-  transform: translateY(0);
-}
-
-.selected .img__description_layer {
-  display: none;
-}
-
-.selected:after {
-    position: absolute;
-    content:  "\2713 ";
-    font-size:34px;
-    color:white;
-    top:50%;
-    margin-top:-17px;
-    left:50%;
-    margin-left: -10px;   
-}
-
-.image-recommend-divider {
-    display: inline-block;
-    position: absolute;
-    width: 15px;
-    height: 300px;
-    text-align: center;
-    color: #00000054;
-    border-right-style: solid;
-    border-right-color: #00000054;
-    border-right-width: 1px;
-}
-
-.image-recommend-divider-text {
-    margin-top: 10px;
-    margin-left: 7px;
-    background: white;
-    font-size: small;
-    position: absolute;
-}
-
-#publishModal {
-    padding-left: 0px;
-}
-
-#publishModal .modal-dialog {
-    width: 900px;
-}
-
-.upload-image-button {
-    display: inline-block; 
-    width: 167px;
-}
-
-.recommendation-image-list {
-    overflow: hidden;
-    height: 250px;
-    overflow-y: scroll;
-    padding: 5px;
-    -webkit-box-shadow: inset 0px -21px 102px -38px rgba(0,0,0,0.75);
-    -moz-box-shadow: inset 0px -21px 102px -38px rgba(0,0,0,0.75);
-    box-shadow: inset 0px -21px 102px -38px rgba(0,0,0,0.75);
-}
-
-.image-container .camera-icon {
-    position: relative; 
-    left: unset; 
-    right: unset; 
-    top: unset;
 }

@@ -143,9 +143,9 @@
 													<input type="radio"
 													       name="pratilipi-type"
 													       value="${ pratilipiType.value }" id="radio-${ pratilipiType.value }"
-																 <#if pratilipiType.value == pratilipi.getType()>
-																 checked
-																 </#if>
+													<#if pratilipiType.value == pratilipi.getType()>
+														checked
+													</#if>
 													>
 													<label class="font-14" for="radio-${ pratilipiType.value }">
 														${ pratilipiType.name }
@@ -163,10 +163,10 @@
 										<#if tags??>
 											<#list tags as tag>
 												<div id="${tag.getId()?c}"
-												      class="pratilipi-tags pratilipi-tag-element font-14"
-												      data-behaviour="system_category"
-												      data-select="0"
-												      data-deselect="0">
+												     class="pratilipi-tags pratilipi-tag-element font-14"
+												     data-behaviour="system_category"
+												     data-select="0"
+												     data-deselect="0">
 													${tag.getName()}
 												</div>
 											</#list>
@@ -225,31 +225,15 @@
 								</div>
 								<form class="form-horizontal" id="publish_form">
 									<div class="modal-body modal-form">
-										<div class="grey-label" style="margin-bottom: 10px">${ _strings.writer_add_cover }</div>
-										<div>
-											<button type="button" class="upload-image-button btn btn-default">
-												<span class="camera-icon sprites-icon camera-sprite-icon"></span>
-												Upload Image
-											</button>
-											<span class="image-recommend-divider hide-on-fail"></span>
-											<span class="image-recommend-divider-text hide-on-fail">OR</span>
-										</div>
-										<div class="form-group left-align-content" style="display: flex; flex-direction: row; margin-left: 0; margin-right: 0;">
-											<div class="show-cursor" style="flex-grow: 1;">
-												<span class="pull-left image-container">
-													<span style="display: table-cell; vertical-align: middle;">
-														<span class="camera-icon sprites-icon camera-sprite-icon"></span>
-													</span>
-												</span>
-											</div>
-											<div style="
-							    				flex-grow: 9;
-							    				height: 250px;
-							    				padding-left: 30px;
-											">
-							                    <div class="recommendation-image-list hide-on-fail">
-							                    </div>
-							                </div>
+										<div class="form-group left-align-content">
+											<label class="grey-label pull-left" >${ _strings.writer_add_cover }</label>
+											<a class="show-cursor">
+							<span class="pull-left image-container" >
+								<img class="cover-image" src="https://0.ptlp.co/resource-all/icon/png/default-cover-image.png" alt="${ pratilipi.getTitle() }">
+								<span class="camera-icon sprites-icon camera-sprite-icon"></span>
+							</span>
+											</a>
+											<div class="clearfix"></div>
 										</div>
 										<div class="form-group left-align-content">
 											<label class="grey-label">${ _strings.writer_add_summary }</label>
@@ -310,8 +294,8 @@
 	<#include "css/style.ftl" />
 </style>
 
-<#-- Scripts -->
-<script>
+							<#-- Scripts -->
+								<script>
 	<#include "js/throttle-debounce.ftl" />
 	<#include "js/toastr.ftl" />
 	<#include "js/FBEvents.ftl" />
