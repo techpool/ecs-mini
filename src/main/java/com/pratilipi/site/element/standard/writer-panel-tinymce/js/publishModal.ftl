@@ -3,10 +3,14 @@ var PublishModal = function ( publish_modal_container ) {
     this.$form = this.$publish_modal_container.find( "#publish_form" );
     this.$category_select = this.$form.find( "#category" );
     this.$image_container = this.$form.find( ".image-container" );
+    this.$upload_image_button = this.$form.find( ".upload-image-button" );
     this.$summary = this.$form.find( "#summary" );
     this.form_validated = true;
+    this.shouldBeAnUpdateBookCoverEvent = true;
     this.pratilipi_data = ${ pratilipiJson };
+    this.systemCategoriesJson = ${ tagsJson };
     this.user_data = ${userJson};
+
     console.log(this.pratilipi_data);
     console.log(this.user_data);
 };
@@ -17,6 +21,7 @@ PublishModal.prototype.init = function() {
     this.prepopulateBookDetails();
     this.attachCoverImageListeners();
     this.attachFormSubmitListener();
+    this.attachGetRecommendedImagesListener();
 };
 
 PublishModal.prototype.setBookName = function( name ) {
@@ -53,7 +58,11 @@ PublishModal.prototype.prepopulateBookDetails = function() {
     
     if( this.pratilipi_data.coverImageUrl ) {
         this.lastCoverUrl = this.pratilipi_data.coverImageUrl;
-        this.$image_container.find( ".cover-image" ).attr( "src", this.lastCoverUrl );
+
+        if (!this.lastCoverUrl.endsWith('/cover')) {
+            this.$image_container.html( '<img class="cover-image" src="' + this.lastCoverUrl + '" alt="' + this.pratilipi_data.title + '" style="margin: 0;width: 167px;height: 250px;">' );
+            this.shouldBeAnUpdateBookCoverEvent = false;
+        }
     }
     
     if( this.pratilipi_data.summary ) {
@@ -65,6 +74,10 @@ PublishModal.prototype.prepopulateBookDetails = function() {
 PublishModal.prototype.attachCoverImageListeners = function() {
     var _this = this;
     this.$image_container.on( 'click', function() {
+        $( "#uploadPratilipiImageInput" ).trigger( 'click' );
+    });
+
+    this.$upload_image_button.on( 'click', function() {
         $( "#uploadPratilipiImageInput" ).trigger( 'click' );
     });
         
@@ -81,6 +94,12 @@ PublishModal.prototype.attachCoverImageListeners = function() {
         var fd = new FormData();
         fd.append( 'data', blob );
         fd.append( 'pratilipiId', ${ pratilipiId?c } );    
+        
+        _this.recommendedImageSource = null;
+        if (_this.currentlySelectedThumbnail) {
+            _this.currentlySelectedThumbnail.removeClass('selected');
+            _this.currentlySelectedThumbnail.find('img').css('filter', 'unset');    
+        }
         
         $.ajax( {
             type:'POST',
@@ -108,7 +127,24 @@ PublishModal.prototype.attachFormSubmitListener = function() {
     this.$form.on( "submit", function(e) {
         e.preventDefault();
         <#-- _this.validateForm(); -->
-        _this.ajaxSubmitForm();
+        _this.ajaxUpdateSelectedRecommendedImageCount(function() {
+            _this.ajaxSubmitForm();
+        });
+
+        if (!_this.shouldBeAnUpdateBookCoverEvent) {
+            if (_this.recommendedImageSource) {
+                FBEvents.logGrowthEvent('NEWBOOKINFO_BOOKCOVER_WRITER', 'PALBUM', 'WRITER', 'BOOKCOVER', 'NEWBOOKINFO' );
+            } else {
+                FBEvents.logGrowthEvent('NEWBOOKINFO_BOOKCOVER_WRITER', 'SELFUPLOAD', 'WRITER', 'BOOKCOVER', 'NEWBOOKINFO' );
+            }
+        } else {
+            if (_this.recommendedImageSource) {
+                FBEvents.logGrowthEvent('UPDATEBOOKINFO_BOOKCOVER_WRITER', 'PALBUM', 'WRITER', 'BOOKCOVER', 'UPDATEBOOKINFO' );
+            } else {
+                FBEvents.logGrowthEvent('UPDATEBOOKINFO_BOOKCOVER_WRITER', 'SELFUPLOAD', 'WRITER', 'BOOKCOVER', 'UPDATEBOOKINFO' );
+            }
+        }
+        FBEvents.logGrowthEvent('PUBLISHBOOK_WRITERM_WRITER', null, 'WRITER', 'BOOKCOVER', 'PUBLISHBOOK' );
     } );
 };
 
@@ -133,6 +169,28 @@ PublishModal.prototype.resetErrorStates = function() {
     
 };
 
+PublishModal.prototype.ajaxUpdateSelectedRecommendedImageCount = function(callback) {
+    var _this = this;
+    if (_this.recommendedImageSource) {
+        $.ajax( {
+            type: "POST",
+            url: "/api/coverimage-recommendation/cover/select",
+            data: { imageUrl: _this.recommendedImageSource },
+            success:function( response ) {
+                console.log(response);
+                callback();
+            },
+            error: function( response ) {
+                console.log(response);
+                $('.hide-on-fail').remove();
+                callback();
+            }                          
+        });
+    } else {
+        callback();
+    }
+};
+
 PublishModal.prototype.ajaxSubmitForm = function() {
     var $spinner = $( "<div>" ).addClass( "spinner" );
     this.$publish_modal_container.find( ".modal-content" ).append( $spinner );
@@ -143,6 +201,7 @@ PublishModal.prototype.ajaxSubmitForm = function() {
         summary: this.$summary.val(),
         state: "PUBLISHED"
     };
+
     $.ajax( {
         type: "POST",
         url: "/api/pratilipi?_apiVer=2",
@@ -180,6 +239,121 @@ PublishModal.prototype.ajaxSubmitForm = function() {
             _this.$publish_modal_container.find( ".spinner" ).remove();
         }                                        
     });     
+};
+
+PublishModal.prototype.attachGetRecommendedImagesListener = function() {
+    var _this = this;
+    $( "#publishModal" ).on( "getRecommendedImages", function( event, selectedTagIds, contentType ) {
+        FBEvents.logGrowthEvent('LANDED_BOOKCOVER_WRITER', null, 'WRITER', 'BOOKCOVER', 'LANDED' );
+        getRecommendedImages(selectedTagIds, contentType, _this.systemCategoriesJson[contentType])
+    });
+
+    var getRecommendedImages = function(selectedTagIds, contentType, availableTagIds) {
+        var pratilipiType = contentType;
+        var selectedCategoryEnglishName = [];
+
+        availableTagIds.forEach(function(eachTag) {
+            if (selectedTagIds.indexOf(String(eachTag.id)) > -1) {
+                var selectedCategory = eachTag.pageUrl.split('/').pop();
+                selectedCategoryEnglishName.push(selectedCategory);
+            }
+        });
+
+        console.log("/api/coverimage-recommendation/cover?categories=" + selectedCategoryEnglishName.join(','));
+        var responseFromServer = {};
+        $.ajax({
+            type: "GET",
+            url: "/api/coverimage-recommendation/cover?categories=" + selectedCategoryEnglishName.join(','),
+            success: function( response ){
+                console.log("Server call successful");
+                console.log(response);
+                responseFromServer = response;
+            },
+            error: function( response ) {
+                console.log("Server call failed");
+                console.log(response);
+            },
+            complete: function() {
+                /* Send FB Event */
+                console.log('Complete event for the images');
+                var recommendationResponse = responseFromServer;
+
+                var recommendationImages = recommendationResponse.recommendations;
+                var imageContainer = $('#publishModal .recommendation-image-list');
+
+                imageContainer.html('');
+                recommendationImages.forEach(function(eachImage) {
+                    imageContainer.append('\
+                        <div class="img__wrap" style="margin: 5px;" >\
+                            <img class="img__img cover-image" src="' + eachImage.split('.jpeg')[0] + '_thumbnail.jpeg' + '" />\
+                            <div class="img__description_layer">\
+                                <p class="img__description">Upload</p>\
+                            </div>\
+                        </div>');
+                });
+                $(".recommendation-image-list .img__wrap").on('click', function(){
+                    
+                    $(this).addClass('selected');
+                    $(this).find('img').css('filter', 'brightness(0.3)');
+                    
+                    if (_this.currentlySelectedThumbnail) {
+                        _this.currentlySelectedThumbnail.removeClass('selected');
+                        _this.currentlySelectedThumbnail.find('img').css('filter', 'unset');    
+                    }
+
+                    _this.currentlySelectedThumbnail = $(this);
+
+                    var imageSource = $(this).find('img').attr('src').split('_thumbnail')[0] + '.jpeg';
+                    _this.recommendedImageSource = imageSource;
+                    function loadXHR(url) {
+                        return new Promise(function(resolve, reject) {
+                            try {
+                                var xhr = new XMLHttpRequest();
+                                xhr.open("GET", url);
+                                xhr.responseType = "blob";
+                                xhr.onerror = function() {reject("Network error.")};
+                                xhr.onload = function() {
+                                    if (xhr.status === 200) {resolve(xhr.response)}
+                                    else {reject("Loading error:" + xhr.statusText)}
+                                };
+                                xhr.send();
+                            }
+                            catch(err) {reject(err.message)}
+                        });
+                    }
+
+                    var $img = $('.image-container');
+                    $img.html( '<img class="cover-image" src="' + imageSource + '" alt="' + _this.pratilipi_data.title + '" style="margin: 0;width: 167px;height: 250px;">' );
+                    loadXHR(imageSource).then(function(blob) {
+                        var $img = $('.image_container .cover-image');
+                        var fd = new FormData();
+                        fd.append( 'data', blob );
+                        fd.append( 'pratilipiId', ${ pratilipiId?c } );    
+                        
+                        $.ajax( {
+                            type:'POST',
+                            url: '/api/pratilipi/cover?pratilipiId=${ pratilipiId?c }',
+                            data:fd,
+                            cache:true,
+                            contentType: false,
+                            processData: false,
+                            success:function( data ) {
+                                var parsed_data = jsonParseTryCatch(data);
+                                var image_url = parsed_data.coverImageUrl;
+                                console.log('Image URL (From server): ', image_url);
+                                $img.html( '<img class="cover-image" src="' + image_url + '" alt="' + _this.pratilipi_data.title + '" style="margin: 0;width: 167px;height: 250px;">' );
+                                $( "#uploadPratilipiImageInput" ).val( "" );
+                            },
+                            error: function( data ) {
+                                $img.removeClass( "blur-image" );
+                            }
+                        });
+                    });
+                });
+            }
+        });
+    };
+
 };
 
 PublishModal.prototype.isEmptyStr = function( str ) {

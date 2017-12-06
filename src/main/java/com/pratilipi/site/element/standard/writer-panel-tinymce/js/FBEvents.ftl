@@ -32,6 +32,27 @@ FBEvents.prototype.logEvent =
 		
 	    FB.AppEvents.logEvent(event_name, null, params);
 	};
+
+FBEvents.prototype.logGrowthEvent = 
+	function(event_name, entity_value, screenName, location, action) {
+		var params = {};
+		params["ENVIRONMENT"] = "GROWTH";
+		params["CONTENT_LANGUAGE"] = this.pratilipi_data.language;
+		params["SCREEN_NAME"] = screenName;
+		params["LOCATION"] = location;
+		params["SCREEN_LOCATION"] = screenName + '_' + location;
+		params["ACTION"] = action;
+
+		params["USERID"] = '${user.getId()?c}'; 
+		
+		if (entity_value)
+			params["ENTITY_VALUE"] =  entity_value;
+		params["PRATILIPI_TYPE"] =  this.pratilipi_data.type;
+		params["CONTENT_ID"] =  '${ pratilipiId?c }';
+		params["AUTHOR_ID"] =  this.pratilipi_data.author.authorId;
+		
+	    FB.AppEvents.logEvent(event_name, null, params);
+	};
 	
 FBEvents.prototype.isUserAdmin = function() {
 	var authorId = this.pratilipi_data.author.authorId;
