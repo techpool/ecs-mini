@@ -34,7 +34,7 @@ FBEvents.prototype.logEvent =
 	};
 
 FBEvents.prototype.logGrowthEvent = 
-	function(event_name, entity_value, screenName, location, action) {
+	function(event_name, entity_value, screenName, location, action, experimentId) {
 		var params = {};
 		params["ENVIRONMENT"] = "GROWTH";
 		params["CONTENT_LANGUAGE"] = this.pratilipi_data.language;
@@ -42,6 +42,7 @@ FBEvents.prototype.logGrowthEvent =
 		params["LOCATION"] = location;
 		params["SCREEN_LOCATION"] = screenName + '_' + location;
 		params["ACTION"] = action;
+		params["EXPERIMENT_ID"] = experimentId;
 
 		params["USERID"] = '${user.getId()?c}'; 
 		
