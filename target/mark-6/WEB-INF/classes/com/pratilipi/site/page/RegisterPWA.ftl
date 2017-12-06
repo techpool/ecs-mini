@@ -1,1 +1,0 @@
-<#include "/Register-${lang}.html">
