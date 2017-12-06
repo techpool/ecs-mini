@@ -4,13 +4,13 @@ var FBEvents = function() {
 
 FBEvents.prototype.init = function() {};
 
-FBEvents.prototype.logEvent = 
+FBEvents.prototype.logEvent =
 	function(event_name, entity_state, entity_value, category_count, category_string, tag_count, tag_string, success) {
 		var params = {};
 		params["ENVIRONMENT"] = "PROD";
 		params["CONTENT_LANGUAGE"] = this.pratilipi_data.language;
 		params["SCREEN_NAME"] = "WRITER_PANEL";
-		params["USERID"] = '${user.getId()?c}'; 
+		params["USERID"] = '${user.getId()?c}';
 		if (entity_state)
 			params["ENTITY_STATE"] =  entity_state;
 		if (entity_value)
@@ -29,10 +29,10 @@ FBEvents.prototype.logEvent =
 		params["ACCESS_LEVEL"] = this.isUserAdmin() ? "ADMIN" : "SELF";
 		if (success != null) /* because success == 0 for failed request */
 			params["SUCCESS"] =  success;
-		
+
 	    FB.AppEvents.logEvent(event_name, null, params);
 	};
-	
+
 FBEvents.prototype.isUserAdmin = function() {
 	var authorId = this.pratilipi_data.author.authorId;
 	var userId = ${user.getAuthor().getId()?c};

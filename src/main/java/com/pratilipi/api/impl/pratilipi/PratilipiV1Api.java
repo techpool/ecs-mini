@@ -48,7 +48,6 @@ public class PratilipiV1Api extends GenericApi {
 		}
 	}
 
-
 	public static class GetFromSlugRequest extends GenericRequest {
 
 		protected String slug;

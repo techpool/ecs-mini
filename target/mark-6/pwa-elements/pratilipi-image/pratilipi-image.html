@@ -1,8 +1,0 @@
-<div class="pratilipi-image" data-bind="style: { 'width': wt() + 'px', 'height': ht() + 'px', 'borderRadius': imageCircle ? '999px' : '0' }">
-	<img class="img-small" data-bind="attr: { 'src': getImageUrl( src(), wt(), true ) },
-		event: { load: _onSmallImageLoad }, css: { 'loaded': isSmallImageLoaded() }">
-	<!-- ko if: isSmallImageLoaded() -->
-		<img class="img-large" data-bind="lazyload: getImageUrl( src(), wt(), false ),
-		event: { load: _onLargeImageLoad }, css: { 'loaded': isLargeImageLoaded() }, attr: { 'alt': alt }">
-	<!-- /ko -->
-</div>

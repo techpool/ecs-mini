@@ -50,16 +50,16 @@ PublishModal.prototype.prepopulateBookDetails = function() {
     <#-- if ( this.pratilipi_data.type ) {
         this.$category_select.val( this.pratilipi_data.type );
     } -->
-    
+
     if( this.pratilipi_data.coverImageUrl ) {
         this.lastCoverUrl = this.pratilipi_data.coverImageUrl;
         this.$image_container.find( ".cover-image" ).attr( "src", this.lastCoverUrl );
     }
-    
+
     if( this.pratilipi_data.summary ) {
         this.$summary.val( this.pratilipi_data.summary );
     }
-    
+
 };
 
 PublishModal.prototype.attachCoverImageListeners = function() {
@@ -67,11 +67,11 @@ PublishModal.prototype.attachCoverImageListeners = function() {
     this.$image_container.on( 'click', function() {
         $( "#uploadPratilipiImageInput" ).trigger( 'click' );
     });
-        
+
     $( "#uploadPratilipiImageInput" ).on( 'change', function() {
         $( "#uploadPratilipiImage" ).submit();
     });
-        
+
     $( '#uploadPratilipiImage' ).on( 'submit',function(e) {
         e.preventDefault();
         var blob = $( this ).find( "#uploadPratilipiImageInput" ).get( 0 ).files[0];
@@ -80,8 +80,8 @@ PublishModal.prototype.attachCoverImageListeners = function() {
         $img.attr( "src", window.URL.createObjectURL( blob ) ).addClass( "blur-image" );
         var fd = new FormData();
         fd.append( 'data', blob );
-        fd.append( 'pratilipiId', ${ pratilipiId?c } );    
-        
+        fd.append( 'pratilipiId', ${ pratilipiId?c } );
+
         $.ajax( {
             type:'POST',
             url: '/api/pratilipi/cover?pratilipiId=${ pratilipiId?c }',
@@ -100,7 +100,7 @@ PublishModal.prototype.attachCoverImageListeners = function() {
                 $img.removeClass( "blur-image" ).attr( "src", _this.lastCoverUrl );
             }
         });
-    });                                    
+    });
 };
 
 PublishModal.prototype.attachFormSubmitListener = function() {
@@ -119,18 +119,18 @@ PublishModal.prototype.attachFormSubmitListener = function() {
         this.$category_select.after( '<span class="error-exclamation glyphicon glyphicon-exclamation-sign form-control-feedback" style="right: 5%;" aria-hidden="true"></span>' );
         this.form_validated = false;
     }
-    
+
     if( this.form_validated ) {
         this.ajaxSubmitForm();
     }
-    
+
 }; -->
 
 PublishModal.prototype.resetErrorStates = function() {
     this.form_validated = true;
     this.$form.find( ".has-error" ).removeClass( "has-error" );
     this.$form.find( ".error-exclamation" ).remove();
-    
+
 };
 
 PublishModal.prototype.ajaxSubmitForm = function() {
@@ -178,8 +178,8 @@ PublishModal.prototype.ajaxSubmitForm = function() {
         },
         complete: function() {
             _this.$publish_modal_container.find( ".spinner" ).remove();
-        }                                        
-    });     
+        }
+    });
 };
 
 PublishModal.prototype.isEmptyStr = function( str ) {

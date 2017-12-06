@@ -1,0 +1,6 @@
+.DS_Store
+.idea/
+target/generated-sources/
+target/mark-6/
+target/maven-archiver/
+target/maven-status/

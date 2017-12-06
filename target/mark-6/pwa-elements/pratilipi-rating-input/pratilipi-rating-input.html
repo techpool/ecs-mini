@@ -1,6 +1,0 @@
-<!-- ko foreach: ko.utils.range( 1, rating() ) -->
-	<i class="material-icons material-icons-36 pratilipi-red clickable-element" data-bind="click: $parent.setRating.bind($data, $data)">star</i>
-<!-- /ko -->
-<!-- ko foreach: ko.utils.range( 1, 5 - rating() ) -->
-	<i class="material-icons material-icons-36 clickable-element" data-bind="click: $parent.setRating.bind($data, $data + $parent.rating() )">star_border</i>
-<!-- /ko -->

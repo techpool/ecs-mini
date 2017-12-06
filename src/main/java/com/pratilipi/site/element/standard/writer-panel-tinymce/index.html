@@ -143,9 +143,9 @@
 													<input type="radio"
 													       name="pratilipi-type"
 													       value="${ pratilipiType.value }" id="radio-${ pratilipiType.value }"
-																 <#if pratilipiType.value == pratilipi.getType()>
-																 checked
-																 </#if>
+													<#if pratilipiType.value == pratilipi.getType()>
+														checked
+													</#if>
 													>
 													<label class="font-14" for="radio-${ pratilipiType.value }">
 														${ pratilipiType.name }
@@ -163,10 +163,10 @@
 										<#if tags??>
 											<#list tags as tag>
 												<div id="${tag.getId()?c}"
-												      class="pratilipi-tags pratilipi-tag-element font-14"
-												      data-behaviour="system_category"
-												      data-select="0"
-												      data-deselect="0">
+												     class="pratilipi-tags pratilipi-tag-element font-14"
+												     data-behaviour="system_category"
+												     data-select="0"
+												     data-deselect="0">
 													${tag.getName()}
 												</div>
 											</#list>
@@ -294,8 +294,8 @@
 	<#include "css/style.ftl" />
 </style>
 
-<#-- Scripts -->
-<script>
+							<#-- Scripts -->
+								<script>
 	<#include "js/throttle-debounce.ftl" />
 	<#include "js/toastr.ftl" />
 	<#include "js/FBEvents.ftl" />
