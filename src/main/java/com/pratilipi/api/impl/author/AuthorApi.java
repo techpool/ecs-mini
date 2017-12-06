@@ -577,7 +577,7 @@ public class AuthorApi extends GenericApi {
 
         Map<String, String> paramsMap = new HashMap<>();
         paramsMap.put( "slug", request.slug );
-        String responseString = HttpUtil.doGet( UxModeFilter.getEcsEndpoint() + "/api/authorNew", paramsMap );
+        String responseString = HttpUtil.doGet( UxModeFilter.getEcsEndpoint() + "/api/authors", paramsMap );
         return new Gson().fromJson( responseString, Response.class );
 
     }
