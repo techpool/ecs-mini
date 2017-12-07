@@ -404,6 +404,7 @@ writer_error_category_required = ഒരു വിഭാഗം തിരഞ്ഞ
 writer_error_copyright_required = ഞാൻ  പകർപ്പവകാശ നയം ഒപ്പം സേവന നിബന്ധനകൾ  സമ്മതിക്കുന്നു
 writer_save_changes_confirmation = മുന്നോട്ടു  പോവുന്നതിനു മുമ്പ് ഈ  മാറ്റങ്ങള്‍ സേവ് ചെയ്യണോ ?
 pratilipi_add_summary = സംഗ്രഹം ചേർക്കാൻ ഇവിടെ ക്ലിക്ക് ചെയ്യുക
+upload = അപ്ലോഡ് ചെയ്യുക
 
 # Android App launch
 പandroid_pratilipi_app = ്രതിലിപി ആന്‍ഡ്രോയിഡ് ആപ്പ്

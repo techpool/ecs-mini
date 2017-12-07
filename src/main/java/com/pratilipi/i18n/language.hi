@@ -404,6 +404,7 @@ writer_error_category_required = कृपया श्रेणी चुने
 writer_error_copyright_required = कृपया कॉपीराइट पालिसी और सेवा की शर्तों को स्वीकार करें
 writer_save_changes_confirmation = बढ़ने से पहले किए गए बदलाव को सुरक्षित करें ?
 pratilipi_add_summary = सारांश जोड़ने के लिए कृपया यहाँ क्लिक करें
+upload = अपलोड
 
 # Android App launch
 android_pratilipi_app = प्रतिलिपि एंड्राइड एप्लीकेशन

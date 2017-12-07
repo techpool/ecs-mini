@@ -276,7 +276,9 @@ CategoryModal.prototype.saveTags = function() {
 			isCategoriesUpdated = true;
 	}
 
-	$( "#publishModal").trigger( "getRecommendedImages", [ selectedTagIds, this.currentContentType ] );
+	<#if pratilipi.getLanguage() == 'BENGALI'>
+		$( "#publishModal").trigger( "getRecommendedImages", [ selectedTagIds, this.currentContentType ] );
+	</#if>
 
 	userTags = [];
 	userSelectedTags = $("[data-behaviour='user_suggested_tag']");

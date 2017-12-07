@@ -405,6 +405,7 @@ writer_error_category_required = অনুুগ্রহ করে শ্রে
 writer_error_copyright_required = দয়াকরে কপিরাইট নীতি ও পরিষেবার শর্তাদি স্বীকার করুন
 writer_save_changes_confirmation = অগ্রসর হওয়ার আগে পরিবর্তন সুরক্ষিত করুন।
 pratilipi_add_summary = সারাংশ লিখতে অনুগ্রহ করে এখানে ক্লিক করুন
+upload = আপলোড
 
 # Android App launch
 android_pratilipi_app = প্রতিলিপি অ্যান্ড্র্যেড অ্যাপ্লিকেশন
