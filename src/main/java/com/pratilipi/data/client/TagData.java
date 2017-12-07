@@ -21,6 +21,10 @@ public class TagData  implements Serializable {
 	private PratilipiType type;
 	private boolean hasType;
 
+	private String pageUrl;
+	private boolean hasPageUrl;
+
+
 	public Long getId() {
 		return id;
 	}
@@ -76,6 +80,19 @@ public class TagData  implements Serializable {
 	public void setPratilipiType(PratilipiType pratilipiType) {
 		this.type = pratilipiType;
 		this.hasType = true;
+	}
+
+	public boolean hasPageUrl() {
+		return this.hasPageUrl;
+	}
+
+	public String getPageUrl() {
+		return pageUrl;
+	}
+
+	public String setPageUrl(String pageUrl) {
+		this.pageUrl = pageUrl;
+		this.hasPageUrl = true;
 	}
 
 	public boolean hasType() {
