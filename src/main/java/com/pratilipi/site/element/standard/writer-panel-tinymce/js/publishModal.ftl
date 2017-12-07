@@ -254,7 +254,8 @@ PublishModal.prototype.attachGetRecommendedImagesListener = function() {
 
         availableTagIds.forEach(function(eachTag) {
             if (selectedTagIds.indexOf(String(eachTag.id)) > -1) {
-                var selectedCategory = eachTag.pageUrl.split('/').pop();
+                // var selectedCategory = eachTag.pageUrl.split('/').pop();
+		var selectedCategory = eachTag.nameEn;
                 selectedCategoryEnglishName.push(selectedCategory);
             }
         });
