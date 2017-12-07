@@ -90,7 +90,7 @@ public class TagData  implements Serializable {
 		return pageUrl;
 	}
 
-	public String setPageUrl(String pageUrl) {
+	public void setPageUrl(String pageUrl) {
 		this.pageUrl = pageUrl;
 		this.hasPageUrl = true;
 	}
