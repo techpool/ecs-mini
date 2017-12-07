@@ -229,10 +229,12 @@
 										<div>
 											<button type="button" class="upload-image-button btn btn-default">
 												<span class="camera-icon sprites-icon camera-sprite-icon"></span>
-												Upload Image
+												${ _strings.upload }
 											</button>
-											<span class="image-recommend-divider hide-on-fail"></span>
-											<span class="image-recommend-divider-text hide-on-fail">OR</span>
+											<#if pratilipi.getLanguage() == 'BENGALI'>
+												<span class="image-recommend-divider hide-on-fail"></span>
+												<span class="image-recommend-divider-text hide-on-fail">অথবা নীচের থেকে একটি নির্বাচন করুন</span>	
+											</#if>
 										</div>
 										<div class="form-group left-align-content" style="display: flex; flex-direction: row; margin-left: 0; margin-right: 0;">
 											<div class="show-cursor" style="flex-grow: 1;">
@@ -242,14 +244,16 @@
 													</span>
 												</span>
 											</div>
-											<div style="
-							    				flex-grow: 9;
-							    				height: 250px;
-							    				padding-left: 30px;
-											">
-							                    <div class="recommendation-image-list hide-on-fail">
-							                    </div>
-							                </div>
+											<#if pratilipi.getLanguage() == 'BENGALI'>
+												<div style="
+								    				flex-grow: 9;
+								    				height: 250px;
+								    				padding-left: 30px;
+												">
+								                    <div class="recommendation-image-list hide-on-fail">
+								                    </div>
+								                </div>
+								            </#if>
 										</div>
 										<div class="form-group left-align-content">
 											<label class="grey-label">${ _strings.writer_add_summary }</label>
