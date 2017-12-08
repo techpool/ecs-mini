@@ -184,7 +184,6 @@ PublishModal.prototype.ajaxUpdateSelectedRecommendedImageCount = function(callba
             },
             error: function( response ) {
                 console.log(response);
-                $('.hide-on-fail').remove();
                 callback();
             }                          
         });
@@ -275,9 +274,13 @@ PublishModal.prototype.attachGetRecommendedImagesListener = function() {
                 console.log(response);
             },
             complete: function() {
-                /* Send FB Event */
                 console.log('Complete event for the images');
                 var recommendationResponse = responseFromServer;
+
+                if (!recommendationResponse || !recommendationResponse.recommendations || recommendationResponse.recommendations.length === 0) {
+                    $('.hide-on-fail').remove();
+                    return;
+                }
 
                 setTimeout(function() {
                     $('.recommendation-image-list').scrollTop(0);
