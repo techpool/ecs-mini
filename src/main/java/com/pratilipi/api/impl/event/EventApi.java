@@ -35,11 +35,16 @@ public class EventApi extends GenericApi {
 		@Validate( required = true, minLong = 1L )
 		private Long eventId;
 
-		
 		public void setEventId( Long eventId ) {
 			this.eventId = eventId;
 		}
+	}
 
+	public static class GetFromSlugRequest extends GenericRequest {
+
+		private String eventSlug;
+
+		public void setEventSlug ( String eventSlug) { this.eventSlug = eventSlug;}
 	}
 	
 	public static class PostRequest extends GenericRequest {
@@ -215,6 +220,16 @@ public class EventApi extends GenericApi {
 		Map<String, String> paramsMap = new HashMap<>();
 		paramsMap.put( "eventId", request.eventId.toString() );
 		String responseString = HttpUtil.doGet( UxModeFilter.getEcsEndpoint() + "/api/event", paramsMap );
+		return new Gson().fromJson( responseString, Response.class );
+
+	}
+
+	@Get
+	public Response get( GetFromSlugRequest request ) throws UnexpectedServerException {
+
+		Map<String, String> paramsMap = new HashMap<>();
+		paramsMap.put( "slug", request.eventSlug );
+		String responseString = HttpUtil.doGet( UxModeFilter.getEcsEndpoint() + "/api/events", paramsMap );
 		return new Gson().fromJson( responseString, Response.class );
 
 	}

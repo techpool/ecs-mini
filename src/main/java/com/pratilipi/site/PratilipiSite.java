@@ -190,6 +190,12 @@ public class PratilipiSite extends HttpServlet {
 				dataModel = createDataModelForSearchPage( basicMode, filterLanguage, request );
 				templateName = ( basicMode ? "SearchBasic.ftl" : "Search.ftl" );
 
+			} else if( uri.matches( "/events/.*" ) ) {
+				String slug = "/" + uri.split("/")[2];
+				logger.log(Level.INFO, "slug is :" + slug);
+				ga_location = "EventPage";
+				dataModel = createDataModelForEventPageFromSlug(slug, filterLanguage, basicMode, request);
+				templateName = (basicMode ? "EventBasic.ftl" : "Event.ftl");
 			} else if( uri.equals( "/events" ) ) {
 				ga_location = "AllEventsPage";
 				dataModel = createDataModelForEventsPage( userData.getId(), filterLanguage, basicMode );
@@ -1364,6 +1370,61 @@ public class PratilipiSite extends HttpServlet {
 				.get( eventRequest );
 
 		EventData eventData = gson.fromJson( gson.toJson( eventResponse ), EventData.class );
+		dataModel.put( "title", SEOTitleUtil.getEventPageTitle( eventData, language ) );
+		if( basicMode )
+			dataModel.put( "event", eventResponse );
+		else
+			dataModel.put( "eventJson", gson.toJson( eventResponse ) );
+
+
+		if( basicMode ) {
+
+			String action = request.getParameter( "action" ) != null ? request.getParameter( "action" ) : "event_page";
+			dataModel.put( "action", action );
+			Integer pageCurr = request.getParameter( RequestParameter.LIST_PAGE_NUMBER.getName() ) != null
+					? Integer.parseInt( request.getParameter( RequestParameter.LIST_PAGE_NUMBER.getName() ) )
+					: 1;
+
+			Integer resultCount = 10;
+			PratilipiListV2Api.GetRequest PratilipiListV1ApiRequest = new PratilipiListV2Api.GetRequest();
+			PratilipiListV1ApiRequest.setEventId( eventId );
+			PratilipiListV1ApiRequest.setState( PratilipiState.PUBLISHED );
+			PratilipiListV1ApiRequest.setResultCount( resultCount );
+			if( action.equals( "list_contents" ) ) {
+				PratilipiListV1ApiRequest.setOffset( ( pageCurr - 1 ) * resultCount );
+			}
+
+			PratilipiListV2Api.Response PratilipiListV1ApiResponse = ApiRegistry
+					.getApi( PratilipiListV2Api.class )
+					.get( PratilipiListV1ApiRequest );
+
+			dataModel.put( "pratilipiList", PratilipiListV1ApiResponse.getPratilipiList() );
+			dataModel.put( "numberFound", PratilipiListV1ApiResponse.getNumberFound() );
+			dataModel.put( "pratilipiListPageCurr", pageCurr );
+			dataModel.put( "pratilipiListPageMax", PratilipiListV1ApiResponse.getNumberFound() != null ?
+					(int) Math.ceil( ( (double) PratilipiListV1ApiResponse.getNumberFound() ) / resultCount ) : 1 );
+
+		}
+
+		return dataModel;
+
+	}
+
+	public Map<String, Object> createDataModelForEventPageFromSlug( String eventSlug, Language language, boolean basicMode, HttpServletRequest request )
+			throws InsufficientAccessException, UnexpectedServerException {
+
+		Map<String, Object> dataModel = new HashMap<String, Object>();
+		Gson gson = new Gson();
+
+		EventApi.GetFromSlugRequest eventRequest = new EventApi.GetFromSlugRequest();
+		eventRequest.setEventSlug( eventSlug );
+		EventApi.Response eventResponse = ApiRegistry
+				.getApi( EventApi.class )
+				.get( eventRequest );
+
+		EventData eventData = gson.fromJson( gson.toJson( eventResponse ), EventData.class );
+		Long eventId = eventData.getId();
+
 		dataModel.put( "title", SEOTitleUtil.getEventPageTitle( eventData, language ) );
 		if( basicMode )
 			dataModel.put( "event", eventResponse );
