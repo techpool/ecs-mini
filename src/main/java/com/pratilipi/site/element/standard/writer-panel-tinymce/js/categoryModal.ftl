@@ -388,9 +388,6 @@ CategoryModal.prototype.ajaxCall = function(selectedTags, userTags, fbEventType,
 			/* hide current modal and show publish modal */
 			$("#categoryModal").modal("hide");
 			$('#publishModal').modal('show');
-			setTimeout(function() {
-				$('.recommendation-image-list').scrollTop(0);
-			}, 500);
 		},
 		error: function( response ) {
 			console.log("Server call failed");
@@ -414,6 +411,7 @@ CategoryModal.prototype.ajaxCall = function(selectedTags, userTags, fbEventType,
 				userTags ? userTags.toString() : null,
 				isSuccess
 			);
+        	_this.fbEvent.logGrowthEvent('LANDED_BOOKCOVER_WRITER', null, 'WRITER', 'BOOKCOVER', 'LANDED', 'WPRC001A' );
 		}
 	});
 };

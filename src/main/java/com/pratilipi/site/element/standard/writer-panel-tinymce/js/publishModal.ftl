@@ -279,6 +279,10 @@ PublishModal.prototype.attachGetRecommendedImagesListener = function() {
                 console.log('Complete event for the images');
                 var recommendationResponse = responseFromServer;
 
+                setTimeout(function() {
+                    $('.recommendation-image-list').scrollTop(0);
+                }, 500);
+
                 var recommendationImages = recommendationResponse.recommendations;
                 var imageContainer = $('#publishModal .recommendation-image-list');
 
