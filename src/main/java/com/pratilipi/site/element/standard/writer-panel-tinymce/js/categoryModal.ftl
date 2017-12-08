@@ -331,6 +331,9 @@ CategoryModal.prototype.saveTags = function() {
 		/* move to next modal */
 		$("#categoryModal").modal("hide");
 		$('#publishModal').modal('show');
+
+		var fbEvents = new FBEvents();
+        fbEvents.logGrowthEvent('LANDED_BOOKCOVER_WRITER', null, 'WRITER', 'BOOKCOVER', 'LANDED', 'WPRC001A' );
 		return;
 	}
 

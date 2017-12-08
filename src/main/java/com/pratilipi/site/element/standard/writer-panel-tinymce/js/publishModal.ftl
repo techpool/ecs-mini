@@ -61,6 +61,7 @@ PublishModal.prototype.prepopulateBookDetails = function() {
 
         if (!this.lastCoverUrl.endsWith('/cover')) {
             this.$image_container.html( '<img class="cover-image" src="' + this.lastCoverUrl + '" alt="' + this.pratilipi_data.title + '" style="margin: 0;width: 167px;height: 250px;">' );
+        } else {
             this.shouldBeAnUpdateBookCoverEvent = false;
         }
     }
@@ -145,7 +146,7 @@ PublishModal.prototype.attachFormSubmitListener = function() {
                 fbEvents.logGrowthEvent('UPDATEBOOKINFO_BOOKCOVER_WRITER', 'SELFUPLOAD', 'WRITER', 'BOOKCOVER', 'UPDATEBOOKINFO', 'WPRC001A' );
             }
         }
-        fbEvents.logGrowthEvent('PUBLISHBOOK_WRITERM_WRITER', null, 'WRITER', 'BOOKCOVER', 'PUBLISHBOOK', 'WPRC001A' );
+        fbEvents.logGrowthEvent('PUBLISHBOOK_BOOKCOVER_WRITER', null, 'WRITER', 'BOOKCOVER', 'PUBLISHBOOK', 'WPRC001A' );
     } );
 };
 
@@ -245,8 +246,6 @@ PublishModal.prototype.ajaxSubmitForm = function() {
 PublishModal.prototype.attachGetRecommendedImagesListener = function() {
     var _this = this;
     $( "#publishModal" ).on( "getRecommendedImages", function( event, selectedTagIds, contentType ) {
-        var fbEvents = new FBEvents();
-        fbEvents.logGrowthEvent('LANDED_BOOKCOVER_WRITER', null, 'WRITER', 'BOOKCOVER', 'LANDED', 'WPRC001A' );
         getRecommendedImages(selectedTagIds, contentType, _this.systemCategoriesJson[contentType])
     });
 
@@ -289,7 +288,7 @@ PublishModal.prototype.attachGetRecommendedImagesListener = function() {
                         <div class="img__wrap" style="margin: 5px;" >\
                             <img class="img__img cover-image" src="' + eachImage.split('.jpeg')[0] + '_thumbnail.jpeg' + '" />\
                             <div class="img__description_layer">\
-                                <p class="img__description">Upload</p>\
+                                <p class="img__description">${ _strings.upload }</p>\
                             </div>\
                         </div>');
                 });
