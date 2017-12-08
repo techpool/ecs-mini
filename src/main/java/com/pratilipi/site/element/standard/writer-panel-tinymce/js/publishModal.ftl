@@ -61,6 +61,7 @@ PublishModal.prototype.prepopulateBookDetails = function() {
 
         if (!this.lastCoverUrl.endsWith('/cover')) {
             this.$image_container.html( '<img class="cover-image" src="' + this.lastCoverUrl + '" alt="' + this.pratilipi_data.title + '" style="margin: 0;width: 167px;height: 250px;">' );
+        } else {
             this.shouldBeAnUpdateBookCoverEvent = false;
         }
     }
@@ -145,7 +146,7 @@ PublishModal.prototype.attachFormSubmitListener = function() {
                 fbEvents.logGrowthEvent('UPDATEBOOKINFO_BOOKCOVER_WRITER', 'SELFUPLOAD', 'WRITER', 'BOOKCOVER', 'UPDATEBOOKINFO', 'WPRC001A' );
             }
         }
-        fbEvents.logGrowthEvent('PUBLISHBOOK_WRITERM_WRITER', null, 'WRITER', 'BOOKCOVER', 'PUBLISHBOOK', 'WPRC001A' );
+        fbEvents.logGrowthEvent('PUBLISHBOOK_BOOKCOVER_WRITER', null, 'WRITER', 'BOOKCOVER', 'PUBLISHBOOK', 'WPRC001A' );
     } );
 };
 
@@ -183,7 +184,6 @@ PublishModal.prototype.ajaxUpdateSelectedRecommendedImageCount = function(callba
             },
             error: function( response ) {
                 console.log(response);
-                $('.hide-on-fail').remove();
                 callback();
             }                          
         });
@@ -245,8 +245,6 @@ PublishModal.prototype.ajaxSubmitForm = function() {
 PublishModal.prototype.attachGetRecommendedImagesListener = function() {
     var _this = this;
     $( "#publishModal" ).on( "getRecommendedImages", function( event, selectedTagIds, contentType ) {
-        var fbEvents = new FBEvents();
-        fbEvents.logGrowthEvent('LANDED_BOOKCOVER_WRITER', null, 'WRITER', 'BOOKCOVER', 'LANDED', 'WPRC001A' );
         getRecommendedImages(selectedTagIds, contentType, _this.systemCategoriesJson[contentType])
     });
 
@@ -277,22 +275,34 @@ PublishModal.prototype.attachGetRecommendedImagesListener = function() {
                 console.log(response);
             },
             complete: function() {
-                /* Send FB Event */
                 console.log('Complete event for the images');
                 var recommendationResponse = responseFromServer;
+
+                if (!recommendationResponse || !recommendationResponse.recommendations || recommendationResponse.recommendations.length === 0) {
+                    $('.hide-on-fail').remove();
+                    return;
+                }
+
+                setTimeout(function() {
+                    $('.recommendation-image-list').scrollTop(0);
+                }, 500);
 
                 var recommendationImages = recommendationResponse.recommendations;
                 var imageContainer = $('#publishModal .recommendation-image-list');
 
                 imageContainer.html('');
-                recommendationImages.forEach(function(eachImage) {
+                recommendationImages.forEach(function(eachImage, indexOfImage) {
                     imageContainer.append('\
                         <div class="img__wrap" style="margin: 5px;" >\
-                            <img class="img__img cover-image" src="' + eachImage.split('.jpeg')[0] + '_thumbnail.jpeg' + '" />\
+                            <img class="img__img cover-image" src="' + eachImage.split('.jpeg')[0] + '_thumbnail.jpeg' + '" id="' + indexOfImage + '-rec-image" />\
                             <div class="img__description_layer">\
-                                <p class="img__description">Upload</p>\
+                                <p class="img__description">${ _strings.upload }</p>\
                             </div>\
                         </div>');
+                });
+
+                $( "#1-rec-image" ).load(function() {
+                    $('#publishModal .pratilipi-loading-state').remove();
                 });
                 $(".recommendation-image-list .img__wrap").on('click', function(){
                     
