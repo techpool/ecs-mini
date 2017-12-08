@@ -301,7 +301,7 @@ PublishModal.prototype.attachGetRecommendedImagesListener = function() {
                         </div>');
                 });
 
-                $( "#1-rec-image" ).load(function() {
+                $( "#1-rec-image" ).on('load', function() {
                     $('#publishModal .pratilipi-loading-state').remove();
                 });
                 $(".recommendation-image-list .img__wrap").on('click', function(){
