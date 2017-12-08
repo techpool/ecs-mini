@@ -290,14 +290,18 @@ PublishModal.prototype.attachGetRecommendedImagesListener = function() {
                 var imageContainer = $('#publishModal .recommendation-image-list');
 
                 imageContainer.html('');
-                recommendationImages.forEach(function(eachImage) {
+                recommendationImages.forEach(function(eachImage, indexOfImage) {
                     imageContainer.append('\
                         <div class="img__wrap" style="margin: 5px;" >\
-                            <img class="img__img cover-image" src="' + eachImage.split('.jpeg')[0] + '_thumbnail.jpeg' + '" />\
+                            <img class="img__img cover-image" src="' + eachImage.split('.jpeg')[0] + '_thumbnail.jpeg' + '" id="' + indexOfImage + '-rec-image" />\
                             <div class="img__description_layer">\
                                 <p class="img__description">${ _strings.upload }</p>\
                             </div>\
                         </div>');
+                });
+
+                $( "#1-rec-image" ).load(function() {
+                    $('#publishModal .pratilipi-loading-state').remove();
                 });
                 $(".recommendation-image-list .img__wrap").on('click', function(){
                     
