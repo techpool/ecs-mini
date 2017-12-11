@@ -136,7 +136,7 @@ PublishModal.prototype.attachFormSubmitListener = function() {
         if (!_this.shouldBeAnUpdateBookCoverEvent) {
             if (_this.recommendedImageSource) {
                 fbEvents.logGrowthEvent('NEWBOOKINFO_BOOKCOVER_WRITER', 'PALBUM', 'WRITER', 'BOOKCOVER', 'NEWBOOKINFO', 'WPRC001A' );
-            } else {
+            } else if (!_this.lastCoverUrl.endsWith('/cover')) {
                 fbEvents.logGrowthEvent('NEWBOOKINFO_BOOKCOVER_WRITER', 'SELFUPLOAD', 'WRITER', 'BOOKCOVER', 'NEWBOOKINFO', 'WPRC001A' );
             }
         } else {
@@ -361,6 +361,9 @@ PublishModal.prototype.attachGetRecommendedImagesListener = function() {
                                 $img.removeClass( "blur-image" );
                             }
                         });
+                    }).catch(function ( error_messsage ){
+                        var fbEvents = new FBEvents();
+                        fbEvents.logGrowthEvent('FAILURE_EVENT_GLOBAL', JSON.stringify(error_messsage), 'WRITER', 'BOOKCOVER', 'UPDATEBOOKINFO', 'WPRC001A');
                     });
                 });
             }
