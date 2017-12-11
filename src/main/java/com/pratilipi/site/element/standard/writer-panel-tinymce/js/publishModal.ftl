@@ -9,7 +9,6 @@ function loadXHR(url) {
             };
             xhr.open("GET", url);
             xhr.setRequestHeader('Accept', '*/*');
-            xhr.setRequestHeader('Accept-Encoding', 'gzip, deflate, br');
             xhr.responseType = "blob";
             xhr.send();
         }
