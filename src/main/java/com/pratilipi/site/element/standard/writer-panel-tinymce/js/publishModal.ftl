@@ -335,7 +335,7 @@ PublishModal.prototype.attachGetRecommendedImagesListener = function() {
 
                     _this.currentlySelectedThumbnail = $(this);
 
-                    var imageSource = $(this).find('img').attr('src').split('_thumbnail')[0] + '.jpeg';
+                    var imageSource = $(this).find('img').attr('src').split('_thumbnail')[0] + '.jpeg?_=' new Date().getTime();
                     _this.recommendedImageSource = imageSource;
 
                     var $img = $('.image-container');
