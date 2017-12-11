@@ -339,7 +339,7 @@ PublishModal.prototype.attachGetRecommendedImagesListener = function() {
                     _this.recommendedImageSource = imageSource;
 
                     var $img = $('.image-container');
-                    $img.html( '<img class="cover-image" src="' + imageSource + '" alt="' + _this.pratilipi_data.title + '" style="margin: 0;width: 167px;height: 250px;" crossorigin="anonymous">' );
+                    $img.html( '<img class="cover-image" src="' + imageSource + '" alt="' + _this.pratilipi_data.title + '" style="margin: 0;width: 167px;height: 250px;">' );
                     loadXHR(imageSource).then(function(blob) {
                         var $img = $('.image_container .cover-image');
                         var fd = new FormData();
