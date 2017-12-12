@@ -1,3 +1,22 @@
+function loadXHR(url) {
+    return new Promise(function(resolve, reject) {
+        try {
+            var xhr = new XMLHttpRequest();
+            xhr.onerror = function() {reject("Network error.")};
+            xhr.onload = function() {
+                if (xhr.status === 200) {resolve(xhr.response)}
+                else {reject("Loading error:" + xhr.statusText)}
+            };
+            xhr.open("GET", url);
+            xhr.setRequestHeader('Accept', '*/*');
+            xhr.responseType = "blob";
+            xhr.send();
+        }
+        catch(err) {reject(err.message)}
+    });
+}
+
+
 var PublishModal = function ( publish_modal_container ) {
     this.$publish_modal_container = publish_modal_container;
     this.$form = this.$publish_modal_container.find( "#publish_form" );
@@ -317,27 +336,11 @@ PublishModal.prototype.attachGetRecommendedImagesListener = function() {
 
                     _this.currentlySelectedThumbnail = $(this);
 
-                    var imageSource = $(this).find('img').attr('src').split('_thumbnail')[0] + '.jpeg';
+                    var imageSource = $(this).find('img').attr('src').split('_thumbnail')[0] + '.jpeg?_=' + new Date().getTime();
                     _this.recommendedImageSource = imageSource;
-                    function loadXHR(url) {
-                        return new Promise(function(resolve, reject) {
-                            try {
-                                var xhr = new XMLHttpRequest();
-                                xhr.open("GET", url);
-                                xhr.responseType = "blob";
-                                xhr.onerror = function() {reject("Network error.")};
-                                xhr.onload = function() {
-                                    if (xhr.status === 200) {resolve(xhr.response)}
-                                    else {reject("Loading error:" + xhr.statusText)}
-                                };
-                                xhr.send();
-                            }
-                            catch(err) {reject(err.message)}
-                        });
-                    }
 
                     var $img = $('.image-container');
-                    $img.html( '<img class="cover-image" src="' + imageSource + '" alt="' + _this.pratilipi_data.title + '" style="margin: 0;width: 167px;height: 250px;">' );
+                    $img.html( '<img class="cover-image" src="' + imageSource + '" alt="' + _this.pratilipi_data.title + '" style="margin: 0;width: 167px;height: 250px;" crossorigin="anonymous">' );
                     loadXHR(imageSource).then(function(blob) {
                         var $img = $('.image_container .cover-image');
                         var fd = new FormData();
