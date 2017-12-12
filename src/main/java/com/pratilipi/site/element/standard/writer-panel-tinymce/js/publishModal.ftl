@@ -295,7 +295,7 @@ PublishModal.prototype.attachGetRecommendedImagesListener = function() {
                 recommendationImages.forEach(function(eachImage, indexOfImage) {
                     imageContainer.append('\
                         <div class="img__wrap" style="margin: 5px;" >\
-                            <img class="img__img cover-image" src="' + eachImage.split('.jpeg')[0] + '_thumbnail.jpeg' + '" id="' + indexOfImage + '-rec-image" />\
+                            <img class="img__img cover-image" src="' + eachImage.split('.jpeg')[0] + '_thumbnail.jpeg' + '" id="' + indexOfImage + '-rec-image" crossorigin="anonymous" />\
                             <div class="img__description_layer">\
                                 <p class="img__description">${ _strings.upload }</p>\
                             </div>\
