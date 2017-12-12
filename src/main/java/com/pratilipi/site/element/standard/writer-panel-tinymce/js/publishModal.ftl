@@ -90,8 +90,8 @@ PublishModal.prototype.attachCoverImageListeners = function() {
         e.preventDefault();
         var blob = $( this ).find( "#uploadPratilipiImageInput" ).get( 0 ).files[0];
         /* didItResize will be true if it managed to resize it, otherwise false (and will return the original file as 'blob') */
-        var $img = _this.$image_container.html('<img class="cover-image" alt="' + _this.pratilipi_data.title + '" style="margin: 0;width: 167px;height: 250px;">' );
-        // var $img = _this.$image_container.find( ".cover-image" );
+        _this.$image_container.html('<img class="cover-image" alt="' + _this.pratilipi_data.title + '" style="margin: 0;width: 167px;height: 250px;">' );
+        var $img = _this.$image_container.find( ".cover-image" );
         $img.attr( "src", window.URL.createObjectURL( blob ) ).addClass( "blur-image" );
         var fd = new FormData();
         fd.append( 'data', blob );
