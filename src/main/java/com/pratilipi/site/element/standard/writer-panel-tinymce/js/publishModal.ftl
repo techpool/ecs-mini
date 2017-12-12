@@ -10,7 +10,6 @@ var PublishModal = function ( publish_modal_container ) {
     this.pratilipi_data = ${ pratilipiJson };
     this.systemCategoriesJson = ${ tagsJson };
     this.user_data = ${userJson};
-    this.cors_proxy_url = "https://pratilipi-cors-proxy.herokuapp.com/";
 
     console.log(this.pratilipi_data);
     console.log(this.user_data);
@@ -320,7 +319,6 @@ PublishModal.prototype.attachGetRecommendedImagesListener = function() {
                     var imageSource = $(this).find('img').attr('src').split('_thumbnail')[0] + '.jpeg';
                     _this.recommendedImageSource = imageSource;
                     function loadXHR(url) {
-                        url = _this.cors_proxy_url + url;
                         return new Promise(function(resolve, reject) {
                             try {
                                 var xhr = new XMLHttpRequest();
