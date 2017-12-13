@@ -276,9 +276,7 @@ CategoryModal.prototype.saveTags = function() {
 			isCategoriesUpdated = true;
 	}
 
-	<#if pratilipi.getLanguage() == 'BENGALI'>
-		$( "#publishModal").trigger( "getRecommendedImages", [ selectedTagIds, this.currentContentType ] );
-	</#if>
+	$("#publishModal").trigger("getRecommendedImages", [selectedTagIds, this.currentContentType]);
 
 	userTags = [];
 	userSelectedTags = $("[data-behaviour='user_suggested_tag']");
@@ -331,9 +329,6 @@ CategoryModal.prototype.saveTags = function() {
 		/* move to next modal */
 		$("#categoryModal").modal("hide");
 		$('#publishModal').modal('show');
-
-		var fbEvents = new FBEvents();
-        fbEvents.logGrowthEvent('LANDED_BOOKCOVER_WRITER', null, 'WRITER', 'BOOKCOVER', 'LANDED', 'WPRC001A' );
 		return;
 	}
 
@@ -388,7 +383,6 @@ CategoryModal.prototype.ajaxCall = function(selectedTags, userTags, fbEventType,
 			/* hide current modal and show publish modal */
 			$("#categoryModal").modal("hide");
 			$('#publishModal').modal('show');
-			_this.fbEvent.logGrowthEvent('LANDED_BOOKCOVER_WRITER', null, 'WRITER', 'BOOKCOVER', 'LANDED', 'WPRC001A' );
 		},
 		error: function( response ) {
 			console.log("Server call failed");
