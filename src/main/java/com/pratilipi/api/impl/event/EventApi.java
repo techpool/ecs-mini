@@ -229,7 +229,7 @@ public class EventApi extends GenericApi {
 
 		Map<String, String> paramsMap = new HashMap<>();
 		paramsMap.put( "slug", request.eventSlug );
-		String responseString = HttpUtil.doGet( UxModeFilter.getEcsEndpoint() + "/api/events", paramsMap );
+		String responseString = HttpUtil.doGet( UxModeFilter.getEcsEndpoint() + "/api/events/v2.0", paramsMap );
 		return new Gson().fromJson( responseString, Response.class );
 
 	}
