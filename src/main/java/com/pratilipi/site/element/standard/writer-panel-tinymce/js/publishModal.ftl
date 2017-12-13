@@ -10,6 +10,7 @@ var PublishModal = function ( publish_modal_container ) {
     this.pratilipi_data = ${ pratilipiJson };
     this.systemCategoriesJson = ${ tagsJson };
     this.user_data = ${userJson};
+    this.userIsAnAEEE = false;
 
     console.log(this.pratilipi_data);
     console.log(this.user_data);
@@ -136,18 +137,18 @@ PublishModal.prototype.attachFormSubmitListener = function() {
         var fbEvents = new FBEvents();
         if (!_this.shouldBeAnUpdateBookCoverEvent) {
             if (_this.recommendedImageSource) {
-                fbEvents.logGrowthEvent('NEWBOOKINFO_BOOKCOVER_WRITER', 'PALBUM', 'WRITER', 'BOOKCOVER', 'NEWBOOKINFO', 'WPRC001A' );
+                fbEvents.logGrowthEvent('NEWBOOKINFO_BOOKCOVER_WRITER', 'PALBUM', 'WRITER', 'BOOKCOVER', 'NEWBOOKINFO', 'WPRC001A', _this.userIsAnAEEE );
             } else if (!_this.lastCoverUrl.endsWith('/cover')) {
-                fbEvents.logGrowthEvent('NEWBOOKINFO_BOOKCOVER_WRITER', 'SELFUPLOAD', 'WRITER', 'BOOKCOVER', 'NEWBOOKINFO', 'WPRC001A' );
+                fbEvents.logGrowthEvent('NEWBOOKINFO_BOOKCOVER_WRITER', 'SELFUPLOAD', 'WRITER', 'BOOKCOVER', 'NEWBOOKINFO', 'WPRC001A', _this.userIsAnAEEE );
             }
         } else {
             if (_this.recommendedImageSource) {
-                fbEvents.logGrowthEvent('UPDATEBOOKINFO_BOOKCOVER_WRITER', 'PALBUM', 'WRITER', 'BOOKCOVER', 'UPDATEBOOKINFO', 'WPRC001A' );
+                fbEvents.logGrowthEvent('UPDATEBOOKINFO_BOOKCOVER_WRITER', 'PALBUM', 'WRITER', 'BOOKCOVER', 'UPDATEBOOKINFO', 'WPRC001A', _this.userIsAnAEEE );
             } else {
-                fbEvents.logGrowthEvent('UPDATEBOOKINFO_BOOKCOVER_WRITER', 'SELFUPLOAD', 'WRITER', 'BOOKCOVER', 'UPDATEBOOKINFO', 'WPRC001A' );
+                fbEvents.logGrowthEvent('UPDATEBOOKINFO_BOOKCOVER_WRITER', 'SELFUPLOAD', 'WRITER', 'BOOKCOVER', 'UPDATEBOOKINFO', 'WPRC001A', _this.userIsAnAEEE );
             }
         }
-        fbEvents.logGrowthEvent('PUBLISHBOOK_BOOKCOVER_WRITER', null, 'WRITER', 'BOOKCOVER', 'PUBLISHBOOK', 'WPRC001A' );
+        fbEvents.logGrowthEvent('PUBLISHBOOK_BOOKCOVER_WRITER', null, 'WRITER', 'BOOKCOVER', 'PUBLISHBOOK', 'WPRC001A', _this.userIsAnAEEE );
     } );
 };
 
@@ -246,7 +247,7 @@ PublishModal.prototype.ajaxSubmitForm = function() {
 PublishModal.prototype.attachGetRecommendedImagesListener = function() {
     var _this = this;
     $( "#publishModal" ).on( "getRecommendedImages", function( event, selectedTagIds, contentType ) {
-        getRecommendedImages(selectedTagIds, contentType, _this.systemCategoriesJson[contentType])
+        getRecommendedImages(selectedTagIds, contentType, _this.systemCategoriesJson[contentType]);
     });
 
     var getRecommendedImages = function(selectedTagIds, contentType, availableTagIds) {
@@ -275,7 +276,12 @@ PublishModal.prototype.attachGetRecommendedImagesListener = function() {
                 console.log("Server call failed");
                 console.log(response);
             },
-            complete: function() {
+            complete: function(xhr) {
+                if (xhr.status == 403) {
+                    _this.userIsAnAEEE = true;
+                }
+                var fbEvents = new FBEvents();
+                fbEvents.logGrowthEvent('LANDED_BOOKCOVER_WRITER', null, 'WRITER', 'BOOKCOVER', 'LANDED', 'WPRC001A', _this.userIsAnAEEE);
                 console.log('Complete event for the images');
                 var recommendationResponse = responseFromServer;
 

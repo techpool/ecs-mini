@@ -34,7 +34,7 @@ FBEvents.prototype.logEvent =
 	};
 
 FBEvents.prototype.logGrowthEvent = 
-	function(event_name, entity_value, screenName, location, action, experimentId) {
+	function(event_name, entity_value, screenName, location, action, experimentId, isAdmin) {
 		var params = {};
 		params["ENVIRONMENT"] = "GROWTH";
 		params["CONTENT_LANGUAGE"] = this.pratilipi_data.language;
@@ -51,8 +51,9 @@ FBEvents.prototype.logGrowthEvent =
 		params["PRATILIPI_TYPE"] =  this.pratilipi_data.type;
 		params["CONTENT_ID"] =  '${ pratilipiId?c }';
 		params["AUTHOR_ID"] =  this.pratilipi_data.author.authorId;
-		params["ACCESS_LEVEL"] = this.isUserAdmin() ? "ADMIN" : "SELF";
+		params["ACCESS_LEVEL"] = isAdmin ? "ADMIN" : "OTHER";
 	    FB.AppEvents.logEvent(event_name, null, params);
+		console.log(params);
 	};
 	
 FBEvents.prototype.isUserAdmin = function() {
