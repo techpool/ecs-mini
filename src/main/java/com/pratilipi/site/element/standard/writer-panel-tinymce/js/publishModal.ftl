@@ -277,7 +277,7 @@ PublishModal.prototype.attachGetRecommendedImagesListener = function() {
                 console.log(response);
             },
             complete: function(xhr) {
-                if (xhr.status == 403) {
+                if (xhr.status > 400 && xhr.status < 500) {
                     _this.userIsAnAEEE = true;
                 }
                 var fbEvents = new FBEvents();
