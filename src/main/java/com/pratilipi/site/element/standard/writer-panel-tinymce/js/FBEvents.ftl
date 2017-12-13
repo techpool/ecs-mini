@@ -51,7 +51,7 @@ FBEvents.prototype.logGrowthEvent =
 		params["PRATILIPI_TYPE"] =  this.pratilipi_data.type;
 		params["CONTENT_ID"] =  '${ pratilipiId?c }';
 		params["AUTHOR_ID"] =  this.pratilipi_data.author.authorId;
-		
+		params["ACCESS_LEVEL"] = this.isUserAdmin() ? "ADMIN" : "SELF";
 	    FB.AppEvents.logEvent(event_name, null, params);
 	};
 	
