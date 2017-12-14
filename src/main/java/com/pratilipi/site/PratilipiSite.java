@@ -199,6 +199,8 @@ public class PratilipiSite extends HttpServlet {
 				ga_location = "EventPage";
 				dataModel = 	createDataModelForEventPageFromSlug(uri, filterLanguage, basicMode, request);
 				templateName = (basicMode ? "EventBasic.ftl" : "Event.ftl");
+
+			//todo remove this
 			} else if( uri.equals( "/events" ) ) {
 				ga_location = "AllEventsPage";
 				dataModel = createDataModelForEventsPage( userData.getId(), filterLanguage, basicMode );
