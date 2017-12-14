@@ -216,7 +216,7 @@
 				</div>
 
 				<#-- Modal for publishing content -->
-					<div class="modal fade" id="publishModal" role="dialog" aria-labelledby="publishContent">
+					<div class="modal fade" id="publishModal" role="dialog" aria-labelledby="publishContent" style="overflow-y:scroll">
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
@@ -236,7 +236,7 @@
 												<span class="image-recommend-divider-text hide-on-fail">অথবা নীচের থেকে একটি নির্বাচন করুন</span>	
 											</#if>
 										</div>
-										<div class="form-group left-align-content" style="display: flex; flex-direction: row; margin-left: 0; margin-right: 0;">
+										<div class="form-group left-align-content" style="display: flex; flex-direction: row; margin-left: 0; margin-right: 0; margin-bottom: 0;">
 											<div class="show-cursor" style="flex-grow: 1;">
 												<span class="pull-left image-container">
 													<span style="display: table-cell; vertical-align: middle;">
@@ -271,7 +271,7 @@
 								                </div>
 								            </#if>
 										</div>
-										<div class="form-group left-align-content">
+										<div class="form-group left-align-content" style="margin-left: 0px; margin-right: 0px; margin-bottom: 0px;">
 											<label class="grey-label">${ _strings.writer_add_summary }</label>
 											<textarea id="summary" rows="4" class="form-control grey-background" placeholder="${ _strings.writer_write_here_placeholder }..."></textarea>
 										</div>
