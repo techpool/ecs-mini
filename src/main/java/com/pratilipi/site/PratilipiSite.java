@@ -190,6 +190,11 @@ public class PratilipiSite extends HttpServlet {
 				dataModel = createDataModelForSearchPage( basicMode, filterLanguage, request );
 				templateName = ( basicMode ? "SearchBasic.ftl" : "Search.ftl" );
 
+			} else if( uri.equals( "/event" ) ) {
+				ga_location = "AllEventsPage";
+				dataModel = createDataModelForEventsPage( userData.getId(), filterLanguage, basicMode );
+				templateName = ( basicMode ? "EventListBasic.ftl" : "EventList.ftl" );
+
 			} else if( uri.matches( "/event/.*" ) ) {
 				ga_location = "EventPage";
 				dataModel = 	createDataModelForEventPageFromSlug(uri, filterLanguage, basicMode, request);
@@ -199,7 +204,7 @@ public class PratilipiSite extends HttpServlet {
 				dataModel = createDataModelForEventsPage( userData.getId(), filterLanguage, basicMode );
 				templateName = ( basicMode ? "EventListBasic.ftl" : "EventList.ftl" );
 
-			} else if( uri.equals( "/followers" ) ) {
+			}  else if( uri.equals( "/followers" ) ) {
 
 				ga_location = "FollowersPage";
 				Long authorId = null;
