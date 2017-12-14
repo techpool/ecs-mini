@@ -1098,7 +1098,7 @@ button[disabled], html input[disabled] {
 }
 
 #publishModal .modal-dialog {
-    width: 900px;
+    width: 920px;
 }
 
 .upload-image-button {
