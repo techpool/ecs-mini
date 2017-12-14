@@ -190,11 +190,9 @@ public class PratilipiSite extends HttpServlet {
 				dataModel = createDataModelForSearchPage( basicMode, filterLanguage, request );
 				templateName = ( basicMode ? "SearchBasic.ftl" : "Search.ftl" );
 
-			} else if( uri.matches( "/events/.*" ) ) {
-				String slug = "/" + uri.split("/")[2];
-				logger.log(Level.INFO, "slug is :" + slug);
+			} else if( uri.matches( "/event/.*" ) ) {
 				ga_location = "EventPage";
-				dataModel = createDataModelForEventPageFromSlug(slug, filterLanguage, basicMode, request);
+				dataModel = 	createDataModelForEventPageFromSlug(uri, filterLanguage, basicMode, request);
 				templateName = (basicMode ? "EventBasic.ftl" : "Event.ftl");
 			} else if( uri.equals( "/events" ) ) {
 				ga_location = "AllEventsPage";
@@ -1410,20 +1408,43 @@ public class PratilipiSite extends HttpServlet {
 
 	}
 
-	public Map<String, Object> createDataModelForEventPageFromSlug( String eventSlug, Language language, boolean basicMode, HttpServletRequest request )
+	public Map<String, Object> createDataModelForEventPageFromSlug( String uri, Language language, boolean basicMode, HttpServletRequest request )
 			throws InsufficientAccessException, UnexpectedServerException {
 
 		Map<String, Object> dataModel = new HashMap<String, Object>();
 		Gson gson = new Gson();
 
+		String slug = "/" + uri.split("/")[2];
+		logger.log(Level.INFO, "slug is :" + slug);
 		EventApi.GetFromSlugRequest eventRequest = new EventApi.GetFromSlugRequest();
-		eventRequest.setEventSlug( eventSlug );
+		eventRequest.setEventSlug( slug );
 		EventApi.Response eventResponse = ApiRegistry
 				.getApi( EventApi.class )
 				.get( eventRequest );
 
 		EventData eventData = gson.fromJson( gson.toJson( eventResponse ), EventData.class );
 		Long eventId = eventData.getId();
+
+		if (eventId == null){
+			PageApi.GetRequest pageGetRequest = new PageApi.GetRequest();
+			pageGetRequest.setUri( uri );
+			PageApi.Response pageGetResponse = null;
+			try {
+				pageGetResponse = ApiRegistry.getApi( PageApi.class ).get( pageGetRequest );
+				Page page = null;
+				if( pageGetResponse != null ) {
+					page = new PageEntity();
+					page.setUri( pageGetResponse.getUri() );
+					page.setUriAlias( pageGetResponse.getUriAlias() );
+					page.setPrimaryContentId( pageGetResponse.getPrimaryContentId() );
+					page.setType( pageGetResponse.getPageType() );
+				}
+				dataModel = createDataModelForEventPage(page.getPrimaryContentId(), language, basicMode, request);
+				return dataModel;
+			} catch (InvalidArgumentException e) {
+				e.printStackTrace();
+			}
+		}
 
 		dataModel.put( "title", SEOTitleUtil.getEventPageTitle( eventData, language ) );
 		if( basicMode )
