@@ -229,11 +229,11 @@
 										<div>
 											<button type="button" class="upload-image-button btn btn-default">
 												<span class="camera-icon sprites-icon camera-sprite-icon"></span>
-												${ _strings.upload }
+												${ _strings.writer_from_computer }
 											</button>
-											<#if pratilipi.getLanguage() == 'BENGALI'>
+											<#if pratilipi.getLanguage() == 'BENGALI' || pratilipi.getLanguage() == 'MALAYALAM' || pratilipi.getLanguage() == 'GUJARATI' || pratilipi.getLanguage() == 'HINDI'>>
 												<span class="image-recommend-divider hide-on-fail"></span>
-												<span class="image-recommend-divider-text hide-on-fail">অথবা নীচের থেকে একটি নির্বাচন করুন</span>	
+												<span class="image-recommend-divider-text hide-on-fail">${ _strings.writer_or_select_one_from_below }</span>	
 											</#if>
 										</div>
 										<div class="form-group left-align-content" style="display: flex; flex-direction: row; margin-left: 0; margin-right: 0; margin-bottom: 0;">
@@ -244,7 +244,7 @@
 													</span>
 												</span>
 											</div>
-											<#if pratilipi.getLanguage() == 'BENGALI'>
+											<#if pratilipi.getLanguage() == 'BENGALI' || pratilipi.getLanguage() == 'MALAYALAM' || pratilipi.getLanguage() == 'GUJARATI' || pratilipi.getLanguage() == 'HINDI'>
 												<div class="hide-on-fail" style="
 								    				flex-grow: 9;
 								    				height: 250px;

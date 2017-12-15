@@ -404,7 +404,9 @@ writer_error_category_required = Please select a category
 writer_error_copyright_required = Please accept Copyright Policy and Terms of Services
 writer_save_changes_confirmation = Do you want to save these changes before going forward?
 pratilipi_add_summary = Please click here to add summary
-upload = Upload
+writer_upload = Upload
+writer_from_computer = From Computer
+writer_or_select_one_from_below = Or select one from below
 
 # Android App launch
 android_pratilipi_app = Pratilipi Android App
