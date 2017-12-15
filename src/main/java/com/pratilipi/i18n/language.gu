@@ -404,7 +404,9 @@ writer_error_category_required = શ્રેણી પસંદ કરો
 writer_error_copyright_required = કોપીરાઈટ પોલિસી અને સેવાની શરતોનો સ્વીકાર કરો.
 writer_save_changes_confirmation = આગળ વધતા પહેલા કરેલ બદલાવને સુનિશ્ચિત કરવા ચાહો છો?
 pratilipi_add_summary = સારાંશ લખવા માટે અહી ક્લિક કરો.
-upload = અપલોડ કરો
+writer_upload = અપલોડ કરો
+writer_from_computer = કમ્પ્યુટરમાંથી
+writer_or_select_one_from_below = અથવા નીચેમાંથી કોઈ એક પસંદ કરો
 
 # Android App launch
 android_pratilipi_app = પ્રતિલિપિ એન્ડ્રોઈડ એપ્લિકેશન
