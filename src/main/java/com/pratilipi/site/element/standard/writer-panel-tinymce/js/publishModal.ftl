@@ -27,7 +27,8 @@ var PublishModal = function ( publish_modal_container ) {
     this.form_validated = true;
     this.shouldBeAnUpdateBookCoverEvent = true;
     this.pratilipi_data = ${ pratilipiJson };
-    this.systemCategoriesJson = ${ tagsJson };
+    this.systemCategoriesJson = {};
+    Object.keys(${ tagsJson }).forEach(function(key) {  this.systemCategoriesJson[key] = ${ tagsJson }[key].categories });
     this.user_data = ${userJson};
     this.userIsAnAEEE = false;
 
