@@ -299,7 +299,7 @@ public class PratilipiSite extends HttpServlet {
 				TagsV2Api.Request tagsRequest = new TagsV2Api.Request();
 				tagsRequest.setLanguage( pratilipiResponse.getLanguage() );
 				TagsV2Api.Response tagsResponse = ApiRegistry.getApi( TagsV2Api.class ).getTags( tagsRequest );
-				List<TagData> tags = tagsResponse.getTagDataList( pratilipiResponse.getType() );
+				List<TagData> tags = tagsResponse.getTagDataList( pratilipiResponse.getType() ).getTagList();
 
 				dataModel = new HashMap<String, Object>();
 				Gson gson = new Gson();

@@ -1,28 +1,21 @@
 package com.pratilipi.api.impl.pratilipi;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 import com.pratilipi.api.GenericApi;
 import com.pratilipi.api.annotation.Bind;
 import com.pratilipi.api.annotation.Get;
-import com.pratilipi.api.annotation.Post;
 import com.pratilipi.api.annotation.Validate;
 import com.pratilipi.api.shared.GenericRequest;
 import com.pratilipi.api.shared.GenericResponse;
-import com.pratilipi.common.exception.InsufficientAccessException;
 import com.pratilipi.common.exception.UnexpectedServerException;
 import com.pratilipi.common.type.Language;
 import com.pratilipi.common.type.PratilipiType;
 import com.pratilipi.common.util.HttpUtil;
-import com.pratilipi.data.client.TagData;
-import com.pratilipi.data.type.AccessToken;
-import com.pratilipi.data.util.TagDataUtil;
-import com.pratilipi.filter.AccessTokenFilter;
+import com.pratilipi.data.client.CategoryData;
 import com.pratilipi.filter.UxModeFilter;
 
 @SuppressWarnings("serial")
@@ -48,17 +41,19 @@ public class TagsV2Api extends GenericApi {
 
 	public static class Response extends GenericResponse {
 
-		List<TagData> STORY;
-		List<TagData> ARTICLE;
-		List<TagData> POEM;
+		CategoryData STORY;
+		CategoryData ARTICLE;
+		CategoryData POEM;
 
-		public Response( List<TagData> STORY, List<TagData> ARTICLE, List<TagData> POEM ) {
+		public Response() {};
+
+		public Response( CategoryData STORY, CategoryData ARTICLE, CategoryData POEM ) {
 			this.STORY = STORY;
 			this.ARTICLE = ARTICLE;
 			this.POEM = POEM;
 		}
 
-		public List<TagData> getTagDataList( PratilipiType type ) {
+		public CategoryData getTagDataList( PratilipiType type ) {
 			if( type == PratilipiType.STORY )
 				return STORY;
 			else if( type == PratilipiType.ARTICLE )
@@ -69,17 +64,18 @@ public class TagsV2Api extends GenericApi {
 				return null;
 		}
 
-		public List<TagData> getStoryTagDataList() {
+		public CategoryData getStoryTagDataList() {
 			return STORY;
 		}
 
-		public List<TagData> getArticleTagDataList() {
+		public CategoryData getArticleTagDataList() {
 			return ARTICLE;
 		}
 
-		public List<TagData> getPoemTagDataList() {
+		public CategoryData getPoemTagDataList() {
 			return POEM;
 		}
+
 	}
 
 	@Get
